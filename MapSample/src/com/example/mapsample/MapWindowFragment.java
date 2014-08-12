@@ -159,6 +159,12 @@ public class MapWindowFragment extends Fragment {
 	}
 	
 	private LoadBusinessesToMap LoadBuisnessesTask(){return new LoadBusinessesToMap(getActivity());}
+	
+	
+	/**
+	 * is called whenever the user presses on the map marker.
+	 * This will open a new deal ShowDealActivity. 
+	 */
 	private OnMarkerClickListener markerListener = new OnMarkerClickListener() {
 		@Override
 		public boolean onMarkerClick(Marker marker) {

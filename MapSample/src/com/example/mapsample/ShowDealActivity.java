@@ -28,17 +28,17 @@ public class ShowDealActivity extends Activity{
 		businessNameTV.setText(businessName);
 		TextView tvDebug = (TextView)findViewById(R.id.debugString);
 		if(mode)
-			tvDebug.setText("user mode");
+			tvDebug.setText(" user mode");
 		else
-			tvDebug.setText("business mode");
+			tvDebug.setText(" business mode");
 		
 		
 		FragmentManager fragmentManager = getFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-		//DealPresentorFragment dealPresantorFragment = new DealPresentorFragment();
-	//	fragmentTransaction.add(R.id.show_deal_fragment, dealPresantorFragment);
-		CommentsFragment commentsFragment = new CommentsFragment();
-		fragmentTransaction.add(R.id.show_deal_fragment, commentsFragment);
+		DealPresentorFragment dealPresantorFragment = new DealPresentorFragment();
+		fragmentTransaction.add(R.id.show_deal_fragment, dealPresantorFragment);
+		//CommentsFragment commentsFragment = new CommentsFragment();
+		//fragmentTransaction.add(R.id.show_deal_fragment, commentsFragment);
 		fragmentTransaction.commit();
 		
 }
