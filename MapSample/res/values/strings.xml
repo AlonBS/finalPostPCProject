@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">HelloWorld2</string>
+    <string name="hello_world">Hello world!</string>
+     <string name="no_thanks">No Thanks!</string>
+     <string name="comment">Comment</string>
+     <string name="sounds_cool">Sounds Cool!</string>
+	 <string-array name="spinner_options">
+	    <item>All</item>
+		<item>My favourites</item>
+		<item>Top businesses</item>
+		<item>Top deals</item>
+	</string-array>
+</resources>
