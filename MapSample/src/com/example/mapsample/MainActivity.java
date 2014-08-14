@@ -28,14 +28,24 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MainActivity extends Activity {
+	
+	/**google map object to show the map*/
 	private GoogleMap gMap;
+	
+	/**temporary LatLng objects for example, should be deleted*/
 	static final LatLng HAMBURG = new LatLng(53.558, 9.927);
 	static final LatLng KIEL = new LatLng(53.551, 9.993);
 	static final LatLng JAFFA_STREET = new LatLng(31.78507,35.214328);
+	
+	/**A list of all the businesses which are nearby.
+	 * shold be updated using a DBHandler object*/
 	private ArrayList<BusinessMarker> businessesList = new ArrayList<BusinessMarker>();
+	
+	/**maps from map markers to businesses and from businesses to markers*/
 	private HashMap <Marker, BusinessMarker> markerToBusiness = new HashMap <Marker, BusinessMarker>();
 	private HashMap <BusinessMarker, Marker> BusinessToMarker = new HashMap <BusinessMarker, Marker>();
-	private ArrayList<String> favourites;
+	
+	/**map filters*/
 	private ImageView restBtn,pubBtn,hotelBtn,shoppingBtn,coffeeBtn;
 	
 	

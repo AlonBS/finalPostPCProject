@@ -174,8 +174,15 @@ public class MapWindowFragment extends Fragment {
 			else{
 				Toast.makeText(getActivity(),"your in: " +  bMarker.name, Toast.LENGTH_SHORT).show();
 				Intent myIntent = new Intent(getActivity(), ShowDealActivity.class);
-				myIntent.putExtra(ShowDealActivity.BUSINESS_ID_PARAM, bMarker.name); //Optional parameters
+				myIntent.putExtra(ShowDealActivity.BUSINESS_NAME_PARAM, bMarker.name); //Optional parameters
+				myIntent.putExtra(ShowDealActivity.BUSINESS_ID_PARAM, bMarker.businessId); //Optional parameters
+				myIntent.putExtra(ShowDealActivity.BUSINESS_TYPE_PARAM, bMarker.type); //Optional parameters
+				myIntent.putExtra(ShowDealActivity.DEAL_RATING_PARAM, bMarker.rating); //Optional parameters
+				
 				myIntent.putExtra(ShowDealActivity.USER_MODE_PARAM, true);
+				
+				//myIntent.putExtra(ShowDealActivity.BUSINESS_MARKER_PARAM, bMarker);
+				//myIntent.putExtra(ShowDealActivity.BUSINESS_MARKER_PARAM, bMarker);
 				getActivity().startActivity(myIntent);
 			}
 			return false;
