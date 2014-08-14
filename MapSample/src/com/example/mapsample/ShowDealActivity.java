@@ -1,6 +1,7 @@
 package com.example.mapsample;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.widget.ImageView;
@@ -25,6 +27,9 @@ public class ShowDealActivity extends Activity{
 	public final static String DEAL_RATING_PARAM = "DealRating";
 	public final static String USER_MODE_PARAM = "IsInUserMode";	
 	
+	private ImageView switchFragmentsButton;
+	private enum CurrentFragmentType{DEAL_FRAGMENT,COMMENTS_FRAGMENT};
+	private CurrentFragmentType currentFragmentType = CurrentFragmentType.DEAL_FRAGMENT;
 	public boolean isInUserMode;
 	public String dealDetails;
 	public long businessID;
@@ -56,9 +61,34 @@ public class ShowDealActivity extends Activity{
 	        }
 	    });
 		
-		ImageView switchFragmentsButton = (ImageView)findViewById(R.id.switchFragmentButton);
+		switchFragmentsButton = (ImageView)findViewById(R.id.switchFragmentButton);
 		Bitmap commentsIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_chat);
 		switchFragmentsButton.setImageBitmap(commentsIcon);
+		
+		switchFragmentsButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				FragmentManager fragmentManager = getFragmentManager();
+				FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+				Fragment fragmentToSwitch;
+				Bitmap newIcon;
+				// TODO Auto-generated method stub
+				if (currentFragmentType == CurrentFragmentType.DEAL_FRAGMENT){
+					currentFragmentType = CurrentFragmentType.COMMENTS_FRAGMENT;
+					 fragmentToSwitch = new CommentsFragment();
+					 newIcon= BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_back);
+				}else{
+					currentFragmentType = CurrentFragmentType.DEAL_FRAGMENT;
+					fragmentToSwitch = new DealPresentorFragment();
+					newIcon= BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_chat);
+				}
+				fragmentTransaction.replace(R.id.deal_or_comments_fragment, fragmentToSwitch);
+				fragmentTransaction.commit();
+				
+				switchFragmentsButton.setImageBitmap(newIcon);
+			}
+		});
 		
 		TextView dealTextView = (TextView)findViewById(R.id.dealTextView);
 		DBHandler.loadDealAsync(businessID, dealTextView,this);
@@ -75,10 +105,12 @@ public class ShowDealActivity extends Activity{
 		FragmentManager fragmentManager = getFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		DealPresentorFragment dealPresantorFragment = new DealPresentorFragment();
-		fragmentTransaction.add(R.id.show_deal_fragment, dealPresantorFragment);
+		fragmentTransaction.add(R.id.deal_or_comments_fragment, dealPresantorFragment);
 		//CommentsFragment commentsFragment = new CommentsFragment();
 		//fragmentTransaction.add(R.id.show_deal_fragment, commentsFragment);
 		fragmentTransaction.commit();
+		
+		
 		
 }
 
