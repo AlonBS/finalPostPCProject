@@ -26,11 +26,12 @@ public class ShowDealActivity extends Activity{
 		
 		TextView businessNameTV = (TextView)findViewById(R.id.businessTitle);
 		businessNameTV.setText(businessName);
-		TextView tvDebug = (TextView)findViewById(R.id.debugString);
+		
+		/*TextView tvDebug = (TextView)findViewById(R.id.debugString);
 		if(mode)
 			tvDebug.setText(" user mode");
 		else
-			tvDebug.setText(" business mode");
+			tvDebug.setText(" business mode");*/
 		
 		
 		FragmentManager fragmentManager = getFragmentManager();

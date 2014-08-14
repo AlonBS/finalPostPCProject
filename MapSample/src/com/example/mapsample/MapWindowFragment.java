@@ -241,12 +241,12 @@ public class MapWindowFragment extends Fragment {
 	        
 	    }
 	    
-	    private static List<String> favouriteIDs;
+	    private static List<Long> favouriteIDs;
 	    private static List<BusinessMarker> markersDB; //TODO: delete
 	    public void loadDBs_debug()
 	    {
 	    	markersDB = new ArrayList<BusinessMarker>();
-	    	favouriteIDs = new ArrayList<String>();
+	    	favouriteIDs = new ArrayList<Long>();
 	    	Random r = new Random();
 	    	markersDB.add(new BusinessMarker("MCdonalds", BuisnessType.RESTURANT, new LatLng(31.781099, 35.217668), "Jerusalem"));
 	    	markersDB.add(new BusinessMarker("Ivo", BuisnessType.RESTURANT, new LatLng(31.779949, 35.218948), "Jerusalem"));

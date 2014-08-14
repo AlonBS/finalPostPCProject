@@ -25,7 +25,7 @@ public class BusinessMarker {
 	public BuisnessType type;
 	public LatLng pos;
 	public String city;
-	public String businessId;
+	public long businessId;
 	
 	
 	public BusinessMarker(String name,BuisnessType type,LatLng pos,String city){
@@ -37,7 +37,8 @@ public class BusinessMarker {
 		this.pos = pos;
 		this.city = city;
 		this.iconID = type.iconID;
-		this.businessId = ""+new Random().nextInt(100000);
+		this.businessId = new Random().nextInt(100000);
+		//this.businessId = ""+new Random().nextInt(100000);
 	}
 	
 }
