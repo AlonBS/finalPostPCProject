@@ -88,7 +88,8 @@
 	    android:layout_height="wrap_content"
 	    android:layout_width="wrap_content">
 	<ImageView 
-	    android:background="@drawable/bordered_shape"
+	    android:id="@+id/map_home_btn"
+	    android:background="@drawable/background_selector"
 	    android:padding="1dp"
 	    android:layout_height="40dp"
 	    android:layout_width="40dp"

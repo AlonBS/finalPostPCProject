@@ -91,7 +91,8 @@ public class ShowDealActivity extends Activity{
 		});
 		
 		TextView dealTextView = (TextView)findViewById(R.id.dealTextView);
-		DBHandler.loadDealAsync(businessID, dealTextView,this);
+		DBHandler dbHandle = new DBHandler(this);
+		dbHandle.loadDealAsync(businessID, dealTextView,this);
 		
 		//switchFragmentsButton.setVisibility(View.GONE);
 		//switchFragmentsButton.setImageBitmap(commentsIcon);

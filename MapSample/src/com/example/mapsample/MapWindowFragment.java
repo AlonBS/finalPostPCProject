@@ -14,18 +14,16 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
-import android.webkit.WebView.FindListener;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -44,10 +42,17 @@ public class MapWindowFragment extends Fragment {
 	static final LatLng HAMBURG = new LatLng(53.558, 9.927);
 	static final LatLng KIEL = new LatLng(53.551, 9.993);
 	static final LatLng JAFFA_STREET = new LatLng(31.78507,35.214328);
+	
+	//TODO - we should decide where does this constant goes
+	static public final LatLng DEFAULT_LOCATION = new LatLng(31.78507,35.214328);
 	private ArrayList<BusinessMarker> businessesList = new ArrayList<BusinessMarker>();
 	private HashMap <Marker, BusinessMarker> markerToBusiness = new HashMap <Marker, BusinessMarker>();
 	private HashMap <BusinessMarker, Marker> BusinessToMarker = new HashMap <BusinessMarker, Marker>();
 	private ArrayList<String> favourites;
+	
+	private static final float DEFAULT_LATLNG_ZOOM = 20;
+	private static final float DEFAULT_ANIMATED_ZOOM = 15;
+	
 	private ImageView restBtn,pubBtn,hotelBtn,shoppingBtn,coffeeBtn;
 	private View view;
 	@Override
@@ -57,8 +62,8 @@ public class MapWindowFragment extends Fragment {
 	    if (gMap!=null){
 			gMap.setOnMarkerClickListener(markerListener);
 		}
-	    gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(JAFFA_STREET, 15));
-	    gMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
+	    gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(JAFFA_STREET, DEFAULT_LATLNG_ZOOM));
+	    gMap.animateCamera(CameraUpdateFactory.zoomTo(DEFAULT_ANIMATED_ZOOM), 2000, null);
 	    (LoadBuisnessesTask()).execute();
 	    	
 	    
@@ -85,14 +90,38 @@ public class MapWindowFragment extends Fragment {
 				etAddress.setText("");
 			}
 		});
+		
+		final ImageView homeButton = (ImageView)view.findViewById(R.id.map_home_btn);
+		homeButton.setOnLongClickListener(new OnLongClickListener() {
 			
+			@Override
+			public boolean onLongClick(View v) {
+				DBHandler dbHandler = new DBHandler(getActivity());
+				LatLng latLng = gMap.getCameraPosition().target;
+				dbHandler.setHome(latLng.latitude, latLng.longitude);
+				
+				Toast.makeText(getActivity(), "new home location was selected", Toast.LENGTH_SHORT).show();
+				return false;
+			}
+		});
+		homeButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				DBHandler dbHandler = new DBHandler(getActivity());
+				LatLng loc = dbHandler.getHome();
+				gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, DEFAULT_ANIMATED_ZOOM));
+				gMap.animateCamera(CameraUpdateFactory.zoomTo(DEFAULT_ANIMATED_ZOOM), 2000, null);
+			}
+		});	
+		
 		
 		searchAddressBtn.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				final String addressStr = etAddress.getText().toString();
-				 Log.d("SEARCH ADRESS", "searching for: " + addressStr );
+				Log.d("SEARCH ADRESS", "searching for: " + addressStr );
 				Geocoder geoCoder = new Geocoder(getActivity(), Locale.getDefault());
 			    try {
 			        List<Address> addresses = geoCoder.getFromLocationName(addressStr, 5);
@@ -102,17 +131,17 @@ public class MapWindowFragment extends Fragment {
 			            Log.d("lat-long", "" + lat + "......." + lon);
 			            final LatLng latLngLocation = new LatLng(lat, lon);
 
-			            gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngLocation, 25));
+			            gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngLocation, DEFAULT_LATLNG_ZOOM));
 			            // Zoom in, animating the camera.
-			            gMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
+			            gMap.animateCamera(CameraUpdateFactory.zoomTo(DEFAULT_ANIMATED_ZOOM), 2000, null);
 			        }
 			    } catch (IOException e) {
 			        e.printStackTrace();
-			        Toast.makeText(getActivity(), "couln't find the given address",Toast.LENGTH_SHORT );
+			        Toast.makeText(getActivity().getApplicationContext(), "couln't find the given address",Toast.LENGTH_SHORT );
 			    }
 			    catch (NullPointerException e) {
 			        e.printStackTrace();
-			        Toast.makeText(getActivity(), "couln't find the given address",Toast.LENGTH_SHORT );
+			        Toast.makeText(getActivity().getApplicationContext(), "couln't find the given address",Toast.LENGTH_SHORT );
 			    }
 				
 				
@@ -136,7 +165,7 @@ public class MapWindowFragment extends Fragment {
 		    public void onNothingSelected(AdapterView<?> parent) {
 		    }
 		});
-	    
+		
 		return view;
 	}
 	

@@ -25,7 +25,9 @@ public class DealPresentorFragment extends Fragment{
 			LinearLayout buttonsLayout = (LinearLayout)view.findViewById(R.id.buttonsLayout);
 			buttonsLayout.setVisibility(View.GONE);
 		}
-		DBHandler.loadBusinessImageViewAsync(activityParent.businessID, activityParent.bType, imageView, getActivity());
+		
+		DBHandler dbHandle = new DBHandler(getActivity());
+		dbHandle.loadBusinessImageViewAsync(activityParent.businessID, activityParent.bType, imageView, getActivity());
 	
 		return view;
 	}
