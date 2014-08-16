@@ -1,4 +1,6 @@
 package com.example.mapsample;
+import java.util.Date;
+
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,5 +18,29 @@ public class CommentsFragment extends Fragment{
 		}
 		
 		return view;
+	}
+
+	public class Comment{
+		public String comment;
+		public String userName;
+		public Date commentDate;
+		
+		public Comment(String commentStr, String userName, Date date){
+			this.comment = commentStr;
+			this.userName = userName;
+			this. commentDate = date;
+		}
+		
+		String getComment(){
+			return comment;
+		}
+		String getUserName(){
+			return userName;
+		}
+		Date getDate(){
+			return commentDate;
+		}
+		
+		
 	}
 }
