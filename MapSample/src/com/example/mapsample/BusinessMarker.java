@@ -45,8 +45,7 @@ public class BusinessMarker implements Serializable{
 	public String city;
 	public long businessId;
 	
-	
-	public BusinessMarker(String name,BuisnessType type,LatLng pos,String city){
+	public BusinessMarker(String name,BuisnessType type,LatLng pos,String city,long id){
 		
 		this.name = name;
 		this.type = type;
@@ -55,7 +54,8 @@ public class BusinessMarker implements Serializable{
 		this.pos = pos;
 		this.city = city;
 		this.iconID = type.iconID;
-		this.businessId = new Random().nextInt(100000);
+		this.businessId  = id;
+		//this.businessId = new Random().nextInt(99999);
 		//this.businessId = ""+new Random().nextInt(100000);
 	}
 	

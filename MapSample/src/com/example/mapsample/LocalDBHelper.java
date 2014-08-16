@@ -12,7 +12,7 @@ public class LocalDBHelper extends SQLiteOpenHelper{
 
 	public static final String DB_NAME = "DEALS_APP_DB";
 	
-	private static final String ID_COL = "ID";	
+	public static final String ID_COL = "ID";	
 	public static final String FAVOURITES_TABLE = "FAVOURITES";
 	public static final String FAVOURITES_COL = "BUSINESS_ID";
 	

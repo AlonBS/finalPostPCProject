@@ -12,9 +12,9 @@
 
     <LinearLayout
         android:id="@+id/buttonsLayout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    	android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="horizontal">
     	<Button 
         android:id="@+id/no_thanks_btn"
         android:text="@string/no_thanks"

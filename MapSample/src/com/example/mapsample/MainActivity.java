@@ -58,7 +58,7 @@ public class MainActivity extends Activity {
 		
 		gMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 		
-		loadDBs_debug();
+		//loadDBs_debug();
 		
 		//load personal info from sqlite (favourites)
 		loadPersonalInfo();
@@ -229,12 +229,13 @@ public class MainActivity extends Activity {
 	    
 	    private static List<Long> favouriteIDs;
 	    private static List<BusinessMarker> markersDB; //TODO: delete
-	    public void loadDBs_debug()
+	    /*public void loadDBs_debug()
 	    {
 	    	markersDB = new ArrayList<BusinessMarker>();
 	    	favouriteIDs = new ArrayList<Long>();
 	    	Random r = new Random();
-	    	markersDB.add(new BusinessMarker("MCdonalds", BuisnessType.RESTURANT, new LatLng(31.781099, 35.217668), "Jerusalem"));
+	    	long id = 0;
+	    	markersDB.add(new BusinessMarker("MCdonalds", BuisnessType.RESTURANT, new LatLng(31.781099, 35.217668), "Jerusalem",++id));
 	    	markersDB.add(new BusinessMarker("Ivo", BuisnessType.RESTURANT, new LatLng(31.779949, 35.218948), "Jerusalem"));
 	    	markersDB.add(new BusinessMarker("Dolfin Yam", BuisnessType.RESTURANT, new LatLng(31.779968, 35.221209), "Jerusalem"));
 	    	markersDB.add(new BusinessMarker("Birman", BuisnessType.PUB, new LatLng(31.781855, 35.218086), "Jerusalem"));
@@ -253,6 +254,6 @@ public class MainActivity extends Activity {
 	    	favouriteIDs.add(markersDB.get(5).businessId);
 	    	favouriteIDs.add(markersDB.get(8).businessId);
 	    	favouriteIDs.add(markersDB.get(11).businessId);
-	    }
+	    }*/
 	
 }

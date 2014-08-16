@@ -34,6 +34,16 @@ public class ShowDealActivity extends Activity{
 	public String dealDetails;
 	public long businessID;
 	public BuisnessType bType;
+	private boolean isFavourite;
+	private DBHandler dbHandle;
+	
+	
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		dbHandle.close();
+	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -91,9 +101,33 @@ public class ShowDealActivity extends Activity{
 		});
 		
 		TextView dealTextView = (TextView)findViewById(R.id.dealTextView);
-		DBHandler dbHandle = new DBHandler(this);
+		dbHandle = new DBHandler(this);
 		dbHandle.loadDealAsync(businessID, dealTextView,this);
 		
+		final ImageView favouritesBtn = (ImageView)findViewById(R.id.favourites_flag);
+		isFavourite = dbHandle.isInFavourites(businessID);
+		if(isFavourite){
+			Bitmap favouriteBmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_important);
+			favouritesBtn.setImageBitmap(favouriteBmap);
+		}
+		favouritesBtn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				isFavourite = !isFavourite;
+				Bitmap favouriteBmap;
+				if(isFavourite){
+					favouriteBmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_important);
+					dbHandle.addToFavourites(businessID);
+					}else{
+					favouriteBmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_not_important);
+					dbHandle.removeFromFavourites(businessID);
+				}
+				favouritesBtn.setImageBitmap(favouriteBmap);
+				
+			}
+		});
 		//switchFragmentsButton.setVisibility(View.GONE);
 		//switchFragmentsButton.setImageBitmap(commentsIcon);
 		/*TextView tvDebug = (TextView)findViewById(R.id.debugString);
@@ -115,4 +149,6 @@ public class ShowDealActivity extends Activity{
 		
 }
 
+	
+	
 }

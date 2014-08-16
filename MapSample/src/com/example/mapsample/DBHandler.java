@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.example.mapsample.BusinessMarker.BuisnessType;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
-
+import com.example.mapsample.LocalDBHelper;
 public class DBHandler {
 	
 	private LocalDBHelper localDBHelper;
@@ -29,6 +29,11 @@ public class DBHandler {
 		localDB = localDBHelper.getWritableDatabase();
 	}
 		
+		public void close(){
+			localDBHelper.close();
+			localDB.close();
+		}
+	
 		public void setHome(double lat, double lng){
 			String countQuery = "SELECT  * FROM " + LocalDBHelper.HOME_TABLE;
 			Cursor cursor = localDB.rawQuery(countQuery, null);
@@ -60,10 +65,37 @@ public class DBHandler {
 			}
 		}
 		public void addToFavourites(long id){
-			
+			if(this.isInFavourites(id)){
+				Log.d("DBHandler", "business is already in favourites");
+			}
+			ContentValues addedBusiness = new ContentValues();
+			addedBusiness.put(LocalDBHelper.FAVOURITES_COL, id);
+			localDB.insert(LocalDBHelper.FAVOURITES_TABLE, null, addedBusiness);
+			Log.d("DBHandler", "business " + Long.toString(id) + " was inserted to favourites");
 		}
 		public void removeFromFavourites(long id){
-			
+			Cursor cursor =  localDB.query(LocalDBHelper.FAVOURITES_TABLE, new String[] {LocalDBHelper.ID_COL,LocalDBHelper.FAVOURITES_COL},
+					LocalDBHelper.FAVOURITES_COL + "=?", new String[] { Long.toString(id)},
+					null, null, LocalDBHelper.ID_COL + " desc");
+			if (cursor.moveToFirst()) {
+				String whereClause = LocalDBHelper.ID_COL+"=?";
+				String[]whereArgs = new String[] {String.valueOf(cursor.getInt(0))};
+				localDB.delete(LocalDBHelper.FAVOURITES_TABLE, whereClause , whereArgs);
+				Log.d("DBHandler", "business " + Long.toString(id) + " was removed from favourites");
+			}else{
+				Log.d("DBHandler", "business " + Long.toString(id) + "isn't exists in favourites");
+			}
+			cursor.close();
+		}
+		public boolean isInFavourites(long id){
+			Cursor cursor =  localDB.query(LocalDBHelper.FAVOURITES_TABLE, new String[] {LocalDBHelper.ID_COL,LocalDBHelper.FAVOURITES_COL},
+					LocalDBHelper.FAVOURITES_COL + "=?", new String[] { Long.toString(id)},
+					null, null, LocalDBHelper.ID_COL + " desc");
+			boolean retVal = cursor.getCount() == 1;
+			cursor.close();
+			String flag = retVal? " is in ":" is not in ";
+			Log.d("DBHandler", "business " + Long.toString(id) + flag + "favourites");
+			return retVal;
 		}
 	
 		public void updateBusinessMarkerListAndMapAsync(){

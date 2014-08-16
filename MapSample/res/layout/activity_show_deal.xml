@@ -3,13 +3,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical" 
     android:layout_width="250dp">
-    
+    <FrameLayout 
+    android:layout_width="fill_parent"
+    android:layout_height="25dp"
+    android:background="@drawable/deal_title_background" 
+    android:gravity="center">
      <LinearLayout 
         android:layout_width="fill_parent"
-        android:layout_height="25dp"
+        android:layout_height="fill_parent"
         android:orientation="horizontal"
-        android:gravity="center"
-        android:background="@drawable/deal_title_background">
+        android:gravity="center">
     <TextView
         android:id="@+id/businessTitle"
         android:text="drogba"
@@ -19,6 +22,12 @@
 
 
    </LinearLayout>
+   <ImageView 
+       android:id="@+id/favourites_flag"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:src="@drawable/ic_action_not_important"/>
+   </FrameLayout>
 	<LinearLayout 
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

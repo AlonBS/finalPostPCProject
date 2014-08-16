@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 public class DealPresentorFragment extends Fragment{
 	Bitmap Image;
+	private DBHandler dbHandle;
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.deal_presantor_fragment,container, false);
@@ -26,12 +27,17 @@ public class DealPresentorFragment extends Fragment{
 			buttonsLayout.setVisibility(View.GONE);
 		}
 		
-		DBHandler dbHandle = new DBHandler(getActivity());
+		dbHandle = new DBHandler(getActivity());
 		dbHandle.loadBusinessImageViewAsync(activityParent.businessID, activityParent.bType, imageView, getActivity());
 	
 		return view;
 	}
-	
+	@Override
+	public void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		dbHandle.close();
+	}
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
