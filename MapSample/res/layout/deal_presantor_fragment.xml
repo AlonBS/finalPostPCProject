@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:background="@drawable/deal_title_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
@@ -12,12 +13,13 @@
 
     <LinearLayout
         android:id="@+id/buttonsLayout"
-    	android:layout_width="match_parent"
+    	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
     	android:orientation="horizontal">
-    	<Button 
+    	<ImageView 
         android:id="@+id/no_thanks_btn"
-        android:text="@string/no_thanks"
+		android:src="@drawable/ic_action_bad"
+    	android:background="@drawable/like_buttons_background_off"
         android:layout_height="match_parent"
         android:layout_width="0dp"
         android:layout_weight="1"/>
@@ -27,10 +29,11 @@
         android:layout_height="match_parent"
         android:layout_width="0dp"
         android:layout_weight="1"/> -->
-      <Button 
+      <ImageView       
         android:id="@+id/sounds_cool_btn"
-        android:text="@string/sounds_cool"
+		android:src="@drawable/ic_action_good"        
         android:layout_height="match_parent"
+        android:background="@drawable/like_buttons_background_off"
         android:layout_width="0dp"
         android:layout_weight="1"/>
 	</LinearLayout>

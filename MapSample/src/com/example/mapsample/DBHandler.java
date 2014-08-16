@@ -1,6 +1,7 @@
 package com.example.mapsample;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -8,21 +9,27 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.location.Location;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.mapsample.BusinessMarker.BuisnessType;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.example.mapsample.LocalDBHelper;
 public class DBHandler {
 	
 	private LocalDBHelper localDBHelper;
 	SQLiteDatabase localDB;
 
+	
+	static private ArrayList<Long> dislikeBusinesses = new ArrayList<Long>();
+	static private ArrayList<Long> likeBusinesses = new ArrayList<Long>();
+	
+	{
+		//information about all the user likes and dislikes should be loaded
+		//here from Parse DB.
+	}
+	
 	public DBHandler(Context context) {
 		// TODO Auto-generated constructor stub
 		localDBHelper = new LocalDBHelper(context);
@@ -110,7 +117,47 @@ public class DBHandler {
 		public void loadBusinessImageViewAsync(long businessID, BuisnessType buisnessType ,ImageView imageView, Context context){
 			LoadBitmapTask loadTask = new LoadBitmapTask(imageView, businessID,buisnessType,context);
 			loadTask.execute();
+		
 		}
+		
+		public void addLikeToDeal(long businessId,long userID){
+			if(dislikeBusinesses.contains(businessId)){
+				dislikeBusinesses.remove(businessId);
+				//TODO - also remove from the dislike list at the parse DB
+			}
+			likeBusinesses.add(businessId);
+		}
+		
+		public enum DealLikeStatus{LIKE,DISLIKE,DONT_CARE};
+		public DealLikeStatus getDealLikeStatus(long businessId,long userID){
+			if(likeBusinesses.contains(businessId)){
+				return DealLikeStatus.LIKE;
+			}else if(dislikeBusinesses.contains(businessId)){
+				return DealLikeStatus.DISLIKE;
+			}else{
+				return DealLikeStatus.DONT_CARE;
+			}
+		}
+		public void addDislikeToDeal(long businessId,long userID){
+			if(likeBusinesses.contains(businessId)){
+				likeBusinesses.remove(businessId);
+				//TODO - also remove from the like list at the parse DB
+			}
+			dislikeBusinesses.add(businessId);
+		}
+		public void setDontCareToDeal(long businessId,long userID){
+			if(likeBusinesses.contains(businessId)){
+				//TODO remove user id from the likes list from parse DB
+				likeBusinesses.remove(businessId);
+			}
+			else if(dislikeBusinesses.contains(businessId)){
+				//TODO remove user id from the dislikes list from parse DB
+				dislikeBusinesses.remove(businessId);
+			}else{
+				Log.d("DBHandler", "Business " + Long.toString(businessId) + " error: the user didnt like it nor dislike it");
+			}
+		}
+
 		
 		
 		

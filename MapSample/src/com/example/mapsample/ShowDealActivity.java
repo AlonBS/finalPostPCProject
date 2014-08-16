@@ -18,6 +18,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.mapsample.BusinessMarker.BuisnessType;
+import com.example.mapsample.DBHandler.DealLikeStatus;
 
 public class ShowDealActivity extends Activity{
 	
@@ -36,7 +37,6 @@ public class ShowDealActivity extends Activity{
 	public BuisnessType bType;
 	private boolean isFavourite;
 	private DBHandler dbHandle;
-	
 	
 	@Override
 	protected void onDestroy() {
