@@ -1,22 +1,31 @@
 package com.example.mapsample;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.webkit.WebView.FindListener;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -51,8 +60,9 @@ public class MapWindowFragment extends Fragment {
 	    gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(JAFFA_STREET, 15));
 	    gMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
 	    (LoadBuisnessesTask()).execute();
+	    	
 	    
-	    
+	    gMap.setMyLocationEnabled(true);
 	    restBtn = (ImageView)view.findViewById(R.id.resturant_filter_btn);
 		pubBtn = (ImageView)view.findViewById(R.id.pub_filter_btn);
 		hotelBtn = (ImageView)view.findViewById(R.id.hotel_filter_btn);
@@ -64,6 +74,52 @@ public class MapWindowFragment extends Fragment {
 		hotelBtn.setOnClickListener(filterBtnClickListener);
 		shoppingBtn.setOnClickListener(filterBtnClickListener);
 		coffeeBtn.setOnClickListener(filterBtnClickListener);
+		
+		final ImageView searchAddressBtn = (ImageView)view.findViewById(R.id.search_address_button);
+		final EditText etAddress = (EditText)view.findViewById(R.id.search_address_edit_text);
+		etAddress.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				etAddress.setText("");
+			}
+		});
+			
+		
+		searchAddressBtn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				final String addressStr = etAddress.getText().toString();
+				 Log.d("SEARCH ADRESS", "searching for: " + addressStr );
+				Geocoder geoCoder = new Geocoder(getActivity(), Locale.getDefault());
+			    try {
+			        List<Address> addresses = geoCoder.getFromLocationName(addressStr, 5);
+			        if (addresses.size() > 0) {
+			            Double lat = (double) (addresses.get(0).getLatitude());
+			            Double lon = (double) (addresses.get(0).getLongitude());
+			            Log.d("lat-long", "" + lat + "......." + lon);
+			            final LatLng latLngLocation = new LatLng(lat, lon);
+
+			            gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngLocation, 25));
+			            // Zoom in, animating the camera.
+			            gMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
+			        }
+			    } catch (IOException e) {
+			        e.printStackTrace();
+			        Toast.makeText(getActivity(), "couln't find the given address",Toast.LENGTH_SHORT );
+			    }
+			    catch (NullPointerException e) {
+			        e.printStackTrace();
+			        Toast.makeText(getActivity(), "couln't find the given address",Toast.LENGTH_SHORT );
+			    }
+				
+				
+				etAddress.setText(getResources().getString(R.string.type_address));
+				
+			}
+		});
 		
 		Spinner spinner = (Spinner)view.findViewById(R.id.filter_spinner);
 		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

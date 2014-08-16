@@ -27,7 +27,6 @@
         android:orientation="horizontal"
             android:layout_width="match_parent"
    			android:layout_height="wrap_content"
-   			android:layout_weight="0.1"
    			android:background="@color/gray">
 
      
@@ -35,8 +34,9 @@
     android:id="@+id/filter_spinner"
     android:layout_width="0dp"
     android:layout_weight="0.5"
+    android:layout_height="wrap_content"
     android:entries="@array/spinner_options"
-    android:layout_height="match_parent" />
+    android:textAlignment="center"/>
      
      <ImageView
          android:id="@+id/resturant_filter_btn"
@@ -72,13 +72,50 @@
          android:src="@drawable/coffee_icon" />
      </LinearLayout>
 	
+    <FrameLayout 
+    android:layout_width="match_parent"
+    android:layout_height="0dp" 
+    android:layout_weight="0.9">
+          
 	<fragment
           android:id="@+id/map"
-          android:layout_weight="0.9"
           android:layout_width="match_parent"
-          android:layout_height="0dp"
+          android:layout_height="match_parent"
           android:name="com.google.android.gms.maps.MapFragment"/>
+	<LinearLayout 
+	  	android:paddingLeft="11dp"
+	    android:paddingTop="11dp"
+	    android:layout_height="wrap_content"
+	    android:layout_width="wrap_content">
+	<ImageView 
+	    android:background="@drawable/bordered_shape"
+	    android:padding="1dp"
+	    android:layout_height="40dp"
+	    android:layout_width="40dp"
+	    android:src="@drawable/home_icon"
+	    android:adjustViewBounds="true"
+	    android:scaleType="centerCrop"
+	/>
+	</LinearLayout>
+	</FrameLayout>
+	<LinearLayout android:orientation="horizontal"
+            android:layout_width="match_parent"
+   			android:layout_height="wrap_content">
+	<EditText 
+	    android:id="@+id/search_address_edit_text"
+	    android:layout_width="wrap_content"
+	    android:layout_weight="0.8"
+	    android:layout_height="wrap_content"
+	    android:text="@string/type_address"
+	    android:textColor="#FFFFFFFF"/>
 	
-	
+	<ImageView 
+	    android:id="@+id/search_address_button"
+	    android:layout_width="wrap_content"
+	    android:layout_weight="0.2"
+	    android:layout_height="wrap_content"
+	    android:src="@drawable/ic_action_search"/>
+
+	</LinearLayout>
 	</LinearLayout>
 </RelativeLayout>

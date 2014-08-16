@@ -5,13 +5,13 @@
     android:orientation="vertical">
     
 
-    <LinearLayout 
+  <!--   <LinearLayout 
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.2"
         android:background="@color/blue">
-    </LinearLayout>
+    </LinearLayout> -->
     
    <LinearLayout 
         android:id="@+id/mapHolder"

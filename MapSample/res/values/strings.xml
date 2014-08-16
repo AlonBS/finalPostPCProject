@@ -5,6 +5,7 @@
     <string name="hello_world">Hello world!</string>
      <string name="no_thanks">No Thanks!</string>
      <string name="comment">Comment</string>
+     <string name="type_address">type address here</string>
      <string name="sounds_cool">Sounds Cool!</string>
 	 <string-array name="spinner_options">
 	    <item>All</item>
