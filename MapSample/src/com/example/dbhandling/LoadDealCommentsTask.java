@@ -17,7 +17,7 @@ import com.example.datastructures.Comment.CommentDBLoadSimulatorDebug;
 import com.example.mapsample.CommentsArrayAdapter;
 
 public class LoadDealCommentsTask extends AsyncTask<Void, ArrayList<Comment>, Void>{
-
+	private boolean stopFlag = false;
 	private ArrayList<Comment> origCommentsListRef;
 	private WeakReference<CommentsArrayAdapter> adapter;
 
@@ -26,6 +26,10 @@ public class LoadDealCommentsTask extends AsyncTask<Void, ArrayList<Comment>, Vo
 		this.adapter = new WeakReference<CommentsArrayAdapter>(adapter);
 	}
 
+	public void stopTask(){
+		stopFlag = true;
+	}
+	
 	@Override
 	protected Void doInBackground(Void... params) {
 		
@@ -34,7 +38,7 @@ public class LoadDealCommentsTask extends AsyncTask<Void, ArrayList<Comment>, Vo
 		int counter = 0;
 		ArrayList<Comment> commentsList = new ArrayList<Comment>();
 		
-		while(dbCursur.hasMoreComments()){
+		while(dbCursur.hasMoreComments() && !stopFlag){
 				counter++;
 				Comment nextComment = dbCursur.getNext();
 				commentsList.add(nextComment);
@@ -47,6 +51,7 @@ public class LoadDealCommentsTask extends AsyncTask<Void, ArrayList<Comment>, Vo
 					} catch (InterruptedException e) {}
 				}
 		}
+		Log.d("LoadDealCommentsTask", "finished loading all comments");
 		
 		if(commentsList.size()>0){
 			publishProgress(commentsList);

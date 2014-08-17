@@ -31,6 +31,7 @@ public class DBHandler {
 	private LocalDBHelper localDBHelper;
 	SQLiteDatabase localDB;
 	Context context;
+	private LoadDealCommentsTask loadCommentsTask;
 	
 	static private ArrayList<Long> dislikeBusinesses = new ArrayList<Long>();
 	static private ArrayList<Long> likeBusinesses = new ArrayList<Long>();
@@ -57,6 +58,9 @@ public class DBHandler {
 		 * closes the DBHandler.
 		 */
 		public void close(){
+			if(loadCommentsTask!=null){
+				loadCommentsTask.stopTask();
+			}
 			localDBHelper.close();
 			localDB.close();
 		}
@@ -267,8 +271,8 @@ public class DBHandler {
 		 * parameter asynchronously, using parse.
 		 */
 		public void getCommentsListAsync(ArrayList<Comment> comments,CommentsArrayAdapter adapter){
-			LoadDealCommentsTask loadTask = new LoadDealCommentsTask(comments, adapter);
-			loadTask.execute();
+			loadCommentsTask = new LoadDealCommentsTask(comments, adapter);
+			loadCommentsTask.execute();
 		}
 		
 		
