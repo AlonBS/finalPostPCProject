@@ -39,7 +39,7 @@ public class DealPresentorFragment extends Fragment{
 		final long businessID  = activityParent.businessID;
 		dbHandle.loadBusinessImageViewAsync(businessID, activityParent.bType, imageView);
 	
-		dealStatus = dbHandle.getDealLikeStatus(businessID, MainActivity.user_id);
+		dealStatus = dbHandle.getDealLikeStatus(businessID);
 		likeBtn = (ImageView)view.findViewById(R.id.sounds_cool_btn);
 		likeBtn.setOnClickListener(new OnClickListener() {
 			
@@ -47,10 +47,10 @@ public class DealPresentorFragment extends Fragment{
 			public void onClick(View v) {
 				if(dealStatus==DealLikeStatus.LIKE){
 					dealStatus = DealLikeStatus.DONT_CARE;
-					dbHandle.setDontCareToDeal(businessID, MainActivity.user_id);
+					dbHandle.setDontCareToDeal(businessID);
 				}else{
 					dealStatus = DealLikeStatus.LIKE;
-					dbHandle.addLikeToDeal(businessID, MainActivity.user_id);
+					dbHandle.addLikeToDeal(businessID);
 				}
 				setDislikeAndLikeBG();
 			}
@@ -62,10 +62,10 @@ public class DealPresentorFragment extends Fragment{
 			public void onClick(View v) {
 				if(dealStatus==DealLikeStatus.DISLIKE){
 					dealStatus = DealLikeStatus.DONT_CARE;
-					dbHandle.setDontCareToDeal(businessID, MainActivity.user_id);
+					dbHandle.setDontCareToDeal(businessID);
 				}else{
 					dealStatus = DealLikeStatus.DISLIKE;
-					dbHandle.addDislikeToDeal(businessID, MainActivity.user_id);
+					dbHandle.addDislikeToDeal(businessID);
 				}
 				setDislikeAndLikeBG();
 				

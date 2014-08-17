@@ -94,6 +94,7 @@ public class ShowDealActivity extends Activity{
 				if (currentFragmentType == CurrentFragmentType.DEAL_FRAGMENT){
 					currentFragmentType = CurrentFragmentType.COMMENTS_FRAGMENT;
 					 fragmentToSwitch = new CommentsFragment();
+					 ((CommentsFragment)fragmentToSwitch).businessID = businessID;
 					 newIcon= BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_back);
 				}else{
 					currentFragmentType = CurrentFragmentType.DEAL_FRAGMENT;
@@ -135,21 +136,11 @@ public class ShowDealActivity extends Activity{
 				
 			}
 		});
-		//switchFragmentsButton.setVisibility(View.GONE);
-		//switchFragmentsButton.setImageBitmap(commentsIcon);
-		/*TextView tvDebug = (TextView)findViewById(R.id.debugString);
-		if(mode)
-			tvDebug.setText(" user mode");
-		else
-			tvDebug.setText(" business mode");*/
-		
 		
 		FragmentManager fragmentManager = getFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		DealPresentorFragment dealPresantorFragment = new DealPresentorFragment();
 		fragmentTransaction.add(R.id.deal_or_comments_fragment, dealPresantorFragment);
-		//CommentsFragment commentsFragment = new CommentsFragment();
-		//fragmentTransaction.add(R.id.show_deal_fragment, commentsFragment);
 		fragmentTransaction.commit();
 		
 		

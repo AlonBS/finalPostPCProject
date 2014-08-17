@@ -29,10 +29,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MainActivity extends Activity {
-	
-	//TODO this value should be loaded during runtime
-	public static long user_id;
-	
+
 	/**google map object to show the map*/
 	private GoogleMap gMap;
 	

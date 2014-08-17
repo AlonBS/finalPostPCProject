@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.datastructures.BusinessMarker.BuisnessType;
 import com.example.datastructures.Comment;
@@ -24,14 +25,25 @@ import com.google.android.gms.maps.model.LatLng;
  */
 public class DBHandler {
 	
+	public static long user_id = 123123;
+	public static String userName = "dror the king";
+	
 	private LocalDBHelper localDBHelper;
 	SQLiteDatabase localDB;
 	Context context;
 	
 	static private ArrayList<Long> dislikeBusinesses = new ArrayList<Long>();
 	static private ArrayList<Long> likeBusinesses = new ArrayList<Long>();
-	{
+	
+	static int debug_initUserDataCounter = 0;
+	public static void initUserData(){
+			debug_initUserDataCounter++;
 			updateLikeAndDislikeListsAsync();
+			
+			//TODO temporary values, should be loaded differently.
+			user_id = 123123;
+			userName = "dror the king";
+			
 	}
 	
 	public DBHandler(Context context) {
@@ -167,14 +179,14 @@ public class DBHandler {
 		}
 		
 		/**
-		 * updates the parse servers that the userID like the 
+		 * updates the parse servers that the user like the 
 		 * current business deal.
 		 * this method should do 2 things:
 		 * 	add the dealID from the user likes table
 		 * 	add a like to the current business deal Table.
 		 */
 		
-		public void addLikeToDeal(long businessId,long userID){
+		public void addLikeToDeal(long businessId){
 			if(dislikeBusinesses.contains(businessId)){
 				dislikeBusinesses.remove(businessId);
 				//TODO - also remove from the dislike list at the parse DB
@@ -192,10 +204,9 @@ public class DBHandler {
 		 * the entire like/dislike data was already brougt from the parse servers
 		 * using updateLikeAndDislikeListsAsync().
 		 * @param businessId
-		 * @param userID
 		 * @return
 		 */
-		public DealLikeStatus getDealLikeStatus(long businessId,long userID){
+		public DealLikeStatus getDealLikeStatus(long businessId){
 			if(likeBusinesses.contains(businessId)){
 				return DealLikeStatus.LIKE;
 			}else if(dislikeBusinesses.contains(businessId)){
@@ -207,13 +218,13 @@ public class DBHandler {
 		
 
 		/**
-		 * updates the parse servers that the userID doesnt like the 
+		 * updates the parse servers that the user doesnt like the 
 		 * current business deal.
 		 * this method shuold do 2 things:
 		 * 	add the dealID from the user dislikes table
 		 * 	add a dislike to the current business deal Table.
 		 */
-		public void addDislikeToDeal(long businessId,long userID){
+		public void addDislikeToDeal(long businessId){
 			if(likeBusinesses.contains(businessId)){
 				likeBusinesses.remove(businessId);
 				//TODO - also remove from the like list at the parse DB
@@ -222,13 +233,13 @@ public class DBHandler {
 		}
 		
 		/**
-		 * updates the parse servers that the userID doesn't like/dislike the 
+		 * updates the parse servers that the user doesn't like/dislike the 
 		 * current business deal anymore.
 		 * this method shuold do 2 things:
 		 * 	erase the dealID from the user likes table
 		 * 	delete a like from the current business deal Table.
 		 */
-		public void setDontCareToDeal(long businessId,long userID){
+		public void setDontCareToDeal(long businessId){
 			if(likeBusinesses.contains(businessId)){
 				//TODO remove user id from the likes list from parse DB
 				likeBusinesses.remove(businessId);
@@ -245,7 +256,7 @@ public class DBHandler {
 		 * updates the dislikeBusinesses and likeBusinesses lists.
 		 * this method will be called right before the first DBHandler is created;
 		 */
-		public void updateLikeAndDislikeListsAsync(){
+		public static void updateLikeAndDislikeListsAsync(){
 			
 		}
 		
@@ -255,9 +266,26 @@ public class DBHandler {
 		 * receives a commentArrayAdapter and comments list. updates both of the
 		 * parameter asynchronously, using parse.
 		 */
-		public void getCommentsListAsync(ArrayList<Comment> comments,CommentsArrayAdapter adapter){
+		public void getCommentsListAsync(long businessID,ArrayList<Comment> comments,CommentsArrayAdapter adapter){
 			LoadDealCommentsTask loadTask = new LoadDealCommentsTask(comments, adapter);
 			loadTask.execute();
+		}
+		
+		
+		
+		/**
+		 * adds the user comment for the given business deal.
+		 * this method should check if the user already commented on this deal before.
+		 * if he did - the new comment should replace the previous one.
+		 */
+		public void addComment(long businessID, Comment comment){
+			boolean didUserCommentedBefore = true; //TODO - temporary value
+			if(didUserCommentedBefore){
+				Toast.makeText(context, "you already commented on this deal. your new comment will replace the old one", Toast.LENGTH_LONG).show();				
+			}else{
+				Toast.makeText(context, "Thank you for your comment!", Toast.LENGTH_LONG).show();				
+			}
+				
 		}
 		
 		

@@ -1,26 +1,34 @@
 package com.example.mapsample;
 import java.util.ArrayList;
+import java.util.Date;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.example.datastructures.Comment;
-import com.example.datastructures.Comment.CommentDBLoadSimulatorDebug;
 import com.example.dbhandling.DBHandler;
 
 public class CommentsFragment extends Fragment{
 	
 	private DBHandler dbHandler;
-
+	public long businessID = -1;
+		
+	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.comments_fragment,container, false);
 		
 		ListView commentsListView = (ListView)view.findViewById(R.id.comments_list_view);
-		ShowDealActivity parentActivity = (ShowDealActivity)getActivity();
+		final ShowDealActivity parentActivity = (ShowDealActivity)getActivity();
 		
 		registerForContextMenu(commentsListView);
 		
@@ -28,12 +36,47 @@ public class CommentsFragment extends Fragment{
 		ArrayList<Comment> commentsList = new ArrayList<Comment>();//todoDal.all(TodoDAL.DB_TYPE.SQLITE);
 	    CommentsArrayAdapter adapter = new CommentsArrayAdapter(parentActivity,android.R.layout.simple_list_item_1, commentsList);
 	    commentsListView.setAdapter(adapter);
-		dbHandler = new DBHandler(parentActivity);
-		dbHandler.getCommentsListAsync(commentsList, adapter);
+		
+	    if(businessID==-1){
+	    	Log.e("CommentsFragment", "ERRORR!!! you didnt modify the businessID field before executing the comments fragment!");
+	    	Intent intent = new Intent(Intent.ACTION_MAIN);
+	    	intent.addCategory(Intent.CATEGORY_HOME);
+	    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	    	startActivity(intent);
+	    }
+	    
+	    dbHandler = new DBHandler(parentActivity);
+		dbHandler.getCommentsListAsync(businessID, commentsList, adapter);
 		
 		if(!parentActivity.isInUserMode){
-			//comment_edit_text;
+			LinearLayout linearLayout = (LinearLayout)view.findViewById(R.id.add_comment_layout);
+			linearLayout.setVisibility(View.GONE);
+		}else{
+			final EditText newCommentEditText = (EditText)view.findViewById(R.id.comment_edit_text);
+			
+			newCommentEditText.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					newCommentEditText.setText("");		
+				}
+			});
+			
+			ImageView sendCommentButton = (ImageView)view.findViewById(R.id.comment_send);
+			sendCommentButton.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					String userName = DBHandler.userName;
+					Date date = new Date();
+					String commentStr = newCommentEditText.getText().toString();
+					dbHandler.addComment(businessID, new Comment(commentStr,userName,date));
+					newCommentEditText.setText(getResources().getString(R.string.type_comment_here));
+				}
+			});
 		}
+		
 		
 		return view;
 	}
