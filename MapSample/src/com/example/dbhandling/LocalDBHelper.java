@@ -1,4 +1,4 @@
-package com.example.mapsample;
+package com.example.dbhandling;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

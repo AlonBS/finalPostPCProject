@@ -27,7 +27,9 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.mapsample.BusinessMarker.BuisnessType;
+import com.example.datastructures.BusinessMarker;
+import com.example.datastructures.BusinessMarker.BuisnessType;
+import com.example.dbhandling.DBHandler;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;

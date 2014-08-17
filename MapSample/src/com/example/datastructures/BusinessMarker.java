@@ -1,11 +1,8 @@
-package com.example.mapsample;
+package com.example.datastructures;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.Random;
-
-import android.graphics.Bitmap;
-
+import com.example.mapsample.R;
 import com.google.android.gms.maps.model.LatLng;
 
 //TODO look at anywalls

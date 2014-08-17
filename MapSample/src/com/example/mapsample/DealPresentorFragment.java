@@ -1,6 +1,7 @@
 package com.example.mapsample;
 
-import com.example.mapsample.DBHandler.DealLikeStatus;
+import com.example.dbhandling.DBHandler;
+import com.example.dbhandling.DBHandler.DealLikeStatus;
 
 import android.app.ActivityManager;
 import android.app.Fragment;
@@ -36,7 +37,7 @@ public class DealPresentorFragment extends Fragment{
 		
 		dbHandle = new DBHandler(getActivity());
 		final long businessID  = activityParent.businessID;
-		dbHandle.loadBusinessImageViewAsync(businessID, activityParent.bType, imageView, getActivity());
+		dbHandle.loadBusinessImageViewAsync(businessID, activityParent.bType, imageView);
 	
 		dealStatus = dbHandle.getDealLikeStatus(businessID, MainActivity.user_id);
 		likeBtn = (ImageView)view.findViewById(R.id.sounds_cool_btn);

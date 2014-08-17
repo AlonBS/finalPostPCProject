@@ -1,46 +1,59 @@
-package com.example.mapsample;
+package com.example.dbhandling;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.mapsample.BusinessMarker.BuisnessType;
+import com.example.datastructures.BusinessMarker.BuisnessType;
+import com.example.datastructures.Comment;
+import com.example.mapsample.CommentsArrayAdapter;
+import com.example.mapsample.MapWindowFragment;
 import com.google.android.gms.maps.model.LatLng;
+
+
+/**
+ * The DBHandler is used for accessing Parse server, as well as local DB (using sqlite).
+ * @author dror
+ *
+ */
 public class DBHandler {
 	
 	private LocalDBHelper localDBHelper;
 	SQLiteDatabase localDB;
-
+	Context context;
 	
 	static private ArrayList<Long> dislikeBusinesses = new ArrayList<Long>();
 	static private ArrayList<Long> likeBusinesses = new ArrayList<Long>();
-	
 	{
-		//information about all the user likes and dislikes should be loaded
-		//here from Parse DB.
+			updateLikeAndDislikeListsAsync();
 	}
 	
 	public DBHandler(Context context) {
 		// TODO Auto-generated constructor stub
 		localDBHelper = new LocalDBHelper(context);
 		localDB = localDBHelper.getWritableDatabase();
+		this.context = context;
 	}
 		
+		/**
+		 * closes the DBHandler.
+		 */
 		public void close(){
 			localDBHelper.close();
 			localDB.close();
 		}
 	
+		/**
+		 * set a new home location for the user (using sqlite).
+		 * @param lat
+		 * @param lng
+		 */
 		public void setHome(double lat, double lng){
 			String countQuery = "SELECT  * FROM " + LocalDBHelper.HOME_TABLE;
 			Cursor cursor = localDB.rawQuery(countQuery, null);
@@ -58,7 +71,12 @@ public class DBHandler {
 			localDB.insert(LocalDBHelper.HOME_TABLE, null, contentValue);
 		}
 		
-		LatLng getHome(){
+		/**
+		 * returns the user home location (using sqlite). 
+		 * if he doesn't have a home location, returns the default location.
+		 * @return
+		 */
+		public LatLng getHome(){
 			Cursor cursor = localDB.rawQuery("select * from " + LocalDBHelper.HOME_TABLE,null);
 			if (cursor .moveToFirst()) {
 				double lat = cursor.getDouble(cursor.getColumnIndex(LocalDBHelper.LAT_COL));
@@ -71,6 +89,11 @@ public class DBHandler {
 				return MapWindowFragment.DEFAULT_LOCATION;
 			}
 		}
+		
+		/**
+		 * adds a business id to the user favorites table (using sqlite).
+		 * @param id
+		 */
 		public void addToFavourites(long id){
 			if(this.isInFavourites(id)){
 				Log.d("DBHandler", "business is already in favourites");
@@ -80,6 +103,11 @@ public class DBHandler {
 			localDB.insert(LocalDBHelper.FAVOURITES_TABLE, null, addedBusiness);
 			Log.d("DBHandler", "business " + Long.toString(id) + " was inserted to favourites");
 		}
+		
+		/**
+		 * remove a business id from the user favorites table (in sqlite).
+		 * @param id
+		 */
 		public void removeFromFavourites(long id){
 			Cursor cursor =  localDB.query(LocalDBHelper.FAVOURITES_TABLE, new String[] {LocalDBHelper.ID_COL,LocalDBHelper.FAVOURITES_COL},
 					LocalDBHelper.FAVOURITES_COL + "=?", new String[] { Long.toString(id)},
@@ -94,31 +122,57 @@ public class DBHandler {
 			}
 			cursor.close();
 		}
-		public boolean isInFavourites(long id){
+		
+		/**
+		 * receives a business id and check if it's in the user favorites list using sqlite.
+		 */
+		public boolean isInFavourites(long businessId){
 			Cursor cursor =  localDB.query(LocalDBHelper.FAVOURITES_TABLE, new String[] {LocalDBHelper.ID_COL,LocalDBHelper.FAVOURITES_COL},
-					LocalDBHelper.FAVOURITES_COL + "=?", new String[] { Long.toString(id)},
+					LocalDBHelper.FAVOURITES_COL + "=?", new String[] { Long.toString(businessId)},
 					null, null, LocalDBHelper.ID_COL + " desc");
 			boolean retVal = cursor.getCount() == 1;
 			cursor.close();
 			String flag = retVal? " is in ":" is not in ";
-			Log.d("DBHandler", "business " + Long.toString(id) + flag + "favourites");
+			Log.d("DBHandler", "business " + Long.toString(businessId) + flag + "favourites");
 			return retVal;
 		}
-	
-		public void updateBusinessMarkerListAndMapAsync(){
-			
+		
+		/**
+		 * loads all the Business Marker objects which represents businesses
+		 * which are close to the current map center.
+		 * A business is considered close to the center if it's distance from it
+		 * is less than RADIUS km (constant value).
+		 * 
+		 */
+		public void updateBusinessMarkerListAndMapAsync(LatLng mapCenter){
+			final double RADIUS = 5;
 			
 		}
 		
-		public void loadDealAsync(long businessID ,TextView textView, Context context){
-			LoadDealTask loadTask = new LoadDealTask(textView, businessID, context);
+		/**
+		 * loads a deal's Bitmap asynchronously. updates the relevant textView whenever the task was ended.
+		 */
+		public void loadDealAsync(long businessID ,TextView textView){
+			LoadDealStringTask loadTask = new LoadDealStringTask(textView, businessID, context);
 			loadTask.execute();
 		}
-		public void loadBusinessImageViewAsync(long businessID, BuisnessType buisnessType ,ImageView imageView, Context context){
-			LoadBitmapTask loadTask = new LoadBitmapTask(imageView, businessID,buisnessType,context);
+		
+		/**
+		 * loads a deal's Bitmap asynchronously. updates the relevant ImageView whenever the task was ended.
+		 */
+		public void loadBusinessImageViewAsync(long businessID, BuisnessType buisnessType ,ImageView imageView){
+			LoadDealBitmapTask loadTask = new LoadDealBitmapTask(imageView, businessID,buisnessType,context);
 			loadTask.execute();
 		
 		}
+		
+		/**
+		 * updates the parse servers that the userID like the 
+		 * current business deal.
+		 * this method should do 2 things:
+		 * 	add the dealID from the user likes table
+		 * 	add a like to the current business deal Table.
+		 */
 		
 		public void addLikeToDeal(long businessId,long userID){
 			if(dislikeBusinesses.contains(businessId)){
@@ -128,7 +182,19 @@ public class DBHandler {
 			likeBusinesses.add(businessId);
 		}
 		
+		
+		
 		public enum DealLikeStatus{LIKE,DISLIKE,DONT_CARE};
+		/**
+		 * return LIKE/DISLIKE/DONT_CARE according to the user preferences regarding
+		 * to the current deal.
+		 * notice that there is no need to access to the parse method this time, since
+		 * the entire like/dislike data was already brougt from the parse servers
+		 * using updateLikeAndDislikeListsAsync().
+		 * @param businessId
+		 * @param userID
+		 * @return
+		 */
 		public DealLikeStatus getDealLikeStatus(long businessId,long userID){
 			if(likeBusinesses.contains(businessId)){
 				return DealLikeStatus.LIKE;
@@ -138,6 +204,15 @@ public class DBHandler {
 				return DealLikeStatus.DONT_CARE;
 			}
 		}
+		
+
+		/**
+		 * updates the parse servers that the userID doesnt like the 
+		 * current business deal.
+		 * this method shuold do 2 things:
+		 * 	add the dealID from the user dislikes table
+		 * 	add a dislike to the current business deal Table.
+		 */
 		public void addDislikeToDeal(long businessId,long userID){
 			if(likeBusinesses.contains(businessId)){
 				likeBusinesses.remove(businessId);
@@ -145,6 +220,14 @@ public class DBHandler {
 			}
 			dislikeBusinesses.add(businessId);
 		}
+		
+		/**
+		 * updates the parse servers that the userID doesn't like/dislike the 
+		 * current business deal anymore.
+		 * this method shuold do 2 things:
+		 * 	erase the dealID from the user likes table
+		 * 	delete a like from the current business deal Table.
+		 */
 		public void setDontCareToDeal(long businessId,long userID){
 			if(likeBusinesses.contains(businessId)){
 				//TODO remove user id from the likes list from parse DB
@@ -157,99 +240,25 @@ public class DBHandler {
 				Log.d("DBHandler", "Business " + Long.toString(businessId) + " error: the user didnt like it nor dislike it");
 			}
 		}
-
-		
-		
 		
 		/**
-		 * A task which loads a business Bitmap from parse and update the imageview whenever
-		 * the loading process ends. if the business doesn't have a bitmap, the returned bitmap
-		 * will be a default bitmap. 
-		 * inputs: imageView weak reference and businessID.
-		 * @author dror
-		 *
+		 * updates the dislikeBusinesses and likeBusinesses lists.
+		 * this method will be called right before the first DBHandler is created;
 		 */
-		private static class LoadBitmapTask extends AsyncTask<Integer, Void, Bitmap> {
-		    private final WeakReference<ImageView> imageViewRef;
-		    private long businessID;
-		    private BuisnessType businessType;
-		    private Context context;
-		    //private int data = 0;
-		    
-		    public LoadBitmapTask(ImageView imageView,long businessID, BuisnessType businessType,Context context) {
-		        // Use a WeakReference to ensure the ImageView can be garbage collected
-		    	this.imageViewRef = new WeakReference<ImageView>(imageView);
-		    	this.businessID = businessID;
-		    	this.businessType = businessType;
-		    	this.context = context;
-		    }
-		    // Decode image in background.
-		    @Override
-		    protected Bitmap doInBackground(Integer... params) {
-		        //data = params[0];
-		        boolean ImageExists = false; //TODO this value should be loaded from parse
-		        if(ImageExists){
-		        	return null; //should load the bitmap from parse and return it
-		        }else{
-		        	Bitmap retBitmap = BitmapFactory.decodeResource(context.getResources(), businessType.getDefaultImageID()); 
-		        	Log.d("DBHandler","finished loading bitmap from parse");
-		        	return retBitmap;
-		        }
-
-		        //return decodeSampledBitmapFromResource(getResources(), data, 100, 100));
-		    }
-
-		    // Once complete, see if ImageView is still around and set bitmap.
-		    @Override
-		    protected void onPostExecute(Bitmap bitmap) {
-		        if (imageViewRef != null && bitmap != null) {
-		            final ImageView imageView = imageViewRef.get();
-		            if (imageView != null) {
-		                imageView.setImageBitmap(bitmap);
-		            }
-		        }
-		    }
+		public void updateLikeAndDislikeListsAsync(){
+			
 		}
+		
 	
+				
 		/**
-		 * A task which loads a business Bitmap from parse and update the imageview whenever
-		 * the loading process ends. if the business doesn't have a bitmap, the returned bitmap
-		 * will be a default bitmap. 
-		 * inputs: imageView weak reference and businessID.
-		 * @author dror
-		 *
+		 * receives a commentArrayAdapter and comments list. updates both of the
+		 * parameter asynchronously, using parse.
 		 */
-		private static class LoadDealTask extends AsyncTask<Integer, Void, String> {
-		    private final WeakReference<TextView> textViewRef;
-		    private long businessID;
-		    private Context context;
-		    //private int data = 0;
-		    
-		    public LoadDealTask(TextView imageView,long businessID, Context context) {
-		        // Use a WeakReference to ensure the ImageView can be garbage collected
-		    	this.textViewRef = new WeakReference<TextView>(imageView);
-		    	this.businessID = businessID;
-		    	this.context = context;
-		    }
-		    // Decode image in background.
-		    @Override
-		    protected String doInBackground(Integer... params) {
-		        //data = params[0];
-		        	String retString = "ONLY TODAY AND DURING THE REST OF THE YEAR!!! BUY A COOOOL SHIRT AND GET A PLASTIC BUG TO PUT IT IN FOR 10 AGOROT ONLY!!! wow!!"; 
-		        	Log.d("DBHandler","finished loading deal from parse");
-		        	return retString;
-		        //return decodeSampledBitmapFromResource(getResources(), data, 100, 100));
-		    }
-
-		    // Once complete, see if ImageView is still around and set bitmap.
-		    @Override
-		    protected void onPostExecute(String dealStr) {
-		        if (textViewRef != null && dealStr != null) {
-		            final TextView textView = textViewRef.get();
-		            if (textView != null) {
-		            	textView.setText(dealStr);
-		            }
-		        }
-		    }
+		public void getCommentsListAsync(ArrayList<Comment> comments,CommentsArrayAdapter adapter){
+			LoadDealCommentsTask loadTask = new LoadDealCommentsTask(comments, adapter);
+			loadTask.execute();
 		}
+		
+		
 }

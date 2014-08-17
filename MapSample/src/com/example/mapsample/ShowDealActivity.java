@@ -1,5 +1,7 @@
 package com.example.mapsample;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -17,8 +19,9 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.example.mapsample.BusinessMarker.BuisnessType;
-import com.example.mapsample.DBHandler.DealLikeStatus;
+import com.example.datastructures.BusinessMarker.BuisnessType;
+import com.example.datastructures.Comment;
+import com.example.dbhandling.DBHandler;
 
 public class ShowDealActivity extends Activity{
 	
@@ -37,6 +40,10 @@ public class ShowDealActivity extends Activity{
 	public BuisnessType bType;
 	private boolean isFavourite;
 	private DBHandler dbHandle;
+	
+	/**The curreny Deal comments List*/
+	public ArrayList<Comment> commentsList;
+	
 	
 	@Override
 	protected void onDestroy() {
@@ -102,7 +109,7 @@ public class ShowDealActivity extends Activity{
 		
 		TextView dealTextView = (TextView)findViewById(R.id.dealTextView);
 		dbHandle = new DBHandler(this);
-		dbHandle.loadDealAsync(businessID, dealTextView,this);
+		dbHandle.loadDealAsync(businessID, dealTextView);
 		
 		final ImageView favouritesBtn = (ImageView)findViewById(R.id.favourites_flag);
 		isFavourite = dbHandle.isInFavourites(businessID);
