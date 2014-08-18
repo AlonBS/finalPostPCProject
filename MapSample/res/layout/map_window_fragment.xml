@@ -26,17 +26,20 @@
         <LinearLayout 
         android:orientation="horizontal"
             android:layout_width="match_parent"
-   			android:layout_height="wrap_content"
-   			android:background="@color/gray">
+   			android:layout_height="wrap_content">
 
-     
+     <LinearLayout
+        android:layout_width="0dp"
+    	android:layout_weight="0.5"
+    	android:layout_height="match_parent"
+    	android:background="@drawable/spinner_background" >
      <Spinner
     android:id="@+id/filter_spinner"
-    android:layout_width="0dp"
-    android:layout_weight="0.5"
-    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
     android:entries="@array/spinner_options"
-    android:textAlignment="center"/>
+    android:textAlignment="center"
+    /></LinearLayout>
      
      <ImageView
          android:id="@+id/resturant_filter_btn"

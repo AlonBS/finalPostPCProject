@@ -22,6 +22,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -52,7 +53,6 @@ public class MapWindowFragment extends Fragment {
 //	private ArrayList<BusinessMarker> businessesList = new ArrayList<BusinessMarker>();
 //	private HashMap <Marker, BusinessMarker> markerToBusiness = new HashMap <Marker, BusinessMarker>();
 //	private HashMap <BusinessMarker, Marker> BusinessToMarker = new HashMap <BusinessMarker, Marker>();
-	private ArrayList<String> favourites;
 	
 	private static final float DEFAULT_LATLNG_ZOOM = 20;
 	private static final float DEFAULT_ANIMATED_ZOOM = 15;
@@ -86,6 +86,13 @@ public class MapWindowFragment extends Fragment {
 		hotelBtn.setOnClickListener(filterBtnClickListener);
 		shoppingBtn.setOnClickListener(filterBtnClickListener);
 		coffeeBtn.setOnClickListener(filterBtnClickListener);
+		
+		restBtn.setSelected(true);
+		pubBtn.setSelected(true);
+		hotelBtn.setSelected(true);
+		shoppingBtn.setSelected(true);
+		coffeeBtn.setSelected(true);
+		
 		
 		final ImageView searchAddressBtn = (ImageView)view.findViewById(R.id.search_address_button);
 		final EditText etAddress = (EditText)view.findViewById(R.id.search_address_edit_text);
@@ -156,7 +163,9 @@ public class MapWindowFragment extends Fragment {
 			}
 		});
 		
+		//ArrayAdapter adapter = ArrayAdapter.createFromResource(getActivity(), R.array.spinner_options, R.drawable.spinner_item);
 		Spinner spinner = (Spinner)view.findViewById(R.id.filter_spinner);
+		//spinner.setAdapter(adapter);
 		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 		    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 		        String item = parent.getItemAtPosition(pos).toString();

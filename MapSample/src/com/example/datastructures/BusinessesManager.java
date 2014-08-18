@@ -8,6 +8,7 @@ import android.content.Context;
 
 import com.example.datastructures.BusinessMarker.BuisnessType;
 import com.example.dbhandling.DBHandler;
+import com.google.android.gms.internal.bs;
 import com.google.android.gms.maps.model.Marker;
 
 public class BusinessesManager {
@@ -25,6 +26,9 @@ public class BusinessesManager {
 	
 	public Set<BusinessMarker> getAllBusinesses(){
 		return BusinessToMarker.keySet();
+	}
+	public Set<Marker> getAllMarkers(){
+		return markerToBusiness.keySet();
 	}
 	
 	public Marker getMarker(BusinessMarker b){
@@ -58,8 +62,8 @@ public class BusinessesManager {
 		
 		
 	}
-	public boolean hasProperty(Marker marker,Property p){
-		BusinessMarker buisness = markerToBusiness.get(marker);
+	
+	public boolean hasProperty(BusinessMarker buisness,Property p){
 		if(p.isTypePropery){
 			return buisness.type==p.matching_type;
 		}
@@ -74,5 +78,12 @@ public class BusinessesManager {
 		
 		
 	}
+	
+
+	public boolean hasProperty(Marker marker,Property p){
+		BusinessMarker buisness = markerToBusiness.get(marker);
+		return hasProperty(buisness, p);		
+	}
+
 	
 }
