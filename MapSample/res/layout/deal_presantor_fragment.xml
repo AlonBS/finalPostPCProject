@@ -16,6 +16,19 @@
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
     	android:orientation="horizontal">
+    	
+        
+      <TextView 
+          android:id = "@+id/dislike_counter"
+          android:layout_height="match_parent"
+          android:layout_width="0dp"
+          android:layout_weight="0.55"
+          android:background="@drawable/like_dislike_shape"
+          android:text="1241"
+           android:gravity="center"
+          android:textColor="#FFFFFFFF"></TextView>
+      
+      
     	<ImageView 
         android:id="@+id/no_thanks_btn"
 		android:src="@drawable/ic_action_bad"
@@ -29,6 +42,8 @@
         android:layout_height="match_parent"
         android:layout_width="0dp"
         android:layout_weight="1"/> -->
+      
+      
       <ImageView       
         android:id="@+id/sounds_cool_btn"
 		android:src="@drawable/ic_action_good"        
@@ -36,6 +51,19 @@
         android:background="@drawable/like_buttons_background_off"
         android:layout_width="0dp"
         android:layout_weight="1"/>
+      
+      <TextView 
+          android:id = "@+id/like_counter"
+          android:layout_height="match_parent"
+          android:layout_width="0dp"
+          android:layout_weight="0.55"
+          android:background="@drawable/like_dislike_shape"
+          android:gravity="center"
+          android:text="12312"
+          android:textColor="#FFFFFFFF"
+        ></TextView>
+      
+      
 	</LinearLayout>
 
 </LinearLayout>

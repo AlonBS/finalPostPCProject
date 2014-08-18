@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.webkit.WebView.FindListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -39,6 +40,10 @@ public class DealPresentorFragment extends Fragment{
 		final long businessID  = activityParent.businessID;
 		dbHandle.loadBusinessImageViewAsync(businessID, activityParent.bType, imageView);
 	
+		final TextView likesText = (TextView)view.findViewById(R.id.like_counter);
+		likesText.setText(Long.toString(activityParent.numOfLikes));
+		final TextView dislikesText = (TextView)view.findViewById(R.id.dislike_counter);
+		dislikesText.setText(Long.toString(activityParent.numOfDislikes));
 		dealStatus = dbHandle.getDealLikeStatus(businessID);
 		likeBtn = (ImageView)view.findViewById(R.id.sounds_cool_btn);
 		likeBtn.setOnClickListener(new OnClickListener() {
@@ -47,10 +52,21 @@ public class DealPresentorFragment extends Fragment{
 			public void onClick(View v) {
 				if(dealStatus==DealLikeStatus.LIKE){
 					dealStatus = DealLikeStatus.DONT_CARE;
+					
+					String newStr = Long.toString(Long.parseLong(likesText.getText().toString())-1);
+					likesText.setText(newStr);
 					dbHandle.setDontCareToDeal(businessID);
 				}else{
+					if(dealStatus==DealLikeStatus.DISLIKE){
+						String newStr = Long.toString(Long.parseLong(dislikesText.getText().toString())-1);
+						dislikesText.setText(newStr);
+					}
+					
 					dealStatus = DealLikeStatus.LIKE;
 					dbHandle.addLikeToDeal(businessID);
+					String oldText =likesText.getText().toString();
+					String newStr = Long.toString(Long.parseLong(oldText)+1);
+					likesText.setText(newStr);
 				}
 				setDislikeAndLikeBG();
 			}
@@ -63,9 +79,17 @@ public class DealPresentorFragment extends Fragment{
 				if(dealStatus==DealLikeStatus.DISLIKE){
 					dealStatus = DealLikeStatus.DONT_CARE;
 					dbHandle.setDontCareToDeal(businessID);
+					String newStr = Long.toString(Long.parseLong(dislikesText.getText().toString())-1);
+					dislikesText.setText(newStr);
 				}else{
+					if(dealStatus==DealLikeStatus.LIKE){
+						String newStr = Long.toString(Long.parseLong(likesText.getText().toString())-1);
+						likesText.setText(newStr);
+					}
 					dealStatus = DealLikeStatus.DISLIKE;
 					dbHandle.addDislikeToDeal(businessID);
+					String newStr = Long.toString(Long.parseLong(dislikesText.getText().toString())+1);
+					dislikesText.setText(newStr);
 				}
 				setDislikeAndLikeBG();
 				

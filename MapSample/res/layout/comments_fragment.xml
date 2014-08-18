@@ -10,7 +10,6 @@
     android:layout_width="fill_parent"
     android:layout_height="0dp"
     android:layout_weight="0.6"
-    android:background="@drawable/costum_border"
     android:divider="#00000000" /> 
 
 	<LinearLayout
@@ -19,18 +18,25 @@
     android:orientation="horizontal" 
     android:id="@+id/add_comment_layout">
     
+	<FrameLayout 
+	    android:layout_height="wrap_content"
+	    android:layout_width="match_parent"
+	    >
+	    
 	<EditText 
 	android:id="@+id/comment_edit_text"
-	android:layout_width="0dp"
-    android:layout_height="wrap_content"
-     android:layout_weight="0.2"
-    android:inputType="textImeMultiLine"
+	android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:gravity="top"
+    android:inputType="textMultiLine"
     android:text="@string/type_comment_here"/>
 	
 	<ImageView 
 	    android:id="@+id/comment_send"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
+	    android:layout_gravity="bottom|right"
 	    android:src="@drawable/ic_action_send_now"/>
+	</FrameLayout>
 </LinearLayout>
 </LinearLayout>

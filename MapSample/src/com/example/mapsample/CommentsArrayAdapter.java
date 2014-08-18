@@ -51,8 +51,8 @@ public class CommentsArrayAdapter extends ArrayAdapter<Comment>{
 		 
 		 TextView rowTextView = (TextView)rowView.findViewById(R.id.comment_text_view);
 		 
-		 String userNameHtml = "<font color=#000000><b>" + userNameStr + ": </font></b>";
-		 String commentHtml = "<font color=#000000>" + commentStr + "</font><br>";
+		 String userNameHtml = " <font color=#000000><b> " + userNameStr + ": </font></b>";
+		 String commentHtml = "<font color=#000000>" + commentStr + "</font>   ";
 		 String dateHtml = "<font color=#0000DD><b>" + dateStr + "<b></font>";
 		 
 		 rowTextView.setText(Html.fromHtml(userNameHtml + commentHtml + dateHtml));

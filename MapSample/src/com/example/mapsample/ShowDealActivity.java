@@ -30,13 +30,15 @@ public class ShowDealActivity extends Activity{
 	public final static String BUSINESS_TYPE_PARAM = "BusinessType";
 	public final static String DEAL_RATING_PARAM = "DealRating";
 	public final static String USER_MODE_PARAM = "IsInUserMode";	
+	public final static String NUM_OF_LIKES_PARAM = "likesParam";
+	public final static String NUM_OF_DISLIKES_PARAM = "dislikesParam";	
 	
 	private ImageView switchFragmentsButton;
 	private enum CurrentFragmentType{DEAL_FRAGMENT,COMMENTS_FRAGMENT};
 	private CurrentFragmentType currentFragmentType = CurrentFragmentType.DEAL_FRAGMENT;
 	public boolean isInUserMode;
 	public String dealDetails;
-	public long businessID;
+	public long businessID,numOfLikes,numOfDislikes;
 	public BuisnessType bType;
 	private boolean isFavourite;
 	private DBHandler dbHandle;
@@ -65,6 +67,9 @@ public class ShowDealActivity extends Activity{
 		bType = (BuisnessType)intent.getSerializableExtra(BUSINESS_TYPE_PARAM);
 		int rating = intent.getIntExtra(DEAL_RATING_PARAM, 0);
 		isInUserMode = intent.getBooleanExtra(USER_MODE_PARAM, true);
+		numOfLikes = intent.getLongExtra(NUM_OF_LIKES_PARAM,0);
+		numOfDislikes = intent.getLongExtra(NUM_OF_DISLIKES_PARAM,0);
+		
 		
 		TextView businessNameTV = (TextView)findViewById(R.id.businessTitle);
 		businessNameTV.setText(businessName);
