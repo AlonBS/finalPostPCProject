@@ -153,6 +153,8 @@ public class DBHandler {
 			return retVal;
 		}
 		
+		
+		
 		/**
 		 * loads all the Business Marker objects which represents businesses
 		 * which are close to the current map center.

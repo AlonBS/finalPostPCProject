@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.example.datastructures.BusinessMarker;
 import com.example.datastructures.BusinessMarker.BuisnessType;
+import com.example.datastructures.BusinessesManager;
 import com.example.dbhandling.DBHandler;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -40,6 +41,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapWindowFragment extends Fragment {
+	private BusinessesManager businessManager;
 	private GoogleMap gMap;
 	static final LatLng HAMBURG = new LatLng(53.558, 9.927);
 	static final LatLng KIEL = new LatLng(53.551, 9.993);
@@ -47,9 +49,9 @@ public class MapWindowFragment extends Fragment {
 	
 	//TODO - we should decide where does this constant goes
 	static public final LatLng DEFAULT_LOCATION = new LatLng(31.78507,35.214328);
-	private ArrayList<BusinessMarker> businessesList = new ArrayList<BusinessMarker>();
-	private HashMap <Marker, BusinessMarker> markerToBusiness = new HashMap <Marker, BusinessMarker>();
-	private HashMap <BusinessMarker, Marker> BusinessToMarker = new HashMap <BusinessMarker, Marker>();
+//	private ArrayList<BusinessMarker> businessesList = new ArrayList<BusinessMarker>();
+//	private HashMap <Marker, BusinessMarker> markerToBusiness = new HashMap <Marker, BusinessMarker>();
+//	private HashMap <BusinessMarker, Marker> BusinessToMarker = new HashMap <BusinessMarker, Marker>();
 	private ArrayList<String> favourites;
 	
 	private static final float DEFAULT_LATLNG_ZOOM = 20;
@@ -60,7 +62,9 @@ public class MapWindowFragment extends Fragment {
 	protected DBHandler dbHandler;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-	    view = inflater.inflate(R.layout.map_window_fragment,container, false);
+		businessManager = new BusinessesManager(getActivity());
+		
+		view = inflater.inflate(R.layout.map_window_fragment,container, false);
 	    gMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 	    if (gMap!=null){
 			gMap.setOnMarkerClickListener(markerListener);
@@ -224,9 +228,9 @@ public class MapWindowFragment extends Fragment {
 			
 			boolean newState = !btn.isSelected();
 			btn.setSelected(newState);
-			for(BusinessMarker bm :  BusinessToMarker.keySet()){
+			for(BusinessMarker bm :  businessManager.getAllBusinesses()){
 				if(bm.type==type){
-					Marker m = BusinessToMarker.get(bm);
+					Marker m = businessManager.getMarker(bm);
 					if(m==null){
 						Log.d("filterBtnClickListener","didn't find corresponding marker for a business");
 					}else{
@@ -246,8 +250,7 @@ public class MapWindowFragment extends Fragment {
 
 	private void putOverlayOnMap(BusinessMarker bm){
 		Marker m =  gMap.addMarker(new MarkerOptions().position(bm.pos).title(bm.name).icon(BitmapDescriptorFactory.fromResource(bm.iconID)));
-    	markerToBusiness.put(m, bm);
-    	BusinessToMarker.put(bm, m);
+    	businessManager.addBusiness(bm, m);
 
 	}
 	
@@ -261,7 +264,7 @@ public class MapWindowFragment extends Fragment {
 	private OnMarkerClickListener markerListener = new OnMarkerClickListener() {
 		@Override
 		public boolean onMarkerClick(Marker marker) {
-			BusinessMarker bMarker = markerToBusiness.get(marker);
+			BusinessMarker bMarker = businessManager.getBusiness(marker);
 			if(bMarker==null)
 				Toast.makeText(getActivity(),"sry null", Toast.LENGTH_SHORT).show();
 			else{
@@ -307,7 +310,7 @@ public class MapWindowFragment extends Fragment {
 	            int counter = 0;
 	            ArrayList<BusinessMarker> newBusinesses = new ArrayList<BusinessMarker>();
 	        	for(BusinessMarker m:markersDB){
-	            	businessesList.add(m);
+	            	//businessesList.add(m);
 	            	newBusinesses.add(m);
 	            	counter++;
 	            	if(counter%5==0){
@@ -342,13 +345,11 @@ public class MapWindowFragment extends Fragment {
 	        
 	    }
 	    
-	    private static List<Long> favouriteIDs;
 	    private static List<BusinessMarker> markersDB; //TODO: delete
 	    public void loadDBs_debug()
 	    {
 	    	long id = 0;
 	    	markersDB = new ArrayList<BusinessMarker>();
-	    	favouriteIDs = new ArrayList<Long>();
 	    	Random r = new Random();
 	    	markersDB.add(new BusinessMarker("MCdonalds", BuisnessType.RESTURANT, new LatLng(31.781099, 35.217668), "Jerusalem",id++,new Random().nextInt(99999),new Random().nextInt(99999)));
 	    	markersDB.add(new BusinessMarker("Ivo", BuisnessType.RESTURANT, new LatLng(31.779949, 35.218948), "Jerusalem",id++,new Random().nextInt(99999),new Random().nextInt(99999)));
@@ -365,10 +366,6 @@ public class MapWindowFragment extends Fragment {
 	    	markersDB.add(new BusinessMarker("Hataklit", BuisnessType.PUB, new LatLng(31.781905, 35.221372), "Jerusalem",id++,new Random().nextInt(99999),new Random().nextInt(99999)));
 	    	markersDB.add(new BusinessMarker("Hatav Hashmini", BuisnessType.SHOPPING, new LatLng(31.781191, 35.219621), "Jerusalem",id++,new Random().nextInt(99999),new Random().nextInt(99999)));
 	    
-	    	favouriteIDs.add(markersDB.get(2).businessId);
-	    	favouriteIDs.add(markersDB.get(5).businessId);
-	    	favouriteIDs.add(markersDB.get(8).businessId);
-	    	favouriteIDs.add(markersDB.get(11).businessId);
 	    }
 	
 }

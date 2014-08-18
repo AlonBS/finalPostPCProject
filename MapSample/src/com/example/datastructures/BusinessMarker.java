@@ -12,7 +12,6 @@ public class BusinessMarker implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 
-
 	public static enum BuisnessType implements Serializable{
 		RESTURANT(R.drawable.resturant_icon,R.drawable.burger),
 		PUB(R.drawable.bar_icon,R.drawable.burger),

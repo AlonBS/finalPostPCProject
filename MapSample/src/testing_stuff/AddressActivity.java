@@ -1,4 +1,4 @@
-package com.example.mapsample;
+package testing_stuff;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,6 +23,10 @@ import android.widget.Toast;
 
 import com.example.datastructures.BusinessMarker;
 import com.example.datastructures.BusinessMarker.BuisnessType;
+import com.example.mapsample.R;
+import com.example.mapsample.R.drawable;
+import com.example.mapsample.R.id;
+import com.example.mapsample.R.layout;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;

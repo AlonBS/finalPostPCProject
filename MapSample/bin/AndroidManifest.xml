@@ -54,7 +54,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.mapsample.AddressActivity"
+            android:name="testing_stuff.AddressActivity"
             android:label="@string/app_name" >
                        <intent-filter>
                
