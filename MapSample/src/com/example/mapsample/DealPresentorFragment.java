@@ -15,6 +15,7 @@ import android.webkit.WebView.FindListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class DealPresentorFragment extends Fragment{
 	private Bitmap Image;
@@ -49,6 +50,7 @@ public class DealPresentorFragment extends Fragment{
 			@Override
 			public void onClick(View v) {
 				if(!activityParent.isInUserMode){
+					Toast.makeText(activityParent, "it's impossible to like/dislike a deal on business mode", Toast.LENGTH_SHORT).show();
 					return;
 				}
 				if(dealStatus==DealLikeStatus.LIKE){

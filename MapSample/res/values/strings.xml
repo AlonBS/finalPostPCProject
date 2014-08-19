@@ -7,6 +7,7 @@
      <string name="comment">Comment</string>
      <string name="type_address">type address here</string>
      <string name="type_comment_here">type your comment here</string>
+     <string name="waiting">loading business data from server</string>
      <string name="sounds_cool">Sounds Cool!</string>
 	 <string-array name="spinner_options">
 	    <item>All</item>

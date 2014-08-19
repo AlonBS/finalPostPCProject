@@ -1,6 +1,7 @@
 package com.example.dbhandling;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.datastructures.BusinessMarker;
 import com.example.datastructures.BusinessMarker.BuisnessType;
 import com.example.datastructures.Comment;
 import com.example.mapsample.CommentsArrayAdapter;
@@ -174,6 +176,16 @@ public class DBHandler {
 			LoadDealStringTask loadTask = new LoadDealStringTask(textView, businessID, context);
 			loadTask.execute();
 		}
+		
+		/**
+		 * receives a businessID and returns a corresponding BussinessMarker object
+		 * with all the relevant information (excluding the business Bitmap, which will
+		 * be loaded via loadImageAsync function).
+		 */ //TODO - implement this function
+		public BusinessMarker getBusinessInfo(long businessID){
+			return new BusinessMarker("MCdonalds", BuisnessType.RESTURANT, new LatLng(31.781099, 35.217668), "Jerusalem",0,new Random().nextInt(99999),new Random().nextInt(99999));
+		}
+		
 		
 		/**
 		 * loads a deal's Bitmap asynchronously. updates the relevant ImageView whenever the task was ended.
