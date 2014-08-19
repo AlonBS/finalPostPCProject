@@ -22,20 +22,17 @@ public class DealPresentorFragment extends Fragment{
 	private DealLikeStatus dealStatus;
 	private ImageView dislikeBtn;
 	private View likeBtn;
+	private ShowDealActivity activityParent;
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.deal_presantor_fragment,container, false);
-		
 		//DBHandler.loadBusinessBitmapAsync(businessID, buisnessType, imageView, context);
 		ImageView imageView = (ImageView) view.findViewById(R.id.business_image_view);
 		//imageView.setImageBitmap(Image);
 		
-		ShowDealActivity activityParent = (ShowDealActivity)getActivity();
-		if(!activityParent.isInUserMode){
-			LinearLayout buttonsLayout = (LinearLayout)view.findViewById(R.id.buttonsLayout);
-			buttonsLayout.setVisibility(View.GONE);
-		}
 		
+		
+		activityParent = (ShowDealActivity)getActivity();
 		dbHandle = new DBHandler(getActivity());
 		final long businessID  = activityParent.businessID;
 		dbHandle.loadBusinessImageViewAsync(businessID, activityParent.bType, imageView);
@@ -44,12 +41,16 @@ public class DealPresentorFragment extends Fragment{
 		likesText.setText(Long.toString(activityParent.numOfLikes));
 		final TextView dislikesText = (TextView)view.findViewById(R.id.dislike_counter);
 		dislikesText.setText(Long.toString(activityParent.numOfDislikes));
+		
 		dealStatus = dbHandle.getDealLikeStatus(businessID);
 		likeBtn = (ImageView)view.findViewById(R.id.sounds_cool_btn);
 		likeBtn.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
+				if(!activityParent.isInUserMode){
+					return;
+				}
 				if(dealStatus==DealLikeStatus.LIKE){
 					dealStatus = DealLikeStatus.DONT_CARE;
 					
@@ -76,6 +77,9 @@ public class DealPresentorFragment extends Fragment{
 				
 			@Override
 			public void onClick(View v) {
+				if(!activityParent.isInUserMode){
+					return;
+				}
 				if(dealStatus==DealLikeStatus.DISLIKE){
 					dealStatus = DealLikeStatus.DONT_CARE;
 					dbHandle.setDontCareToDeal(businessID);
@@ -100,6 +104,12 @@ public class DealPresentorFragment extends Fragment{
 	}
 	
 	public void setDislikeAndLikeBG(){
+		if(!activityParent.isInUserMode){
+
+			dislikeBtn.setBackgroundDrawable(getResources().getDrawable(R.drawable.like_dislike_shape));
+			likeBtn.setBackgroundDrawable(getResources().getDrawable(R.drawable.like_dislike_shape));
+			return;
+		}
 		if(dealStatus==DealLikeStatus.LIKE){
 			likeBtn.setBackgroundDrawable(getResources().getDrawable(R.drawable.like_buttons_background_on));
 		}else{
