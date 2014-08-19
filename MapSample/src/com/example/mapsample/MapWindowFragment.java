@@ -12,7 +12,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,7 +21,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -31,6 +30,7 @@ import android.widget.Toast;
 import com.example.datastructures.BusinessMarker;
 import com.example.datastructures.BusinessMarker.BuisnessType;
 import com.example.datastructures.BusinessesManager;
+import com.example.datastructures.BusinessesManager.Property;
 import com.example.dbhandling.DBHandler;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -56,10 +56,12 @@ public class MapWindowFragment extends Fragment {
 	
 	private static final float DEFAULT_LATLNG_ZOOM = 20;
 	private static final float DEFAULT_ANIMATED_ZOOM = 15;
-	
+	private HashMap<BuisnessType,ImageView> typeToButton;
 	private ImageView restBtn,pubBtn,hotelBtn,shoppingBtn,coffeeBtn;
 	private View view;
 	protected DBHandler dbHandler;
+	private Property p;
+	private Spinner spinner;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		businessManager = new BusinessesManager(getActivity());
@@ -81,17 +83,24 @@ public class MapWindowFragment extends Fragment {
 		shoppingBtn = (ImageView)view.findViewById(R.id.shopping_filter_btn);
 		coffeeBtn = (ImageView)view.findViewById(R.id.coffee_filter_btn);
 		
+		typeToButton = new HashMap<>();
+		typeToButton.put(BuisnessType.COFFEE, coffeeBtn);
+		typeToButton.put(BuisnessType.PUB, pubBtn);
+		typeToButton.put(BuisnessType.HOTEL, hotelBtn);
+		typeToButton.put(BuisnessType.SHOPPING, shoppingBtn);
+		typeToButton.put(BuisnessType.RESTURANT, restBtn);
+		
 		restBtn.setOnClickListener(filterBtnClickListener);
 		pubBtn.setOnClickListener(filterBtnClickListener);
 		hotelBtn.setOnClickListener(filterBtnClickListener);
 		shoppingBtn.setOnClickListener(filterBtnClickListener);
 		coffeeBtn.setOnClickListener(filterBtnClickListener);
 		
-		restBtn.setSelected(true);
+		/*restBtn.setSelected(true);
 		pubBtn.setSelected(true);
 		hotelBtn.setSelected(true);
 		shoppingBtn.setSelected(true);
-		coffeeBtn.setSelected(true);
+		coffeeBtn.setSelected(true);*/
 		
 		
 		final ImageView searchAddressBtn = (ImageView)view.findViewById(R.id.search_address_button);
@@ -163,19 +172,15 @@ public class MapWindowFragment extends Fragment {
 			}
 		});
 		
+		
 		//ArrayAdapter adapter = ArrayAdapter.createFromResource(getActivity(), R.array.spinner_options, R.drawable.spinner_item);
-		Spinner spinner = (Spinner)view.findViewById(R.id.filter_spinner);
+		spinner = (Spinner)view.findViewById(R.id.filter_spinner);
 		//spinner.setAdapter(adapter);
+		p = Property.ALL;
+		
 		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 		    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-		        String item = parent.getItemAtPosition(pos).toString();
-		        if(item.equals("My favourites")){
-		        	
-		        }else if(item.equals("Top businesses")){
-		        	
-		        }else if(item.equals("Top deals")){
-		        	
-		        }
+		    	updateOverlays();		        
 		    }
 		    public void onNothingSelected(AdapterView<?> parent) {
 		    }
@@ -213,7 +218,10 @@ public class MapWindowFragment extends Fragment {
 		
 		@Override
 		public void onClick(View v) {
-			ImageView btn;
+			ImageView currentButton = (ImageView)v;
+			currentButton.setSelected(!currentButton.isSelected());
+			updateOverlays();
+			/*ImageView btn;
 			BusinessMarker.BuisnessType type;
 			if(v==restBtn){
 				btn = (ImageView)view.findViewById(R.id.resturant_filter_btn);
@@ -247,11 +255,41 @@ public class MapWindowFragment extends Fragment {
 					}
 					
 				}
-			}
+			}*/
 		}
 
 	};
 	
+	private void updateOverlays(){
+		
+		
+		String item = spinner.getSelectedItem().toString();	 
+		Property p;
+        if(item.equals("My favourites")){
+        	p = Property.FAVORITES_PROP;
+        }else if(item.equals("Top businesses")){
+        	p = Property.TOP_BUSINESS_PROP;
+        }else if(item.equals("Top deals")){
+        	p = Property.TOP_DEALS_PROP;
+        }else{
+        	p = Property.ALL;
+        }
+        
+		for(BusinessMarker bm :  businessManager.getAllBusinesses()){
+			Marker m = businessManager.getMarker(bm);
+			if(m==null){
+				Log.d("filterBtnClickListener","didn't find corresponding marker for a business");
+				continue;
+			}
+			ImageView button = typeToButton.get(bm.type);
+			if(button.isSelected()){
+				m.setVisible(false);
+			}else{
+				boolean visibilityState = businessManager.hasProperty(bm, p);
+				m.setVisible(visibilityState);
+			}
+		}
+	}
 	private void loadPersonalInfo() {
 		
 		
