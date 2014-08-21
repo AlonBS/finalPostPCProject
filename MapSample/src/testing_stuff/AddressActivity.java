@@ -101,7 +101,7 @@ public class AddressActivity extends Activity {
 		}
 	};
 	
-	
+
 	/**
 	    * A subclass of AsyncTask that calls getFromLocation() in the
 	    * background. The class definition has these generic types:

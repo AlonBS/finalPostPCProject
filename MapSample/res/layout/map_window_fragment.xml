@@ -83,8 +83,8 @@
 	<fragment
           android:id="@+id/map"
           android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:name="com.google.android.gms.maps.MapFragment"/>
+          android:layout_height="match_parent"       
+          android:name="com.google.android.gms.maps.SupportMapFragment"/>
 	<LinearLayout 
 	  	android:paddingLeft="11dp"
 	    android:paddingTop="11dp"

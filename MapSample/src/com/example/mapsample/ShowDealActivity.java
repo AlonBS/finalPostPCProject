@@ -2,14 +2,14 @@ package com.example.mapsample;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,7 +23,7 @@ import com.example.datastructures.BusinessMarker.BuisnessType;
 import com.example.datastructures.Comment;
 import com.example.dbhandling.DBHandler;
 
-public class ShowDealActivity extends Activity{
+public class ShowDealActivity extends FragmentActivity{
 	
 	public final static String BUSINESS_NAME_PARAM = "BusinessName";
 	public final static String BUSINESS_ID_PARAM = "BusinessID";
@@ -91,7 +91,7 @@ public class ShowDealActivity extends Activity{
 			
 			@Override
 			public void onClick(View v) {
-				FragmentManager fragmentManager = getFragmentManager();
+				FragmentManager fragmentManager = getSupportFragmentManager();
 				FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 				Fragment fragmentToSwitch;
 				Bitmap newIcon;
@@ -142,7 +142,7 @@ public class ShowDealActivity extends Activity{
 			}
 		});
 		
-		FragmentManager fragmentManager = getFragmentManager();
+		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		DealPresentorFragment dealPresantorFragment = new DealPresentorFragment();
 		fragmentTransaction.add(R.id.deal_or_comments_fragment, dealPresantorFragment);

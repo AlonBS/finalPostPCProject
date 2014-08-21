@@ -7,13 +7,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +22,6 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -35,7 +35,7 @@ import com.example.dbhandling.DBHandler;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
-import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -67,7 +67,8 @@ public class MapWindowFragment extends Fragment {
 		businessManager = new BusinessesManager(getActivity());
 		
 		view = inflater.inflate(R.layout.map_window_fragment,container, false);
-	    gMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+		FragmentManager manager = getActivity().getSupportFragmentManager();
+		gMap = ((SupportMapFragment)manager.findFragmentById(R.id.map)).getMap();
 	    if (gMap!=null){
 			gMap.setOnMarkerClickListener(markerListener);
 		}
@@ -194,6 +195,17 @@ public class MapWindowFragment extends Fragment {
 		// TODO Auto-generated method stub
 		super.onDestroy();
 		dbHandler.close();
+		
+		//kills the old map
+		SupportMapFragment mapFragment = ((SupportMapFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.map));
+
+	    if(mapFragment != null) {
+	        FragmentManager fM = getFragmentManager();
+	        fM.beginTransaction().remove(mapFragment).commit();
+	        mapFragment = null;
+	    }
+		
+		
 	}
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -259,6 +271,10 @@ public class MapWindowFragment extends Fragment {
 		}
 
 	};
+	
+	
+	
+
 	
 	private void updateOverlays(){
 		
@@ -386,7 +402,7 @@ public class MapWindowFragment extends Fragment {
 	        @Override
 	        protected void onPostExecute(Void result) {
 	            
-	        	Toast.makeText(getActivity(),"finished update", Toast.LENGTH_SHORT).show();
+	        	//Toast.makeText(getActivity().getApplicationContext(),"finished update", Toast.LENGTH_SHORT).show();
 	        }
 
 	        
