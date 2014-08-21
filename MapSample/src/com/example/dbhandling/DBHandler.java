@@ -284,7 +284,7 @@ public class DBHandler {
 		 * receives a commentArrayAdapter and comments list. updates both of the
 		 * parameter asynchronously, using parse.
 		 */
-		public void getCommentsListAsync(ArrayList<Comment> comments,CommentsArrayAdapter adapter){
+		public void loadCommentsListAsync(ArrayList<Comment> comments,CommentsArrayAdapter adapter){
 			loadCommentsTask = new LoadDealCommentsTask(comments, adapter);
 			loadCommentsTask.execute();
 		}

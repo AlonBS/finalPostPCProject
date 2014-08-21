@@ -3,44 +3,159 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal" >
 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.3"
+        android:orientation="horizontal" >
 
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="0.6"
+            android:orientation="vertical" >
 
-<LinearLayout
-    android:layout_width="0dp"
-    android:layout_weight="0.5"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/gray"
+                android:gravity="center"
+                android:text="current deal"
+                android:textColor="#FFFFFFFF"
+                android:textSize="10sp" />
 
-    <FrameLayout 
-        android:layout_height="match_parent"
-        android:layout_width="match_parent">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|left"
-            android:id="@+id/deal_tv"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:id="@+id/likes_tv"/>
-        
-    </FrameLayout>
-</LinearLayout>    
-    <ListView 
-    android:id="@+id/comments_list_view"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_weight="0.5"
-    android:divider="#00000000" /> 
-        
-    
-</LinearLayout>
-    
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:background="#FF000000"
+                    android:gravity="center"
+                    android:orientation="vertical" >
+
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="0.3"
+                        android:background="#7700FF00"
+                        android:gravity="center"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:id="@+id/num_of_likes_tv"
+                            android:layout_width="fill_parent"
+                            android:layout_height="10dp"
+                            android:layout_alignParentTop="true"
+                            android:gravity="center"
+                            android:text="12313"
+                            android:textColor="#FFFFFFFF"
+                            android:textSize="8sp" />
+
+                        <ImageView
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_alignParentBottom="true"
+                            android:src="@drawable/ic_action_good" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="0.3"
+                        android:background="#77FF0000"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:id="@+id/num_of_dislikes_tv"
+                            android:layout_width="fill_parent"
+                            android:layout_height="10dp"
+                            android:layout_alignParentTop="true"
+                            android:gravity="center"
+                            android:text="12313"
+                            android:textColor="#FFFFFFFF"
+                            android:textSize="8sp" />
+
+                        <ImageView
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_alignParentBottom="true"
+                            android:src="@drawable/ic_action_bad" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/deal_tv"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@drawable/deal_body_background"
+                    android:gravity="center"
+                    android:textSize="10sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/buisness_image_view"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_alignRight="@id/deal_tv"
+            android:layout_weight="0.4" >
+        </ImageView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.7"
+        android:baselineAligned="false"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="0.4"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/gray"
+                android:gravity="center"
+                android:text="Top Businesses"
+                android:textColor="#FFFFFFFF"
+                android:textSize="10sp" />
+
+            <ListView
+                android:id="@+id/top_businesses_list_view"
+                android:layout_height="fill_parent"
+                android:layout_width="fill_parent"
+                android:divider="#00000000" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="0.6"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/gray"
+                android:gravity="center"
+                android:text="Comments"
+                android:textColor="#FFFFFFFF"
+                android:textSize="10sp" />
+
+            <ListView
+                android:id="@+id/comments_list_view"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:divider="#00000000" />
+        </LinearLayout>
+    </LinearLayout>
+
 </LinearLayout>

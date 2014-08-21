@@ -46,7 +46,7 @@ public class CommentsFragment extends Fragment{
 	    }
 	    
 	    dbHandler = new DBHandler(parentActivity);
-		dbHandler.getCommentsListAsync(commentsList, adapter);
+		dbHandler.loadCommentsListAsync(commentsList, adapter);
 		
 		if(!parentActivity.isInUserMode){
 			LinearLayout linearLayout = (LinearLayout)view.findViewById(R.id.add_comment_layout);

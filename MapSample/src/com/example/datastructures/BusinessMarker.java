@@ -47,7 +47,7 @@ public class BusinessMarker implements Serializable{
 		
 		this.name = name;
 		this.type = type;
-		this.numOfStars = new Random().nextInt(6);
+		this.numOfStars = new Random().nextInt(5);
 		this.rating = new Random().nextInt(5);
 		this.pos = pos;
 		this.city = city;

@@ -38,8 +38,8 @@ import com.example.datastructures.BusinessMarker.BuisnessType;
 		    @Override
 		    protected Bitmap doInBackground(Integer... params) {
 		        //data = params[0];
-		        boolean ImageExists = false; //TODO this value should be loaded from parse
-		        if(ImageExists){
+		        boolean ImageExists = true; //TODO this value should be loaded from parse
+		        if(!ImageExists){
 		        	return null; //should load the bitmap from parse and return it
 		        }else{
 		        	Bitmap retBitmap = BitmapFactory.decodeResource(context.getResources(), businessType.getDefaultImageID()); 
