@@ -16,14 +16,29 @@
             android:layout_weight="0.6"
             android:orientation="vertical" >
 
-            <TextView
+            <RelativeLayout
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/gray"
-                android:gravity="center"
-                android:text="current deal"
-                android:textColor="#FFFFFFFF"
-                android:textSize="10sp" />
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@color/gray"
+                    android:gravity="center"
+                    android:text="current deal"
+                    android:textColor="#FFFFFFFF"
+                    android:textSize="13sp" />
+
+                <ImageView
+                    android:id="@+id/add_deal_iv"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/round_shape"
+                    android:src="@drawable/ic_action_new" />
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -111,11 +126,11 @@
         android:layout_height="0dp"
         android:layout_weight="0.7"
         android:baselineAligned="false"
-        android:orientation="horizontal" >
+        android:orientation="vertical" >
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
             android:layout_weight="0.4"
             android:orientation="vertical" >
 
@@ -130,14 +145,14 @@
 
             <ListView
                 android:id="@+id/top_businesses_list_view"
-                android:layout_height="fill_parent"
                 android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:divider="#00000000" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
             android:layout_weight="0.6"
             android:orientation="vertical" >
 

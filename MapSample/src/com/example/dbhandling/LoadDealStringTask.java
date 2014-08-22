@@ -21,9 +21,9 @@ public class LoadDealStringTask extends AsyncTask<Integer, Void, String> {
     private Context context;
     //private int data = 0;
     
-    public LoadDealStringTask(TextView imageView,long businessID, Context context) {
+    public LoadDealStringTask(TextView textView,long businessID, Context context) {
         // Use a WeakReference to ensure the ImageView can be garbage collected
-    	this.textViewRef = new WeakReference<TextView>(imageView);
+    	this.textViewRef = new WeakReference<TextView>(textView);
     	this.businessID = businessID;
     	this.context = context;
     }

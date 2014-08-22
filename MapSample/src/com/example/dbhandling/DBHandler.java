@@ -7,6 +7,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.sax.StartElementListener;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -195,6 +196,17 @@ public class DBHandler {
 			loadTask.execute();
 		
 		}
+		
+		/**
+		 * loads a deal's Bitmap asynchronously. updates the relevant ImageView whenever the task was ended.
+		 */
+		public void ChangeDealAndLoadToTextView(long businessID ,TextView textView,String newDealStr){
+			//TODO - write code for changing the business deal.
+			ChangeDealUpdateViewRunnable loadTask = new ChangeDealUpdateViewRunnable(textView,businessID,newDealStr);
+			new Thread(loadTask){}.start();
+		
+		}
+		
 		
 		/**
 		 * updates the parse servers that the user like the 

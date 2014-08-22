@@ -3,11 +3,16 @@ package com.example.mapsample;
 
 import java.util.ArrayList;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -28,9 +33,9 @@ public class BusinessDashboardFragment extends Fragment{
 			activityParent = (BusinessOpeningScreenActivity)getActivity();
 			
 			dbHandler = new DBHandler(activityParent);
-			TextView dealTv = (TextView) view.findViewById(R.id.deal_tv);
+			final TextView dealTv = (TextView) view.findViewById(R.id.deal_tv);
 			dbHandler.loadDealAsync(activityParent.myBusinessId, dealTv);
-			
+			 
 			ImageView imageView = (ImageView)view.findViewById(R.id.buisness_image_view);
 			dbHandler.loadBusinessImageViewAsync(activityParent.myBusinessId, activityParent.myBusiness.type, imageView);
 			
@@ -46,8 +51,30 @@ public class BusinessDashboardFragment extends Fragment{
 			TextView numOfDislikesTV = (TextView)view.findViewById(R.id.num_of_dislikes_tv);
 			numOfDislikesTV.setText(Long.toString(activityParent.myBusiness.numOfDislikes));
 			
-			
+			ImageView addDeal = (ImageView)view.findViewById(R.id.add_deal_iv);
+			addDeal.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					final EditText input = new EditText(activityParent);
+					// TODO Auto-generated method stub
+					new AlertDialog.Builder(activityParent)
+				    .setTitle("Add A new Deal")
+				    .setMessage("please add a new deal to replace the old one")
+				    .setView(input)
+				    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+				        public void onClick(DialogInterface dialog, int whichButton) {
+				            String newDealStr = input.getText().toString();
+				            dbHandler.ChangeDealAndLoadToTextView(activityParent.myBusinessId, dealTv, newDealStr);
+				        }
+				    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+				        public void onClick(DialogInterface dialog, int whichButton) {
+				            // Do nothing.
+				        }
+				    }).show();
 
+				}
+			});
+			
 			
 			
 			return view;
