@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="80dp"
+    android:layout_height="match_parent"
+    android:background="#FF000000"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/top_business_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        
+        android:gravity="center"
+        android:textSize="9sp"
+        android:background="#77FFFFFF"
+        android:textColor="#FFFFFFFF"
+        android:text="drogba name" />
+    
+    
+    <TextView
+        android:id="@+id/top_business_num_of_dislikes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:background="#77FF0000"
+        android:textColor="#FFFFFFFF"
+        android:textSize="9sp"
+        android:text="10 likes" />
+    <TextView
+        android:id="@+id/top_business_num_of_likes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/top_business_num_of_dislikes"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:background="#7700FF00"
+        android:textColor="#FFFFFFFF" 
+        android:textSize="9sp"
+        android:text="10 dislikes"/>
+
+<ImageView 
+        android:id="@+id/top_buisness_image_view"
+        android:layout_width="fill_parent"
+        android:layout_above="@id/top_business_num_of_likes"
+        android:layout_below="@id/top_business_name"
+        android:src="@drawable/burger"
+        android:layout_height="fill_parent"/>
+
+    
+
+</RelativeLayout>

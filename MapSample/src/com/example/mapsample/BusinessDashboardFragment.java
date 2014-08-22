@@ -7,18 +7,21 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.webkit.WebView.FindListener;
 import android.widget.EditText;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.datastructures.Comment;
 import com.example.dbhandling.DBHandler;
+import com.google.android.gms.drive.internal.ac;
 
 public class BusinessDashboardFragment extends Fragment{
 		private DBHandler dbHandler;
@@ -75,7 +78,8 @@ public class BusinessDashboardFragment extends Fragment{
 				}
 			});
 			
-			
+			TopBusinessesHorizontalView topBusinessesScroll = (TopBusinessesHorizontalView)view.findViewById(R.id.top_businesses_list_view);
+			topBusinessesScroll.addBusiness(activityParent.myBusiness);
 			
 			return view;
 			

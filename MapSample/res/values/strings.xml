@@ -5,6 +5,8 @@
     <string name="hello_world">Hello world!</string>
      <string name="no_thanks">No Thanks!</string>
      <string name="comment">Comment</string>
+      <string name="likes"> Likes</string>
+       <string name="dislikes"> Dislikes</string>
      <string name="type_address">type address here</string>
      <string name="type_comment_here">type your comment here</string>
      <string name="waiting">loading business data from server</string>
