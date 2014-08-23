@@ -19,7 +19,7 @@ import android.widget.TextView;
 import com.example.datastructures.BusinessMarker;
 import com.example.dbhandling.DBHandler;
 
-public class BusinessOpeningScreenActivity extends FragmentActivity{
+public class BusinessOpeningScreenActivity extends AbstractActivity{
 	//this value should be given as an input
 	public long myBusinessId = 0;
 
@@ -31,6 +31,8 @@ public class BusinessOpeningScreenActivity extends FragmentActivity{
 	private ImageView mapFragmentBtn;
 
 	private ImageView statsFragmentBtn;
+	
+	private ImageView latestBtn;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -66,23 +68,29 @@ public class BusinessOpeningScreenActivity extends FragmentActivity{
 		homeFragmentBtn.setOnClickListener(new FragmentBtnOnClickListener());
 		mapFragmentBtn.setOnClickListener(new FragmentBtnOnClickListener());
 		statsFragmentBtn.setOnClickListener(new FragmentBtnOnClickListener());
+		
+		latestBtn = homeFragmentBtn;
 	}
 
 	private class FragmentBtnOnClickListener implements OnClickListener{
 
 		@Override
-		public void onClick(View v) {
-			FragmentManager fragmentManager = getSupportFragmentManager();
-			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+		public void onClick(View clickedBtn) {
 			Fragment newFragment = null;
-
-			if(v==homeFragmentBtn){
+			
+			if(clickedBtn==homeFragmentBtn){
 				newFragment =  new BusinessDashboardFragment();
-			}else if(v==mapFragmentBtn){
+			}else if(clickedBtn==mapFragmentBtn){
 				newFragment =  new MapWindowFragment();
-			}else if(v==statsFragmentBtn){
+			}else if(clickedBtn==statsFragmentBtn){
 				newFragment =  new BusinessDashboardFragment(); //TODO - implement this
 			}
+			if((latestBtn == clickedBtn) && (clickedBtn!=homeFragmentBtn)){
+				return;
+			}
+			latestBtn = (ImageView) clickedBtn;
+			FragmentManager fragmentManager = getSupportFragmentManager();
+			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 			
 			fragmentTransaction.replace(R.id.business_fragment_layout, newFragment);
 			fragmentTransaction.commit();

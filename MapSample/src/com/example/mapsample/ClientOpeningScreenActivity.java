@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-public class ClientOpeningScreenActivity extends FragmentActivity{
+public class ClientOpeningScreenActivity extends AbstractActivity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub

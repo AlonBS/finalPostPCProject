@@ -3,18 +3,29 @@
 
     <string name="app_name">HelloWorld2</string>
     <string name="hello_world">Hello world!</string>
-     <string name="no_thanks">No Thanks!</string>
-     <string name="comment">Comment</string>
-      <string name="likes"> Likes</string>
-       <string name="dislikes"> Dislikes</string>
-     <string name="type_address">type address here</string>
-     <string name="type_comment_here">type your comment here</string>
-     <string name="waiting">loading business data from server</string>
-     <string name="sounds_cool">Sounds Cool!</string>
-	 <string-array name="spinner_options">
-	    <item>All</item>
-		<item>My favourites</item>
-		<item>Top businesses</item>
-		<item>Top deals</item>
-	</string-array>
+    <string name="no_thanks">No Thanks!</string>
+    <string name="comment">Comment</string>
+    <string name="likes"> Likes</string>
+    <string name="dislikes"> Dislikes</string>
+    <string name="log_out"> log out</string>
+    <string name="switch_mode"> switch mode</string>
+    <string name="dont_have_business">oops! it seems that you dont have a registered business.
+        							  to register, please log out and choose the business mode option.</string>
+   
+     <string name="to_business_mode"> to business mode?</string>
+      <string name="to_client_mode"> to client mode?</string>
+      <string name="are_you_sure"> are you sure you want to switch</string>
+       <string name="switching"> switching</string>
+    <string name="type_address">type address here</string>
+    <string name="type_comment_here">type your comment here</string>
+    <string name="waiting">loading business data from server</string>
+    <string name="sounds_cool">Sounds Cool!</string>
+
+    <string-array name="spinner_options">
+        <item>All</item>
+        <item>My favourites</item>
+        <item>Top businesses</item>
+        <item>Top deals</item>
+    </string-array>
+
 </resources>

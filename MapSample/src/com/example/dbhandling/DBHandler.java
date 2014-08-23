@@ -318,5 +318,14 @@ public class DBHandler {
 				
 		}
 		
-		
+		/**
+		 * return true if the user have a business, and able to switch to business mode.
+		 * return false otherwise. 
+		 * notice that method shuold be static.
+		 * @return
+		 */
+		public static boolean doesUserHaveBusinessMode(){
+			return true;
+			//TODO - implement this function.
+		}
 }

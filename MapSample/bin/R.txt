@@ -429,6 +429,7 @@ int id like_counter 0x7f07006d
 int id likes_dislikes_layout 0x7f070077
 int id listMode 0x7f070014
 int id list_item 0x7f07003b
+int id log_out_action 0x7f07007d
 int id map 0x7f070050
 int id mapHolder 0x7f070063
 int id map_btn 0x7f070061
@@ -476,6 +477,7 @@ int id stats_btn 0x7f070060
 int id strict_sandbox 0x7f070009
 int id submit_area 0x7f07004b
 int id switchFragmentButton 0x7f070055
+int id switch_mode_action 0x7f07007e
 int id tabMode 0x7f070015
 int id terrain 0x7f070003
 int id title 0x7f07003d
@@ -528,6 +530,7 @@ int layout map_window_fragment 0x7f030020
 int layout support_simple_spinner_dropdown_item 0x7f030021
 int layout top_businesses_col 0x7f030022
 int layout waiting_fragment 0x7f030023
+int menu main_menu 0x7f0d0000
 int string abc_action_bar_home_description 0x7f050021
 int string abc_action_bar_up_description 0x7f050022
 int string abc_action_menu_overflow_description 0x7f050023
@@ -542,6 +545,7 @@ int string abc_searchview_description_voice 0x7f050028
 int string abc_shareactionprovider_share_with 0x7f05002c
 int string abc_shareactionprovider_share_with_application 0x7f05002b
 int string app_name 0x7f05002d
+int string are_you_sure 0x7f050038
 int string auth_client_needs_enabling_title 0x7f050001
 int string auth_client_needs_installation_title 0x7f050002
 int string auth_client_needs_update_title 0x7f050003
@@ -575,13 +579,19 @@ int string common_google_play_services_update_title 0x7f050012
 int string common_signin_button_text 0x7f05001d
 int string common_signin_button_text_long 0x7f05001e
 int string dislikes 0x7f050032
+int string dont_have_business 0x7f050035
 int string hello_world 0x7f05002e
 int string likes 0x7f050031
+int string log_out 0x7f050033
 int string no_thanks 0x7f05002f
-int string sounds_cool 0x7f050036
-int string type_address 0x7f050033
-int string type_comment_here 0x7f050034
-int string waiting 0x7f050035
+int string sounds_cool 0x7f05003d
+int string switch_mode 0x7f050034
+int string switching 0x7f050039
+int string to_business_mode 0x7f050036
+int string to_client_mode 0x7f050037
+int string type_address 0x7f05003a
+int string type_comment_here 0x7f05003b
+int string waiting 0x7f05003c
 int string wallet_buy_button_place_holder 0x7f05001f
 int style AppBaseTheme 0x7f09008f
 int style AppTheme 0x7f090090
