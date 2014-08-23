@@ -32,6 +32,7 @@ import com.example.datastructures.BusinessMarker.BuisnessType;
 import com.example.datastructures.BusinessesManager;
 import com.example.datastructures.BusinessesManager.Property;
 import com.example.dbhandling.DBHandler;
+import com.example.dbhandling.LoadCloseBusinessesToMapTask;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
@@ -66,7 +67,7 @@ public class MapWindowFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		businessManager = new BusinessesManager(getActivity());
-		
+		dbHandler = new DBHandler(getActivity());
 		isInBusinessMode = AbstractActivity.isInBusinessMode;
 		
 		
@@ -78,10 +79,12 @@ public class MapWindowFragment extends Fragment {
 		}
 	    gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(JAFFA_STREET, DEFAULT_LATLNG_ZOOM));
 	    gMap.animateCamera(CameraUpdateFactory.zoomTo(DEFAULT_ANIMATED_ZOOM), 2000, null);
-	    (LoadBuisnessesTask()).execute();
-	    	
-	    
+	   
 	    gMap.setMyLocationEnabled(true);
+	    
+	    dbHandler.loadBusinessListAndMapMarkersAsync(gMap.getCameraPosition().target, gMap, businessManager);
+	    
+	    
 	    restBtn = (ImageView)view.findViewById(R.id.resturant_filter_btn);
 		pubBtn = (ImageView)view.findViewById(R.id.pub_filter_btn);
 		hotelBtn = (ImageView)view.findViewById(R.id.hotel_filter_btn);
@@ -119,7 +122,7 @@ public class MapWindowFragment extends Fragment {
 			}
 		});
 		
-		dbHandler = new DBHandler(getActivity());
+		
 		final ImageView homeButton = (ImageView)view.findViewById(R.id.map_home_btn);
 		homeButton.setOnLongClickListener(new OnLongClickListener() {
 			
@@ -217,8 +220,7 @@ public class MapWindowFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		
 		super.onCreate(savedInstanceState);
-		
-		loadDBs_debug();
+
 		
 		//load personal info from sqlite (favourites)
 		loadPersonalInfo();
@@ -286,8 +288,9 @@ public class MapWindowFragment extends Fragment {
 
 	}
 	
-	private LoadBusinessesToMap LoadBuisnessesTask(){return new LoadBusinessesToMap(getActivity());}
+	//private LoadBusinessesToMap LoadBuisnessesTask(){return new LoadBusinessesToMap(getActivity());}
 	
+	private LoadCloseBusinessesToMapTask LoadBuisnessesTask(){return new LoadCloseBusinessesToMapTask(getActivity(),gMap,businessManager);}
 	
 	/**
 	 * is called whenever the user presses on the map marker.
@@ -320,84 +323,5 @@ public class MapWindowFragment extends Fragment {
 	};
 	
 
-	    public class LoadBusinessesToMap extends AsyncTask<Void, ArrayList<BusinessMarker>, Void> {
-	        Context mContext;
-	        int NUM_OF_LOADS_BEFORE_REFRESH = 5;
-	        public LoadBusinessesToMap(Context context) {
-	            super();
-	            mContext = context;
-	        }
-	        
-	        /**
-	         * Get a Geocoder instance, get the latitude and longitude
-	         * look up the address, and return it
-	         *
-	         * @params params One or more Location objects
-	         * @return A string containing the address of the current
-	         * location, or an empty string if no address can be found,
-	         * or an error message
-	         */
-	        protected Void doInBackground(Void... params) {
-	        	//Marker Jerusalem = gMap.addMarker(new MarkerOptions().position(JAFFA_STREET).title("Jerusalem").snippet("many dosim").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher)));
-	            int counter = 0;
-	            ArrayList<BusinessMarker> newBusinesses = new ArrayList<BusinessMarker>();
-	        	for(BusinessMarker m:markersDB){
-	            	//businessesList.add(m);
-	            	newBusinesses.add(m);
-	            	counter++;
-	            	if(counter%5==0){
-	            		publishProgress(newBusinesses);
-	            		newBusinesses = new ArrayList<BusinessMarker>();
-	            	}
-	            }
-	        	if(counter%5!=0){
-	        		publishProgress(newBusinesses);
-	        	}
-	        	return null;
-	        }
-	        
-	        @Override
-	        protected void onProgressUpdate(ArrayList<BusinessMarker>... values) {
-	        	for(BusinessMarker bm : values[0]){
-	            	putOverlayOnMap(bm);
-	        	}
-	        	super.onProgressUpdate(values);
-	        	
-	        }
-	        
-	        /**
-	         * A method that's called once doInBackground() completes. 
-	         */
-	        @Override
-	        protected void onPostExecute(Void result) {
-	            
-	        	//Toast.makeText(getActivity().getApplicationContext(),"finished update", Toast.LENGTH_SHORT).show();
-	        }
-
-	        
-	    }
-	    
-	    private static List<BusinessMarker> markersDB; //TODO: delete
-	    public void loadDBs_debug()
-	    {
-	    	long id = 0;
-	    	markersDB = new ArrayList<BusinessMarker>();
-	    	Random r = new Random();
-	    	markersDB.add(new BusinessMarker("MCdonalds", BuisnessType.RESTURANT, new LatLng(31.781099, 35.217668), "Jerusalem",id++,new Random().nextInt(99999),new Random().nextInt(99999)));
-	    	markersDB.add(new BusinessMarker("Ivo", BuisnessType.RESTURANT, new LatLng(31.779949, 35.218948), "Jerusalem",id++,new Random().nextInt(99999),new Random().nextInt(99999)));
-	    	markersDB.add(new BusinessMarker("Dolfin Yam", BuisnessType.RESTURANT, new LatLng(31.779968, 35.221209), "Jerusalem",id++,new Random().nextInt(99999),new Random().nextInt(99999)));
-	    	markersDB.add(new BusinessMarker("Birman", BuisnessType.PUB, new LatLng(31.781855, 35.218086), "Jerusalem",id++,new Random().nextInt(99999),new Random().nextInt(99999)));
-	    	markersDB.add(new BusinessMarker("Bullinat", BuisnessType.PUB, new LatLng(31.781984, 35.218221), "Jerusalem",id++,new Random().nextInt(99999),new Random().nextInt(99999)));
-	    	markersDB.add(new BusinessMarker("Hamarush", BuisnessType.RESTURANT, new LatLng(31.781823, 35.219065), "Jerusalem",id++,new Random().nextInt(99999),new Random().nextInt(99999)));
-	    	markersDB.add(new BusinessMarker("Adom", BuisnessType.RESTURANT, new LatLng(31.781334, 35.220703), "Jerusalem",id++,new Random().nextInt(99999),new Random().nextInt(99999)));
-	    	markersDB.add(new BusinessMarker("Tel Aviv Bar", BuisnessType.PUB, new LatLng(31.781455, 35.220525), "Jerusalem",id++,new Random().nextInt(99999),new Random().nextInt(99999)));
-	    	markersDB.add(new BusinessMarker("Jabutinski Bar", BuisnessType.PUB, new LatLng(31.779654, 35.221654), "Jerusalem",id++,new Random().nextInt(99999),new Random().nextInt(99999)));
-	    	markersDB.add(new BusinessMarker("Reva Sheva", BuisnessType.SHOPPING, new LatLng(31.779793, 35.219728), "Jerusalem",id++,new Random().nextInt(99999),new Random().nextInt(99999)));
-	    	markersDB.add(new BusinessMarker("The one with the shirts", BuisnessType.SHOPPING, new LatLng(31.779293, 35.221624), "Jerusalem",id++,new Random().nextInt(99999),new Random().nextInt(99999)));
-	    	markersDB.add(new BusinessMarker("Hamashbir Latsarchan", BuisnessType.SHOPPING, new LatLng(31.781824, 35.219959), "Jerusalem",id++,new Random().nextInt(99999),new Random().nextInt(99999)));
-	    	markersDB.add(new BusinessMarker("Hataklit", BuisnessType.PUB, new LatLng(31.781905, 35.221372), "Jerusalem",id++,new Random().nextInt(99999),new Random().nextInt(99999)));
-	    	markersDB.add(new BusinessMarker("Hatav Hashmini", BuisnessType.SHOPPING, new LatLng(31.781191, 35.219621), "Jerusalem",id++,new Random().nextInt(99999),new Random().nextInt(99999)));
-	    
-	    }
-	
+	   
 }

@@ -7,7 +7,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.sax.StartElementListener;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,9 +14,11 @@ import android.widget.Toast;
 
 import com.example.datastructures.BusinessMarker;
 import com.example.datastructures.BusinessMarker.BuisnessType;
+import com.example.datastructures.BusinessesManager;
 import com.example.datastructures.Comment;
 import com.example.mapsample.CommentsArrayAdapter;
 import com.example.mapsample.MapWindowFragment;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 
 
@@ -35,6 +36,7 @@ public class DBHandler {
 	SQLiteDatabase localDB;
 	Context context;
 	private LoadDealCommentsTask loadCommentsTask;
+	private LoadCloseBusinessesToMapTask loadBusinessesAndMapTask;
 	
 	static private ArrayList<Long> dislikeBusinesses = new ArrayList<Long>();
 	static private ArrayList<Long> likeBusinesses = new ArrayList<Long>();
@@ -63,6 +65,11 @@ public class DBHandler {
 		public void close(){
 			if(loadCommentsTask!=null){
 				loadCommentsTask.stopTask();
+				loadCommentsTask = null;
+			}
+			if(loadBusinessesAndMapTask!=null){
+				loadBusinessesAndMapTask.stopTask();
+				loadBusinessesAndMapTask = null;
 			}
 			localDBHelper.close();
 			localDB.close();
@@ -165,9 +172,10 @@ public class DBHandler {
 		 * is less than RADIUS km (constant value).
 		 * 
 		 */
-		public void updateBusinessMarkerListAndMapAsync(LatLng mapCenter){
+		public void loadBusinessListAndMapMarkersAsync(LatLng mapCenter,GoogleMap gMap, BusinessesManager bManager){
 			final double RADIUS = 5;
-			
+			loadBusinessesAndMapTask = new LoadCloseBusinessesToMapTask(context, gMap, bManager);
+			loadBusinessesAndMapTask.execute();
 		}
 		
 		/**
