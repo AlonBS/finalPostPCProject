@@ -80,12 +80,28 @@ public class BusinessDashboardFragment extends Fragment{
 			
 			TopBusinessesHorizontalView topBusinessesScroll = (TopBusinessesHorizontalView)view.findViewById(R.id.top_businesses_list_view);
 			topBusinessesScroll.addBusiness(activityParent.myBusiness);
+			topBusinessesScroll.addBusiness(activityParent.myBusiness);
+			topBusinessesScroll.addBusiness(activityParent.myBusiness);
+			topBusinessesScroll.addBusiness(activityParent.myBusiness);
+			topBusinessesScroll.addBusiness(activityParent.myBusiness);
+			topBusinessesScroll.addBusiness(activityParent.myBusiness);
+			topBusinessesScroll.addBusiness(activityParent.myBusiness);
 			
 			return view;
 			
 			
 		
 		
+		}
+		
+		@Override
+		public void onPause() {
+		// TODO Auto-generated method stub
+			super.onPause();
+			if(dbHandler!=null){
+				dbHandler.close();
+				dbHandler = null;
+			}
 		}
 		
 		@Override
