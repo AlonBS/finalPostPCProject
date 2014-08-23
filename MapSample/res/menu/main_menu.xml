@@ -13,6 +13,19 @@
         android:showAsAction="never"
         android:title="@string/switch_mode"
        />
+          
+          <item
+        android:id="@+id/user_settings_action"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/user_settings"
+       />
+		<item
+        android:id="@+id/business_settings_action"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/business_settings"
+       />
 		
            
 </menu>

@@ -1,20 +1,22 @@
 package com.example.mapsample;
 
 
-import com.example.dbhandling.DBHandler;
-
 import android.app.AlertDialog;
+import android.content.ClipData.Item;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.internal.view.menu.MenuView.ItemView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.dbhandling.DBHandler;
+
 public class AbstractActivity extends FragmentActivity{
-	private static boolean isInBusinessMode = true; //TODO this value should be set when the application starts!!
+	public static boolean isInBusinessMode = true; //TODO this value should be set when the application starts!!
 	
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -26,6 +28,7 @@ public class AbstractActivity extends FragmentActivity{
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.menu.main_menu, menu);
+	    menu.findItem(R.id.business_settings_action).setVisible(isInBusinessMode);
 	    return true;
 	}
 	
@@ -36,6 +39,12 @@ public class AbstractActivity extends FragmentActivity{
 		case R.id.log_out_action:
 				//TODO - handle logging out
 			break;
+		case R.id.user_settings_action:
+			//TODO - implement me
+		break;
+		case R.id.business_settings_action:
+			//TODO - implement me
+		break;
 		case R.id.switch_mode_action:
 				if(!isInBusinessMode && !DBHandler.doesUserHaveBusinessMode()){
 					Toast.makeText(this, getResources().getString(R.string.dont_have_business), Toast.LENGTH_LONG).show();

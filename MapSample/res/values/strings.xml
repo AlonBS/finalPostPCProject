@@ -16,6 +16,8 @@
       <string name="to_client_mode"> to client mode?</string>
       <string name="are_you_sure"> are you sure you want to switch</string>
        <string name="switching"> switching</string>
+       <string name="user_settings"> user settings</string>
+       <string name="business_settings"> business settings</string>
     <string name="type_address">type address here</string>
     <string name="type_comment_here">type your comment here</string>
     <string name="waiting">loading business data from server</string>

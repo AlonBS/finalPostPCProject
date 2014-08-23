@@ -47,6 +47,7 @@ public class MapWindowFragment extends Fragment {
 	static final LatLng HAMBURG = new LatLng(53.558, 9.927);
 	static final LatLng KIEL = new LatLng(53.551, 9.993);
 	static final LatLng JAFFA_STREET = new LatLng(31.78507,35.214328);
+	private boolean isInBusinessMode;
 	
 	//TODO - we should decide where does this constant goes
 	static public final LatLng DEFAULT_LOCATION = new LatLng(31.78507,35.214328);
@@ -65,6 +66,9 @@ public class MapWindowFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		businessManager = new BusinessesManager(getActivity());
+		
+		isInBusinessMode = AbstractActivity.isInBusinessMode;
+		
 		
 		view = inflater.inflate(R.layout.map_window_fragment,container, false);
 		FragmentManager manager = getActivity().getSupportFragmentManager();
@@ -190,6 +194,8 @@ public class MapWindowFragment extends Fragment {
 		return view;
 	}
 	
+	
+	
 	@Override
 	public void onDestroy() {
 		// TODO Auto-generated method stub
@@ -233,48 +239,11 @@ public class MapWindowFragment extends Fragment {
 			ImageView currentButton = (ImageView)v;
 			currentButton.setSelected(!currentButton.isSelected());
 			updateOverlays();
-			/*ImageView btn;
-			BusinessMarker.BuisnessType type;
-			if(v==restBtn){
-				btn = (ImageView)view.findViewById(R.id.resturant_filter_btn);
-				type = BuisnessType.RESTURANT;
-			}else if(v==pubBtn){
-				btn = (ImageView)view.findViewById(R.id.pub_filter_btn);
-				type = BuisnessType.PUB;
-			}else if(v==hotelBtn){
-				btn = (ImageView)view.findViewById(R.id.hotel_filter_btn);
-				type = BuisnessType.HOTEL;
-			}else if(v==shoppingBtn){
-				btn = (ImageView)view.findViewById(R.id.shopping_filter_btn);
-				type = BuisnessType.SHOPPING;
-			}else if(v==coffeeBtn){
-				btn = (ImageView)view.findViewById(R.id.coffee_filter_btn);
-				type = BuisnessType.COFFEE;
-			}else{
-				Log.d("filterBtnClickListener", "filterBtnClickListener was called, but the selected button wasnt found");
-				return;
-			}
 			
-			boolean newState = !btn.isSelected();
-			btn.setSelected(newState);
-			for(BusinessMarker bm :  businessManager.getAllBusinesses()){
-				if(bm.type==type){
-					Marker m = businessManager.getMarker(bm);
-					if(m==null){
-						Log.d("filterBtnClickListener","didn't find corresponding marker for a business");
-					}else{
-						m.setVisible(newState);
-					}
-					
-				}
-			}*/
 		}
 
 	};
 	
-	
-	
-
 	
 	private void updateOverlays(){
 		
@@ -339,7 +308,7 @@ public class MapWindowFragment extends Fragment {
 				myIntent.putExtra(ShowDealActivity.DEAL_RATING_PARAM, bMarker.rating); //Optional parameters
 				myIntent.putExtra(ShowDealActivity.NUM_OF_DISLIKES_PARAM, bMarker.numOfDislikes); //Optional parameters
 				myIntent.putExtra(ShowDealActivity.NUM_OF_LIKES_PARAM, bMarker.numOfLikes); //Optional parameters
-				myIntent.putExtra(ShowDealActivity.USER_MODE_PARAM, true);
+				myIntent.putExtra(ShowDealActivity.USER_MODE_PARAM, !isInBusinessMode);
 				
 				//myIntent.putExtra(ShowDealActivity.BUSINESS_MARKER_PARAM, bMarker);
 				//myIntent.putExtra(ShowDealActivity.BUSINESS_MARKER_PARAM, bMarker);
