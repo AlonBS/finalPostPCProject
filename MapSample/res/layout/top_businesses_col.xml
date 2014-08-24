@@ -93,7 +93,7 @@
    
 
         <ImageView
-            android:id="@+id/top_buisness_image_view"
+            android:id="@+id/business_image_top_businesses"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_below="@id/top_business_name"

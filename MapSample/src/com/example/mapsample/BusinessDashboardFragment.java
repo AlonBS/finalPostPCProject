@@ -29,7 +29,6 @@ public class BusinessDashboardFragment extends Fragment{
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
-			// TODO Auto-generated method stub
 			View view = inflater.inflate(R.layout.business_dashboard_fragment,container, false);	
 			
 			activityParent = (BusinessOpeningScreenActivity)getActivity();
@@ -78,13 +77,7 @@ public class BusinessDashboardFragment extends Fragment{
 			});
 			
 			TopBusinessesHorizontalView topBusinessesScroll = (TopBusinessesHorizontalView)view.findViewById(R.id.top_businesses_list_view);
-			topBusinessesScroll.addBusiness(activityParent.myBusiness);
-			topBusinessesScroll.addBusiness(activityParent.myBusiness);
-			topBusinessesScroll.addBusiness(activityParent.myBusiness);
-			topBusinessesScroll.addBusiness(activityParent.myBusiness);
-			topBusinessesScroll.addBusiness(activityParent.myBusiness);
-			topBusinessesScroll.addBusiness(activityParent.myBusiness);
-			topBusinessesScroll.addBusiness(activityParent.myBusiness);
+			dbHandler.LoadTopBusinessesAsync(topBusinessesScroll);
 			
 			return view;
 			

@@ -1,17 +1,13 @@
 package com.example.mapsample;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Random;
 
-import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -32,12 +28,13 @@ import com.example.datastructures.BusinessMarker.BuisnessType;
 import com.example.datastructures.BusinessesManager;
 import com.example.datastructures.BusinessesManager.Property;
 import com.example.dbhandling.DBHandler;
-import com.example.dbhandling.LoadCloseBusinessesToMapTask;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -55,7 +52,7 @@ public class MapWindowFragment extends Fragment {
 //	private ArrayList<BusinessMarker> businessesList = new ArrayList<BusinessMarker>();
 //	private HashMap <Marker, BusinessMarker> markerToBusiness = new HashMap <Marker, BusinessMarker>();
 //	private HashMap <BusinessMarker, Marker> BusinessToMarker = new HashMap <BusinessMarker, Marker>();
-	
+	final double RADIUS = 0.01; 	
 	private static final float DEFAULT_LATLNG_ZOOM = 20;
 	private static final float DEFAULT_ANIMATED_ZOOM = 15;
 	private HashMap<BuisnessType,ImageView> typeToButton;
@@ -64,6 +61,7 @@ public class MapWindowFragment extends Fragment {
 	protected DBHandler dbHandler;
 	private Property p;
 	private Spinner spinner;
+	private LatLng latestMapCenter = null;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		businessManager = new BusinessesManager(getActivity());
@@ -77,14 +75,28 @@ public class MapWindowFragment extends Fragment {
 	    if (gMap!=null){
 			gMap.setOnMarkerClickListener(markerListener);
 		}
-	    gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(JAFFA_STREET, DEFAULT_LATLNG_ZOOM));
+	    latestMapCenter = dbHandler.getHome();
+	    gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latestMapCenter, DEFAULT_LATLNG_ZOOM));
 	    gMap.animateCamera(CameraUpdateFactory.zoomTo(DEFAULT_ANIMATED_ZOOM), 2000, null);
-	   
+	    
 	    gMap.setMyLocationEnabled(true);
+		
+	    dbHandler.loadBusinessListAndMapMarkersAsync(gMap.getCameraPosition().target, gMap, businessManager,RADIUS);
 	    
-	    dbHandler.loadBusinessListAndMapMarkersAsync(gMap.getCameraPosition().target, gMap, businessManager);
-	    
-	    
+	    gMap.setOnCameraChangeListener(new OnCameraChangeListener() {
+			
+			@Override
+			public void onCameraChange(CameraPosition position) {
+				if (Math.abs(position.target.latitude-latestMapCenter.latitude)>RADIUS ||
+						Math.abs(position.target.longitude-latestMapCenter.longitude)>RADIUS){
+					latestMapCenter = position.target;
+					dbHandler.stopLoadBusinessListAndMapMarkersAsync();
+					dbHandler.loadBusinessListAndMapMarkersAsync(position.target, gMap, businessManager, RADIUS);
+					Log.d("MapWindowFragment","map center was changed significantly. loading businesses again.");
+				}
+				
+			}
+		});
 	    restBtn = (ImageView)view.findViewById(R.id.resturant_filter_btn);
 		pubBtn = (ImageView)view.findViewById(R.id.pub_filter_btn);
 		hotelBtn = (ImageView)view.findViewById(R.id.hotel_filter_btn);

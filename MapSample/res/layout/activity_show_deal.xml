@@ -1,72 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="250dp"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
-    android:layout_width="250dp">
-    <FrameLayout 
-    android:layout_width="fill_parent"
-    android:layout_height="25dp"
-    android:background="@drawable/deal_title_background" 
-    android:gravity="center">
-     <LinearLayout 
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="horizontal"
-        android:gravity="center">
-    <TextView
-        android:id="@+id/businessTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-       	android:textColor="#FF000000"/>
+    android:orientation="vertical" >
 
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="35dp"
+        android:background="@drawable/deal_title_background"
+        android:gravity="center" >
 
-   </LinearLayout>
-   <ImageView 
-       android:id="@+id/favourites_flag"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:src="@drawable/ic_action_not_important"/>
-   </FrameLayout>
-	<LinearLayout 
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/businessTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FF000000" />
+
+                <TextView
+                    android:id="@+id/businessDetails"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#EE000000"
+                    android:textSize="10sp"
+                    android:typeface="sans" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/favourites_flag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_action_not_important" />
+    </FrameLayout>
+
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center">
-    <TextView
-        android:id="@+id/dealTextView"
-        android:text="."
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    
-    <LinearLayout 
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
-	<RatingBar 
-      android:id="@+id/businessRatingBar"
-      android:layout_height="wrap_content"
-      android:layout_width="wrap_content"
-      android:numStars="5"
-      android:rating="3.5"
-      android:isIndicator="false"
-      style="?android:attr/ratingBarStyleSmall"   
-	/>  
-	<ImageView 
-	    android:paddingLeft="4dp"
-	    android:id="@+id/switchFragmentButton"
-	    android:layout_height="wrap_content"
-	    android:layout_width="wrap_content"/>
-	</LinearLayout>
+        android:gravity="center"
+        android:orientation="vertical" >
 
-   </LinearLayout>
-     
-    <LinearLayout 
+        <TextView
+            android:id="@+id/dealTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="." />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <RatingBar
+                android:id="@+id/businessRatingBar"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:isIndicator="false"
+                android:numStars="5"
+                android:rating="3.5" />
+
+            <ImageView
+                android:id="@+id/switchFragmentButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="4dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/deal_or_comments_fragment"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:background="@color/blue"
-     />
+        android:orientation="horizontal" />
 
 </LinearLayout>

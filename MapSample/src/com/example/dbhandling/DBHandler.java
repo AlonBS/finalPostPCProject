@@ -18,6 +18,7 @@ import com.example.datastructures.BusinessesManager;
 import com.example.datastructures.Comment;
 import com.example.mapsample.CommentsArrayAdapter;
 import com.example.mapsample.MapWindowFragment;
+import com.example.mapsample.TopBusinessesHorizontalView;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -37,6 +38,7 @@ public class DBHandler {
 	Context context;
 	private LoadDealCommentsTask loadCommentsTask;
 	private LoadCloseBusinessesToMapTask loadBusinessesAndMapTask;
+	private LoadTopBusinessesRunnable loadTopBusinesses = null;
 	
 	static private ArrayList<Long> dislikeBusinesses = new ArrayList<Long>();
 	static private ArrayList<Long> likeBusinesses = new ArrayList<Long>();
@@ -70,6 +72,10 @@ public class DBHandler {
 			if(loadBusinessesAndMapTask!=null){
 				loadBusinessesAndMapTask.stopTask();
 				loadBusinessesAndMapTask = null;
+			}
+			if(loadTopBusinesses!=null){
+				loadTopBusinesses.stopTask();
+				loadTopBusinesses = null;
 			}
 			localDBHelper.close();
 			localDB.close();
@@ -169,13 +175,17 @@ public class DBHandler {
 		 * loads all the Business Marker objects which represents businesses
 		 * which are close to the current map center.
 		 * A business is considered close to the center if it's distance from it
-		 * is less than RADIUS km (constant value).
+		 * is less than radius.
 		 * 
 		 */
-		public void loadBusinessListAndMapMarkersAsync(LatLng mapCenter,GoogleMap gMap, BusinessesManager bManager){
-			final double RADIUS = 1; 			
-			loadBusinessesAndMapTask = new LoadCloseBusinessesToMapTask(context, gMap, bManager,RADIUS);
+		public void loadBusinessListAndMapMarkersAsync(LatLng mapCenter,GoogleMap gMap, BusinessesManager bManager,double radius){
+		
+			loadBusinessesAndMapTask = new LoadCloseBusinessesToMapTask(context, gMap, bManager,radius);
 			loadBusinessesAndMapTask.execute();
+		}
+		
+		public void stopLoadBusinessListAndMapMarkersAsync(){
+			loadBusinessesAndMapTask.stopTask();
 		}
 		
 		/**
@@ -335,5 +345,11 @@ public class DBHandler {
 		public static boolean doesUserHaveBusinessMode(){
 			return true;
 			//TODO - implement this function.
+		}
+		
+		
+		public void LoadTopBusinessesAsync(TopBusinessesHorizontalView view){
+			loadTopBusinesses = new LoadTopBusinessesRunnable(view, context);
+			new Thread(loadTopBusinesses){}.start();
 		}
 }

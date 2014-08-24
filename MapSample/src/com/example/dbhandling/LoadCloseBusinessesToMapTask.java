@@ -62,13 +62,16 @@ public class LoadCloseBusinessesToMapTask extends AsyncTask<Void, ArrayList<Busi
         setDBs_debug();
         
         LatLng mapCenter = gMap.getCameraPosition().target;
-        
-		//Latitude: 1 deg = 110.54 km. therefor, 1km = 1deg/110.54
+      	maxLatitude = mapCenter.latitude + radius;
+      	minLatitude = mapCenter.latitude - radius;
+      	maxLongitude = mapCenter.longitude + radius;
+      	minLongitude = mapCenter.longitude - radius;
+		/*//Latitude: 1 deg = 110.54 km. therefor, 1km = 1deg/110.54
 		maxLatitude = mapCenter.latitude + radius/110.54;
 		minLatitude = mapCenter.latitude - radius/110.54;
 		//Longitude: 1 deg = 111.320*cos(latitude) km. therefor, 1km = cos-1(1deg/111.320)
 		maxLongitude = mapCenter.longitude + Math.acos(radius/111.320);
-		minLongitude = mapCenter.longitude - Math.acos(radius/111.320);
+		minLongitude = mapCenter.longitude - Math.acos(radius/111.320);*/
     }
     
     

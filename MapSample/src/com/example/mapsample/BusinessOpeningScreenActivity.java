@@ -30,7 +30,7 @@ public class BusinessOpeningScreenActivity extends AbstractActivity{
 
 	private ImageView mapFragmentBtn;
 
-	private ImageView statsFragmentBtn;
+	private ImageView businessHistoryFragment;
 	
 	private ImageView latestBtn;
 	@Override
@@ -64,10 +64,10 @@ public class BusinessOpeningScreenActivity extends AbstractActivity{
 
 		homeFragmentBtn = (ImageView)findViewById(R.id.refresh_btn);
 		mapFragmentBtn = (ImageView)findViewById(R.id.map_btn);
-		statsFragmentBtn = (ImageView)findViewById(R.id.stats_btn);	
+		businessHistoryFragment = (ImageView)findViewById(R.id.stats_btn);	
 		homeFragmentBtn.setOnClickListener(new FragmentBtnOnClickListener());
 		mapFragmentBtn.setOnClickListener(new FragmentBtnOnClickListener());
-		statsFragmentBtn.setOnClickListener(new FragmentBtnOnClickListener());
+		businessHistoryFragment.setOnClickListener(new FragmentBtnOnClickListener());
 		
 		latestBtn = homeFragmentBtn;
 	}
@@ -82,8 +82,8 @@ public class BusinessOpeningScreenActivity extends AbstractActivity{
 				newFragment =  new BusinessDashboardFragment();
 			}else if(clickedBtn==mapFragmentBtn){
 				newFragment =  new MapWindowFragment();
-			}else if(clickedBtn==statsFragmentBtn){
-				newFragment =  new BusinessDashboardFragment(); //TODO - implement this
+			}else if(clickedBtn==businessHistoryFragment){
+				newFragment =  new BusinessHistoryFragment(); //TODO - implement this
 			}
 			if((latestBtn == clickedBtn) && (clickedBtn!=homeFragmentBtn)){
 				return;
