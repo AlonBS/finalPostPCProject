@@ -32,6 +32,8 @@ public class ShowDealActivity extends FragmentActivity{
 	public final static String USER_MODE_PARAM = "IsInUserMode";	
 	public final static String NUM_OF_LIKES_PARAM = "likesParam";
 	public final static String NUM_OF_DISLIKES_PARAM = "dislikesParam";	
+	public final static String PHONE_NUM_PARAM = "phoneParam";	
+	public final static String ADDRESS_PARAM = "addressParam";	
 	
 	private ImageView switchFragmentsButton;
 	private enum CurrentFragmentType{DEAL_FRAGMENT,COMMENTS_FRAGMENT};
@@ -70,9 +72,12 @@ public class ShowDealActivity extends FragmentActivity{
 		numOfLikes = intent.getLongExtra(NUM_OF_LIKES_PARAM,0);
 		numOfDislikes = intent.getLongExtra(NUM_OF_DISLIKES_PARAM,0);
 		
-		
+		String phoneParam = intent.getStringExtra(PHONE_NUM_PARAM);
+		String addressParam = intent.getStringExtra(ADDRESS_PARAM);
 		TextView businessNameTV = (TextView)findViewById(R.id.businessTitle);
 		businessNameTV.setText(businessName);
+		TextView detailsTV = (TextView)findViewById(R.id.businessDetails);
+		detailsTV.setText(phoneParam + "     " + addressParam);
 		
 		RatingBar ratingBar = (RatingBar)findViewById(R.id.businessRatingBar);
 		ratingBar.setRating(rating);

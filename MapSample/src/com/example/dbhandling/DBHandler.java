@@ -173,8 +173,8 @@ public class DBHandler {
 		 * 
 		 */
 		public void loadBusinessListAndMapMarkersAsync(LatLng mapCenter,GoogleMap gMap, BusinessesManager bManager){
-			final double RADIUS = 5;
-			loadBusinessesAndMapTask = new LoadCloseBusinessesToMapTask(context, gMap, bManager);
+			final double RADIUS = 1; 			
+			loadBusinessesAndMapTask = new LoadCloseBusinessesToMapTask(context, gMap, bManager,RADIUS);
 			loadBusinessesAndMapTask.execute();
 		}
 		
@@ -192,7 +192,7 @@ public class DBHandler {
 		 * be loaded via loadImageAsync function).
 		 */ //TODO - implement this function
 		public BusinessMarker getBusinessInfo(long businessID){
-			return new BusinessMarker("MCdonalds", BuisnessType.RESTURANT, new LatLng(31.781099, 35.217668), "Jerusalem",0,new Random().nextInt(99999),new Random().nextInt(99999));
+			return new BusinessMarker("MCdonalds", BuisnessType.RESTURANT,"yafo st 102","0532098194", new LatLng(31.781099, 35.217668), "Jerusalem",0,new Random().nextInt(99999),new Random().nextInt(99999));
 		}
 		
 		

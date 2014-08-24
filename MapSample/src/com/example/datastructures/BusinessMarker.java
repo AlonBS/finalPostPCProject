@@ -2,6 +2,7 @@ package com.example.datastructures;
 
 import java.io.Serializable;
 import java.util.Random;
+
 import com.example.mapsample.R;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -42,11 +43,15 @@ public class BusinessMarker implements Serializable{
 	public LatLng pos;
 	public String city;
 	public long businessId;
+	public String address;
+	public String phone;
 	
-	public BusinessMarker(String name,BuisnessType type,LatLng pos,String city,long id,long numOfLikes,long numOfDislikes){
+	public BusinessMarker(String name,BuisnessType type,String address,String phone,LatLng pos,String city,long id,long numOfLikes,long numOfDislikes){
 		
 		this.name = name;
 		this.type = type;
+		this.address = address;
+		this.phone = phone;
 		this.numOfStars = new Random().nextInt(5);
 		this.rating = new Random().nextInt(5);
 		this.pos = pos;

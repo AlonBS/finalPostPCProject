@@ -287,11 +287,7 @@ public class MapWindowFragment extends Fragment {
     	businessManager.addBusiness(bm, m);
 
 	}
-	
-	//private LoadBusinessesToMap LoadBuisnessesTask(){return new LoadBusinessesToMap(getActivity());}
-	
-	private LoadCloseBusinessesToMapTask LoadBuisnessesTask(){return new LoadCloseBusinessesToMapTask(getActivity(),gMap,businessManager);}
-	
+
 	/**
 	 * is called whenever the user presses on the map marker.
 	 * This will open a new deal ShowDealActivity. 
@@ -312,7 +308,8 @@ public class MapWindowFragment extends Fragment {
 				myIntent.putExtra(ShowDealActivity.NUM_OF_DISLIKES_PARAM, bMarker.numOfDislikes); //Optional parameters
 				myIntent.putExtra(ShowDealActivity.NUM_OF_LIKES_PARAM, bMarker.numOfLikes); //Optional parameters
 				myIntent.putExtra(ShowDealActivity.USER_MODE_PARAM, !isInBusinessMode);
-				
+				myIntent.putExtra(ShowDealActivity.PHONE_NUM_PARAM, bMarker.phone);
+				myIntent.putExtra(ShowDealActivity.ADDRESS_PARAM, bMarker.address);
 				//myIntent.putExtra(ShowDealActivity.BUSINESS_MARKER_PARAM, bMarker);
 				//myIntent.putExtra(ShowDealActivity.BUSINESS_MARKER_PARAM, bMarker);
 				getActivity().startActivity(myIntent);
