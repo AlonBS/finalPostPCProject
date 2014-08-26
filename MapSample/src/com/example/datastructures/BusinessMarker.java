@@ -6,11 +6,15 @@ import java.util.Random;
 import com.example.mapsample.R;
 import com.google.android.gms.maps.model.LatLng;
 
-//TODO look at anywalls
+/**
+ * represents a BusinessMarker.
+ * contains all the relevant information which the MapFragment needs for
+ * showing businesses over the map, and to call a certain deal activity.
+ * @author dror
+ *
+ */
 public class BusinessMarker implements Serializable{
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	public static enum BuisnessType implements Serializable{
@@ -37,8 +41,8 @@ public class BusinessMarker implements Serializable{
 	public int iconID;
 	public int rating;
 	public int numOfStars;
-	public long numOfLikes;
-	public long numOfDislikes;
+	public int numOfLikes;
+	public int numOfDislikes;
 	public BuisnessType type;
 	public LatLng pos;
 	public String city;
@@ -46,7 +50,7 @@ public class BusinessMarker implements Serializable{
 	public String address;
 	public String phone;
 	
-	public BusinessMarker(String name,BuisnessType type,String address,String phone,LatLng pos,String city,long id,long numOfLikes,long numOfDislikes){
+	public BusinessMarker(String name,BuisnessType type,String address,String phone,LatLng pos,String city,long id,int numOfLikes,int numOfDislikes){
 		
 		this.name = name;
 		this.type = type;
@@ -60,8 +64,6 @@ public class BusinessMarker implements Serializable{
 		this.businessId  = id;
 		this.numOfDislikes = numOfDislikes;
 		this.numOfLikes = numOfLikes;
-		//this.businessId = new Random().nextInt(99999);
-		//this.businessId = ""+new Random().nextInt(100000);
 	}
 	
 }

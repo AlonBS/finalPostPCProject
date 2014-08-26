@@ -25,8 +25,8 @@ import android.widget.Toast;
 
 import com.example.datastructures.BusinessMarker;
 import com.example.datastructures.BusinessMarker.BuisnessType;
-import com.example.datastructures.BusinessesManager;
-import com.example.datastructures.BusinessesManager.Property;
+import com.example.datastructures.BusinessManager;
+import com.example.datastructures.BusinessManager.Property;
 import com.example.dbhandling.DBHandler;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -40,7 +40,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapWindowFragment extends Fragment {
-	private BusinessesManager businessManager;
+	private BusinessManager businessManager;
 	private GoogleMap gMap;
 	static final LatLng HAMBURG = new LatLng(53.558, 9.927);
 	static final LatLng KIEL = new LatLng(53.551, 9.993);
@@ -64,7 +64,7 @@ public class MapWindowFragment extends Fragment {
 	private LatLng latestMapCenter = null;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-		businessManager = new BusinessesManager(getActivity());
+		businessManager = new BusinessManager(getActivity());
 		dbHandler = new DBHandler(getActivity());
 		isInBusinessMode = AbstractActivity.isInBusinessMode;
 		

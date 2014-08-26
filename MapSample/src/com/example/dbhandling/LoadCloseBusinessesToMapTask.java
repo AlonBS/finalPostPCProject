@@ -10,7 +10,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.datastructures.BusinessMarker;
-import com.example.datastructures.BusinessesManager;
+import com.example.datastructures.BusinessManager;
 import com.example.datastructures.BusinessMarker.BuisnessType;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -23,7 +23,7 @@ public class LoadCloseBusinessesToMapTask extends AsyncTask<Void, ArrayList<Busi
     private boolean stopFlag = false;
     private final WeakReference<GoogleMap> gMapRef;
     int NUM_OF_LOADS_BEFORE_REFRESH = 5;
-    private BusinessesManager businessManager;
+    private BusinessManager businessManager;
 	private double maxLatitude;
 	private double minLatitude;
 	private double maxLongitude;
@@ -54,7 +54,7 @@ public class LoadCloseBusinessesToMapTask extends AsyncTask<Void, ArrayList<Busi
     	markersDB.add(new BusinessMarker("Katsefet", BuisnessType.RESTURANT,"yafo st 102","0532098194", new LatLng(31.779921, 35.187777), "Jerusalem",id++,new Random().nextInt(99999),new Random().nextInt(99999)));
     }
 
-    public LoadCloseBusinessesToMapTask(Context context,GoogleMap gMap,BusinessesManager businessManager,double radius) {
+    public LoadCloseBusinessesToMapTask(Context context,GoogleMap gMap,BusinessManager businessManager,double radius) {
         super();
         mContext = context;
         this.gMapRef = new WeakReference<GoogleMap>(gMap);

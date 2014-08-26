@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Represents a comment object
+ * Represents a comment object.
  * @author dror
  *
  */

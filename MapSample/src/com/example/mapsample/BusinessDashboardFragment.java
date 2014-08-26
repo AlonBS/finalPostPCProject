@@ -38,7 +38,7 @@ public class BusinessDashboardFragment extends Fragment{
 			dbHandler.loadDealAsync(activityParent.myBusinessId, dealTv);
 			 
 			ImageView imageView = (ImageView)view.findViewById(R.id.buisness_image_view);
-			dbHandler.loadBusinessImageViewAsync(activityParent.myBusinessId, activityParent.myBusiness.type, imageView);
+			dbHandler.loadBusinessImageViewAsync(activityParent.myBusinessId, imageView);
 			
 			commentsList = new ArrayList<>();
 			ListView commentsListView = (ListView)view.findViewById(R.id.comments_list_view);

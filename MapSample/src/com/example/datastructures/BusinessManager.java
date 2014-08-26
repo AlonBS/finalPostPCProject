@@ -11,22 +11,24 @@ import com.example.datastructures.BusinessMarker.BuisnessType;
 import com.example.dbhandling.DBHandler;
 import com.google.android.gms.maps.model.Marker;
 
-public class BusinessesManager {
+public class BusinessManager {
 	
 	/**maps from map markers to businesses and from businesses to markers*/
 	private HashMap <Marker, BusinessMarker> markerToBusiness = new HashMap <Marker, BusinessMarker>();
 	private HashMap <BusinessMarker, Marker> BusinessToMarker = new HashMap <BusinessMarker, Marker>();
-    private static List<Long> favourite;
     
-    public BusinessesManager(Context context){
+    public BusinessManager(Context context){
     	this.context = context;
     }
     
     private Context context;
 	
+    /**returns list of all the businesses which were download from parse*/
 	public Set<BusinessMarker> getAllBusinesses(){
 		return BusinessToMarker.keySet();
 	}
+	
+	/**returns list of all the map markers*/
 	public Set<Marker> getAllMarkers(){
 		return markerToBusiness.keySet();
 	}
@@ -42,51 +44,10 @@ public class BusinessesManager {
 		markerToBusiness.put(m,b);
 	}
 	
-	/*
-	public enum Property{
-		RESTURANT_PROP(true,BuisnessType.RESTURANT),
-		PUB_PROP(true,BuisnessType.PUB),
-		HOTEL_PROP(true,BuisnessType.HOTEL),
-		COFFEE_PROP(true,BuisnessType.COFFEE),
-		SHOPPING_PROP(true,BuisnessType.SHOPPING),
-		FAVORITES_PROP(false,null),
-		TOP_BUSINESS_PROP(false,null),
-		TOP_DEALS_PROP(false,null);
-		
-		public  boolean isTypePropery;
-		public BuisnessType matching_type;
-		private Property(boolean isTypePropery, BuisnessType matching_type){
-			this.isTypePropery = isTypePropery;
-			this.matching_type = matching_type;
-		}
-		
-		
-	}
 	
-	public boolean hasProperty(BusinessMarker buisness,Property p){
-		if(p.isTypePropery){
-			return buisness.type==p.matching_type;
-		}
-		else if(p==Property.FAVORITES_PROP){
-			DBHandler dbHandler = new DBHandler(context);
-			return dbHandler.isInFavourites(buisness.businessId); //TODO - improve!
-		}
-		else{
-			//TODO handle top deals/top buisnesses
-			return true;
-		}
-		
-		
-	}
-	
-
-	public boolean hasProperty(Marker marker,Property p){
-		BusinessMarker buisness = markerToBusiness.get(marker);
-		return hasProperty(buisness, p);		
-	}
-*/
+	/** this function returns true if a business has a certein propert, 
+	 * according to the propery enum list*/
 	public enum Property{FAVORITES_PROP,TOP_BUSINESS_PROP,TOP_DEALS_PROP,ALL;}
-	
 	public boolean hasProperty(BusinessMarker buisness,Property p){
 		if(p==Property.FAVORITES_PROP){
 			DBHandler dbHandler = new DBHandler(context);
