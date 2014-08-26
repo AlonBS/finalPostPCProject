@@ -40,6 +40,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapWindowFragment extends Fragment {
+	//DROR THE KING I LOVE YOU
 	private BusinessManager businessManager;
 	private GoogleMap gMap;
 	static final LatLng HAMBURG = new LatLng(53.558, 9.927);
