@@ -23,10 +23,10 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.datastructures.BusinessMarker;
-import com.example.datastructures.BusinessMarker.BuisnessType;
 import com.example.datastructures.BusinessManager;
 import com.example.datastructures.BusinessManager.Property;
+import com.example.datastructures.BusinessMarker;
+import com.example.datastructures.BusinessMarker.BuisnessType;
 import com.example.dbhandling.DBHandler;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -76,6 +76,7 @@ public class MapWindowFragment extends Fragment {
 			gMap.setOnMarkerClickListener(markerListener);
 		}
 	    latestMapCenter = dbHandler.getHome();
+
 	    gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latestMapCenter, DEFAULT_LATLNG_ZOOM));
 	    gMap.animateCamera(CameraUpdateFactory.zoomTo(DEFAULT_ANIMATED_ZOOM), 2000, null);
 	    
