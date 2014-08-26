@@ -214,9 +214,11 @@ public class DBHandler {
 	/**
 	 * loads a deal's Bitmap asynchronously. updates the relevant textView whenever the task was ended.
 	 */
-	public void loadDealAsync(long businessID ,TextView textView){
-		LoadDealStringTask loadTask = new LoadDealStringTask(textView, businessID, context);
-		loadTask.execute();
+	public void loadDealAsync(long businessID ,TextView dealTextView, TextView detailsTextView){
+		//LoadDealStringTask loadTask = new LoadDealStringTask(textView, businessID, context);
+		//loadTask.execute();asd
+		LoadDealInfoRunnable loadTask = new LoadDealInfoRunnable(dealTextView, detailsTextView, businessID, context);
+		new Thread(loadTask){}.start();
 	}
 
 	/**
@@ -225,7 +227,7 @@ public class DBHandler {
 	 * be loaded via loadImageAsync function).
 	 */ //TODO - implement this function
 	public BusinessMarker getBusinessInfo(long businessID){
-		return new BusinessMarker("MCdonalds", BuisnessType.RESTURANT,"yafo st 102","0532098194", new LatLng(31.781099, 35.217668), "Jerusalem",0,new Random().nextInt(99999),new Random().nextInt(99999));
+		return new BusinessMarker("MCdonalds", BuisnessType.RESTURANT, new LatLng(31.781099, 35.217668), "Jerusalem",0,new Random().nextInt(99999),new Random().nextInt(99999));
 	}
 
 
