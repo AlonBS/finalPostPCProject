@@ -1,4 +1,4 @@
-package com.example.dbhandling;
+package testing_stuff;
 
 import java.lang.ref.WeakReference;
 

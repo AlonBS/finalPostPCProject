@@ -38,7 +38,8 @@ public class ShowDealActivity extends FragmentActivity{
 	private CurrentFragmentType currentFragmentType = CurrentFragmentType.DEAL_FRAGMENT;
 	public boolean isInUserMode;
 	public String dealDetails;
-	public long businessID,numOfLikes,numOfDislikes;
+	public long businessID;
+	public int numOfLikes,numOfDislikes;
 	public BuisnessType bType;
 	private boolean isFavourite;
 	private DBHandler dbHandle;
@@ -67,8 +68,8 @@ public class ShowDealActivity extends FragmentActivity{
 		bType = (BuisnessType)intent.getSerializableExtra(BUSINESS_TYPE_PARAM);
 		int rating = intent.getIntExtra(DEAL_RATING_PARAM, 0);
 		isInUserMode = intent.getBooleanExtra(USER_MODE_PARAM, true);
-		numOfLikes = intent.getLongExtra(NUM_OF_LIKES_PARAM,0);
-		numOfDislikes = intent.getLongExtra(NUM_OF_DISLIKES_PARAM,0);
+		numOfLikes = intent.getIntExtra(NUM_OF_LIKES_PARAM,0);
+		numOfDislikes = intent.getIntExtra(NUM_OF_DISLIKES_PARAM,0);
 		
 		TextView businessNameTV = (TextView)findViewById(R.id.businessTitle);
 		businessNameTV.setText(businessName);

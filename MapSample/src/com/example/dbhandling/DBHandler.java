@@ -235,10 +235,10 @@ public class DBHandler {
 	 * loads a deal's Bitmap asynchronously. updates the relevant ImageView whenever the task was ended.
 	 */
 	public void loadBusinessImageViewAsync(long businessID ,ImageView imageView){
-		//LoadDealBitmapTask loadTask = new LoadDealBitmapTask(imageView, businessID,buisnessType,context);
-		//loadTask.execute();
-		LoadImageToImageViewRunnable loadTask = new LoadImageToImageViewRunnable(imageView, businessID, context);
-		new Thread(loadTask){}.start();
+		LoadDealBitmapTask loadTask = new LoadDealBitmapTask(imageView, businessID,context);
+		loadTask.execute();
+		//LoadImageToImageViewRunnable loadTask = new LoadImageToImageViewRunnable(imageView, businessID, context);
+		//new Thread(loadTask){}.start();
 
 	}
 
