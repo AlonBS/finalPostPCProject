@@ -8,7 +8,8 @@
         android:id="@+id/comment_text_view"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:background="@drawable/comment_shape"/>
+        android:background="@drawable/comment_shape"
+        android:padding="5dp"/>
     
     
 
