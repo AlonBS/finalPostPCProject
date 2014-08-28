@@ -165,7 +165,7 @@
                 android:textColor="#FFFFFFFF"
                 android:textSize="10sp" />
 
-            <com.dna.radius.mapsample.TopBusinessesHorizontalView
+            <com.dna.radius.businessmode.TopBusinessesHorizontalView
                 android:id="@+id/top_businesses_list_view"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"

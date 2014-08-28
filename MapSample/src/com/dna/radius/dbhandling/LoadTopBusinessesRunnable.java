@@ -7,9 +7,9 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.dna.radius.businessmode.TopBusinessesHorizontalView;
 import com.dna.radius.datastructures.BusinessMarker;
 import com.dna.radius.datastructures.BusinessMarker.BuisnessType;
-import com.dna.radius.mapsample.TopBusinessesHorizontalView;
 import com.example.mapsample.R;
 import com.google.android.gms.maps.model.LatLng;
 

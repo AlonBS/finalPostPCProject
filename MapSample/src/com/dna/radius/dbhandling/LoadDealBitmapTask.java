@@ -28,21 +28,26 @@ import com.example.mapsample.R;
 		    private final WeakReference<ImageView> imageViewRef;
 		    private long businessID;
 		    private Context context;
-		    //private int data = 0;
+			private int alternativeImageId;
 		    
-		    public LoadDealBitmapTask(ImageView imageView,long businessID, Context context) {
+		    public LoadDealBitmapTask(ImageView imageView,long businessID, Context context, int alternativeImageId) {
 		        // Use a WeakReference to ensure the ImageView can be garbage collected
 		    	this.imageViewRef = new WeakReference<ImageView>(imageView);
 		    	this.businessID = businessID;
 		    	this.context = context;
+		    	this.alternativeImageId = alternativeImageId;
 		    }
 		    // Decode image in background.
 		    @Override
 		    protected Bitmap doInBackground(Integer... params) {
 		        //data = params[0];
-		        boolean ImageExists = true; //TODO this value should be loaded from parse
+		        boolean ImageExists = false; //TODO this value should be loaded from parse
 		        if(!ImageExists){
-		        	return null; //should load the bitmap from parse and return it
+		        	if(alternativeImageId!=DBHandler.ALTERNATIVE_IMAGE_FALSE){
+		        		return BitmapFactory.decodeResource(context.getResources(), alternativeImageId);
+		        	}else{
+		        		return null;
+		        	}
 		        }else{
 		        	Bitmap retBitmap = BitmapFactory.decodeResource(context.getResources(),R.drawable.burger); 
 		        	Log.d("DBHandler","finished loading bitmap from parse");

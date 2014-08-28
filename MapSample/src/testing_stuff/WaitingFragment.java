@@ -1,4 +1,4 @@
-package com.dna.radius.mapsample;
+package testing_stuff;
 
 import com.example.mapsample.R;
 

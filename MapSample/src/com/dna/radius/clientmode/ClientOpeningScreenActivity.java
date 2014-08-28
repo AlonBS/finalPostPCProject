@@ -1,6 +1,8 @@
-package com.dna.radius.mapsample;
+package com.dna.radius.clientmode;
 
 
+import com.dna.radius.mapsample.AbstractActivity;
+import com.dna.radius.mapsample.MapWindowFragment;
 import com.example.mapsample.R;
 
 import android.os.Bundle;

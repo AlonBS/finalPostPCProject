@@ -1,4 +1,4 @@
-package com.dna.radius.mapsample;
+package com.dna.radius.businessmode;
 
 
 
@@ -18,6 +18,8 @@ import android.widget.TextView;
 
 import com.dna.radius.datastructures.BusinessMarker;
 import com.dna.radius.dbhandling.DBHandler;
+import com.dna.radius.mapsample.AbstractActivity;
+import com.dna.radius.mapsample.MapWindowFragment;
 import com.example.mapsample.R;
 
 public class BusinessOpeningScreenActivity extends AbstractActivity{

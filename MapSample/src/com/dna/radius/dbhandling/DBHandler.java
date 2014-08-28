@@ -12,13 +12,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dna.radius.businessmode.TopBusinessesHorizontalView;
 import com.dna.radius.datastructures.BusinessManager;
 import com.dna.radius.datastructures.BusinessMarker;
 import com.dna.radius.datastructures.Comment;
 import com.dna.radius.datastructures.BusinessMarker.BuisnessType;
 import com.dna.radius.mapsample.CommentsArrayAdapter;
 import com.dna.radius.mapsample.MapWindowFragment;
-import com.dna.radius.mapsample.TopBusinessesHorizontalView;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -230,15 +230,24 @@ public class DBHandler {
 		return new BusinessMarker("MCdonalds", BuisnessType.RESTURANT, new LatLng(31.781099, 35.217668), "Jerusalem",0,new Random().nextInt(99999),new Random().nextInt(99999));
 	}
 
-
+	
+	/**a flag for loadBusinessImageViewAsync function*/
+	static public final int ALTERNATIVE_IMAGE_FALSE = -1;
+	
 	/**
-	 * loads a deal's Bitmap asynchronously. updates the relevant ImageView whenever the task was ended.
+	 * if the business has a bitmap on parse server, loads it asynchronously and
+	 * updates the relevant accordingly.
+	 * 
+	 * if business doesn't have an image and the alternative imageImage isn't ALTERNATIVE_IMAGE_FALSE - load
+	 * the bitmap with the alternative image id.
+	 * 
+	 * otherwise - does nothing at all :(
+	 * 
 	 */
-	public void loadBusinessImageViewAsync(long businessID ,ImageView imageView){
-		LoadDealBitmapTask loadTask = new LoadDealBitmapTask(imageView, businessID,context);
+	public void loadBusinessImageViewAsync(long businessID ,ImageView imageView, int alternativeImageId){
+		LoadDealBitmapTask loadTask = new LoadDealBitmapTask(imageView, businessID,context,alternativeImageId);
+		context.getClass();
 		loadTask.execute();
-		//LoadImageToImageViewRunnable loadTask = new LoadImageToImageViewRunnable(imageView, businessID, context);
-		//new Thread(loadTask){}.start();
 
 	}
 
