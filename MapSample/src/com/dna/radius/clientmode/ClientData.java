@@ -16,12 +16,16 @@ public class ClientData{
 	private ArrayList<Integer> likeList = new ArrayList<Integer>();
 	private ArrayList<Integer> favourites = new ArrayList<Integer>();
 	
-	LatLng homeLocation;
-	
+	private LatLng homeLocation;
+	private String userName;
 	static ClientData instance = null;
 	
 	private ClientData(int id){
 		this.id = id;
+	}
+	
+	public String getUserName(){
+		return userName;
 	}
 	
 	public static void loadClient(int id){
@@ -93,7 +97,7 @@ public class ClientData{
 			Log.e("ClientData","Error! business already in favourites");
 		}else{
 			favourites.add(businessId);
-			DBHandler.addToFavourites(id, businessId);
+			DBHandler.updateFavourites(id, favourites);
 		}
 		
 	}
@@ -103,7 +107,7 @@ public class ClientData{
 			Log.e("ClientData","Error! business wasnt in favourites before");
 		}else{
 			favourites.add(businessId);
-			DBHandler.removeFromFavourites(id, businessId);
+			DBHandler.updateFavourites(id, favourites);
 		}
 		
 	}

@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
@@ -45,10 +46,10 @@ public class BusinessDashboardFragment extends Fragment{
 
 		dbHandler = new DBHandler(activityParent);
 		final TextView dealTv = (TextView) view.findViewById(R.id.deal_tv);
-		dbHandler.loadDealAsync(activityParent.myBusinessId, dealTv,null);
-
+		dealTv.setText(activityParent.ownerData.getCurrentDeal());
+		
 		imageView = (ImageView)view.findViewById(R.id.buisness_image_view);
-		dbHandler.loadBusinessImageViewAsync(activityParent.myBusinessId, imageView, R.drawable.set_business_image);
+		imageView.setImageBitmap(activityParent.ownerData.getImage());
 		imageView.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -68,10 +69,10 @@ public class BusinessDashboardFragment extends Fragment{
 		dbHandler.loadCommentsListAsync(commentsList, commentsAdapter);
 
 		TextView numOfLikesTV = (TextView)view.findViewById(R.id.num_of_likes_tv);
-		numOfLikesTV.setText(Long.toString(activityParent.myBusiness.numOfLikes));
+		numOfLikesTV.setText(Long.toString(activityParent.ownerData.getNumberOfLikes()));
 
 		TextView numOfDislikesTV = (TextView)view.findViewById(R.id.num_of_dislikes_tv);
-		numOfDislikesTV.setText(Long.toString(activityParent.myBusiness.numOfDislikes));
+		numOfDislikesTV.setText(Long.toString(activityParent.ownerData.getNumberOfDislikes()));
 
 		ImageView addDeal = (ImageView)view.findViewById(R.id.add_deal_iv);
 		addDeal.setOnClickListener(new OnClickListener() {
@@ -86,7 +87,8 @@ public class BusinessDashboardFragment extends Fragment{
 				.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
 						String newDealStr = input.getText().toString();
-						dbHandler.ChangeDealAndLoadToTextView(activityParent.myBusinessId, dealTv, newDealStr);
+						activityParent.ownerData.changeDeal(newDealStr);
+						dealTv.setText(newDealStr);
 					}
 				}).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
@@ -146,7 +148,9 @@ public class BusinessDashboardFragment extends Fragment{
 			int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
 			String picturePath = cursor.getString(columnIndex);
 			cursor.close();
-
+			
+			Bitmap newBmap = BitmapFactory.decodeFile(picturePath);
+			activityParent.ownerData.changeImage(BitmapFactory.decodeFile(picturePath));
 			// String picturePath contains the path of selected Image
 			imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
 		}

@@ -44,16 +44,14 @@ public class BusinessMarker implements Serializable{
 	public int numOfDislikes;
 	public BuisnessType type;
 	public LatLng pos;
-	public String city;
 	public int businessId;
 
-	public BusinessMarker(String name,BuisnessType type,LatLng pos,String city,int id,int numOfLikes,int numOfDislikes){
+	public BusinessMarker(String name,BuisnessType type,LatLng pos,int id,int numOfLikes,int numOfDislikes){
 		
 		this.name = name;
 		this.type = type;
 		this.numOfStars = new Random().nextInt(5);
 		this.pos = pos;
-		this.city = city;
 		this.iconID = type.iconID;
 		this.businessId  = id;
 		this.numOfDislikes = numOfDislikes;

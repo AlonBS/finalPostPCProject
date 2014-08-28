@@ -37,21 +37,21 @@ public class LoadCloseBusinessesToMapTask extends AsyncTask<Void, ArrayList<Busi
     	int id = 0;
     	markersDB = new ArrayList<BusinessMarker>();
     	Random r = new Random();
-    	markersDB.add(new BusinessMarker("MCdonalds", BuisnessType.RESTURANT, new LatLng(31.781099, 35.217668), "Jerusalem",id++,new Random().nextInt(99999),new Random().nextInt(99999)));
-    	markersDB.add(new BusinessMarker("Ivo", BuisnessType.RESTURANT, new LatLng(31.779949, 35.218948), "Jerusalem",id++,new Random().nextInt(99999),new Random().nextInt(99999)));
-    	markersDB.add(new BusinessMarker("Dolfin Yam", BuisnessType.RESTURANT, new LatLng(31.779968, 35.221209), "Jerusalem",id++,new Random().nextInt(99999),new Random().nextInt(99999)));
-    	markersDB.add(new BusinessMarker("Birman", BuisnessType.PUB, new LatLng(31.781855, 35.218086), "Jerusalem",id++,new Random().nextInt(99999),new Random().nextInt(99999)));
-    	markersDB.add(new BusinessMarker("Bullinat", BuisnessType.PUB, new LatLng(31.781984, 35.218221), "Jerusalem",id++,new Random().nextInt(99999),new Random().nextInt(99999)));
-    	markersDB.add(new BusinessMarker("Hamarush", BuisnessType.RESTURANT, new LatLng(31.781823, 35.219065), "Jerusalem",id++,new Random().nextInt(99999),new Random().nextInt(99999)));
-    	markersDB.add(new BusinessMarker("Adom", BuisnessType.RESTURANT, new LatLng(31.781334, 35.220703), "Jerusalem",id++,new Random().nextInt(99999),new Random().nextInt(99999)));
-    	markersDB.add(new BusinessMarker("Tel Aviv Bar", BuisnessType.PUB, new LatLng(31.781455, 35.220525), "Jerusalem",id++,new Random().nextInt(99999),new Random().nextInt(99999)));
-    	markersDB.add(new BusinessMarker("Jabutinski Bar", BuisnessType.PUB, new LatLng(31.779654, 35.221654), "Jerusalem",id++,new Random().nextInt(99999),new Random().nextInt(99999)));
-    	markersDB.add(new BusinessMarker("Reva Sheva", BuisnessType.SHOPPING, new LatLng(31.779793, 35.219728), "Jerusalem",id++,new Random().nextInt(99999),new Random().nextInt(99999)));
-    	markersDB.add(new BusinessMarker("The one with the shirts", BuisnessType.SHOPPING, new LatLng(31.779293, 35.221624), "Jerusalem",id++,new Random().nextInt(99999),new Random().nextInt(99999)));
-    	markersDB.add(new BusinessMarker("Hamashbir Latsarchan", BuisnessType.SHOPPING, new LatLng(31.781824, 35.219959), "Jerusalem",id++,new Random().nextInt(99999),new Random().nextInt(99999)));
-    	markersDB.add(new BusinessMarker("Hataklit", BuisnessType.PUB, new LatLng(31.781905, 35.221372), "Jerusalem",id++,new Random().nextInt(99999),new Random().nextInt(99999)));
-    	markersDB.add(new BusinessMarker("Hatav Hashmini", BuisnessType.SHOPPING, new LatLng(31.781191, 35.219621), "Jerusalem",id++,new Random().nextInt(99999),new Random().nextInt(99999)));
-    	markersDB.add(new BusinessMarker("Katsefet", BuisnessType.RESTURANT, new LatLng(31.779921, 35.187777), "Jerusalem",id++,new Random().nextInt(99999),new Random().nextInt(99999)));
+    	markersDB.add(new BusinessMarker("MCdonalds", BuisnessType.RESTURANT, new LatLng(31.781099, 35.217668),id++,new Random().nextInt(99999),new Random().nextInt(99999)));
+    	markersDB.add(new BusinessMarker("Ivo", BuisnessType.RESTURANT, new LatLng(31.779949, 35.218948),id++,new Random().nextInt(99999),new Random().nextInt(99999)));
+    	markersDB.add(new BusinessMarker("Dolfin Yam", BuisnessType.RESTURANT, new LatLng(31.779968, 35.221209),id++,new Random().nextInt(99999),new Random().nextInt(99999)));
+    	markersDB.add(new BusinessMarker("Birman", BuisnessType.PUB, new LatLng(31.781855, 35.218086),id++,new Random().nextInt(99999),new Random().nextInt(99999)));
+    	markersDB.add(new BusinessMarker("Bullinat", BuisnessType.PUB, new LatLng(31.781984, 35.218221),id++,new Random().nextInt(99999),new Random().nextInt(99999)));
+    	markersDB.add(new BusinessMarker("Hamarush", BuisnessType.RESTURANT, new LatLng(31.781823, 35.219065),id++,new Random().nextInt(99999),new Random().nextInt(99999)));
+    	markersDB.add(new BusinessMarker("Adom", BuisnessType.RESTURANT, new LatLng(31.781334, 35.220703),id++,new Random().nextInt(99999),new Random().nextInt(99999)));
+    	markersDB.add(new BusinessMarker("Tel Aviv Bar", BuisnessType.PUB, new LatLng(31.781455, 35.220525),id++,new Random().nextInt(99999),new Random().nextInt(99999)));
+    	markersDB.add(new BusinessMarker("Jabutinski Bar", BuisnessType.PUB, new LatLng(31.779654, 35.221654),id++,new Random().nextInt(99999),new Random().nextInt(99999)));
+    	markersDB.add(new BusinessMarker("Reva Sheva", BuisnessType.SHOPPING, new LatLng(31.779793, 35.219728),id++,new Random().nextInt(99999),new Random().nextInt(99999)));
+    	markersDB.add(new BusinessMarker("The one with the shirts", BuisnessType.SHOPPING, new LatLng(31.779293, 35.221624),id++,new Random().nextInt(99999),new Random().nextInt(99999)));
+    	markersDB.add(new BusinessMarker("Hamashbir Latsarchan", BuisnessType.SHOPPING, new LatLng(31.781824, 35.219959),id++,new Random().nextInt(99999),new Random().nextInt(99999)));
+    	markersDB.add(new BusinessMarker("Hataklit", BuisnessType.PUB, new LatLng(31.781905, 35.221372),id++,new Random().nextInt(99999),new Random().nextInt(99999)));
+    	markersDB.add(new BusinessMarker("Hatav Hashmini", BuisnessType.SHOPPING, new LatLng(31.781191, 35.219621),id++,new Random().nextInt(99999),new Random().nextInt(99999)));
+    	markersDB.add(new BusinessMarker("Katsefet", BuisnessType.RESTURANT, new LatLng(31.779921, 35.187777),id++,new Random().nextInt(99999),new Random().nextInt(99999)));
     }
 
     public LoadCloseBusinessesToMapTask(Context context,GoogleMap gMap,BusinessManager businessManager,double radius) {

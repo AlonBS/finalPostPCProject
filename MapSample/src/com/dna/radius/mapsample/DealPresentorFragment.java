@@ -40,7 +40,7 @@ public class DealPresentorFragment extends Fragment{
 		activityParent = (ShowDealActivity)getActivity();
 		dbHandle = new DBHandler(getActivity());
 		final int businessID  = activityParent.businessID;
-		dbHandle.loadBusinessImageViewAsync(businessID, imageView,DBHandler.ALTERNATIVE_IMAGE_FALSE);
+		dbHandle.loadBusinessImageViewAsync(businessID, imageView);
 	
 		final TextView likesText = (TextView)view.findViewById(R.id.like_counter);
 		likesText.setText(Long.toString(activityParent.numOfLikes));

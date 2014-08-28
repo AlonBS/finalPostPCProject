@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.datastructures.Comment;
 import com.dna.radius.dbhandling.DBHandler;
 import com.example.mapsample.R;
@@ -27,7 +28,7 @@ public class CommentsFragment extends Fragment{
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.comments_fragment,container, false);
-		
+		final ClientData clientData = ClientData.getInstance();
 		ListView commentsListView = (ListView)view.findViewById(R.id.comments_list_view);
 		final ShowDealActivity parentActivity = (ShowDealActivity)getActivity();
 		
@@ -69,7 +70,7 @@ public class CommentsFragment extends Fragment{
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
-					String userName = DBHandler.userName;
+					String userName = clientData.getUserName();
 					Date date = new Date();
 					String commentStr = newCommentEditText.getText().toString();
 					dbHandler.addComment(businessID, new Comment(commentStr,userName,date));

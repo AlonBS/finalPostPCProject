@@ -15,17 +15,20 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.datastructures.BusinessMarker;
 import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.mapsample.AbstractActivity;
 import com.dna.radius.mapsample.MapWindowFragment;
+import com.dna.radius.mapsample.WaitingFragment;
 import com.example.mapsample.R;
 
 public class BusinessOpeningScreenActivity extends AbstractActivity{
-	//this value should be given as an input
-	public long myBusinessId = 0;
-
-	public BusinessMarker myBusiness;
+	//TODO this value should be given as an input
+	public int myBusinessId = 0;
+	//TODO this value should be given as an input
+	public int userID = 0;
+	
 	private DBHandler dbHandler;
 
 	private ImageView homeFragmentBtn;
@@ -35,43 +38,62 @@ public class BusinessOpeningScreenActivity extends AbstractActivity{
 	private ImageView businessHistoryFragment;
 	
 	private ImageView latestBtn;
+	
+	public  OwnerData ownerData;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		
-		dbHandler = new DBHandler(this);
-		//TODO - should be async
-		myBusiness = dbHandler.getBusinessInfo(myBusinessId);
-
 		setContentView(R.layout.business_opening_screen);
+		
 		FragmentManager fragmentManager = getSupportFragmentManager();
+		Fragment waitingFragment = new WaitingFragment();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-		BusinessDashboardFragment dashboardFragment = new BusinessDashboardFragment();
-		fragmentTransaction.add(R.id.business_fragment_layout, dashboardFragment);
+		fragmentTransaction.replace(R.id.business_fragment_layout, waitingFragment);
 		fragmentTransaction.commit();
 
-		RatingBar ratingBar = (RatingBar)findViewById(R.id.businessRatingBar);
-		ratingBar.setRating(1);
-		/**overrides rating bar's on touch method so it won't change anything*/
-		ratingBar.setOnTouchListener(new OnTouchListener() {
-			public boolean onTouch(View v, MotionEvent event) {
-				return true;
+		Thread t = new Thread(new Runnable() {
+			@Override
+			public void run() {
+
+				ownerData = new OwnerData(myBusinessId,getApplicationContext());
+				ClientData.loadClient(userID);
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						FragmentManager fragmentManager = getSupportFragmentManager();
+						FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+						BusinessDashboardFragment dashboardFragment = new BusinessDashboardFragment();
+						fragmentTransaction.replace(R.id.business_fragment_layout, dashboardFragment);
+						fragmentTransaction.commit();
+						
+						TextView businessNameTv = (TextView)findViewById(R.id.businessTitle);
+						businessNameTv.setText(ownerData.getName());
+						
+						homeFragmentBtn = (ImageView)findViewById(R.id.refresh_btn);
+						mapFragmentBtn = (ImageView)findViewById(R.id.map_btn);
+						businessHistoryFragment = (ImageView)findViewById(R.id.stats_btn);	
+						homeFragmentBtn.setOnClickListener(new FragmentBtnOnClickListener());
+						mapFragmentBtn.setOnClickListener(new FragmentBtnOnClickListener());
+						businessHistoryFragment.setOnClickListener(new FragmentBtnOnClickListener());
+						
+						latestBtn = homeFragmentBtn;
+						
+						RatingBar ratingBar = (RatingBar)findViewById(R.id.businessRatingBar);
+						ratingBar.setRating(ownerData.getRating());
+						/**overrides rating bar's on touch method so it won't change anything*/
+						ratingBar.setOnTouchListener(new OnTouchListener() {
+							public boolean onTouch(View v, MotionEvent event) {
+								return true;
+							}
+						});
+					}
+				});
 			}
 		});
-
-		TextView businessNameTv = (TextView)findViewById(R.id.businessTitle);
-		businessNameTv.setText(myBusiness.name);
-
-
-		homeFragmentBtn = (ImageView)findViewById(R.id.refresh_btn);
-		mapFragmentBtn = (ImageView)findViewById(R.id.map_btn);
-		businessHistoryFragment = (ImageView)findViewById(R.id.stats_btn);	
-		homeFragmentBtn.setOnClickListener(new FragmentBtnOnClickListener());
-		mapFragmentBtn.setOnClickListener(new FragmentBtnOnClickListener());
-		businessHistoryFragment.setOnClickListener(new FragmentBtnOnClickListener());
+		t.start();
+		dbHandler = new DBHandler(this);
 		
-		latestBtn = homeFragmentBtn;
 	}
 
 	private class FragmentBtnOnClickListener implements OnClickListener{
