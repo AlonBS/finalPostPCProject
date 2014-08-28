@@ -46,10 +46,14 @@ public class BusinessDashboardFragment extends Fragment{
 
 		dbHandler = new DBHandler(activityParent);
 		final TextView dealTv = (TextView) view.findViewById(R.id.deal_tv);
-		dealTv.setText(activityParent.ownerData.getCurrentDeal());
+		dealTv.setText(activityParent.ownerData.currentDeal);
 		
 		imageView = (ImageView)view.findViewById(R.id.buisness_image_view);
-		imageView.setImageBitmap(activityParent.ownerData.getImage());
+		if(activityParent.ownerData.hasImage){
+			imageView.setImageBitmap(activityParent.ownerData.image);
+		}else{
+			imageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.set_business_image));
+		}
 		imageView.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -69,10 +73,10 @@ public class BusinessDashboardFragment extends Fragment{
 		dbHandler.loadCommentsListAsync(commentsList, commentsAdapter);
 
 		TextView numOfLikesTV = (TextView)view.findViewById(R.id.num_of_likes_tv);
-		numOfLikesTV.setText(Long.toString(activityParent.ownerData.getNumberOfLikes()));
+		numOfLikesTV.setText(Long.toString(activityParent.ownerData.numberOfLikes));
 
 		TextView numOfDislikesTV = (TextView)view.findViewById(R.id.num_of_dislikes_tv);
-		numOfDislikesTV.setText(Long.toString(activityParent.ownerData.getNumberOfDislikes()));
+		numOfDislikesTV.setText(Long.toString(activityParent.ownerData.numberOfDislikes));
 
 		ImageView addDeal = (ImageView)view.findViewById(R.id.add_deal_iv);
 		addDeal.setOnClickListener(new OnClickListener() {
@@ -100,7 +104,7 @@ public class BusinessDashboardFragment extends Fragment{
 		});
 
 		TopBusinessesHorizontalView topBusinessesScroll = (TopBusinessesHorizontalView)view.findViewById(R.id.top_businesses_list_view);
-		dbHandler.LoadTopBusinessesAsync(topBusinessesScroll);
+		dbHandler.LoadTopBusinessesAsync(topBusinessesScroll,activityParent);
 
 		return view;
 
@@ -150,7 +154,7 @@ public class BusinessDashboardFragment extends Fragment{
 			cursor.close();
 			
 			Bitmap newBmap = BitmapFactory.decodeFile(picturePath);
-			activityParent.ownerData.changeImage(BitmapFactory.decodeFile(picturePath));
+			activityParent.ownerData.changeBusinessImage(BitmapFactory.decodeFile(picturePath));
 			// String picturePath contains the path of selected Image
 			imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
 		}

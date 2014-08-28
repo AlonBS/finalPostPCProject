@@ -5,8 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import testing_stuff.ChangeDealUpdateViewRunnable;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -37,8 +35,6 @@ import com.google.android.gms.maps.model.LatLng;
 public class DBHandler {
 
 
-	/**holds the context of the activity which created the dbHandler.*/
-	Context context;
 
 	private static LoadDealCommentsTask loadCommentsTask = null;
 	private static LoadCloseBusinessesToMapTask loadBusinessesAndMapTask = null;
@@ -46,7 +42,6 @@ public class DBHandler {
 
 
 	public DBHandler(Context context) {
-		this.context = context;
 	}
 
 	/**
@@ -94,7 +89,7 @@ public class DBHandler {
 	 * is less than radius.
 	 * 
 	 */
-	public void loadBusinessListAndMapMarkersAsync(LatLng mapCenter,GoogleMap gMap, BusinessManager bManager,double radius){
+	public void loadBusinessListAndMapMarkersAsync(LatLng mapCenter,GoogleMap gMap, BusinessManager bManager,double radius,Context context){
 		loadBusinessesAndMapTask = new LoadCloseBusinessesToMapTask(context, gMap, bManager,radius);
 		loadBusinessesAndMapTask.execute();
 
@@ -113,7 +108,7 @@ public class DBHandler {
 	 *  
 	 * updates the relevant views after the data was retrieved.
 	 */
-	public void loadDealInfoAndBusinessInfoAsync(long businessID ,TextView dealTextView, TextView detailsTextView){
+	public void loadDealInfoAndBusinessInfoAsync(long businessID ,TextView dealTextView, TextView detailsTextView,Context context){
 		//LoadDealStringTask loadTask = new LoadDealStringTask(textView, businessID, context);
 		//loadTask.execute();asd
 		LoadDealInfoRunnable loadTask = new LoadDealInfoRunnable(dealTextView, detailsTextView, businessID, context);
@@ -137,7 +132,7 @@ public class DBHandler {
 	 * otherwise - does nothing at all :(
 	 * 
 	 */
-	public void loadBusinessImageViewAsync(long businessID ,ImageView imageView){
+	public void loadBusinessImageViewAsync(long businessID ,ImageView imageView, Context context){
 		LoadDealBitmapTask loadTask = new LoadDealBitmapTask(imageView, businessID,context);
 		context.getClass();
 		loadTask.execute();
@@ -224,16 +219,17 @@ public class DBHandler {
 		//*******************
 		
 		
-		owner.setName("Mcdonalds");
-		owner.setBusinessID(0);
-		owner.setAddress("Jaffa street 61, Jerusalem");
-		owner.setDeal("ONLY TODAY AND DURING THE REST OF THE YEAR!!! BUY A COOOOL SHIRT AND GET A PLASTIC BAG TO PUT IT IN FOR 10 AGOROT ONLY!!! wow!!");
-		owner.setDealHistory(new ArrayList<DealHistoryObject>());
-		owner.setImage(BitmapFactory.decodeResource(context.getResources(), R.drawable.burger));
-		owner.setNumberOfLikes(23131);
-		owner.setNumberOfDislikes(524);
-		owner.setPhoneNumber("0508259193");
-		owner.setRating(4);
+		owner.name = "Mcdonalds";
+		owner.businessID = 0;
+		owner.address = "Jaffa street 61, Jerusalem";
+		owner.currentDeal = "ONLY TODAY AND DURING THE REST OF THE YEAR!!! BUY A COOOOL SHIRT AND GET A PLASTIC BAG TO PUT IT IN FOR 10 AGOROT ONLY!!! wow!!";
+		owner.dealHistory = new ArrayList<DealHistoryObject>();
+		owner.image = BitmapFactory.decodeResource(context.getResources(), R.drawable.burger);
+		owner.numberOfLikes = 23131;
+		owner.numberOfDislikes = 524;
+		owner.phoneNumber = "0508259193";
+		owner.rating = 4;
+		owner.hasImage = true; // TODO should be true only if the business has a an image
 		
 	}
 	
@@ -277,7 +273,7 @@ public class DBHandler {
 	 * receives a commentArrayAdapter and comments list. updates both of the
 	 * parameter asynchronously, using parse.
 	 */
-	public void loadCommentsListAsync(ArrayList<Comment> comments,CommentsArrayAdapter adapter){
+	public static void loadCommentsListAsync(ArrayList<Comment> comments,CommentsArrayAdapter adapter){
 		loadCommentsTask = new LoadDealCommentsTask(comments, adapter);
 		loadCommentsTask.execute();
 	}
@@ -289,15 +285,8 @@ public class DBHandler {
 	 * this method should check if the user already commented on this deal before.
 	 * if he did - the new comment should replace the previous one.
 	 */
-	public void addComment(long businessID, Comment comment){
-		boolean didUserCommentedBefore = true; //TODO - temporary value
-		if(didUserCommentedBefore){
-			Toast.makeText(context, "you already commented on this deal", Toast.LENGTH_LONG).show();				
-		}else{
-			//TODO - ALON, db handling
-			Toast.makeText(context, "Thank you for your comment!", Toast.LENGTH_LONG).show();				
-		}
-
+	public static void addComment(long businessID, Comment comment){
+		//TODO - alon, dbhandling
 	}
 
 	/**
@@ -315,7 +304,7 @@ public class DBHandler {
 	 * loads the top businesses data into a given TopBusinessesHorizontalView.
 	 * @param view
 	 */
-	public void LoadTopBusinessesAsync(TopBusinessesHorizontalView view){
+	public void LoadTopBusinessesAsync(TopBusinessesHorizontalView view, Context context){
 		loadTopBusinesses = new LoadTopBusinessesRunnable(view, context);
 		new Thread(loadTopBusinesses){}.start();
 	}

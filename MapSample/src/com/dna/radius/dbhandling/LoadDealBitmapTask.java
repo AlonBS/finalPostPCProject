@@ -39,7 +39,7 @@ import com.example.mapsample.R;
 		    @Override
 		    protected Bitmap doInBackground(Integer... params) {
 		        //data = params[0];
-		        boolean ImageExists = false; //TODO this value should be loaded from parse
+		        boolean ImageExists = true; //TODO this value should be loaded from parse
 		        if(!ImageExists){
 		        	return null;
 		        }else{

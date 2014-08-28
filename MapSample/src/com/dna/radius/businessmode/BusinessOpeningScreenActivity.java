@@ -68,7 +68,7 @@ public class BusinessOpeningScreenActivity extends AbstractActivity{
 						fragmentTransaction.commit();
 						
 						TextView businessNameTv = (TextView)findViewById(R.id.businessTitle);
-						businessNameTv.setText(ownerData.getName());
+						businessNameTv.setText(ownerData.name);
 						
 						homeFragmentBtn = (ImageView)findViewById(R.id.refresh_btn);
 						mapFragmentBtn = (ImageView)findViewById(R.id.map_btn);
@@ -80,7 +80,7 @@ public class BusinessOpeningScreenActivity extends AbstractActivity{
 						latestBtn = homeFragmentBtn;
 						
 						RatingBar ratingBar = (RatingBar)findViewById(R.id.businessRatingBar);
-						ratingBar.setRating(ownerData.getRating());
+						ratingBar.setRating(ownerData.rating);
 						/**overrides rating bar's on touch method so it won't change anything*/
 						ratingBar.setOnTouchListener(new OnTouchListener() {
 							public boolean onTouch(View v, MotionEvent event) {

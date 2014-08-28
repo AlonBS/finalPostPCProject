@@ -90,7 +90,7 @@ public class MapWindowFragment extends Fragment {
 	    
 	    gMap.setMyLocationEnabled(true);
 		
-	    dbHandler.loadBusinessListAndMapMarkersAsync(gMap.getCameraPosition().target, gMap, businessManager,RADIUS);
+	    dbHandler.loadBusinessListAndMapMarkersAsync(gMap.getCameraPosition().target, gMap, businessManager,RADIUS,getActivity());
 	    
 	    gMap.setOnCameraChangeListener(new OnCameraChangeListener() {
 			
@@ -100,7 +100,7 @@ public class MapWindowFragment extends Fragment {
 						Math.abs(position.target.longitude-latestMapCenter.longitude)>RADIUS){
 					latestMapCenter = position.target;
 					dbHandler.stopLoadBusinessListAndMapMarkersAsync();
-					dbHandler.loadBusinessListAndMapMarkersAsync(position.target, gMap, businessManager, RADIUS);
+					dbHandler.loadBusinessListAndMapMarkersAsync(position.target, gMap, businessManager, RADIUS,getActivity());
 					Log.d("MapWindowFragment","map center was changed significantly. loading businesses again.");
 				}
 				

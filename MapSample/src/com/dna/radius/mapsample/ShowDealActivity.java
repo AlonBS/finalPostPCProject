@@ -123,7 +123,7 @@ public class ShowDealActivity extends FragmentActivity{
 		TextView dealTextView = (TextView)findViewById(R.id.dealTextView);
 		TextView detailsTV = (TextView)findViewById(R.id.businessDetails);
 		dbHandle = new DBHandler(this);
-		dbHandle.loadDealInfoAndBusinessInfoAsync(businessID, dealTextView,detailsTV);
+		dbHandle.loadDealInfoAndBusinessInfoAsync(businessID, dealTextView,detailsTV,this);
 		
 		final ImageView favouritesBtn = (ImageView)findViewById(R.id.favourites_flag);
 		isFavourite = clientData.isInFavourites(businessID);

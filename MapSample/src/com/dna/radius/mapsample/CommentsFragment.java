@@ -1,6 +1,7 @@
 package com.dna.radius.mapsample;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.datastructures.Comment;
@@ -23,8 +25,12 @@ import com.example.mapsample.R;
 public class CommentsFragment extends Fragment{
 	
 	private DBHandler dbHandler;
-	public long businessID = -1;
-		
+	public int businessID = -1;
+	
+	/***
+	 * for each comment which the users add, the map holds the time it happened.
+	 */
+	static final HashMap<Integer,Long > previousComments = new HashMap<>();
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.comments_fragment,container, false);
@@ -69,11 +75,32 @@ public class CommentsFragment extends Fragment{
 				
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
+					//sends the comment only if the user didn't commented on thid deal in the past
+					//five minutes
+					boolean addComment = true;					
+					if(previousComments.containsKey(businessID)){
+						long lastCommentTime = previousComments.get(businessID);
+						long currentTime = System.currentTimeMillis();
+						
+						if(currentTime < lastCommentTime + 1000 * 60 * 5){
+							addComment = false;
+						}else{
+							previousComments.remove(businessID);
+							addComment = true;
+						}
+					}
+					
+					if(!addComment){
+						Toast.makeText(getActivity(), "you already commented on this deal lately", Toast.LENGTH_SHORT).show();				
+						return;
+					}
+					
+					Toast.makeText(getActivity(), "Thank you for your comment!", Toast.LENGTH_SHORT).show();				
+					previousComments.put(businessID,System.currentTimeMillis());
 					String userName = clientData.getUserName();
 					Date date = new Date();
 					String commentStr = newCommentEditText.getText().toString();
-					dbHandler.addComment(businessID, new Comment(commentStr,userName,date));
+					DBHandler.addComment(businessID, new Comment(commentStr,userName,date));
 					newCommentEditText.setText(getResources().getString(R.string.type_comment_here));
 				}
 			});
@@ -87,7 +114,7 @@ public class CommentsFragment extends Fragment{
 	public void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		dbHandler.close();
+		DBHandler.close();
 	}
 		
 	
