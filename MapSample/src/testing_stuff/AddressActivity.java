@@ -21,8 +21,8 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.datastructures.BusinessMarker;
-import com.example.datastructures.BusinessMarker.BuisnessType;
+import com.dna.radius.datastructures.BusinessMarker;
+import com.dna.radius.datastructures.BusinessMarker.BuisnessType;
 import com.example.mapsample.R;
 import com.example.mapsample.R.drawable;
 import com.example.mapsample.R.id;

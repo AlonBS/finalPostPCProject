@@ -1,4 +1,4 @@
-package com.example.datastructures;
+package com.dna.radius.datastructures;
 
 import java.io.Serializable;
 import java.util.Random;

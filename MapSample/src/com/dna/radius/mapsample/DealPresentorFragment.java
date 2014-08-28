@@ -1,4 +1,4 @@
-package com.example.mapsample;
+package com.dna.radius.mapsample;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -11,8 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.dbhandling.DBHandler;
-import com.example.dbhandling.DBHandler.DealLikeStatus;
+import com.dna.radius.dbhandling.DBHandler;
+import com.dna.radius.dbhandling.DBHandler.DealLikeStatus;
+import com.example.mapsample.R;
 
 public class DealPresentorFragment extends Fragment{
 	private Bitmap Image;

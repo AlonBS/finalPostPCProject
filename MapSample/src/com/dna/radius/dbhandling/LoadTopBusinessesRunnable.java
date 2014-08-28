@@ -1,4 +1,4 @@
-package com.example.dbhandling;
+package com.dna.radius.dbhandling;
 
 import java.lang.ref.WeakReference;
 import java.util.Random;
@@ -7,10 +7,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import com.example.datastructures.BusinessMarker;
-import com.example.datastructures.BusinessMarker.BuisnessType;
+import com.dna.radius.datastructures.BusinessMarker;
+import com.dna.radius.datastructures.BusinessMarker.BuisnessType;
+import com.dna.radius.mapsample.TopBusinessesHorizontalView;
 import com.example.mapsample.R;
-import com.example.mapsample.TopBusinessesHorizontalView;
 import com.google.android.gms.maps.model.LatLng;
 
 public class LoadTopBusinessesRunnable implements Runnable{

@@ -1,4 +1,4 @@
-package com.example.datastructures;
+package com.dna.radius.datastructures;
 import java.util.ArrayList;
 import java.util.Date;
 

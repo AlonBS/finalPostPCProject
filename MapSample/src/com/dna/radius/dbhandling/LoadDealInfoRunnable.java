@@ -1,4 +1,4 @@
-package com.example.dbhandling;
+package com.dna.radius.dbhandling;
 
 import java.lang.ref.WeakReference;
 

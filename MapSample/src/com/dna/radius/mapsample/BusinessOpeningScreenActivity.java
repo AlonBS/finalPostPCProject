@@ -1,4 +1,4 @@
-package com.example.mapsample;
+package com.dna.radius.mapsample;
 
 
 
@@ -16,8 +16,9 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.example.datastructures.BusinessMarker;
-import com.example.dbhandling.DBHandler;
+import com.dna.radius.datastructures.BusinessMarker;
+import com.dna.radius.dbhandling.DBHandler;
+import com.example.mapsample.R;
 
 public class BusinessOpeningScreenActivity extends AbstractActivity{
 	//this value should be given as an input

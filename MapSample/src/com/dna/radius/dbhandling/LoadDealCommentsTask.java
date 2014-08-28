@@ -1,4 +1,4 @@
-package com.example.dbhandling;
+package com.dna.radius.dbhandling;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -12,9 +12,9 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
 
-import com.example.datastructures.Comment;
-import com.example.datastructures.Comment.CommentDBLoadSimulatorDebug;
-import com.example.mapsample.CommentsArrayAdapter;
+import com.dna.radius.datastructures.Comment;
+import com.dna.radius.datastructures.Comment.CommentDBLoadSimulatorDebug;
+import com.dna.radius.mapsample.CommentsArrayAdapter;
 
 public class LoadDealCommentsTask extends AsyncTask<Void, ArrayList<Comment>, Void>{
 	private boolean stopFlag = false;

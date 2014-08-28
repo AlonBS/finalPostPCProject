@@ -1,4 +1,4 @@
-package com.example.mapsample;
+package com.dna.radius.mapsample;
 
 import java.util.ArrayList;
 
@@ -19,9 +19,10 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.example.datastructures.BusinessMarker.BuisnessType;
-import com.example.datastructures.Comment;
-import com.example.dbhandling.DBHandler;
+import com.dna.radius.datastructures.Comment;
+import com.dna.radius.datastructures.BusinessMarker.BuisnessType;
+import com.dna.radius.dbhandling.DBHandler;
+import com.example.mapsample.R;
 
 public class ShowDealActivity extends FragmentActivity{
 	

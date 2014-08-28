@@ -1,4 +1,4 @@
-package com.example.dbhandling;
+package com.dna.radius.dbhandling;
 
 import java.lang.ref.WeakReference;
 
@@ -9,7 +9,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
 
-import com.example.datastructures.BusinessMarker.BuisnessType;
+import com.dna.radius.datastructures.BusinessMarker.BuisnessType;
 import com.example.mapsample.R;
 
 

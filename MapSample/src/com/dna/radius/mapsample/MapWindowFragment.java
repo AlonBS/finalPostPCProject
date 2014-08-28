@@ -1,4 +1,4 @@
-package com.example.mapsample;
+package com.dna.radius.mapsample;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -23,11 +23,12 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.datastructures.BusinessManager;
-import com.example.datastructures.BusinessManager.Property;
-import com.example.datastructures.BusinessMarker;
-import com.example.datastructures.BusinessMarker.BuisnessType;
-import com.example.dbhandling.DBHandler;
+import com.dna.radius.datastructures.BusinessManager;
+import com.dna.radius.datastructures.BusinessMarker;
+import com.dna.radius.datastructures.BusinessManager.Property;
+import com.dna.radius.datastructures.BusinessMarker.BuisnessType;
+import com.dna.radius.dbhandling.DBHandler;
+import com.example.mapsample.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;

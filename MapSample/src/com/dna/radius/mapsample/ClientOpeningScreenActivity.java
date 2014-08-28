@@ -1,5 +1,7 @@
-package com.example.mapsample;
+package com.dna.radius.mapsample;
 
+
+import com.example.mapsample.R;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;

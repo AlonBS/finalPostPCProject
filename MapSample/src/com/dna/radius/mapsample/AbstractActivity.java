@@ -1,4 +1,4 @@
-package com.example.mapsample;
+package com.dna.radius.mapsample;
 
 
 import android.app.AlertDialog;
@@ -11,7 +11,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.example.dbhandling.DBHandler;
+import com.dna.radius.dbhandling.DBHandler;
+import com.example.mapsample.R;
 
 public class AbstractActivity extends FragmentActivity{
 	public static boolean isInBusinessMode = true; //TODO this value should be set when the application starts!!

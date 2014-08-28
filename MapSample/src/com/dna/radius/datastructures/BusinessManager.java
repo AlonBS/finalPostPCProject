@@ -1,4 +1,4 @@
-package com.example.datastructures;
+package com.dna.radius.datastructures;
 
 import java.util.HashMap;
 import java.util.List;
@@ -7,8 +7,8 @@ import java.util.Set;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.datastructures.BusinessMarker.BuisnessType;
-import com.example.dbhandling.DBHandler;
+import com.dna.radius.datastructures.BusinessMarker.BuisnessType;
+import com.dna.radius.dbhandling.DBHandler;
 import com.google.android.gms.maps.model.Marker;
 
 public class BusinessManager {

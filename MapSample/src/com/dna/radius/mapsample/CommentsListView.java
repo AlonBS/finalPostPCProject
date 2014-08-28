@@ -1,7 +1,9 @@
-package com.example.mapsample;
+package com.dna.radius.mapsample;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.example.mapsample.R;
 
 import android.content.Context;
 import android.graphics.Color;

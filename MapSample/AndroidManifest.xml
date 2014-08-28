@@ -33,19 +33,19 @@
     android:value="AIzaSyBN0YW7uLmQsBK_QYKzhZT8rA6KoQj2JJs"/>
         
         <activity
-            android:name="com.example.mapsample.MainActivity"
+            android:name="com.dna.radius.mapsample.MainActivity"
             android:label="@string/app_name" >
 
         </activity>
         
        <activity
-            android:name="com.example.mapsample.ShowDealActivity"
+            android:name="com.dna.radius.mapsample.ShowDealActivity"
             android:theme="@android:style/Theme.Dialog"
             android:label="@string/app_name" >
 
         </activity>
          <activity
-            android:name="com.example.mapsample.ClientOpeningScreenActivity"
+            android:name="com.dna.radius.mapsample.ClientOpeningScreenActivity"
             android:label="@string/app_name" >
                        <intent-filter>
 
@@ -53,7 +53,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.mapsample.BusinessOpeningScreenActivity"
+            android:name="com.dna.radius.mapsample.BusinessOpeningScreenActivity"
             android:label="@string/app_name" >
                        <intent-filter>
                  <action android:name="android.intent.action.MAIN" />

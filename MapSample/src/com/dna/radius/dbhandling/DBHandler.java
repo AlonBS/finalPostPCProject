@@ -1,4 +1,4 @@
-package com.example.dbhandling;
+package com.dna.radius.dbhandling;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -12,13 +12,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.datastructures.BusinessMarker;
-import com.example.datastructures.BusinessMarker.BuisnessType;
-import com.example.datastructures.BusinessManager;
-import com.example.datastructures.Comment;
-import com.example.mapsample.CommentsArrayAdapter;
-import com.example.mapsample.MapWindowFragment;
-import com.example.mapsample.TopBusinessesHorizontalView;
+import com.dna.radius.datastructures.BusinessManager;
+import com.dna.radius.datastructures.BusinessMarker;
+import com.dna.radius.datastructures.Comment;
+import com.dna.radius.datastructures.BusinessMarker.BuisnessType;
+import com.dna.radius.mapsample.CommentsArrayAdapter;
+import com.dna.radius.mapsample.MapWindowFragment;
+import com.dna.radius.mapsample.TopBusinessesHorizontalView;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 

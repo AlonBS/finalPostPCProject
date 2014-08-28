@@ -1,4 +1,4 @@
-package com.example.mapsample;
+package com.dna.radius.mapsample;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -15,8 +15,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import com.example.datastructures.Comment;
-import com.example.dbhandling.DBHandler;
+import com.dna.radius.datastructures.Comment;
+import com.dna.radius.dbhandling.DBHandler;
+import com.example.mapsample.R;
 
 public class CommentsFragment extends Fragment{
 	

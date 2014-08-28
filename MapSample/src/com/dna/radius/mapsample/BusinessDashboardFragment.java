@@ -1,4 +1,4 @@
-package com.example.mapsample;
+package com.dna.radius.mapsample;
 
 
 import java.util.ArrayList;
@@ -18,8 +18,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.datastructures.Comment;
-import com.example.dbhandling.DBHandler;
+import com.dna.radius.datastructures.Comment;
+import com.dna.radius.dbhandling.DBHandler;
+import com.example.mapsample.R;
 import com.google.android.gms.drive.internal.ac;
 
 public class BusinessDashboardFragment extends Fragment{

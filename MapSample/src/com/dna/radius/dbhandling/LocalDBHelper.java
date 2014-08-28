@@ -1,4 +1,4 @@
-package com.example.dbhandling;
+package com.dna.radius.dbhandling;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

@@ -1,4 +1,4 @@
-package com.example.dbhandling;
+package com.dna.radius.dbhandling;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -9,9 +9,9 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.datastructures.BusinessMarker;
-import com.example.datastructures.BusinessManager;
-import com.example.datastructures.BusinessMarker.BuisnessType;
+import com.dna.radius.datastructures.BusinessManager;
+import com.dna.radius.datastructures.BusinessMarker;
+import com.dna.radius.datastructures.BusinessMarker.BuisnessType;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;

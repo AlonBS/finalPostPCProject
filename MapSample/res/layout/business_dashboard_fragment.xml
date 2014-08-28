@@ -165,7 +165,7 @@
                 android:textColor="#FFFFFFFF"
                 android:textSize="10sp" />
 
-            <com.example.mapsample.TopBusinessesHorizontalView
+            <com.dna.radius.mapsample.TopBusinessesHorizontalView
                 android:id="@+id/top_businesses_list_view"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
@@ -177,7 +177,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent">
                 </LinearLayout>
-            </com.example.mapsample.TopBusinessesHorizontalView>
+            </com.dna.radius.mapsample.TopBusinessesHorizontalView>
         </LinearLayout>
     </LinearLayout>
 

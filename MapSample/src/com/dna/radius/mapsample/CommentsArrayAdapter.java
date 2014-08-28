@@ -1,4 +1,4 @@
-package com.example.mapsample;
+package com.dna.radius.mapsample;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,7 +12,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.datastructures.Comment;
+import com.dna.radius.datastructures.Comment;
+import com.example.mapsample.R;
 
 public class CommentsArrayAdapter extends ArrayAdapter<Comment>{
 	@SuppressLint("SimpleDateFormat")

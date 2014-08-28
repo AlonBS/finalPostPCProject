@@ -1,4 +1,4 @@
-package com.example.mapsample;
+package com.dna.radius.mapsample;
 
 import java.util.ArrayList;
 
@@ -15,7 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.datastructures.BusinessMarker;
+import com.dna.radius.datastructures.BusinessMarker;
+import com.example.mapsample.R;
 
 public class TopBusinessesHorizontalView extends HorizontalScrollView{
 	private Context context;
