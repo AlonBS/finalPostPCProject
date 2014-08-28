@@ -1,14 +1,11 @@
 package com.dna.radius.datastructures;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Set;
 
-import android.content.Context;
 import android.util.Log;
 
-import com.dna.radius.datastructures.BusinessMarker.BuisnessType;
-import com.dna.radius.dbhandling.DBHandler;
+import com.dna.radius.clientmode.ClientData;
 import com.google.android.gms.maps.model.Marker;
 
 public class BusinessManager {
@@ -17,11 +14,12 @@ public class BusinessManager {
 	private HashMap <Marker, BusinessMarker> markerToBusiness = new HashMap <Marker, BusinessMarker>();
 	private HashMap <BusinessMarker, Marker> BusinessToMarker = new HashMap <BusinessMarker, Marker>();
     
-    public BusinessManager(Context context){
-    	this.context = context;
+	private ClientData clientData;
+	
+    public BusinessManager(ClientData clientData){
+    	this.clientData = clientData;
     }
     
-    private Context context;
 	
     /**returns list of all the businesses which were download from parse*/
 	public Set<BusinessMarker> getAllBusinesses(){
@@ -50,9 +48,7 @@ public class BusinessManager {
 	public enum Property{FAVORITES_PROP,TOP_BUSINESS_PROP,TOP_DEALS_PROP,ALL;}
 	public boolean hasProperty(BusinessMarker buisness,Property p){
 		if(p==Property.FAVORITES_PROP){
-			DBHandler dbHandler = new DBHandler(context);
-			boolean retVal = dbHandler.isInFavourites(buisness.businessId); //TODO - improve!
-			dbHandler.close();
+			boolean retVal = clientData.isInFavourites(buisness.businessId); //TODO - improve!
 			return retVal;
 		}else if(p==Property.TOP_DEALS_PROP){
 			return isInTopDeals(buisness.businessId); 

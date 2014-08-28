@@ -45,9 +45,9 @@ public class BusinessMarker implements Serializable{
 	public BuisnessType type;
 	public LatLng pos;
 	public String city;
-	public long businessId;
+	public int businessId;
 
-	public BusinessMarker(String name,BuisnessType type,LatLng pos,String city,long id,int numOfLikes,int numOfDislikes){
+	public BusinessMarker(String name,BuisnessType type,LatLng pos,String city,int id,int numOfLikes,int numOfDislikes){
 		
 		this.name = name;
 		this.type = type;

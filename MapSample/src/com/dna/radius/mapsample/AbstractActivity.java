@@ -19,6 +19,7 @@ import com.example.mapsample.R;
 public class AbstractActivity extends FragmentActivity{
 	public static boolean isInBusinessMode = true; //TODO this value should be set when the application starts!!
 	
+	
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub

@@ -34,7 +34,7 @@ public class LoadCloseBusinessesToMapTask extends AsyncTask<Void, ArrayList<Busi
     private static List<BusinessMarker> markersDB; //TODO: delete
     public void setDBs_debug()
     {
-    	long id = 0;
+    	int id = 0;
     	markersDB = new ArrayList<BusinessMarker>();
     	Random r = new Random();
     	markersDB.add(new BusinessMarker("MCdonalds", BuisnessType.RESTURANT, new LatLng(31.781099, 35.217668), "Jerusalem",id++,new Random().nextInt(99999),new Random().nextInt(99999)));

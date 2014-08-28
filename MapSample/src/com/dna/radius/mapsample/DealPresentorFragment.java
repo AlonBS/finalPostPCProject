@@ -3,6 +3,7 @@ package com.dna.radius.mapsample;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.dbhandling.DBHandler.DealLikeStatus;
 import com.example.mapsample.R;
@@ -22,6 +24,7 @@ public class DealPresentorFragment extends Fragment{
 	private ImageView dislikeBtn;
 	private View likeBtn;
 	private ShowDealActivity activityParent;
+	private ClientData clientData;
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.deal_presantor_fragment,container, false);
@@ -29,11 +32,14 @@ public class DealPresentorFragment extends Fragment{
 		ImageView imageView = (ImageView) view.findViewById(R.id.business_image_view);
 		//imageView.setImageBitmap(Image);
 		
-		
+		clientData = ClientData.getInstance();
+		if(clientData == null){
+			Log.e("DealPresentorFragment","ERROR, client data is null! it wasnt loaded");
+		}
 		
 		activityParent = (ShowDealActivity)getActivity();
 		dbHandle = new DBHandler(getActivity());
-		final long businessID  = activityParent.businessID;
+		final int businessID  = activityParent.businessID;
 		dbHandle.loadBusinessImageViewAsync(businessID, imageView,DBHandler.ALTERNATIVE_IMAGE_FALSE);
 	
 		final TextView likesText = (TextView)view.findViewById(R.id.like_counter);
@@ -41,7 +47,7 @@ public class DealPresentorFragment extends Fragment{
 		final TextView dislikesText = (TextView)view.findViewById(R.id.dislike_counter);
 		dislikesText.setText(Long.toString(activityParent.numOfDislikes));
 		
-		dealStatus = dbHandle.getDealLikeStatus(businessID);
+		dealStatus = clientData.getDealLikeStatus(businessID);
 		likeBtn = (ImageView)view.findViewById(R.id.sounds_cool_btn);
 		likeBtn.setOnClickListener(new OnClickListener() {
 			
@@ -56,7 +62,7 @@ public class DealPresentorFragment extends Fragment{
 					
 					String newStr = Long.toString(Long.parseLong(likesText.getText().toString())-1);
 					likesText.setText(newStr);
-					dbHandle.setDontCareToDeal(businessID);
+					clientData.setDontCareToDeal(businessID);
 				}else{
 					if(dealStatus==DealLikeStatus.DISLIKE){
 						String newStr = Long.toString(Long.parseLong(dislikesText.getText().toString())-1);
@@ -64,7 +70,7 @@ public class DealPresentorFragment extends Fragment{
 					}
 					
 					dealStatus = DealLikeStatus.LIKE;
-					dbHandle.addLikeToDeal(businessID);
+					clientData.addLikeToDeal(businessID);
 					String oldText =likesText.getText().toString();
 					String newStr = Long.toString(Long.parseLong(oldText)+1);
 					likesText.setText(newStr);
@@ -82,7 +88,7 @@ public class DealPresentorFragment extends Fragment{
 				}
 				if(dealStatus==DealLikeStatus.DISLIKE){
 					dealStatus = DealLikeStatus.DONT_CARE;
-					dbHandle.setDontCareToDeal(businessID);
+					clientData.setDontCareToDeal(businessID);
 					String newStr = Long.toString(Long.parseLong(dislikesText.getText().toString())-1);
 					dislikesText.setText(newStr);
 				}else{
@@ -91,7 +97,7 @@ public class DealPresentorFragment extends Fragment{
 						likesText.setText(newStr);
 					}
 					dealStatus = DealLikeStatus.DISLIKE;
-					dbHandle.addDislikeToDeal(businessID);
+					clientData.addDislikeToDeal(businessID);
 					String newStr = Long.toString(Long.parseLong(dislikesText.getText().toString())+1);
 					dislikesText.setText(newStr);
 				}

@@ -1,6 +1,8 @@
 package com.dna.radius.dbhandling;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 import android.content.ContentValues;
@@ -13,12 +15,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dna.radius.businessmode.TopBusinessesHorizontalView;
+import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.datastructures.BusinessManager;
 import com.dna.radius.datastructures.BusinessMarker;
-import com.dna.radius.datastructures.Comment;
 import com.dna.radius.datastructures.BusinessMarker.BuisnessType;
+import com.dna.radius.datastructures.Comment;
 import com.dna.radius.mapsample.CommentsArrayAdapter;
-import com.dna.radius.mapsample.MapWindowFragment;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -46,8 +48,7 @@ public class DBHandler {
 	private LoadCloseBusinessesToMapTask loadBusinessesAndMapTask;
 	private LoadTopBusinessesRunnable loadTopBusinesses = null;
 
-	static private ArrayList<Long> dislikeBusinesses = new ArrayList<Long>();
-	static private ArrayList<Long> likeBusinesses = new ArrayList<Long>();
+
 
 
 	/***
@@ -60,13 +61,15 @@ public class DBHandler {
 	 * 
 	 */
 	public static void initUserData(){
-		updateLikeAndDislikeListsAsync();
 
 		//TODO ALON - temporary values, should be loaded differently.
 		user_id = 123123;
 		userName = "dror the king";
 
 	}
+
+
+	public DBHandler(){}//TODO - context!!!
 
 	static int numOfObjects = 0;
 	public DBHandler(Context context) {
@@ -102,94 +105,31 @@ public class DBHandler {
 	}
 
 	/**
-	 * set a new home location for the user (currently - using sqlite).
-	 * @param lat
-	 * @param lng
+	 * set a new home location for the user.
 	 */
-	public void setHome(double lat, double lng){
-		//TODO - ALON - if you want we can pull the data from parse instead of sqlite
-		String countQuery = "SELECT  * FROM " + LocalDBHelper.HOME_TABLE;
-		Cursor cursor = localDB.rawQuery(countQuery, null);
-		int numOfRows = cursor.getCount();
-		cursor.close();
+	public static void setHome(int id, double lat, double lng){
+		//TODO - ALON - implement
 
-		//if there is already another home location, it should be deleted
-		if(numOfRows>0){
-			localDB.execSQL("delete from "+ LocalDBHelper.HOME_TABLE);
-		}
-
-		ContentValues contentValue = new ContentValues();
-		contentValue.put(LocalDBHelper.LAT_COL, lat);
-		contentValue.put(LocalDBHelper.LONG_COL,lng);
-		localDB.insert(LocalDBHelper.HOME_TABLE, null, contentValue);
 	}
 
-	/**
-	 * returns the user home location (using sqlite). 
-	 * if he doesn't have a home location, returns the default location.
-	 * @return
-	 */
-	public LatLng getHome(){
-		//TODO - ALON - if you want we can pull the data from parse instead of sqlite
-		Cursor cursor = localDB.rawQuery("select * from " + LocalDBHelper.HOME_TABLE,null);
-		if (cursor .moveToFirst()) {
-			double lat = cursor.getDouble(cursor.getColumnIndex(LocalDBHelper.LAT_COL));
-			double lng = cursor.getDouble(cursor.getColumnIndex(LocalDBHelper.LONG_COL));
-			cursor.close();
-			return new LatLng(lat,lng);	
-		}
-		else{
-			Log.d("DBHandler", "no home location is set. returns default location");
-			return MapWindowFragment.DEFAULT_LOCATION;
-		}
-	}
 
 	/**
-	 * adds a business id to the user favorites table (using sqlite).
+	 * adds a business id to the user favorites table.
 	 * @param id
 	 */
-	public void addToFavourites(long id){
-		if(this.isInFavourites(id)){
-			Log.d("DBHandler", "business is already in favourites");
-		}
-		ContentValues addedBusiness = new ContentValues();
-		addedBusiness.put(LocalDBHelper.FAVOURITES_COL, id);
-		localDB.insert(LocalDBHelper.FAVOURITES_TABLE, null, addedBusiness);
-		Log.d("DBHandler", "business " + Long.toString(id) + " was inserted to favourites");
+	public static void addToFavourites(int userID,int businessID){
+		//TODO - alon, implement
 	}
 
 	/**
-	 * remove a business id from the user favorites table (in sqlite).
+	 * remove a business id from the user favorites table.
 	 * @param id
 	 */
-	public void removeFromFavourites(long id){
-		Cursor cursor =  localDB.query(LocalDBHelper.FAVOURITES_TABLE, new String[] {LocalDBHelper.ID_COL,LocalDBHelper.FAVOURITES_COL},
-				LocalDBHelper.FAVOURITES_COL + "=?", new String[] { Long.toString(id)},
-				null, null, LocalDBHelper.ID_COL + " desc");
-		if (cursor.moveToFirst()) {
-			String whereClause = LocalDBHelper.ID_COL+"=?";
-			String[]whereArgs = new String[] {String.valueOf(cursor.getInt(0))};
-			localDB.delete(LocalDBHelper.FAVOURITES_TABLE, whereClause , whereArgs);
-			Log.d("DBHandler", "business " + Long.toString(id) + " was removed from favourites");
-		}else{
-			Log.d("DBHandler", "business " + Long.toString(id) + "isn't exists in favourites");
-		}
-		cursor.close();
+	public static void removeFromFavourites(int userID,int businessID){
+		//TODO - alon, implement
+
 	}
 
-	/**
-	 * receives a business id and check if it's in the user favorites list using sqlite.
-	 */
-	public boolean isInFavourites(long businessId){
-		Cursor cursor =  localDB.query(LocalDBHelper.FAVOURITES_TABLE, new String[] {LocalDBHelper.ID_COL,LocalDBHelper.FAVOURITES_COL},
-				LocalDBHelper.FAVOURITES_COL + "=?", new String[] { Long.toString(businessId)},
-				null, null, LocalDBHelper.ID_COL + " desc");
-		boolean retVal = cursor.getCount() == 1;
-		cursor.close();
-		String flag = retVal? " is in ":" is not in ";
-		Log.d("DBHandler", "business " + Long.toString(businessId) + flag + "favourites");
-		return retVal;
-	}
 
 
 
@@ -230,10 +170,10 @@ public class DBHandler {
 		return new BusinessMarker("MCdonalds", BuisnessType.RESTURANT, new LatLng(31.781099, 35.217668), "Jerusalem",0,new Random().nextInt(99999),new Random().nextInt(99999));
 	}
 
-	
+
 	/**a flag for loadBusinessImageViewAsync function*/
 	static public final int ALTERNATIVE_IMAGE_FALSE = -1;
-	
+
 	/**
 	 * if the business has a bitmap on parse server, loads it asynchronously and
 	 * updates the relevant accordingly.
@@ -262,6 +202,12 @@ public class DBHandler {
 	}
 
 
+
+
+
+
+	public enum DealLikeStatus{LIKE,DISLIKE,DONT_CARE};
+
 	/**
 	 * updates the parse servers that the user like the 
 	 * current business deal.
@@ -270,36 +216,16 @@ public class DBHandler {
 	 * 	add a like to the current business deal Table.
 	 */
 
-	public void addLikeToDeal(long businessId){
-		if(dislikeBusinesses.contains(businessId)){
-			dislikeBusinesses.remove(businessId);
-			//TODO - also remove from the dislike list at the parse DB
+	public static void setLikeToDeal(int userId, int businessId, DealLikeStatus oldStatus){
+		if(oldStatus==DealLikeStatus.LIKE){
+			return;
 		}
-		likeBusinesses.add(businessId);
-	}
-
-
-
-	public enum DealLikeStatus{LIKE,DISLIKE,DONT_CARE};
-	/**
-	 * return LIKE/DISLIKE/DONT_CARE according to the user preferences regarding
-	 * to the current deal.
-	 * notice that there is no need to access to the parse method this time, since
-	 * the entire like/dislike data was already brougt from the parse servers
-	 * using updateLikeAndDislikeListsAsync().
-	 * @param businessId
-	 * @return
-	 */
-	public DealLikeStatus getDealLikeStatus(long businessId){
-		if(likeBusinesses.contains(businessId)){
-			return DealLikeStatus.LIKE;
-		}else if(dislikeBusinesses.contains(businessId)){
-			return DealLikeStatus.DISLIKE;
-		}else{
-			return DealLikeStatus.DONT_CARE;
+		if(oldStatus==DealLikeStatus.DISLIKE){
+			//TODO - remove from the dislike list at the parse DB
 		}
-	}
 
+		//TODO - ALON add a like to the parse
+	}
 
 	/**
 	 * updates the parse servers that the user doesnt like the 
@@ -308,12 +234,16 @@ public class DBHandler {
 	 * 	add the dealID from the user dislikes table
 	 * 	add a dislike to the current business deal Table.
 	 */
-	public void addDislikeToDeal(long businessId){
-		if(likeBusinesses.contains(businessId)){
-			likeBusinesses.remove(businessId);
-			//TODO - also remove from the like list at the parse DB
+	public static void setDislikeToDeal(int userID, int businessId, DealLikeStatus oldStatus){
+		if(oldStatus==DealLikeStatus.DISLIKE){
+			return;
 		}
-		dislikeBusinesses.add(businessId);
+		if(oldStatus==DealLikeStatus.LIKE){
+			//TODO - remove from the like list at the parse DB
+		}
+
+		//TODO - ALON add a like to the parse
+
 	}
 
 	/**
@@ -323,26 +253,40 @@ public class DBHandler {
 	 * 	erase the dealID from the user likes table
 	 * 	delete a like from the current business deal Table.
 	 */
-	public void setDontCareToDeal(long businessId){
-		if(likeBusinesses.contains(businessId)){
-			//TODO remove user id from the likes list from parse DB
-			likeBusinesses.remove(businessId);
-		}
-		else if(dislikeBusinesses.contains(businessId)){
-			//TODO remove user id from the dislikes list from parse DB
-			dislikeBusinesses.remove(businessId);
+	public static void setDontCareToDeal(int userID, int businessId, DealLikeStatus oldStatus){
+		if(oldStatus==DealLikeStatus.LIKE){
+			//TODO - remove from the like list at the parse DB
+		}else if(oldStatus==DealLikeStatus.DISLIKE){
+			//TODO - remove from the dislike list at the parse DB
 		}else{
 			Log.d("DBHandler", "Business " + Long.toString(businessId) + " error: the user didnt like it nor dislike it");
 		}
+
+
 	}
 
 	/**
-	 * updates the dislikeBusinesses and likeBusinesses lists.
-	 * this method will be called right before the first DBHandler is created;
+	 * updates the user's like list, dislike list and favorites list
 	 */
-	public static void updateLikeAndDislikeListsAsync(){
+	public static void loadUesrDataSync(ClientData user){
+		//TODO - alon - implement
+
+		//TODO These strings should be returned from parse
+		String favouritesStr = "";
+		String likesStr = "";
+		String dislikesStr = "";; 
+		List<String> favoritesList = Arrays.asList(favouritesStr.split("\\s*,\\s*"));
+		List<String> likesList = Arrays.asList(likesStr.split("\\s*,\\s*"));
+		List<String> dislikesList = Arrays.asList(dislikesStr.split("\\s*,\\s*"));
+
+		//TODO These values should be returned from parse
+		double homeLatitude = 31.78507 ; 
+		double homeLongitude = 35.214328;
+		user.setHome(new LatLng(homeLatitude, homeLongitude), false);
+
 
 	}
+
 
 
 

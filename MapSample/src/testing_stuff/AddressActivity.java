@@ -200,7 +200,7 @@ public class AddressActivity extends Activity {
 	    {
 	    	markersList = new ArrayList<BusinessMarker>();
 	    	Random r = new Random();
-	    	long id = 0;
+	    	int id = 0;
 	    	markersList.add(new BusinessMarker("MCdonalds", BuisnessType.RESTURANT, new LatLng(31.781099, 35.217668), "Jerusalem",id++,new Random().nextInt(99999),new Random().nextInt(99999)));
 	    	markersList.add(new BusinessMarker("Ivo", BuisnessType.RESTURANT, new LatLng(31.779949, 35.218948), "Jerusalem",id++,new Random().nextInt(99999),new Random().nextInt(99999)));
 	    	markersList.add(new BusinessMarker("Dolfin Yam", BuisnessType.RESTURANT, new LatLng(31.779968, 35.221209), "Jerusalem",id++,new Random().nextInt(99999),new Random().nextInt(99999)));

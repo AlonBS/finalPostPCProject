@@ -5,7 +5,6 @@ package com.dna.radius.businessmode;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MotionEvent;
@@ -40,7 +39,7 @@ public class BusinessOpeningScreenActivity extends AbstractActivity{
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-
+		
 		dbHandler = new DBHandler(this);
 		//TODO - should be async
 		myBusiness = dbHandler.getBusinessInfo(myBusinessId);
@@ -111,4 +110,5 @@ public class BusinessOpeningScreenActivity extends AbstractActivity{
 			dbHandler = null;
 		}
 	}
+
 }

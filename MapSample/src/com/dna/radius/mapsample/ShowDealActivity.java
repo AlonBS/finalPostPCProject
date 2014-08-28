@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.datastructures.Comment;
 import com.dna.radius.datastructures.BusinessMarker.BuisnessType;
 import com.dna.radius.dbhandling.DBHandler;
@@ -39,7 +40,7 @@ public class ShowDealActivity extends FragmentActivity{
 	private CurrentFragmentType currentFragmentType = CurrentFragmentType.DEAL_FRAGMENT;
 	public boolean isInUserMode;
 	public String dealDetails;
-	public long businessID;
+	public int businessID;
 	public int numOfLikes,numOfDislikes;
 	public BuisnessType bType;
 	private boolean isFavourite;
@@ -47,6 +48,8 @@ public class ShowDealActivity extends FragmentActivity{
 	
 	/**The curreny Deal comments List*/
 	public ArrayList<Comment> commentsList;
+	
+	ClientData clientData;
 	
 	
 	@Override
@@ -63,9 +66,11 @@ public class ShowDealActivity extends FragmentActivity{
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_show_deal);
 		
+		clientData = ClientData.getInstance();
+		
 		Intent intent = getIntent();
 		String businessName = intent.getStringExtra(BUSINESS_NAME_PARAM);
-		businessID = intent.getLongExtra(BUSINESS_ID_PARAM,0);
+		businessID = (int)intent.getIntExtra(BUSINESS_ID_PARAM,0);//TODO!
 		bType = (BuisnessType)intent.getSerializableExtra(BUSINESS_TYPE_PARAM);
 		int rating = intent.getIntExtra(DEAL_RATING_PARAM, 0);
 		isInUserMode = intent.getBooleanExtra(USER_MODE_PARAM, true);
@@ -121,7 +126,7 @@ public class ShowDealActivity extends FragmentActivity{
 		dbHandle.loadDealAsync(businessID, dealTextView,detailsTV);
 		
 		final ImageView favouritesBtn = (ImageView)findViewById(R.id.favourites_flag);
-		isFavourite = dbHandle.isInFavourites(businessID);
+		isFavourite = clientData.isInFavourites(businessID);
 		if(isFavourite){
 			Bitmap favouriteBmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_important);
 			favouritesBtn.setImageBitmap(favouriteBmap);
@@ -135,10 +140,10 @@ public class ShowDealActivity extends FragmentActivity{
 				Bitmap favouriteBmap;
 				if(isFavourite){
 					favouriteBmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_important);
-					dbHandle.addToFavourites(businessID);
+					clientData.addToFavorites(businessID);
 					}else{
 					favouriteBmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_not_important);
-					dbHandle.removeFromFavourites(businessID);
+					clientData.removeFromFavorites(businessID);
 				}
 				favouritesBtn.setImageBitmap(favouriteBmap);
 				
@@ -154,6 +159,7 @@ public class ShowDealActivity extends FragmentActivity{
 		
 		
 }
+
 
 	
 	

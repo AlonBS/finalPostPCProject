@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.datastructures.BusinessManager;
 import com.dna.radius.datastructures.BusinessMarker;
 import com.dna.radius.datastructures.BusinessManager.Property;
@@ -63,9 +64,15 @@ public class MapWindowFragment extends Fragment {
 	private Property p;
 	private Spinner spinner;
 	private LatLng latestMapCenter = null;
+	private ClientData clientData;
+	
+	
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-		businessManager = new BusinessManager(getActivity());
+		clientData = ClientData.getInstance();
+		
+		businessManager = new BusinessManager(clientData);
 		dbHandler = new DBHandler(getActivity());
 		isInBusinessMode = AbstractActivity.isInBusinessMode;
 		
@@ -76,7 +83,7 @@ public class MapWindowFragment extends Fragment {
 	    if (gMap!=null){
 			gMap.setOnMarkerClickListener(markerListener);
 		}
-	    latestMapCenter = dbHandler.getHome();
+	    latestMapCenter = clientData.getHome();
 
 	    gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latestMapCenter, DEFAULT_LATLNG_ZOOM));
 	    gMap.animateCamera(CameraUpdateFactory.zoomTo(DEFAULT_ANIMATED_ZOOM), 2000, null);
@@ -143,7 +150,7 @@ public class MapWindowFragment extends Fragment {
 			@Override
 			public boolean onLongClick(View v) {
 				LatLng latLng = gMap.getCameraPosition().target;
-				dbHandler.setHome(latLng.latitude, latLng.longitude);
+				clientData.setHome(latLng,true);
 				
 				Toast.makeText(getActivity(), "new home location was selected", Toast.LENGTH_SHORT).show();
 				return false;
@@ -153,7 +160,7 @@ public class MapWindowFragment extends Fragment {
 			
 			@Override
 			public void onClick(View v) {
-				LatLng loc = dbHandler.getHome();
+				LatLng loc = clientData.getHome();
 				gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, DEFAULT_ANIMATED_ZOOM));
 				gMap.animateCamera(CameraUpdateFactory.zoomTo(DEFAULT_ANIMATED_ZOOM), 2000, null);
 			}
