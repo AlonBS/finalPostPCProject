@@ -318,7 +318,7 @@ public class MapWindowFragment extends Fragment {
 				myIntent.putExtra(ShowDealActivity.BUSINESS_NAME_PARAM, bMarker.name); //Optional parameters
 				myIntent.putExtra(ShowDealActivity.BUSINESS_ID_PARAM, bMarker.businessId); //Optional parameters
 				myIntent.putExtra(ShowDealActivity.BUSINESS_TYPE_PARAM, bMarker.type); //Optional parameters
-				myIntent.putExtra(ShowDealActivity.DEAL_RATING_PARAM, bMarker.rating); //Optional parameters
+				myIntent.putExtra(ShowDealActivity.DEAL_RATING_PARAM, bMarker.numOfStars); //Optional parameters
 				myIntent.putExtra(ShowDealActivity.NUM_OF_DISLIKES_PARAM, bMarker.numOfDislikes); //Optional parameters
 				myIntent.putExtra(ShowDealActivity.NUM_OF_LIKES_PARAM, bMarker.numOfLikes); //Optional parameters
 				myIntent.putExtra(ShowDealActivity.USER_MODE_PARAM, !isInBusinessMode);

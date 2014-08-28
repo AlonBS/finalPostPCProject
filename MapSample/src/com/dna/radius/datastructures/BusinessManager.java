@@ -57,7 +57,7 @@ public class BusinessManager {
 		}else if(p==Property.TOP_DEALS_PROP){
 			return isInTopDeals(buisness.businessId); 
 		}else if(p==Property.TOP_BUSINESS_PROP){
-			return buisness.rating>=4;
+			return buisness.numOfStars>=4;
 		}
 		else if(p==Property.ALL){
 			return true;
