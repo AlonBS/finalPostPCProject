@@ -1,20 +1,29 @@
 package com.dna.radius.clientmode;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-
 import android.util.Log;
-
 import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.dbhandling.DBHandler.DealLikeStatus;
 import com.google.android.gms.maps.model.LatLng;
 
+/***
+ * represents a data object for handling all the relevant data which is needed by
+ * the client. this data is relevant for both regular clients and business owner.
+ * therefore I choose to implement this class as a public singleton.
+ * The ClientData should be loaded only once for each log in, with a proper client id (currently it is loaded
+ * through the business owner opening screen and the client opening screen).
+ * afterwards, it can be used anywhere in the application using the getInstance() function.
+ *
+ */
 public class ClientData{
 	private int id;
 	/**lists which holds all the deals which the user liked or disliked*/
 	private ArrayList<Integer> dislikeList = new ArrayList<Integer>();
 	private ArrayList<Integer> likeList = new ArrayList<Integer>();
 	private ArrayList<Integer> favourites = new ArrayList<Integer>();
+	
+	/**holds true if the user is also signed up as a business*/
+	private boolean haveBusiness = false;
 	
 	private LatLng homeLocation;
 	private String userName;
@@ -28,10 +37,13 @@ public class ClientData{
 		return userName;
 	}
 	
+	/** loads the Client data from the parse DB*/
 	public static void loadClient(int id){
 		instance = new ClientData(id);
 		DBHandler.loadUesrDataSync(instance);
 	}
+	
+	/**returns the ClientData singleton*/
 	public static ClientData getInstance(){
 		if(instance==null){
 			Log.e("ClientData","ClientData wasn't initialized with LoadClient");
@@ -57,6 +69,21 @@ public class ClientData{
 	 */
 	public LatLng getHome(){
 		return homeLocation;
+	}
+	
+	/***
+	 * a setter for the haveBusiness flag.
+	 */
+	public void setHaveBusiness(boolean haveBusiness) {
+		this.haveBusiness = haveBusiness;
+	}
+	
+	/***
+	 * return true if the current user is also registered as a business owner.
+	 * @return
+	 */
+	public boolean doesUserHaveBusiness(){
+		return haveBusiness;
 	}
 	
 	/**
@@ -128,6 +155,7 @@ public class ClientData{
 	}
 	
 	public void addLikeToDeal(int businessId){
+		likeList.add(businessId);
 		DBHandler.setLikeToDeal(id, businessId, getDealLikeStatus(businessId));
 	}
 	

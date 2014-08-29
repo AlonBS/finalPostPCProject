@@ -9,7 +9,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
 
-import com.dna.radius.datastructures.BusinessMarker.BuisnessType;
+import com.dna.radius.datastructures.ExternalBusiness.BuisnessType;
 import com.example.mapsample.R;
 
 

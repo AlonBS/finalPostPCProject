@@ -24,8 +24,8 @@ import com.example.mapsample.R;
 
 public class CommentsFragment extends Fragment{
 	
-	private DBHandler dbHandler;
-	public int businessID = -1;
+	public int dealID = -1;
+	private final static long  WAITING_TIME_BETWEEN_COMMENTS =  1000 * 60 * 5; //5 minutes
 	
 	/***
 	 * for each comment which the users add, the map holds the time it happened.
@@ -45,16 +45,15 @@ public class CommentsFragment extends Fragment{
 	    CommentsArrayAdapter adapter = new CommentsArrayAdapter(parentActivity,android.R.layout.simple_list_item_1, commentsList);
 	    commentsListView.setAdapter(adapter);
 		
-	    if(businessID==-1){
-	    	Log.e("CommentsFragment", "ERRORR!!! you didnt modify the businessID field before executing the comments fragment!");
+	    if(dealID==-1){
+	    	Log.e("CommentsFragment", "ERRORR!!! you didnt modify the dealID field before executing the comments fragment!");
 	    	Intent intent = new Intent(Intent.ACTION_MAIN);
 	    	intent.addCategory(Intent.CATEGORY_HOME);
 	    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 	    	startActivity(intent);
 	    }
 	    
-	    dbHandler = new DBHandler(parentActivity);
-		dbHandler.loadCommentsListAsync(commentsList, adapter);
+		DBHandler.loadCommentsListAsync(commentsList, adapter);
 		
 		if(!parentActivity.isInUserMode){
 			LinearLayout linearLayout = (LinearLayout)view.findViewById(R.id.add_comment_layout);
@@ -75,17 +74,16 @@ public class CommentsFragment extends Fragment{
 				
 				@Override
 				public void onClick(View v) {
-					//sends the comment only if the user didn't commented on thid deal in the past
-					//five minutes
+					//sends the comment only if the user didn't commented on thid deal in the past minutes
 					boolean addComment = true;					
-					if(previousComments.containsKey(businessID)){
-						long lastCommentTime = previousComments.get(businessID);
+					if(previousComments.containsKey(dealID)){
+						long lastCommentTime = previousComments.get(dealID);
 						long currentTime = System.currentTimeMillis();
 						
-						if(currentTime < lastCommentTime + 1000 * 60 * 5){
+						if(currentTime < lastCommentTime + WAITING_TIME_BETWEEN_COMMENTS){
 							addComment = false;
 						}else{
-							previousComments.remove(businessID);
+							previousComments.remove(dealID);
 							addComment = true;
 						}
 					}
@@ -96,11 +94,11 @@ public class CommentsFragment extends Fragment{
 					}
 					
 					Toast.makeText(getActivity(), "Thank you for your comment!", Toast.LENGTH_SHORT).show();				
-					previousComments.put(businessID,System.currentTimeMillis());
+					previousComments.put(dealID,System.currentTimeMillis());
 					String userName = clientData.getUserName();
 					Date date = new Date();
 					String commentStr = newCommentEditText.getText().toString();
-					DBHandler.addComment(businessID, new Comment(commentStr,userName,date));
+					DBHandler.addComment(dealID, new Comment(commentStr,userName,date));
 					newCommentEditText.setText(getResources().getString(R.string.type_comment_here));
 				}
 			});

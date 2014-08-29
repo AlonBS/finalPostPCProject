@@ -9,11 +9,10 @@ import com.google.android.gms.maps.model.LatLng;
 /**
  * represents a BusinessMarker.
  * contains all the relevant information which the MapFragment needs for
- * showing businesses over the map, and to call a certain deal activity.
- * @author dror
+ * showing businesses over the map, and to call the ShowDealActivity for a certein business.
  *
  */
-public class BusinessMarker implements Serializable{
+public class ExternalBusiness implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
@@ -45,9 +44,9 @@ public class BusinessMarker implements Serializable{
 	public BuisnessType type;
 	public LatLng pos;
 	public int businessId;
+	public int currentDealID;
 
-	public BusinessMarker(String name,BuisnessType type,LatLng pos,int id,int numOfLikes,int numOfDislikes){
-		
+	public ExternalBusiness(String name,BuisnessType type,LatLng pos,int id,int numOfLikes,int numOfDislikes,int currentDealID){
 		this.name = name;
 		this.type = type;
 		this.numOfStars = new Random().nextInt(5);
@@ -56,6 +55,7 @@ public class BusinessMarker implements Serializable{
 		this.businessId  = id;
 		this.numOfDislikes = numOfDislikes;
 		this.numOfLikes = numOfLikes;
+		this.currentDealID = currentDealID;
 	}
 	
 }

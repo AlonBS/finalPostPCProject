@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import testing_stuff.LoadDealInfoRunnable;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,9 +18,9 @@ import android.widget.Toast;
 import com.dna.radius.businessmode.OwnerData;
 import com.dna.radius.businessmode.TopBusinessesHorizontalView;
 import com.dna.radius.clientmode.ClientData;
-import com.dna.radius.datastructures.BusinessManager;
-import com.dna.radius.datastructures.BusinessMarker;
-import com.dna.radius.datastructures.BusinessMarker.BuisnessType;
+import com.dna.radius.datastructures.MapBusinessManager;
+import com.dna.radius.datastructures.ExternalBusiness;
+import com.dna.radius.datastructures.ExternalBusiness.BuisnessType;
 import com.dna.radius.datastructures.Comment;
 import com.dna.radius.datastructures.DealHistoryObject;
 import com.dna.radius.mapsample.CommentsArrayAdapter;
@@ -34,15 +36,10 @@ import com.google.android.gms.maps.model.LatLng;
  */
 public class DBHandler {
 
-
-
 	private static LoadDealCommentsTask loadCommentsTask = null;
 	private static LoadCloseBusinessesToMapTask loadBusinessesAndMapTask = null;
 	private static LoadTopBusinessesRunnable loadTopBusinesses = null;
 
-
-	public DBHandler(Context context) {
-	}
 
 	/**
 	 * closes the DBHandler.
@@ -89,41 +86,15 @@ public class DBHandler {
 	 * is less than radius.
 	 * 
 	 */
-	public void loadBusinessListAndMapMarkersAsync(LatLng mapCenter,GoogleMap gMap, BusinessManager bManager,double radius,Context context){
+	public void loadBusinessListAndMapMarkersAsync(LatLng mapCenter,GoogleMap gMap, MapBusinessManager bManager,double radius,Context context){
 		loadBusinessesAndMapTask = new LoadCloseBusinessesToMapTask(context, gMap, bManager,radius);
 		loadBusinessesAndMapTask.execute();
 
 	}
 
-	public void stopLoadBusinessListAndMapMarkersAsync(){
+	public void stopLoadBusinessListAndMapMsarkersAsync(){
 		loadBusinessesAndMapTask.stopTask();
 	}
-
-	/**
-	 * loads the following data asynchroniously:
-	 * 	- deal string.
-	 *  - number of likes/dislikes.
-	 *  - phone number
-	 *  - address
-	 *  
-	 * updates the relevant views after the data was retrieved.
-	 */
-	public void loadDealInfoAndBusinessInfoAsync(long businessID ,TextView dealTextView, TextView detailsTextView,Context context){
-		//LoadDealStringTask loadTask = new LoadDealStringTask(textView, businessID, context);
-		//loadTask.execute();asd
-		LoadDealInfoRunnable loadTask = new LoadDealInfoRunnable(dealTextView, detailsTextView, businessID, context);
-		new Thread(loadTask){}.start();
-	}
-
-	/**
-	 * receives a businessID and returns a corresponding BussinessMarker object
-	 * with all the relevant information (excluding the business Bitmap, which will
-	 * be loaded via loadImageAsync function).
-	 */ //TODO - implement this function
-	public BusinessMarker getBusinessInfo(long businessID){
-		return new BusinessMarker("MCdonalds", BuisnessType.RESTURANT, new LatLng(31.781099, 35.217668),0,new Random().nextInt(99999),new Random().nextInt(99999));
-	}
-
 
 	/**
 	 * if the business has a bitmap on parse server, loads it asynchronously and
@@ -136,12 +107,52 @@ public class DBHandler {
 		LoadDealBitmapTask loadTask = new LoadDealBitmapTask(imageView, businessID,context);
 		context.getClass();
 		loadTask.execute();
-
+	}
+	
+	/***this object is used whenever a business marker is pressed on the map,
+	 * or whenever one of the businesses in the top businesses list is pressed.
+	 * in this case - more information is needed regarding to the business, such as:
+	 * phone number, address and deal text. This object holds these data items.
+	 */
+	public static class ExternalBusinessExtraInfo{
+		public String address;
+		public String phone;
+		public String dealStr;
+		
+		public ExternalBusinessExtraInfo(String address,String phone,String dealStr ){
+			this.address = address;
+			this.phone = phone;
+			this.dealStr = dealStr;
+		}
 	}
 
+	/**
+	 * this function is called whenever the ShowDealActivity is turned on.
+	 * in this case, more data is needed, such as - address, phone and deal string.
+	 * this function loads it from parse.
+	 * @param BusinessID
+	 */
+	public static ExternalBusinessExtraInfo getExtraInfoOnExternalBusiness(int BusinessID){
+		//******************************88
+		//TODO - erase the sleeping operation!! its for testing only
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		//******************************88
+		//TODO - ALON this data should be loaded from parse
+		String dealStr = "ONLY TODAY AND DURING THE REST OF THE YEAR!!! BUY A COOOOL SHIRT AND GET A PLASTIC BUG TO PUT IT IN FOR 10 AGOROT ONLY!!! wow!!"; 
+		String phoneStr = "050-8512391";
+		String addressStr = "Jaffa St. Jerusalem";
+		
+		return new ExternalBusinessExtraInfo(addressStr, phoneStr, dealStr);
+		
+		
+	}
 
 	public enum DealLikeStatus{LIKE,DISLIKE,DONT_CARE};
-
 	/**
 	 * updates the parse servers that the user like the 
 	 * current business deal.
@@ -173,10 +184,10 @@ public class DBHandler {
 			return;
 		}
 		if(oldStatus==DealLikeStatus.LIKE){
-			//TODO - remove from the like list at the parse DB
+			//TODO - remove from the business like list at the parse DB
 		}
 
-		//TODO - ALON add a like to the parse
+		//TODO - ALON add a like option to the parse
 
 	}
 
@@ -195,7 +206,6 @@ public class DBHandler {
 		}else{
 			Log.d("DBHandler", "Business " + Long.toString(businessId) + " error: the user didnt like it nor dislike it");
 		}
-
 
 	}
 	
@@ -253,7 +263,7 @@ public class DBHandler {
 		//TODO These strings should be returned from parse
 		String favouritesStr = "";
 		String likesStr = "";
-		String dislikesStr = "";; 
+		String dislikesStr = "";
 		List<String> favoritesList = Arrays.asList(favouritesStr.split("\\s*,\\s*"));
 		List<String> likesList = Arrays.asList(likesStr.split("\\s*,\\s*"));
 		List<String> dislikesList = Arrays.asList(dislikesStr.split("\\s*,\\s*"));
@@ -262,7 +272,7 @@ public class DBHandler {
 		double homeLatitude = 31.78507 ; 
 		double homeLongitude = 35.214328;
 		user.setHome(new LatLng(homeLatitude, homeLongitude), false);
-
+		user.setHaveBusiness(true);
 
 	}
 
@@ -274,10 +284,10 @@ public class DBHandler {
 	 * parameter asynchronously, using parse.
 	 */
 	public static void loadCommentsListAsync(ArrayList<Comment> comments,CommentsArrayAdapter adapter){
+		//TODO ALON - add your implementation to the LoadDealCommentsTask.
 		loadCommentsTask = new LoadDealCommentsTask(comments, adapter);
 		loadCommentsTask.execute();
 	}
-
 
 
 	/**
@@ -285,20 +295,10 @@ public class DBHandler {
 	 * this method should check if the user already commented on this deal before.
 	 * if he did - the new comment should replace the previous one.
 	 */
-	public static void addComment(long businessID, Comment comment){
+	public static void addComment(int dealID, Comment comment){
 		//TODO - alon, dbhandling
 	}
 
-	/**
-	 * return true if the user have a business, and able to switch to business mode.
-	 * return false otherwise. 
-	 * notice that method shuold be static.
-	 * @return
-	 */
-	public static boolean doesUserHaveBusinessMode(){
-		return true;
-		//TODO - ALON implement this function.
-	}
 
 	/***
 	 * loads the top businesses data into a given TopBusinessesHorizontalView.
@@ -310,24 +310,6 @@ public class DBHandler {
 	}
 	
 	
-	public static void changeBusinessImage(Bitmap bmap){
-		//TODO - ALON
-	}
-	
-	public static void changeBusinessAddress(String address){
-		//TODO - ALON
-	}
-	public static void changeBusinessPhone(String phoneNumber){
-		//TODO - ALON
-	}
-	public static void changeBusinessName(String name){
-		//TODO - ALON
-	}
-	public static void changeBusinessLocation(LatLng newLocation){
-		//TODO - ALON
-	}
-	
-	
 	public static void setImage(int businessID, Bitmap image) {
 		// TODO ALON
 		
@@ -335,6 +317,27 @@ public class DBHandler {
 	
 	public static void setDeal(int businessID, String deal) {
 		// TODO ALON
+		
+	}
+	public static void setBusinessName(int businessID, String name) {
+		// TODO ALON
+		
+	}
+	
+	public static void setBusinessPhone(int businessID, String phone) {
+		// TODO ALON
+		
+	}
+	
+	public static void setBusinessAddress(int businessID, String address) {
+		// TODO ALON
+		
+	}
+	
+	public static void setBusinessLocation(int businessID, LatLng location) {
+		// TODO ALON
+		double latitude = location.latitude;
+		double longitude = location.longitude;
 		
 	}
 

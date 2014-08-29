@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.dna.radius.businessmode.BusinessOpeningScreenActivity;
+import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.clientmode.ClientOpeningScreenActivity;
 import com.dna.radius.dbhandling.DBHandler;
 import com.example.mapsample.R;
@@ -48,7 +49,7 @@ public class AbstractActivity extends FragmentActivity{
 			//TODO - implement me
 		break;
 		case R.id.switch_mode_action:
-				if(!isInBusinessMode && !DBHandler.doesUserHaveBusinessMode()){
+				if(!isInBusinessMode && ClientData.getInstance().doesUserHaveBusiness()){
 					Toast.makeText(this, getResources().getString(R.string.dont_have_business), Toast.LENGTH_LONG).show();
 				}else{
 					isInBusinessMode = !isInBusinessMode;

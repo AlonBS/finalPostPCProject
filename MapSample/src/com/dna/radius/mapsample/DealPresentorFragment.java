@@ -38,7 +38,7 @@ public class DealPresentorFragment extends Fragment{
 		}
 		
 		activityParent = (ShowDealActivity)getActivity();
-		dbHandle = new DBHandler(getActivity());
+		dbHandle = new DBHandler();
 		final int businessID  = activityParent.businessID;
 		dbHandle.loadBusinessImageViewAsync(businessID, imageView,activityParent);
 	

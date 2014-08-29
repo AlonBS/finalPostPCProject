@@ -28,6 +28,11 @@ import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.mapsample.CommentsArrayAdapter;
 import com.example.mapsample.R;
 
+/**
+ * represents the first screen which the business owner sees when he is logging in.
+ * contains data about his deal, an image, comments and top deals segment.
+ *
+ */
 public class BusinessDashboardFragment extends Fragment{
 	private DBHandler dbHandler;
 	private BusinessOpeningScreenActivity  activityParent = null;
@@ -44,10 +49,11 @@ public class BusinessDashboardFragment extends Fragment{
 
 		activityParent = (BusinessOpeningScreenActivity)getActivity();
 
-		dbHandler = new DBHandler(activityParent);
+		dbHandler = new DBHandler();
 		final TextView dealTv = (TextView) view.findViewById(R.id.deal_tv);
 		dealTv.setText(activityParent.ownerData.currentDeal);
 		
+		/*handles the image of the business*/
 		imageView = (ImageView)view.findViewById(R.id.buisness_image_view);
 		if(activityParent.ownerData.hasImage){
 			imageView.setImageBitmap(activityParent.ownerData.image);
@@ -65,19 +71,22 @@ public class BusinessDashboardFragment extends Fragment{
 		});
 
 
-
+		/**handles the comments segment*/
 		commentsList = new ArrayList<>();
 		ListView commentsListView = (ListView)view.findViewById(R.id.comments_list_view);
 		CommentsArrayAdapter commentsAdapter = new CommentsArrayAdapter(activityParent,android.R.layout.simple_list_item_1 , commentsList);
 		commentsListView.setAdapter(commentsAdapter);
 		dbHandler.loadCommentsListAsync(commentsList, commentsAdapter);
 
+		/**handles the number of likes and dislikes*/
 		TextView numOfLikesTV = (TextView)view.findViewById(R.id.num_of_likes_tv);
 		numOfLikesTV.setText(Long.toString(activityParent.ownerData.numberOfLikes));
-
 		TextView numOfDislikesTV = (TextView)view.findViewById(R.id.num_of_dislikes_tv);
 		numOfDislikesTV.setText(Long.toString(activityParent.ownerData.numberOfDislikes));
 
+		/***
+		 * allows adding a new deal instead of the old one
+		 */
 		ImageView addDeal = (ImageView)view.findViewById(R.id.add_deal_iv);
 		addDeal.setOnClickListener(new OnClickListener() {
 			@Override
@@ -103,6 +112,7 @@ public class BusinessDashboardFragment extends Fragment{
 			}
 		});
 
+		/**sets the top businesses segment*/
 		TopBusinessesHorizontalView topBusinessesScroll = (TopBusinessesHorizontalView)view.findViewById(R.id.top_businesses_list_view);
 		dbHandler.LoadTopBusinessesAsync(topBusinessesScroll,activityParent);
 
@@ -140,7 +150,7 @@ public class BusinessDashboardFragment extends Fragment{
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-
+		/**receives an image from the gallery, and change the image of the business*/
 		if (requestCode == RESULT_LOAD_IMAGE && resultCode == FragmentActivity.RESULT_OK && null != data) {
 			Uri selectedImage = data.getData();
 			String[] filePathColumn = { MediaStore.Images.Media.DATA };

@@ -16,7 +16,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.dna.radius.clientmode.ClientData;
-import com.dna.radius.datastructures.BusinessMarker;
+import com.dna.radius.datastructures.ExternalBusiness;
 import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.mapsample.AbstractActivity;
 import com.dna.radius.mapsample.MapWindowFragment;
@@ -29,15 +29,14 @@ public class BusinessOpeningScreenActivity extends AbstractActivity{
 	//TODO this value should be given as an input
 	public int userID = 0;
 	
-	private DBHandler dbHandler;
-
+	/**buttons which allow switching between fragments*/
 	private ImageView homeFragmentBtn;
-
 	private ImageView mapFragmentBtn;
-
 	private ImageView businessHistoryFragment;
 	
-	private ImageView latestBtn;
+	/**holds the lates button which was pressed*/
+	private ImageView latestPressedBtn;
+	
 	
 	public  OwnerData ownerData;
 	@Override
@@ -46,12 +45,14 @@ public class BusinessOpeningScreenActivity extends AbstractActivity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.business_opening_screen);
 		
+		//Sets the waiting fragment.
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		Fragment waitingFragment = new WaitingFragment();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		fragmentTransaction.replace(R.id.business_fragment_layout, waitingFragment);
 		fragmentTransaction.commit();
 
+		//a thread which loads the ClientData and OwnerData.
 		Thread t = new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -61,24 +62,16 @@ public class BusinessOpeningScreenActivity extends AbstractActivity{
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
+						//loads the business dashboard fragment
 						FragmentManager fragmentManager = getSupportFragmentManager();
 						FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 						BusinessDashboardFragment dashboardFragment = new BusinessDashboardFragment();
 						fragmentTransaction.replace(R.id.business_fragment_layout, dashboardFragment);
 						fragmentTransaction.commit();
 						
+						//sets the business name and rating
 						TextView businessNameTv = (TextView)findViewById(R.id.businessTitle);
 						businessNameTv.setText(ownerData.name);
-						
-						homeFragmentBtn = (ImageView)findViewById(R.id.refresh_btn);
-						mapFragmentBtn = (ImageView)findViewById(R.id.map_btn);
-						businessHistoryFragment = (ImageView)findViewById(R.id.stats_btn);	
-						homeFragmentBtn.setOnClickListener(new FragmentBtnOnClickListener());
-						mapFragmentBtn.setOnClickListener(new FragmentBtnOnClickListener());
-						businessHistoryFragment.setOnClickListener(new FragmentBtnOnClickListener());
-						
-						latestBtn = homeFragmentBtn;
-						
 						RatingBar ratingBar = (RatingBar)findViewById(R.id.businessRatingBar);
 						ratingBar.setRating(ownerData.rating);
 						/**overrides rating bar's on touch method so it won't change anything*/
@@ -87,15 +80,31 @@ public class BusinessOpeningScreenActivity extends AbstractActivity{
 								return true;
 							}
 						});
+						
+						//add listeners to fragment buttons
+						homeFragmentBtn = (ImageView)findViewById(R.id.refresh_btn);
+						mapFragmentBtn = (ImageView)findViewById(R.id.map_btn);
+						businessHistoryFragment = (ImageView)findViewById(R.id.stats_btn);	
+						homeFragmentBtn.setOnClickListener(new FragmentBtnOnClickListener());
+						mapFragmentBtn.setOnClickListener(new FragmentBtnOnClickListener());
+						businessHistoryFragment.setOnClickListener(new FragmentBtnOnClickListener());
+						
+						latestPressedBtn = homeFragmentBtn;
+						
+
 					}
 				});
 			}
 		});
 		t.start();
-		dbHandler = new DBHandler(this);
 		
 	}
 
+	/***
+	 * a listener for the fragment buttons. allows switching between the fragments,
+	 * according to the button which was pressed.
+	 *
+	 */
 	private class FragmentBtnOnClickListener implements OnClickListener{
 
 		@Override
@@ -109,10 +118,10 @@ public class BusinessOpeningScreenActivity extends AbstractActivity{
 			}else if(clickedBtn==businessHistoryFragment){
 				newFragment =  new BusinessHistoryFragment(); //TODO - implement this
 			}
-			if((latestBtn == clickedBtn) && (clickedBtn!=homeFragmentBtn)){
+			if((latestPressedBtn == clickedBtn) && (clickedBtn!=homeFragmentBtn)){
 				return;
 			}
-			latestBtn = (ImageView) clickedBtn;
+			latestPressedBtn = (ImageView) clickedBtn;
 			FragmentManager fragmentManager = getSupportFragmentManager();
 			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 			
@@ -123,14 +132,6 @@ public class BusinessOpeningScreenActivity extends AbstractActivity{
 
 
 	}
-	@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
-		if(dbHandler!=null){
-			dbHandler.close();
-			dbHandler = null;
-		}
-	}
+
 
 }

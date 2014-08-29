@@ -8,21 +8,29 @@ import android.util.Log;
 import com.dna.radius.clientmode.ClientData;
 import com.google.android.gms.maps.model.Marker;
 
-public class BusinessManager {
+/***
+ * this objects holds all the relevant information which the map needs about the loaded businesses.
+ * it is used instead of holding this information in separate data structures.
+ * @author dror
+ *
+ */
+public class MapBusinessManager {
 	
 	/**maps from map markers to businesses and from businesses to markers*/
-	private HashMap <Marker, BusinessMarker> markerToBusiness = new HashMap <Marker, BusinessMarker>();
-	private HashMap <BusinessMarker, Marker> BusinessToMarker = new HashMap <BusinessMarker, Marker>();
+	private HashMap <Marker, ExternalBusiness> markerToBusiness = new HashMap <Marker, ExternalBusiness>();
+	private HashMap <ExternalBusiness, Marker> BusinessToMarker = new HashMap <ExternalBusiness, Marker>();
     
+	/**relevant client data object*/
 	private ClientData clientData;
 	
-    public BusinessManager(ClientData clientData){
+	/**c-tor*/
+    public MapBusinessManager(ClientData clientData){
     	this.clientData = clientData;
     }
     
 	
     /**returns list of all the businesses which were download from parse*/
-	public Set<BusinessMarker> getAllBusinesses(){
+	public Set<ExternalBusiness> getAllBusinesses(){
 		return BusinessToMarker.keySet();
 	}
 	
@@ -31,13 +39,14 @@ public class BusinessManager {
 		return markerToBusiness.keySet();
 	}
 	
-	public Marker getMarker(BusinessMarker b){
+	/**given a BusinessMarker object, returns the relevand */
+	public Marker getMarker(ExternalBusiness b){
 		return BusinessToMarker.get(b);
 	}
-	public BusinessMarker getBusiness(Marker m){
+	public ExternalBusiness getBusiness(Marker m){
 		return markerToBusiness.get(m);
 	}
-	public void addBusiness(BusinessMarker b,Marker m){
+	public void addBusiness(ExternalBusiness b,Marker m){
 		BusinessToMarker.put(b,m);
 		markerToBusiness.put(m,b);
 	}
@@ -46,7 +55,9 @@ public class BusinessManager {
 	/** this function returns true if a business has a certein propert, 
 	 * according to the propery enum list*/
 	public enum Property{FAVORITES_PROP,TOP_BUSINESS_PROP,TOP_DEALS_PROP,ALL;}
-	public boolean hasProperty(BusinessMarker buisness,Property p){
+	
+	/**returns true if a business has a certain property.*/
+	public boolean hasProperty(ExternalBusiness buisness,Property p){
 		if(p==Property.FAVORITES_PROP){
 			boolean retVal = clientData.isInFavourites(buisness.businessId); //TODO - improve!
 			return retVal;
@@ -66,17 +77,12 @@ public class BusinessManager {
 		
 	}
 	
-
-	private boolean isInTopBuisnesses(long businessId) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 	private boolean isInTopDeals(long businessId) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 	public boolean hasProperty(Marker marker,Property p){
-		BusinessMarker buisness = markerToBusiness.get(marker);
+		ExternalBusiness buisness = markerToBusiness.get(marker);
 		return hasProperty(buisness, p);		
 	}	
 }

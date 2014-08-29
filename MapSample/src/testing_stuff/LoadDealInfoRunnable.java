@@ -1,4 +1,4 @@
-package com.dna.radius.dbhandling;
+package testing_stuff;
 
 import java.lang.ref.WeakReference;
 
@@ -6,6 +6,10 @@ import android.content.Context;
 import android.widget.TextView;
 
 /***
+ * this object is called whenever a business marker is pressed on the map,
+ * or whenever one of the businesses in the top businesses list is pressed.
+ * in this case - more information is need regarding to the business, such as:
+ * phone number, address and deal text.
  * Implementation of a runnable object which updates the deal TextView,
  * and the address&phone TextView within the ShowDealActivity.
  * The 3 strings are downloaded from parse (phone,address and deal).
@@ -24,7 +28,8 @@ public class LoadDealInfoRunnable implements Runnable{
 	 * receives two TextViews. if one of them is null - doesn't updates it.
 	 * 
 	 */
-	public LoadDealInfoRunnable(TextView dealTextView,TextView addressAndPhoneView, long businessID,Context context) {
+	//TODO - the c-tor is private because these class was moved to the testing package and shuoldnt be used.
+	private LoadDealInfoRunnable(TextView dealTextView,TextView addressAndPhoneView, long businessID,Context context) {
 		// Use a WeakReference to ensure the ImageView can be garbage collected
 		this.dealTextViewRef = dealTextView!=null? new WeakReference<TextView>(dealTextView):null;
 		this.addressAndPhoneViewRef = addressAndPhoneView!=null?new WeakReference<TextView>(addressAndPhoneView):null;
@@ -34,8 +39,6 @@ public class LoadDealInfoRunnable implements Runnable{
 
 	@Override
 	public void run() {
-
-
 
 		if (dealTextViewRef != null) {
 			//TODO - ALON, this values should be loaded from parse using the business id.

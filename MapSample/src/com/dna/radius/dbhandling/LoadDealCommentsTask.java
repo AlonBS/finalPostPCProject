@@ -32,6 +32,7 @@ public class LoadDealCommentsTask extends AsyncTask<Void, ArrayList<Comment>, Vo
 	
 	@Override
 	protected Void doInBackground(Void... params) {
+		//TODO - ALON - implements this function.
 		
 		final CommentDBLoadSimulatorDebug dbCursur =  new CommentDBLoadSimulatorDebug(); //TODO - this list is for debug only!!
 		final int NUM_OF_ITEMS_PER_UPDATE = 2; //TODO - modify it!!

@@ -7,7 +7,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+/**
+ * represents the history fragment for the business owner.
+ * should contain a list of deal with number of likes and dislikes for each.
+ * also, it should allow to choose a deal from the history list and set it instead of the current one.
+ * @author dror
+ *
+ */
 public class BusinessHistoryFragment extends Fragment{
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {

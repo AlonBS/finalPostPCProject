@@ -24,10 +24,10 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.dna.radius.clientmode.ClientData;
-import com.dna.radius.datastructures.BusinessManager;
-import com.dna.radius.datastructures.BusinessMarker;
-import com.dna.radius.datastructures.BusinessManager.Property;
-import com.dna.radius.datastructures.BusinessMarker.BuisnessType;
+import com.dna.radius.datastructures.MapBusinessManager;
+import com.dna.radius.datastructures.ExternalBusiness;
+import com.dna.radius.datastructures.MapBusinessManager.Property;
+import com.dna.radius.datastructures.ExternalBusiness.BuisnessType;
 import com.dna.radius.dbhandling.DBHandler;
 import com.example.mapsample.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -42,7 +42,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapWindowFragment extends Fragment {
-	private BusinessManager businessManager;
+	private MapBusinessManager businessManager;
 	private GoogleMap gMap;
 	static final LatLng HAMBURG = new LatLng(53.558, 9.927);
 	static final LatLng KIEL = new LatLng(53.551, 9.993);
@@ -72,8 +72,8 @@ public class MapWindowFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		clientData = ClientData.getInstance();
 		
-		businessManager = new BusinessManager(clientData);
-		dbHandler = new DBHandler(getActivity());
+		businessManager = new MapBusinessManager(clientData);
+		dbHandler = new DBHandler();
 		isInBusinessMode = AbstractActivity.isInBusinessMode;
 		
 		
@@ -99,7 +99,7 @@ public class MapWindowFragment extends Fragment {
 				if (Math.abs(position.target.latitude-latestMapCenter.latitude)>RADIUS ||
 						Math.abs(position.target.longitude-latestMapCenter.longitude)>RADIUS){
 					latestMapCenter = position.target;
-					dbHandler.stopLoadBusinessListAndMapMarkersAsync();
+					dbHandler.stopLoadBusinessListAndMapMsarkersAsync();
 					dbHandler.loadBusinessListAndMapMarkersAsync(position.target, gMap, businessManager, RADIUS,getActivity());
 					Log.d("MapWindowFragment","map center was changed significantly. loading businesses again.");
 				}
@@ -283,7 +283,7 @@ public class MapWindowFragment extends Fragment {
         	p = Property.ALL;
         }
         
-		for(BusinessMarker bm :  businessManager.getAllBusinesses()){
+		for(ExternalBusiness bm :  businessManager.getAllBusinesses()){
 			Marker m = businessManager.getMarker(bm);
 			if(m==null){
 				Log.d("filterBtnClickListener","didn't find corresponding marker for a business");
@@ -303,7 +303,7 @@ public class MapWindowFragment extends Fragment {
 		
 	}
 
-	private void putOverlayOnMap(BusinessMarker bm){
+	private void putOverlayOnMap(ExternalBusiness bm){
 		Marker m =  gMap.addMarker(new MarkerOptions().position(bm.pos).title(bm.name).icon(BitmapDescriptorFactory.fromResource(bm.iconID)));
     	businessManager.addBusiness(bm, m);
 
@@ -316,18 +316,19 @@ public class MapWindowFragment extends Fragment {
 	private OnMarkerClickListener markerListener = new OnMarkerClickListener() {
 		@Override
 		public boolean onMarkerClick(Marker marker) {
-			BusinessMarker bMarker = businessManager.getBusiness(marker);
+			ExternalBusiness bMarker = businessManager.getBusiness(marker);
 			if(bMarker==null)
 				Toast.makeText(getActivity(),"sry null", Toast.LENGTH_SHORT).show();
 			else{
 				Toast.makeText(getActivity(),"your in: " +  bMarker.name, Toast.LENGTH_SHORT).show();
 				Intent myIntent = new Intent(getActivity(), ShowDealActivity.class);
-				myIntent.putExtra(ShowDealActivity.BUSINESS_NAME_PARAM, bMarker.name); //Optional parameters
-				myIntent.putExtra(ShowDealActivity.BUSINESS_ID_PARAM, bMarker.businessId); //Optional parameters
-				myIntent.putExtra(ShowDealActivity.BUSINESS_TYPE_PARAM, bMarker.type); //Optional parameters
-				myIntent.putExtra(ShowDealActivity.DEAL_RATING_PARAM, bMarker.numOfStars); //Optional parameters
-				myIntent.putExtra(ShowDealActivity.NUM_OF_DISLIKES_PARAM, bMarker.numOfDislikes); //Optional parameters
-				myIntent.putExtra(ShowDealActivity.NUM_OF_LIKES_PARAM, bMarker.numOfLikes); //Optional parameters
+				myIntent.putExtra(ShowDealActivity.BUSINESS_NAME_PARAM, bMarker.name);
+				myIntent.putExtra(ShowDealActivity.BUSINESS_ID_PARAM, bMarker.businessId);
+				myIntent.putExtra(ShowDealActivity.DEAL_ID_PARAM, bMarker.currentDealID); 
+				myIntent.putExtra(ShowDealActivity.BUSINESS_TYPE_PARAM, bMarker.type);
+				myIntent.putExtra(ShowDealActivity.DEAL_RATING_PARAM, bMarker.numOfStars);
+				myIntent.putExtra(ShowDealActivity.NUM_OF_DISLIKES_PARAM, bMarker.numOfDislikes); 
+				myIntent.putExtra(ShowDealActivity.NUM_OF_LIKES_PARAM, bMarker.numOfLikes);
 				myIntent.putExtra(ShowDealActivity.USER_MODE_PARAM, !isInBusinessMode);
 				getActivity().startActivity(myIntent);
 			}
