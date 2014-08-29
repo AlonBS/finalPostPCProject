@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -22,56 +21,56 @@ import com.dna.radius.datastructures.Comment;
 import com.dna.radius.dbhandling.DBHandler;
 import com.example.mapsample.R;
 
+/**
+ * This fragment shows comments on a certein deal.
+ * if the user is in client mode, it allows him to comment on the deal as well.
+ */
 public class CommentsFragment extends Fragment{
-	
-	public int dealID = -1;
-	private final static long  WAITING_TIME_BETWEEN_COMMENTS =  1000 * 60 * 5; //5 minutes
-	
+
+
+	private int dealID = -1;
+
 	/***
+	 * In order to prevent spamming, 
 	 * for each comment which the users add, the map holds the time it happened.
 	 */
 	static final HashMap<Integer,Long > previousComments = new HashMap<>();
-	
+	public CommentsFragment(int dealID){
+		this.dealID = dealID;
+	}
+
+	/**the amount of time (in milliseconds) which the user need to wait before writing another comment
+	 * to a deal. currently set to 5 minutes*/
+	private final static long  WAITING_TIME_BETWEEN_COMMENTS =  1000 * 60 * 5;
+
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.comments_fragment,container, false);
 		final ClientData clientData = ClientData.getInstance();
-		ListView commentsListView = (ListView)view.findViewById(R.id.comments_list_view);
 		final ShowDealActivity parentActivity = (ShowDealActivity)getActivity();
-		
+
+		//load the comments list
+		ListView commentsListView = (ListView)view.findViewById(R.id.comments_list_view);
 		registerForContextMenu(commentsListView);
-		
-		//ArrayList<Comment> commentsList = new CommentDBLoadSimulatorDebug().getAllComments();
 		ArrayList<Comment> commentsList = new ArrayList<Comment>();//todoDal.all(TodoDAL.DB_TYPE.SQLITE);
-	    CommentsArrayAdapter adapter = new CommentsArrayAdapter(parentActivity,android.R.layout.simple_list_item_1, commentsList);
-	    commentsListView.setAdapter(adapter);
-		
-	    if(dealID==-1){
-	    	Log.e("CommentsFragment", "ERRORR!!! you didnt modify the dealID field before executing the comments fragment!");
-	    	Intent intent = new Intent(Intent.ACTION_MAIN);
-	    	intent.addCategory(Intent.CATEGORY_HOME);
-	    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-	    	startActivity(intent);
-	    }
-	    
+		CommentsArrayAdapter adapter = new CommentsArrayAdapter(parentActivity,android.R.layout.simple_list_item_1, commentsList);
+		commentsListView.setAdapter(adapter);
 		DBHandler.loadCommentsListAsync(commentsList, adapter);
-		
+
+		//if the user is in user mode - allows him to comment on a certain deal.
 		if(!parentActivity.isInUserMode){
 			LinearLayout linearLayout = (LinearLayout)view.findViewById(R.id.add_comment_layout);
 			linearLayout.setVisibility(View.GONE);
 		}else{
 			final EditText newCommentEditText = (EditText)view.findViewById(R.id.comment_edit_text);
-			
 			newCommentEditText.setOnClickListener(new OnClickListener() {
-				
 				@Override
 				public void onClick(View v) {
 					newCommentEditText.setText("");		
 				}
 			});
-			
+
 			ImageView sendCommentButton = (ImageView)view.findViewById(R.id.comment_send);
 			sendCommentButton.setOnClickListener(new OnClickListener() {
-				
 				@Override
 				public void onClick(View v) {
 					//sends the comment only if the user didn't commented on thid deal in the past minutes
@@ -79,7 +78,7 @@ public class CommentsFragment extends Fragment{
 					if(previousComments.containsKey(dealID)){
 						long lastCommentTime = previousComments.get(dealID);
 						long currentTime = System.currentTimeMillis();
-						
+
 						if(currentTime < lastCommentTime + WAITING_TIME_BETWEEN_COMMENTS){
 							addComment = false;
 						}else{
@@ -87,12 +86,12 @@ public class CommentsFragment extends Fragment{
 							addComment = true;
 						}
 					}
-					
+
 					if(!addComment){
 						Toast.makeText(getActivity(), "you already commented on this deal lately", Toast.LENGTH_SHORT).show();				
 						return;
 					}
-					
+
 					Toast.makeText(getActivity(), "Thank you for your comment!", Toast.LENGTH_SHORT).show();				
 					previousComments.put(dealID,System.currentTimeMillis());
 					String userName = clientData.getUserName();
@@ -103,8 +102,8 @@ public class CommentsFragment extends Fragment{
 				}
 			});
 		}
-		
-		
+
+		Log.d("CommentsFragment", "A comments fragment was created, deal id: " + dealID);
 		return view;
 	}
 
@@ -114,6 +113,6 @@ public class CommentsFragment extends Fragment{
 		super.onDestroy();
 		DBHandler.close();
 	}
-		
-	
+
+
 }

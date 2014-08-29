@@ -15,21 +15,22 @@ import android.widget.TextView;
 import com.dna.radius.datastructures.Comment;
 import com.example.mapsample.R;
 
+/***
+ * represents an array adapter view for the comments list.
+ * @author dror
+ *
+ */
 public class CommentsArrayAdapter extends ArrayAdapter<Comment>{
 	@SuppressLint("SimpleDateFormat")
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-	private Context context;
 	
 	
 	
 	public CommentsArrayAdapter(Context context, int resource, ArrayList<Comment> list) {
 		super(context, resource,list);
-		this.context = context;
-		// TODO Auto-generated constructor stub
 	}
 	@Override
 	public void notifyDataSetChanged() {
-		// TODO Auto-generated method stub
 		super.notifyDataSetChanged();
 	}
 	

@@ -10,11 +10,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.test.UiThreadTest;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -29,7 +26,7 @@ import com.dna.radius.dbhandling.DBHandler.ExternalBusinessExtraInfo;
 import com.example.mapsample.R;
 
 public class ShowDealActivity extends FragmentActivity{
-	
+	//needed parameters for the activity
 	public final static String BUSINESS_NAME_PARAM = "BusinessName";
 	public final static String BUSINESS_ID_PARAM = "BusinessID";
 	public final static String DEAL_ID_PARAM = "BusinessID";
@@ -39,33 +36,27 @@ public class ShowDealActivity extends FragmentActivity{
 	public final static String NUM_OF_LIKES_PARAM = "likesParam";
 	public final static String NUM_OF_DISLIKES_PARAM = "dislikesParam";	
 	
+	//a button which allows switching between the like fragment and the comments fragment.
 	private ImageView switchFragmentsButton;
+	//used for switching between fragments.
 	private enum CurrentFragmentType{DEAL_FRAGMENT,COMMENTS_FRAGMENT};
 	private CurrentFragmentType currentFragmentType = CurrentFragmentType.DEAL_FRAGMENT;
+	
 	public boolean isInUserMode;
-	public String dealDetails;
 	public int businessID, dealID;
 	public int numOfLikes,numOfDislikes;
 	public BuisnessType bType;
 	private boolean isFavourite;
-	private DBHandler dbHandle;
 	
 	/**The curreny Deal comments List*/
 	public ArrayList<Comment> commentsList;
 	
 	ClientData clientData;
 	
-	
-	@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
-		dbHandle.close();
-	}
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.show_deal_activity);
@@ -88,23 +79,24 @@ public class ShowDealActivity extends FragmentActivity{
 		RatingBar ratingBar = (RatingBar)findViewById(R.id.businessRatingBar);
 		ratingBar.setRating(rating);
 		/**overrides rating bar's on touch method so it won't change anything*/
-		ratingBar.setOnTouchListener(new OnTouchListener() {
-	        public boolean onTouch(View v, MotionEvent event) {
-	            return true;
-	        }
-	    });
-		
+		ratingBar.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				return;
+			}
+		});
+
+		//handles the switch fragment button
 		switchFragmentsButton = (ImageView)findViewById(R.id.switchFragmentButton);
 		Bitmap commentsIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_chat);
 		switchFragmentsButton.setImageBitmap(commentsIcon);
-		
 		//until the Extra data will be loaded fully - this button is unusable.
 		switchFragmentsButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {return;}
 		});
 		
-		
+		//this thread loads the relevant user data and then loads the activities views.
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -135,7 +127,7 @@ public class ShowDealActivity extends FragmentActivity{
 						//starts the deal fragment
 						FragmentManager fragmentManager = getSupportFragmentManager();
 						FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-						DealPresentorFragment dealPresantorFragment = new DealPresentorFragment();
+						LikeAndDislikeFragment dealPresantorFragment = new LikeAndDislikeFragment();
 						fragmentTransaction.add(R.id.deal_or_comments_fragment, dealPresantorFragment);
 						fragmentTransaction.commit();
 					}
@@ -143,7 +135,7 @@ public class ShowDealActivity extends FragmentActivity{
 			}
 		}).start();
 		
-		
+		//handles the favourites button
 		final ImageView favouritesBtn = (ImageView)findViewById(R.id.favourites_flag);
 		isFavourite = clientData.isInFavourites(businessID);
 		if(isFavourite){
@@ -151,10 +143,8 @@ public class ShowDealActivity extends FragmentActivity{
 			favouritesBtn.setImageBitmap(favouriteBmap);
 		}
 		favouritesBtn.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				isFavourite = !isFavourite;
 				Bitmap favouriteBmap;
 				if(isFavourite){
@@ -165,16 +155,18 @@ public class ShowDealActivity extends FragmentActivity{
 					clientData.removeFromFavorites(businessID);
 				}
 				favouritesBtn.setImageBitmap(favouriteBmap);
-				
 			}
 		});
 		
-		
-		
-		
-		
 }
 
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		DBHandler.close();
+	}
+	
 	/**
 	 * this function is called whenever the comment button / the back arrow button is pressed.
 	 * in this case - a new fragment should be loaded to the screen.
@@ -184,15 +176,13 @@ public class ShowDealActivity extends FragmentActivity{
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		Fragment fragmentToSwitch;
 		Bitmap newIcon;
-		// TODO Auto-generated method stub
 		if (currentFragmentType == CurrentFragmentType.DEAL_FRAGMENT){
 			currentFragmentType = CurrentFragmentType.COMMENTS_FRAGMENT;
-			 fragmentToSwitch = new CommentsFragment();
-			 ((CommentsFragment)fragmentToSwitch).dealID = dealID;
+			 fragmentToSwitch = new CommentsFragment(dealID);
 			 newIcon= BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_back);
 		}else{
 			currentFragmentType = CurrentFragmentType.DEAL_FRAGMENT;
-			fragmentToSwitch = new DealPresentorFragment();
+			fragmentToSwitch = new LikeAndDislikeFragment();
 			newIcon= BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_chat);
 		}
 		fragmentTransaction.replace(R.id.deal_or_comments_fragment, fragmentToSwitch);

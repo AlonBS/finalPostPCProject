@@ -1,4 +1,4 @@
-package com.dna.radius.dbhandling;
+package testing_stuff;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -6,7 +6,8 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class LocalDBHelper extends SQLiteOpenHelper{
-	public LocalDBHelper(Context context) {
+	//TODO - the ctor is private because this object is now in the testing zone, should not be used!
+	private LocalDBHelper(Context context) {
 		super(context, DB_NAME, null, 1);	
 	}
 

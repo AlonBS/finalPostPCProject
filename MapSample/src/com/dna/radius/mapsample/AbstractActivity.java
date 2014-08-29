@@ -17,8 +17,15 @@ import com.dna.radius.clientmode.ClientOpeningScreenActivity;
 import com.dna.radius.dbhandling.DBHandler;
 import com.example.mapsample.R;
 
+/***
+ * This activity is used in order to shared the context menu between all the activities in the application.
+ * every activity should extends this activity.
+ * @author dror
+ *
+ */
 public class AbstractActivity extends FragmentActivity{
-	public static boolean isInBusinessMode = true; //TODO this value should be set when the application starts!!
+	//TODO this value should be set when the application starts!!
+	public static boolean isInBusinessMode = true; 
 	
 	
 	@Override

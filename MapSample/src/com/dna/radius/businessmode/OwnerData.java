@@ -27,7 +27,6 @@ public class OwnerData {
 	public int numberOfLikes;
 	public int numberOfDislikes;
 	public int rating; //rating - out of 5
-	public ArrayList<Comment> commentsList; 
 	public ArrayList<DealHistoryObject> dealHistory;
 	LatLng location;
 	
