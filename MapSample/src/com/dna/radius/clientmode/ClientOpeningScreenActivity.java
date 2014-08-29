@@ -14,7 +14,7 @@ import com.example.mapsample.R;
 
 public class ClientOpeningScreenActivity extends AbstractActivity{
 	ClientData clientData;
-	private int id; //TODO - alon, should be given from the login module
+	private int userID; //TODO - alon, should be given from the login module
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -43,7 +43,7 @@ public class ClientOpeningScreenActivity extends AbstractActivity{
 		Thread t = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				ClientData.loadClient(id);
+				ClientData.loadClient(userID);
 				clientData = ClientData.getInstance();
 				runOnUiThread(new Runnable() {
 					@Override

@@ -16,8 +16,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.dna.radius.clientmode.ClientData;
-import com.dna.radius.datastructures.ExternalBusiness;
-import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.mapsample.AbstractActivity;
 import com.dna.radius.mapsample.MapWindowFragment;
 import com.dna.radius.mapsample.WaitingFragment;
