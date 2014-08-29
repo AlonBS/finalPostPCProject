@@ -307,7 +307,7 @@ public class DBHandler {
 	 * loads the top businesses data into a given TopBusinessesHorizontalView.
 	 * @param view
 	 */
-	public void LoadTopBusinessesAsync(TopBusinessesHorizontalView view, Context context){
+	public static void LoadTopBusinessesAsync(TopBusinessesHorizontalView view, Context context){
 		loadTopBusinesses = new LoadTopBusinessesRunnable(view, context);
 		new Thread(loadTopBusinesses){}.start();
 	}

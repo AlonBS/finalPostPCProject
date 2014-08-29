@@ -36,7 +36,6 @@ import com.example.mapsample.R;
  *
  */
 public class BusinessDashboardFragment extends Fragment{
-	private DBHandler dbHandler;
 	private BusinessOpeningScreenActivity  activityParent = null;
 	private ArrayList<Comment> commentsList;
 	private ImageView imageView;
@@ -52,7 +51,6 @@ public class BusinessDashboardFragment extends Fragment{
 
 		activityParent = (BusinessOpeningScreenActivity)getActivity();
 
-		dbHandler = new DBHandler();
 		final TextView dealTv = (TextView) view.findViewById(R.id.deal_tv);
 		dealTv.setText(activityParent.ownerData.currentDeal);
 
@@ -96,7 +94,7 @@ public class BusinessDashboardFragment extends Fragment{
 		ListView commentsListView = (ListView)view.findViewById(R.id.comments_list_view);
 		CommentsArrayAdapter commentsAdapter = new CommentsArrayAdapter(activityParent,android.R.layout.simple_list_item_1 , commentsList);
 		commentsListView.setAdapter(commentsAdapter);
-		dbHandler.loadCommentsListAsync(commentsList, commentsAdapter);
+		DBHandler.loadCommentsListAsync(commentsList, commentsAdapter);
 
 		/**handles the number of likes and dislikes*/
 		TextView numOfLikesTV = (TextView)view.findViewById(R.id.num_of_likes_tv);
@@ -134,7 +132,7 @@ public class BusinessDashboardFragment extends Fragment{
 
 		/**sets the top businesses segment*/
 		TopBusinessesHorizontalView topBusinessesScroll = (TopBusinessesHorizontalView)view.findViewById(R.id.top_businesses_list_view);
-		dbHandler.LoadTopBusinessesAsync(topBusinessesScroll,activityParent);
+		DBHandler.LoadTopBusinessesAsync(topBusinessesScroll,activityParent);
 
 		return view;
 
@@ -147,20 +145,14 @@ public class BusinessDashboardFragment extends Fragment{
 	public void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
-		if(dbHandler!=null){
-			dbHandler.close();
-			dbHandler = null;
-		}
+		//DBHandler.close(); //TODO what to do in this case?
 	}
 
 	@Override
 	public void onDestroyView() {
 		// TODO Auto-generated method stub
 		super.onDestroyView();
-		if(dbHandler!=null){
-			dbHandler.close();
-			dbHandler = null;
-		}
+		DBHandler.close();
 	}
 
 
