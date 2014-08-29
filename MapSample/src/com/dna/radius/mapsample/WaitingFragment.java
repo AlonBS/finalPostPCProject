@@ -8,6 +8,11 @@ import android.view.ViewGroup;
 
 import com.example.mapsample.R;
 
+/**
+ * this is a waiting fragment - does nothing except for showing a progress bar on the screen.
+ * @author dror
+ *
+ */
 public class WaitingFragment extends Fragment{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

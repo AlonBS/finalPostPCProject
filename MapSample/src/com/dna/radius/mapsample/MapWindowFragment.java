@@ -24,10 +24,10 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.dna.radius.clientmode.ClientData;
-import com.dna.radius.datastructures.MapBusinessManager;
 import com.dna.radius.datastructures.ExternalBusiness;
-import com.dna.radius.datastructures.MapBusinessManager.Property;
 import com.dna.radius.datastructures.ExternalBusiness.BuisnessType;
+import com.dna.radius.datastructures.MapBusinessManager;
+import com.dna.radius.datastructures.MapBusinessManager.Property;
 import com.dna.radius.dbhandling.DBHandler;
 import com.example.mapsample.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -35,77 +35,66 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapWindowFragment extends Fragment {
 	private MapBusinessManager businessManager;
 	private GoogleMap gMap;
-	static final LatLng HAMBURG = new LatLng(53.558, 9.927);
-	static final LatLng KIEL = new LatLng(53.551, 9.993);
-	static final LatLng JAFFA_STREET = new LatLng(31.78507,35.214328);
 	private boolean isInBusinessMode;
-	
-	//TODO - we should decide where does this constant goes
-	static public final LatLng DEFAULT_LOCATION = new LatLng(31.78507,35.214328);
-//	private ArrayList<BusinessMarker> businessesList = new ArrayList<BusinessMarker>();
-//	private HashMap <Marker, BusinessMarker> markerToBusiness = new HashMap <Marker, BusinessMarker>();
-//	private HashMap <BusinessMarker, Marker> BusinessToMarker = new HashMap <BusinessMarker, Marker>();
-	final double RADIUS = 0.01; 	
+	final double LOAD_RADIUS = 0.01; 	
 	private static final float DEFAULT_LATLNG_ZOOM = 20;
 	private static final float DEFAULT_ANIMATED_ZOOM = 15;
 	private HashMap<BuisnessType,ImageView> typeToButton;
 	private ImageView restBtn,pubBtn,hotelBtn,shoppingBtn,coffeeBtn;
 	private View view;
-	protected DBHandler dbHandler;
-	private Property p;
-	private Spinner spinner;
+	private Spinner preferencedSpinner;
 	private LatLng latestMapCenter = null;
 	private ClientData clientData;
 	
 	
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-		clientData = ClientData.getInstance();
+		view = inflater.inflate(R.layout.map_window_fragment,container, false);
 		
+		clientData = ClientData.getInstance();
 		businessManager = new MapBusinessManager(clientData);
-		dbHandler = new DBHandler();
 		isInBusinessMode = AbstractActivity.isInBusinessMode;
 		
-		
-		view = inflater.inflate(R.layout.map_window_fragment,container, false);
+		//loads the google map objects and set it on the client's home page.
 		FragmentManager manager = getActivity().getSupportFragmentManager();
 		gMap = ((SupportMapFragment)manager.findFragmentById(R.id.map)).getMap();
 	    if (gMap!=null){
 			gMap.setOnMarkerClickListener(markerListener);
 		}
 	    latestMapCenter = clientData.getHome();
-
 	    gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latestMapCenter, DEFAULT_LATLNG_ZOOM));
 	    gMap.animateCamera(CameraUpdateFactory.zoomTo(DEFAULT_ANIMATED_ZOOM), 2000, null);
 	    
+	    //adds a button which finds the current user location
 	    gMap.setMyLocationEnabled(true);
 		
-	    dbHandler.loadBusinessListAndMapMarkersAsync(gMap.getCameraPosition().target, gMap, businessManager,RADIUS,getActivity());
+	    //loads businesses to map
+	    DBHandler.loadBusinessListAndMapMarkersAsync(gMap.getCameraPosition().target, gMap, businessManager,LOAD_RADIUS,getActivity());
 	    
+	    //if the the map center was changed significantly (more then a Radius),
+	    //starts loading businesses again, around the new radius.
 	    gMap.setOnCameraChangeListener(new OnCameraChangeListener() {
-			
 			@Override
 			public void onCameraChange(CameraPosition position) {
-				if (Math.abs(position.target.latitude-latestMapCenter.latitude)>RADIUS ||
-						Math.abs(position.target.longitude-latestMapCenter.longitude)>RADIUS){
+				if (Math.abs(position.target.latitude-latestMapCenter.latitude)>LOAD_RADIUS ||
+						Math.abs(position.target.longitude-latestMapCenter.longitude)>LOAD_RADIUS){
 					latestMapCenter = position.target;
-					dbHandler.stopLoadBusinessListAndMapMsarkersAsync();
-					dbHandler.loadBusinessListAndMapMarkersAsync(position.target, gMap, businessManager, RADIUS,getActivity());
+					DBHandler.stopLoadBusinessListAndMapMsarkersAsync();
+					DBHandler.loadBusinessListAndMapMarkersAsync(position.target, gMap, businessManager, LOAD_RADIUS,getActivity());
 					Log.d("MapWindowFragment","map center was changed significantly. loading businesses again.");
 				}
 				
 			}
 		});
+	    
+	    //handles the filter buttons.
 	    restBtn = (ImageView)view.findViewById(R.id.resturant_filter_btn);
 		pubBtn = (ImageView)view.findViewById(R.id.pub_filter_btn);
 		hotelBtn = (ImageView)view.findViewById(R.id.hotel_filter_btn);
@@ -124,51 +113,17 @@ public class MapWindowFragment extends Fragment {
 		hotelBtn.setOnClickListener(filterBtnClickListener);
 		shoppingBtn.setOnClickListener(filterBtnClickListener);
 		coffeeBtn.setOnClickListener(filterBtnClickListener);
-		
-		/*restBtn.setSelected(true);
-		pubBtn.setSelected(true);
-		hotelBtn.setSelected(true);
-		shoppingBtn.setSelected(true);
-		coffeeBtn.setSelected(true);*/
-		
-		
+
+		//handles the search address feature
 		final ImageView searchAddressBtn = (ImageView)view.findViewById(R.id.search_address_button);
 		final EditText etAddress = (EditText)view.findViewById(R.id.search_address_edit_text);
 		etAddress.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				etAddress.setText("");
 			}
 		});
-		
-		
-		final ImageView homeButton = (ImageView)view.findViewById(R.id.map_home_btn);
-		homeButton.setOnLongClickListener(new OnLongClickListener() {
-			
-			@Override
-			public boolean onLongClick(View v) {
-				LatLng latLng = gMap.getCameraPosition().target;
-				clientData.setHome(latLng,true);
-				
-				Toast.makeText(getActivity(), "new home location was selected", Toast.LENGTH_SHORT).show();
-				return false;
-			}
-		});
-		homeButton.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				LatLng loc = clientData.getHome();
-				gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, DEFAULT_ANIMATED_ZOOM));
-				gMap.animateCamera(CameraUpdateFactory.zoomTo(DEFAULT_ANIMATED_ZOOM), 2000, null);
-			}
-		});	
-		
-		
 		searchAddressBtn.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
 				final String addressStr = etAddress.getText().toString();
@@ -188,11 +143,11 @@ public class MapWindowFragment extends Fragment {
 			        }
 			    } catch (IOException e) {
 			        e.printStackTrace();
-			        Toast.makeText(getActivity().getApplicationContext(), "couln't find the given address",Toast.LENGTH_SHORT );
+			        Toast.makeText(getActivity().getApplicationContext(), "couln't find the given address",Toast.LENGTH_SHORT ).show();
 			    }
 			    catch (NullPointerException e) {
 			        e.printStackTrace();
-			        Toast.makeText(getActivity().getApplicationContext(), "couln't find the given address",Toast.LENGTH_SHORT );
+			        Toast.makeText(getActivity().getApplicationContext(), "couln't find the given address",Toast.LENGTH_SHORT ).show();
 			    }
 				
 				
@@ -201,13 +156,30 @@ public class MapWindowFragment extends Fragment {
 			}
 		});
 		
+		//handles the set/get home location feature
+		final ImageView homeButton = (ImageView)view.findViewById(R.id.map_home_btn);
+		homeButton.setOnLongClickListener(new OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View v) {
+				LatLng latLng = gMap.getCameraPosition().target;
+				clientData.setHome(latLng,true);
+				
+				Toast.makeText(getActivity(), "new home location was selected", Toast.LENGTH_SHORT).show();
+				return false;
+			}
+		});
+		homeButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				LatLng loc = clientData.getHome();
+				gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, DEFAULT_ANIMATED_ZOOM));
+				gMap.animateCamera(CameraUpdateFactory.zoomTo(DEFAULT_ANIMATED_ZOOM), 2000, null);
+			}
+		});	
 		
-		//ArrayAdapter adapter = ArrayAdapter.createFromResource(getActivity(), R.array.spinner_options, R.drawable.spinner_item);
-		spinner = (Spinner)view.findViewById(R.id.filter_spinner);
-		//spinner.setAdapter(adapter);
-		p = Property.ALL;
-		
-		spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+		//handles the spinner preferences (top deals/favourites/etc)
+		preferencedSpinner = (Spinner)view.findViewById(R.id.filter_spinner);
+		preferencedSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 		    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 		    	updateOverlays();		        
 		    }
@@ -222,9 +194,8 @@ public class MapWindowFragment extends Fragment {
 	
 	@Override
 	public void onDestroy() {
-		// TODO Auto-generated method stub
 		super.onDestroy();
-		dbHandler.close();
+		DBHandler.close();
 		
 		//kills the old map
 		SupportMapFragment mapFragment = ((SupportMapFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.map));
@@ -237,24 +208,11 @@ public class MapWindowFragment extends Fragment {
 		
 		
 	}
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		
-		super.onCreate(savedInstanceState);
 
-		
-		//load personal info from sqlite (favourites)
-		loadPersonalInfo();
-		
-		
-		
-		
-		
-		
-		
-		
-	}
 	
+	/***
+	 * a listener for a filter button
+	 */
 	private OnClickListener filterBtnClickListener = new OnClickListener() {
 		
 		@Override
@@ -267,11 +225,13 @@ public class MapWindowFragment extends Fragment {
 
 	};
 	
-	
+	/**
+	 * This function is called whenever a filter button is pressed / whenever the 
+	 * spinner top value is changed. the map overlays should be updated accordingly.
+	 */
 	private void updateOverlays(){
 		
-		
-		String item = spinner.getSelectedItem().toString();	 
+		String item = preferencedSpinner.getSelectedItem().toString();	 
 		Property p;
         if(item.equals("My favourites")){
         	p = Property.FAVORITES_PROP;
@@ -298,19 +258,9 @@ public class MapWindowFragment extends Fragment {
 			}
 		}
 	}
-	private void loadPersonalInfo() {
-		
-		
-	}
-
-	private void putOverlayOnMap(ExternalBusiness bm){
-		Marker m =  gMap.addMarker(new MarkerOptions().position(bm.pos).title(bm.name).icon(BitmapDescriptorFactory.fromResource(bm.iconID)));
-    	businessManager.addBusiness(bm, m);
-
-	}
 
 	/**
-	 * is called whenever the user presses on the map marker.
+	 * this function is called whenever the user presses on the map marker.
 	 * This will open a new deal ShowDealActivity. 
 	 */
 	private OnMarkerClickListener markerListener = new OnMarkerClickListener() {

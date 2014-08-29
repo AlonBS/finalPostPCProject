@@ -86,14 +86,17 @@ public class DBHandler {
 	 * is less than radius.
 	 * 
 	 */
-	public void loadBusinessListAndMapMarkersAsync(LatLng mapCenter,GoogleMap gMap, MapBusinessManager bManager,double radius,Context context){
+	public static void loadBusinessListAndMapMarkersAsync(LatLng mapCenter,GoogleMap gMap, MapBusinessManager bManager,double radius,Context context){
 		loadBusinessesAndMapTask = new LoadCloseBusinessesToMapTask(context, gMap, bManager,radius);
 		loadBusinessesAndMapTask.execute();
 
 	}
 
-	public void stopLoadBusinessListAndMapMsarkersAsync(){
-		loadBusinessesAndMapTask.stopTask();
+	public static void stopLoadBusinessListAndMapMsarkersAsync(){
+		if(loadBusinessesAndMapTask!=null){
+			loadBusinessesAndMapTask.stopTask();
+		}
+			
 	}
 
 	/**
@@ -103,7 +106,7 @@ public class DBHandler {
 	 * otherwise - does nothing at all :(
 	 * 
 	 */
-	public void loadBusinessImageViewAsync(long businessID ,ImageView imageView, Context context){
+	public static void loadBusinessImageViewAsync(long businessID ,ImageView imageView, Context context){
 		LoadDealBitmapTask loadTask = new LoadDealBitmapTask(imageView, businessID,context);
 		context.getClass();
 		loadTask.execute();

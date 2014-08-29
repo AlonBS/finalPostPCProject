@@ -38,6 +38,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class AddressActivity extends Activity {
 	private GoogleMap gMap;
+	
 	static final LatLng HAMBURG = new LatLng(53.558, 9.927);
 	static final LatLng KIEL = new LatLng(53.551, 9.993);
 	static final LatLng JAFFA_STREET = new LatLng(31.78507,35.214328);

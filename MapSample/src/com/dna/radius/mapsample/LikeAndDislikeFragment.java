@@ -1,9 +1,7 @@
 package com.dna.radius.mapsample;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,9 +15,14 @@ import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.dbhandling.DBHandler.DealLikeStatus;
 import com.example.mapsample.R;
 
-public class DealPresentorFragment extends Fragment{
-	private Bitmap Image;
-	private DBHandler dbHandle;
+/***
+ * this fragment allows the user to like or dislike a certain deal, if he is
+ * in a client mode.
+ * it is also contains an imageView for the business.
+ * @author dror
+ *
+ */
+public class LikeAndDislikeFragment extends Fragment{
 	private DealLikeStatus dealStatus;
 	private ImageView dislikeBtn;
 	private View likeBtn;
@@ -27,30 +30,26 @@ public class DealPresentorFragment extends Fragment{
 	private ClientData clientData;
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.deal_presantor_fragment,container, false);
-		//DBHandler.loadBusinessBitmapAsync(businessID, buisnessType, imageView, context);
+		View view = inflater.inflate(R.layout.like_and_dislike_fragment,container, false);
 		ImageView imageView = (ImageView) view.findViewById(R.id.business_image_view);
-		//imageView.setImageBitmap(Image);
 		
-		clientData = ClientData.getInstance();
-		if(clientData == null){
-			Log.e("DealPresentorFragment","ERROR, client data is null! it wasnt loaded");
-		}
-		
+		clientData = ClientData.getInstance();		
 		activityParent = (ShowDealActivity)getActivity();
-		dbHandle = new DBHandler();
 		final int businessID  = activityParent.businessID;
-		dbHandle.loadBusinessImageViewAsync(businessID, imageView,activityParent);
+		
+		//loads the business image
+		DBHandler.loadBusinessImageViewAsync(businessID, imageView,activityParent);
 	
+		//updates the likes and dislikes text views
 		final TextView likesText = (TextView)view.findViewById(R.id.like_counter);
 		likesText.setText(Long.toString(activityParent.numOfLikes));
 		final TextView dislikesText = (TextView)view.findViewById(R.id.dislike_counter);
 		dislikesText.setText(Long.toString(activityParent.numOfDislikes));
 		
+		//handles the like and dislikes buttons.
 		dealStatus = clientData.getDealLikeStatus(businessID);
 		likeBtn = (ImageView)view.findViewById(R.id.sounds_cool_btn);
 		likeBtn.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
 				if(!activityParent.isInUserMode){
@@ -109,7 +108,11 @@ public class DealPresentorFragment extends Fragment{
 		return view;
 	}
 	
-	public void setDislikeAndLikeBG(){
+	/**
+	 * this function changes the backroung of the dislike and like buttons
+	 * according to the user preferenced. 
+	 */
+	private void setDislikeAndLikeBG(){
 		if(!activityParent.isInUserMode){
 
 			dislikeBtn.setBackgroundDrawable(getResources().getDrawable(R.drawable.like_dislike_shape));
@@ -130,15 +133,8 @@ public class DealPresentorFragment extends Fragment{
 	}
 	@Override
 	public void onDestroy() {
-		// TODO Auto-generated method stub
 		super.onDestroy();
-		dbHandle.close();
+		DBHandler.close();
 	}
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		
-		//TODO load images and data here
-		//Image = BitmapFactory.decodeResource(getResources(), R.drawable.burger);
-	}
+
 }
