@@ -9,9 +9,12 @@
         android:layout_height="wrap_content"
         android:text="business history fragment" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="under construction" />
+    <ListView 
+        android:id="@+id/deal_history_list_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#FFFFFFFF"
+        />"
+    
 
 </LinearLayout>
