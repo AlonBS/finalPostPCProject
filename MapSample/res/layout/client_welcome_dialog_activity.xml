@@ -4,25 +4,59 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:background="#FFFFBB33"
-        android:contentDescription="@string/app_name"
-        android:scaleType="center"
-        android:src="@drawable/burger" />
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.58" >
+        android:layout_height="match_parent"
+        android:layout_weight="0.5"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:background="#FFFFBB33"
+            android:contentDescription="@string/app_name"
+            android:scaleType="center"
+            android:src="@drawable/burger" />
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/welcome_client_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/welcome_margin"
-            android:text="Welcome To Radius MADAFACKA" />
+            android:text="@string/welcome_client" />
+
+        <Button
+            android:id="@+id/choose_location_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            android:text="@string/set_location" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="bottom|center"
+        android:padding="5dp" >
+
+        <Button
+            android:id="@+id/not_not_btn"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:text="@string/not_now_btn" />
+
+        <Button
+            android:id="@+id/finish_btn"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="@string/finish_btn" />
     </LinearLayout>
 
 </LinearLayout>

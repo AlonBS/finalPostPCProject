@@ -3,6 +3,7 @@ package com.dna.radius.login;
 import com.dna.radius.R;
 import com.dna.radius.businessmode.BusinessOpeningScreenActivity;
 import com.dna.radius.clientmode.ClientOpeningScreenActivity;
+import com.dna.radius.dbhandling.ParseClassesNames;
 
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -88,8 +89,8 @@ public class SignUpFragment extends Fragment {
 				ParseUser user = new ParseUser();
 				user.setUsername(userNameText);
 				user.setPassword(passwordText);
-				user.setEmail(emailText);
-				user.put("lastMode", app_mode);
+				//user.setEmail(emailText);
+				user.put(ParseClassesNames.LAST_MODE, app_mode);
 				
 				//TODO add email verification using emailVerified field
 				

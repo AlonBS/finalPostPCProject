@@ -41,7 +41,12 @@
     <string name="aaemail_address">Email Address</string>
     
     
-    
+    <!-- client welcome dialog strings -->
+    <string name="welcome_client">Welcome to Radius! \n\n
+        In order to complete the registration please select you preferable location</string>
+    <string name="set_location">Choose location</string>
+    <string name="not_now_btn">Not now</string>
+    <string name="finish_btn">Finish!</string>
     
     
     <string name="hello_world">Hello world!</string>

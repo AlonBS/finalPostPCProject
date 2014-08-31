@@ -6,6 +6,7 @@ package com.dna.radius.login;
 import com.dna.radius.R;
 import com.dna.radius.businessmode.BusinessOpeningScreenActivity;
 import com.dna.radius.clientmode.ClientOpeningScreenActivity;
+import com.dna.radius.dbhandling.ParseClassesNames;
 import com.parse.Parse;
 import com.parse.ParseAnonymousUtils;
 import com.parse.ParseObject;
@@ -75,7 +76,7 @@ public class MainActivity extends FragmentActivity {
 				if (currentUser != null) {
 
 					//User is Verified - Start relevant screen
-					int lastMode = currentUser.getInt(IntroFragment.MODE_KEY);
+					int lastMode = currentUser.getInt(ParseClassesNames.LAST_MODE);
 					
 					if (lastMode == IntroFragment.CUSTOMER_MODE) {
 
