@@ -2,6 +2,7 @@ package com.dna.radius.dbhandling;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -37,7 +38,6 @@ public class DBHandler {
 	private static LoadDealCommentsTask loadCommentsTask = null;
 	private static LoadCloseBusinessesToMapTask loadBusinessesAndMapTask = null;
 	private static LoadTopBusinessesRunnable loadTopBusinesses = null;
-
 
 	/**
 	 * closes the DBHandler.
@@ -232,15 +232,36 @@ public class DBHandler {
 		
 		owner.name = "Mcdonalds";
 		owner.businessID = 0;
-		owner.address = "Jaffa street 61, Jerusalem";
-		owner.currentDeal = "ONLY TODAY AND DURING THE REST OF THE YEAR!!! BUY A COOOOL SHIRT AND GET A PLASTIC BAG TO PUT IT IN FOR 10 AGOROT ONLY!!! wow!!";
-		owner.dealHistory = new ArrayList<DealHistoryObject>();
 		owner.image = BitmapFactory.decodeResource(context.getResources(), R.drawable.burger);
 		owner.numberOfLikes = 23131;
 		owner.numberOfDislikes = 524;
 		owner.phoneNumber = "0508259193";
 		owner.rating = 4;
-		owner.hasImage = true; // TODO should be true only if the business has a an image
+		owner.hasImage = true;
+		owner.hasDeal = true;// TODO should be true only if the business has a an image
+		owner.address = "Jaffa street 61, Jerusalem";
+		owner.currentDeal = "ONLY TODAY AND DURING THE REST OF THE YEAR!!! BUY A COOOOL SHIRT AND GET A PLASTIC BAG TO PUT IT IN FOR 10 AGOROT ONLY!!! wow!!";
+		owner.dealHistory = new ArrayList<DealHistoryObject>();
+		owner.dealHistory.add(new DealHistoryObject(new Random().nextInt(99999),"Eat a megaburger and kill 3 animals for free",new Date(),new Random().nextInt(9999),new Random().nextInt(9999)));
+		owner.dealHistory.add(new DealHistoryObject(new Random().nextInt(99999),"buy a pack of Supergoal and get a sticker with Kfir Partiely signature. you dont wanna miss that!",new Date(),new Random().nextInt(9999),new Random().nextInt(9999)));
+		owner.dealHistory.add(new DealHistoryObject(new Random().nextInt(99999),"buy a triangle toaster and get another triangle toaster!",new Date(),new Random().nextInt(9999),new Random().nextInt(9999)));
+		owner.dealHistory.add(new DealHistoryObject(new Random().nextInt(99999),"Buy seasonal tickets for Maccabi Petah Tikva and get Free entrance to the first Toto Cup match against Hapoel Raanana",new Date(),new Random().nextInt(9999),new Random().nextInt(9999)));
+		owner.dealHistory.add(new DealHistoryObject(new Random().nextInt(99999),"New at superfarm! a supporting sports bra which gives you extra support during your period",new Date(),new Random().nextInt(9999),new Random().nextInt(9999)));
+		owner.dealHistory.add(new DealHistoryObject(new Random().nextInt(99999),"Buy a nokia Phone and get free games! (snake) ",new Date(),new Random().nextInt(9999),new Random().nextInt(9999)));
+		owner.dealHistory.add(new DealHistoryObject(new Random().nextInt(99999),"only 99.99$ for a full Kosher cellular package ",new Date(),new Random().nextInt(9999),new Random().nextInt(9999)));
+		owner.dealHistory.add(new DealHistoryObject(new Random().nextInt(99999),"Buy a set of Tfilin and get a free tour at Kivrey Zadikim ",new Date(),new Random().nextInt(9999),new Random().nextInt(9999)));
+		owner.dealHistory.add(new DealHistoryObject(new Random().nextInt(99999),"Eat a megaburger and kill 3 animals for free",new Date(),new Random().nextInt(9999),new Random().nextInt(9999)));
+		owner.dealHistory.add(new DealHistoryObject(new Random().nextInt(99999),"buy a pack of Supergoal and get a sticker with Kfir Partiely signature. you dont wanna miss that!",new Date(),new Random().nextInt(9999),new Random().nextInt(9999)));
+		owner.dealHistory.add(new DealHistoryObject(new Random().nextInt(99999),"buy a triangle toaster and get another triangle toaster!",new Date(),new Random().nextInt(9999),new Random().nextInt(9999)));
+		owner.dealHistory.add(new DealHistoryObject(new Random().nextInt(99999),"Buy seasonal tickets for Maccabi Petah Tikva and get Free entrance to the first Toto Cup match against Hapoel Raanana",new Date(),new Random().nextInt(9999),new Random().nextInt(9999)));
+		owner.dealHistory.add(new DealHistoryObject(new Random().nextInt(99999),"New at superfarm! a supporting sports bra which gives you extra support during your period",new Date(),new Random().nextInt(9999),new Random().nextInt(9999)));
+		owner.dealHistory.add(new DealHistoryObject(new Random().nextInt(99999),"Buy a nokia Phone and get free games! (snake) ",new Date(),new Random().nextInt(9999),new Random().nextInt(9999)));
+		owner.dealHistory.add(new DealHistoryObject(new Random().nextInt(99999),"only 99.99$ for a full Kosher cellular package ",new Date(),new Random().nextInt(9999),new Random().nextInt(9999)));
+		owner.dealHistory.add(new DealHistoryObject(new Random().nextInt(99999),"Buy a set of Tfilin and get a free tour at Kivrey Zadikim ",new Date(),new Random().nextInt(9999),new Random().nextInt(9999)));
+		
+		
+		
+
 		
 	}
 	

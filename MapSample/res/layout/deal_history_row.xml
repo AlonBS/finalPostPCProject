@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/deal_hist_text_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="0dp" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#FF000000"
+            android:padding="1dp" >
+
+            <TextView
+                android:id="@+id/deal_hist_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/abc_ab_bottom_solid_dark_holo"
+                android:gravity="center"
+                android:paddingBottom="1dp"
+                android:paddingTop="1dp"
+                android:text="drogba"
+                android:textColor="#FFFFFFFF"
+                android:textSize="12dp" />
+
+            <TextView
+                android:id="@+id/deal_hist_data_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#A3C1AD"
+                android:gravity="center"
+                android:text="drogba"
+                android:textSize="9dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

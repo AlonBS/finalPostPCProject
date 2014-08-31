@@ -29,6 +29,7 @@ public class OwnerData {
 	public int rating; //rating - out of 5
 	public ArrayList<DealHistoryObject> dealHistory;
 	LatLng location;
+	public boolean hasDeal;
 	
 	//TODO DROR the context param should be removed
 	public OwnerData(int businessID, Context context){
