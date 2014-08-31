@@ -25,10 +25,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.dna.radius.R;
 import com.dna.radius.datastructures.Comment;
 import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.mapsample.CommentsArrayAdapter;
-import com.example.mapsample.R;
 
 /**
  * represents the first screen which the business owner sees when he is logging in.

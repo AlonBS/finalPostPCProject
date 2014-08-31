@@ -1,12 +1,13 @@
 package com.dna.radius.mapsample;
 
+
+import com.dna.radius.R;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.mapsample.R;
 
 /**
  * this is a waiting fragment - does nothing except for showing a progress bar on the screen.

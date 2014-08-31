@@ -3,7 +3,7 @@ package com.dna.radius.datastructures;
 import java.io.Serializable;
 import java.util.Random;
 
-import com.example.mapsample.R;
+import com.dna.radius.R;
 import com.google.android.gms.maps.model.LatLng;
 
 /**

@@ -10,7 +10,7 @@ import android.graphics.BitmapFactory;
 import com.dna.radius.businessmode.TopBusinessesHorizontalView;
 import com.dna.radius.datastructures.ExternalBusiness;
 import com.dna.radius.datastructures.ExternalBusiness.BuisnessType;
-import com.example.mapsample.R;
+import com.dna.radius.R;
 import com.google.android.gms.maps.model.LatLng;
 
 public class LoadTopBusinessesRunnable implements Runnable{

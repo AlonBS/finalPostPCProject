@@ -15,11 +15,13 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.dna.radius.R;
 import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.mapsample.AbstractActivity;
 import com.dna.radius.mapsample.MapWindowFragment;
 import com.dna.radius.mapsample.WaitingFragment;
-import com.example.mapsample.R;
+
+
 
 public class BusinessOpeningScreenActivity extends AbstractActivity{
 	//TODO this value should be given as an input
@@ -36,7 +38,7 @@ public class BusinessOpeningScreenActivity extends AbstractActivity{
 	private ImageView latestPressedBtn;
 	
 	
-	public  OwnerData ownerData;
+	public OwnerData ownerData;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub

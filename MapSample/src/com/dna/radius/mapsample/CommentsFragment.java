@@ -1,4 +1,5 @@
 package com.dna.radius.mapsample;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,10 +17,10 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.dna.radius.R;
 import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.datastructures.Comment;
 import com.dna.radius.dbhandling.DBHandler;
-import com.example.mapsample.R;
 
 /**
  * This fragment shows comments on a certein deal.

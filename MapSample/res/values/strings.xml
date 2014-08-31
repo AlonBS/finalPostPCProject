@@ -1,7 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">HelloWorld2</string>
+    <string name="app_name">SocialDealApp</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- General strings -->
+
+    <string name="welcome">Welcome!</string>
+    <string name="next_button">Next</string>
+    <string name="user_name">User Name</string>
+    <string name="password">Password</string>
+
+    <!-- Login-in activity strings -->
+
+    <string name="login">Log In</string>
+    <string name="no_account">Don\'t have an account yet? </string>
+    <string name="sign_up">Sign Up</string>
+    <string name="incorrect_info">Wrong Email address or password</string>
+    <string name="keep_logged_in">Keep me logged in</string>
+
+    <!-- intro_activity strings -->
+    <string name="customer_mode">Customer Mode</string>
+    <string name="business_mode">Business Mode</string>
+    <string name="copyright">Copyright © 2014 </string>
+
+    <!-- signup_activity strings -->
+    <string name="instructions">Please fill in the details</string>
+    <string name="password_confirmation">Password Confirmation</string>
+    <string name="email_address">Email Address</string>
+    <string name="business_name">Business Name</string>
+    <string-array name="business_type_spinner">
+        <item>Restuarant</item>
+        <item>Drogba</item>
+    </string-array>
+
+    
+    <!-- signup_activity error strings -->
+    <string name="illegal_user_name">User name is illegal. \n Please use only characters and numbers</string>
+    <string name="passwords_mismatch">Passwords don\'t match</string>
+    <string name="aaemail_address">Email Address</string>
+    
+    
+    
+    
+    
     <string name="hello_world">Hello world!</string>
     <string name="no_thanks">No Thanks!</string>
     <string name="comment">Comment</string>
@@ -11,13 +53,12 @@
     <string name="switch_mode"> switch mode</string>
     <string name="dont_have_business">oops! it seems that you dont have a registered business.
         							  to register, please log out and choose the business mode option.</string>
-   
-     <string name="to_business_mode"> to business mode?</string>
-      <string name="to_client_mode"> to client mode?</string>
-      <string name="are_you_sure"> are you sure you want to switch</string>
-       <string name="switching"> switching</string>
-       <string name="user_settings"> user settings</string>
-       <string name="business_settings"> business settings</string>
+    <string name="to_business_mode"> to business mode?</string>
+    <string name="to_client_mode"> to client mode?</string>
+    <string name="are_you_sure"> are you sure you want to switch</string>
+    <string name="switching"> switching</string>
+    <string name="user_settings"> user settings</string>
+    <string name="business_settings"> business settings</string>
     <string name="type_address">type address here</string>
     <string name="type_comment_here">type your comment here</string>
     <string name="waiting">loading business data from server</string>

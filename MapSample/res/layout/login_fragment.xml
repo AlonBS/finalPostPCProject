@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:orientation="vertical"
+    android:background="@color/aero"
+    android:padding="10dip" >
+	
+    
+    <TextView
+        android:id="@+id/login_user_name_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/user_name" />
+
+    <EditText
+        android:id="@+id/login_user_name_editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_user_name_textView"
+        android:inputType="text" />
+
+    <TextView
+        android:id="@+id/login_password_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_user_name_editText"
+        android:text="@string/password" />
+
+    <EditText
+        android:id="@+id/login_password_editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_password_textView"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/login_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_password_editText"
+        android:text="@string/login" />
+  
+
+     <TextView
+         android:id="@+id/no_account_textView"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/login_button"
+         android:layout_marginTop="120dp"
+         android:layout_centerHorizontal="true"
+         android:text="@string/no_account" />
+     
+  
+      <Button
+          android:id="@+id/signUp_button"
+          style="?android:attr/buttonStyleInset"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignRight="@+id/no_account_textView"
+          android:layout_alignTop="@+id/no_account_textView"
+          android:layout_marginTop="24dp"
+          android:layout_toRightOf="@+id/login_password_textView"
+          android:text="@string/sign_up" />
+
+      <CheckBox
+          android:id="@+id/keep_logged_in_checkbox"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignLeft="@+id/login_button"
+          android:layout_below="@+id/login_button"
+          android:text="@string/keep_logged_in" />
+    
+</RelativeLayout>
+
+

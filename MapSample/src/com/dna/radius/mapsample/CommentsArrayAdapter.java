@@ -12,8 +12,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.dna.radius.R;
 import com.dna.radius.datastructures.Comment;
-import com.example.mapsample.R;
 
 /***
  * represents an array adapter view for the comments list.

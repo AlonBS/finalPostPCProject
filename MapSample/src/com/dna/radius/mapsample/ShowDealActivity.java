@@ -18,12 +18,13 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+
+import com.dna.radius.R;
 import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.datastructures.Comment;
 import com.dna.radius.datastructures.ExternalBusiness.BuisnessType;
 import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.dbhandling.DBHandler.ExternalBusinessExtraInfo;
-import com.example.mapsample.R;
 
 public class ShowDealActivity extends FragmentActivity{
 	//needed parameters for the activity

@@ -23,10 +23,7 @@ import android.widget.Toast;
 
 import com.dna.radius.datastructures.ExternalBusiness;
 import com.dna.radius.datastructures.ExternalBusiness.BuisnessType;
-import com.example.mapsample.R;
-import com.example.mapsample.R.drawable;
-import com.example.mapsample.R.id;
-import com.example.mapsample.R.layout;
+import com.dna.radius.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;

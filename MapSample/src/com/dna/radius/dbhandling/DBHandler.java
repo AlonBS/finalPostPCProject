@@ -19,12 +19,10 @@ import com.dna.radius.businessmode.OwnerData;
 import com.dna.radius.businessmode.TopBusinessesHorizontalView;
 import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.datastructures.MapBusinessManager;
-import com.dna.radius.datastructures.ExternalBusiness;
-import com.dna.radius.datastructures.ExternalBusiness.BuisnessType;
 import com.dna.radius.datastructures.Comment;
 import com.dna.radius.datastructures.DealHistoryObject;
 import com.dna.radius.mapsample.CommentsArrayAdapter;
-import com.example.mapsample.R;
+import com.dna.radius.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 

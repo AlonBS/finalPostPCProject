@@ -2,7 +2,7 @@ package testing_stuff;
 
 import java.lang.ref.WeakReference;
 
-import com.example.mapsample.R;
+import com.dna.radius.R;
 
 import android.content.Context;
 import android.graphics.Bitmap;

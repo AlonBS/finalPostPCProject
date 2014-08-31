@@ -11,11 +11,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.dna.radius.R;
 import com.dna.radius.businessmode.BusinessOpeningScreenActivity;
 import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.clientmode.ClientOpeningScreenActivity;
 import com.dna.radius.dbhandling.DBHandler;
-import com.example.mapsample.R;
 
 /***
  * This activity is used in order to shared the context menu between all the activities in the application.
@@ -74,6 +74,7 @@ public class AbstractActivity extends FragmentActivity{
 								myIntent = new Intent(getApplicationContext(), ClientOpeningScreenActivity.class);
 							}
 							startActivity(myIntent);
+							//TODO ADD finish(); ??? 
 				        }
 				    }).setNegativeButton("No", new DialogInterface.OnClickListener() {
 				        public void onClick(DialogInterface dialog, int whichButton) {

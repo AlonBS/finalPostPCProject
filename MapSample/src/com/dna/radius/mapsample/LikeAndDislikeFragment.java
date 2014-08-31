@@ -10,10 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dna.radius.R;
 import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.dbhandling.DBHandler.DealLikeStatus;
-import com.example.mapsample.R;
 
 /***
  * this fragment allows the user to like or dislike a certain deal, if he is

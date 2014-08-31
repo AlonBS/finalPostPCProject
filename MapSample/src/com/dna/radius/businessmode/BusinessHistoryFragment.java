@@ -1,12 +1,13 @@
 package com.dna.radius.businessmode;
 
-import com.example.mapsample.R;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.dna.radius.R;
 /**
  * represents the history fragment for the business owner.
  * should contain a list of deal with number of likes and dislikes for each.

@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.dna.radius.datastructures.ExternalBusiness;
 import com.dna.radius.mapsample.ShowDealActivity;
-import com.example.mapsample.R;
+import com.dna.radius.R;
 
 /***
  * a costum view which extends an horizontal scroll view.
