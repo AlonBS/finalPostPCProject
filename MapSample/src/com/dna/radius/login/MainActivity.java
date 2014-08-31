@@ -4,6 +4,8 @@ package com.dna.radius.login;
 
 
 import com.dna.radius.R;
+import com.dna.radius.businessmode.BusinessOpeningScreenActivity;
+import com.dna.radius.clientmode.ClientOpeningScreenActivity;
 import com.parse.Parse;
 import com.parse.ParseAnonymousUtils;
 import com.parse.ParseObject;
@@ -74,20 +76,25 @@ public class MainActivity extends FragmentActivity {
 
 					//User is Verified - Start relevant screen
 					int lastMode = currentUser.getInt(IntroFragment.MODE_KEY);
+					
 					if (lastMode == IntroFragment.CUSTOMER_MODE) {
 
 						// TODO REMOVE
-						Toast.makeText(getApplicationContext(), "Customer MOde", Toast.LENGTH_LONG).show();
-
-						//TODO start customer main screen - by dror
-						//TODO prompt Welcome Screen
+						//Toast.makeText(getApplicationContext(), "Customer MOde", Toast.LENGTH_LONG).show();
+							
+						Intent intent = new Intent(getApplicationContext(), ClientOpeningScreenActivity.class);
+						startActivity(intent);
+						finish();
 
 					}
 					else{
 
 						// TODO REMOVE
-						Toast.makeText(getApplicationContext(), "Business MOde", Toast.LENGTH_LONG).show();
-
+						//Toast.makeText(getApplicationContext(), "Business MOde", Toast.LENGTH_LONG).show();
+						
+						Intent intent = new Intent(getApplicationContext(), BusinessOpeningScreenActivity.class);
+						startActivity(intent);
+						finish();
 					}
 				}
 			}
@@ -102,7 +109,7 @@ public class MainActivity extends FragmentActivity {
 			}
 		}
 
-
+		//TODO remove 
 		Toast.makeText(getApplicationContext(), "No keep logged in", Toast.LENGTH_LONG).show();
 		openLoginScreen();
 
@@ -118,5 +125,5 @@ public class MainActivity extends FragmentActivity {
 
 	}
 	
-	public static String getSPName() { return SP_NAME;}
+	public static String getSPName() { return SP_NAME; }
 }

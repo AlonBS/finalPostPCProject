@@ -1,6 +1,8 @@
 package com.dna.radius.login;
 
 import com.dna.radius.R;
+import com.dna.radius.businessmode.BusinessOpeningScreenActivity;
+import com.dna.radius.clientmode.ClientOpeningScreenActivity;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -10,6 +12,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -48,7 +51,11 @@ public class LoginFragment extends Fragment {
 
 		initViews();
 
-		setOnClickListeners();
+		setLoginOnClickListener();
+		
+		setSignUpOnClickListener();
+		
+		setOnCheckedChangeListener();
 
 		return v;
 	}
@@ -67,9 +74,10 @@ public class LoginFragment extends Fragment {
 		isChecked = false;
 
 	}
-
-	private void setOnClickListeners() {
-
+	
+	
+	private void setLoginOnClickListener() {
+		
 		logInButton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -89,35 +97,32 @@ public class LoginFragment extends Fragment {
 							//User is Verified - Start relevant screen
 							int lastMode = user.getInt(IntroFragment.MODE_KEY);
 
+							FragmentActivity mainActivity = getActivity();
+							
 							if (lastMode == IntroFragment.CUSTOMER_MODE) {
 								
 								
 								// TODO REMOVE
-								Toast.makeText(getActivity().getApplicationContext(), "Customer MOde was last logged in", Toast.LENGTH_LONG).show();
+								//Toast.makeText(getActivity().getApplicationContext(), "Customer MOde was last logged in", Toast.LENGTH_LONG).show();
 
-
-								//Intent intent = new Intent(LoginSignupActivity.this, Welcome.class);
-								//startActivity(intent);
-
-								//TODO prompt Welcome Screen
+								Intent intent = new Intent(mainActivity.getApplicationContext(), ClientOpeningScreenActivity.class);
+								startActivity(intent);
+								mainActivity.finish();
 
 							}
 							else{
 								
 								// TODO REMOVE
-								Toast.makeText(getActivity().getApplicationContext(), "business MOde was last logged in", Toast.LENGTH_LONG).show();
+								//Toast.makeText(getActivity().getApplicationContext(), "business MOde was last logged in", Toast.LENGTH_LONG).show();
 
-
-								
-
-								//TODO Start owner screen - main by dror
-
+								Intent intent = new Intent(mainActivity.getApplicationContext(), BusinessOpeningScreenActivity.class);
+								startActivity(intent);
+								mainActivity.finish();
 							}
 
 
-
 						} else {
-
+							// TODO prompt more informative message
 							// Invalid Email or Password were entered
 							Toast.makeText(getActivity().getApplicationContext(),
 									getString(R.string.incorrect_info),
@@ -127,7 +132,11 @@ public class LoginFragment extends Fragment {
 				});
 			}
 		});
+		
+	}
 
+	
+	private void setSignUpOnClickListener() {
 
 		signUpButton.setOnClickListener(new OnClickListener() {
 
@@ -145,6 +154,10 @@ public class LoginFragment extends Fragment {
 				MainActivity.fragmentTransaction.commit();
 			}
 		});
+	}
+
+	
+	private void setOnCheckedChangeListener() {
 
 		keepLoggedInCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
@@ -160,50 +173,4 @@ public class LoginFragment extends Fragment {
 	}
 }
 
-
-
-/*
- * 
- * 
- * 	 * TODO Determine if user already exist (signed up + checked box)
-
-		final Button customerBtn = (Button) findViewById(R.id.customer_mode_button);
-		final Button businessBtn = (Button) findViewById(R.id.business_mode_button);
-
-		customerBtn.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-
-				Intent signUpActivity = new Intent(getApplicationContext(), SignUpActivity.class);
-				signUpActivity.putExtra(MODE_KEY, CUSTOMER_MODE);
-
-				startActivity(signUpActivity);
-				finish();
-			}
-		});
-
-
-		businessBtn.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-
-				Intent signUpActivity = new Intent(getApplicationContext(), SignUpActivity.class);
-				signUpActivity.putExtra(MODE_KEY, BUSINESS_MODE);
-
-				startActivity(signUpActivity);
-				finish();
-
-			}
-		});
-
-
-
-	}
-
-
-
-
- */
 
