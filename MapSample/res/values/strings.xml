@@ -49,7 +49,7 @@
     <string name="finish_btn">Finish!</string>
     
     <!-- deal history fragment -->
-     <string name="history_fragment_tap_a_deal">tap on a deal to set it as your current one</string>
+     <string name="history_fragment_tap_a_deal">Tap on a deal to set it as your current one</string>
     <string name="history_fragment_total_likes">Total likes: </string>
     <string name="history_fragment_total_dislikes"> Total dislikes:</string>
     

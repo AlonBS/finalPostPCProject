@@ -66,7 +66,9 @@ public class DealHistoryArrayAdapter extends ArrayAdapter<DealHistoryObject>{
 		 
 		 return rowView;
 	}
-
+	
+	
+	
 	int getTotalLikes(){
 		int sum = 0;
 		for (DealHistoryObject d : list){
