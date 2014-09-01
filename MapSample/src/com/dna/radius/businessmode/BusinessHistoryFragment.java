@@ -9,12 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.dna.radius.R;
-import com.dna.radius.datastructures.Comment;
 import com.dna.radius.datastructures.DealHistoryObject;
-import com.dna.radius.dbhandling.DBHandler;
-import com.dna.radius.mapsample.CommentsArrayAdapter;
 /**
  * represents the history fragment for the business owner.
  * should contain a list of deal with number of likes and dislikes for each.
@@ -34,6 +32,10 @@ public class BusinessHistoryFragment extends Fragment{
 		DealHistoryArrayAdapter adapter = new DealHistoryArrayAdapter(getActivity(),android.R.layout.simple_list_item_1, dealHistoryList);
 		dealHistoryListView.setAdapter(adapter);
 
+		TextView totalLikesTv = (TextView)view.findViewById(R.id.history_fragment_total_likes_tv);
+		TextView totalDislikesTv = (TextView)view.findViewById(R.id.history_fragment_total_dislikes_tv);
+		totalLikesTv.setText(totalLikesTv.getText()+ " " + adapter.getTotalLikes());
+		totalDislikesTv.setText(totalDislikesTv.getText()+ " " + adapter.getTotalDislikes());
 		return view;
 	}
 }

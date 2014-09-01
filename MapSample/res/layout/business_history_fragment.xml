@@ -2,19 +2,66 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:padding="5dp" >
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="business history fragment" />
+        android:background="@drawable/history_fragment_title_background"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="@string/history_fragment_tap_a_deal"
+        android:textColor="#FFFFFFFF"
+        android:textSize="12sp" />
 
-    <ListView 
-        android:id="@+id/deal_history_list_view"
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="#FFFFFFFF"
-        />"
-    
+        android:layout_marginTop="5dp"
+        android:orientation="vertical" >
+
+        <ListView
+            android:id="@+id/deal_history_list_view"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.9"
+            android:background="@drawable/bordered_shape_selected"
+            android:padding="3dp" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="0.08"
+            android:gravity="center"
+            android:background="@drawable/history_fragment_bottom_background"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/history_fragment_total_likes"  />
+            
+            <TextView
+                android:textColor="#FF006600"
+                android:id="@+id/history_fragment_total_likes_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+            <TextView
+                android:layout_marginLeft="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/history_fragment_total_dislikes" />
+             <TextView
+                android:textColor="#FFFF0000"
+                android:id="@+id/history_fragment_total_dislikes_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                 />
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

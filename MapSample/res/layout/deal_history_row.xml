@@ -15,8 +15,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="#FF000000"
-            android:padding="1dp" >
+            android:background="@drawable/bordered_shape"
+            android:padding="2dp" >
 
             <TextView
                 android:id="@+id/deal_hist_text_view"
@@ -24,11 +24,10 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/abc_ab_bottom_solid_dark_holo"
                 android:gravity="center"
-                android:paddingBottom="1dp"
-                android:paddingTop="1dp"
+                android:padding="4dp"
                 android:text="drogba"
                 android:textColor="#FFFFFFFF"
-                android:textSize="12dp" />
+                android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/deal_hist_data_text_view"
@@ -36,8 +35,7 @@
                 android:layout_height="wrap_content"
                 android:background="#A3C1AD"
                 android:gravity="center"
-                android:text="drogba"
-                android:textSize="9dp" />
+                android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>
 
