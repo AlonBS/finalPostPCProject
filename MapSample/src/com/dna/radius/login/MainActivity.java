@@ -6,6 +6,7 @@ package com.dna.radius.login;
 import com.dna.radius.R;
 import com.dna.radius.businessmode.BusinessOpeningScreenActivity;
 import com.dna.radius.clientmode.ClientOpeningScreenActivity;
+import com.dna.radius.clientmode.ClientWelcomeActivity;
 import com.dna.radius.dbhandling.ParseClassesNames;
 import com.parse.Parse;
 import com.parse.ParseAnonymousUtils;
@@ -37,6 +38,13 @@ public class MainActivity extends FragmentActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.start_activity);
+		
+		//if ( 3 == 3 ) { // TODO REMOVE! for testing only
+			
+			//startActivity(new Intent(getApplicationContext(), ClientWelcomeActivity.class));
+		//	finish();
+		//}
+		//else { 
 
 		// initializse Parse settings
 		setParse();
@@ -45,7 +53,9 @@ public class MainActivity extends FragmentActivity {
 		SharedPreferences settings1 = getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
 		boolean isChecked = settings1.getBoolean("isChecked", false);
 		
-		checkKeepLoggedIn(isChecked);
+		checkKeepLoggedIn(false); //TODO change to isChecked
+		 
+		//}
 
 	}
 

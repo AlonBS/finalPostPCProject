@@ -3,6 +3,9 @@ package com.dna.radius.businessmode;
 
 
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,6 +20,8 @@ import android.widget.TextView;
 
 import com.dna.radius.R;
 import com.dna.radius.clientmode.ClientData;
+import com.dna.radius.clientmode.ClientWelcomeActivity;
+import com.dna.radius.login.MainActivity;
 import com.dna.radius.mapsample.AbstractActivity;
 import com.dna.radius.mapsample.MapWindowFragment;
 import com.dna.radius.mapsample.WaitingFragment;
@@ -28,23 +33,23 @@ public class BusinessOpeningScreenActivity extends AbstractActivity{
 	public int myBusinessId = 0;
 	//TODO this value should be given as an input
 	public int userID = 0;
-	
+
 	/**buttons which allow switching between fragments*/
 	private ImageView homeFragmentBtn;
 	private ImageView mapFragmentBtn;
 	private ImageView businessHistoryFragment;
-	
+
 	/**holds the lates button which was pressed*/
 	private ImageView latestPressedBtn;
-	
-	
+
+
 	public OwnerData ownerData;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.business_opening_screen);
-		
+
 		//Sets the waiting fragment.
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		Fragment waitingFragment = new WaitingFragment();
@@ -68,7 +73,7 @@ public class BusinessOpeningScreenActivity extends AbstractActivity{
 						BusinessDashboardFragment dashboardFragment = new BusinessDashboardFragment();
 						fragmentTransaction.replace(R.id.business_fragment_layout, dashboardFragment);
 						fragmentTransaction.commit();
-						
+
 						//sets the business name and rating
 						TextView businessNameTv = (TextView)findViewById(R.id.businessTitle);
 						businessNameTv.setText(ownerData.name);
@@ -80,7 +85,7 @@ public class BusinessOpeningScreenActivity extends AbstractActivity{
 								return true;
 							}
 						});
-						
+
 						//add listeners to fragment buttons
 						homeFragmentBtn = (ImageView)findViewById(R.id.refresh_btn);
 						mapFragmentBtn = (ImageView)findViewById(R.id.map_btn);
@@ -88,16 +93,28 @@ public class BusinessOpeningScreenActivity extends AbstractActivity{
 						homeFragmentBtn.setOnClickListener(new FragmentBtnOnClickListener());
 						mapFragmentBtn.setOnClickListener(new FragmentBtnOnClickListener());
 						businessHistoryFragment.setOnClickListener(new FragmentBtnOnClickListener());
-						
-						latestPressedBtn = homeFragmentBtn;
-						
 
+						latestPressedBtn = homeFragmentBtn;
+
+						displayWelcomeIfNeeded();
+					}
+
+					private void displayWelcomeIfNeeded() {
+
+						SharedPreferences settings = getSharedPreferences(MainActivity.getSPName(), Context.MODE_PRIVATE);
+						boolean firstTime = settings.getBoolean("business First", true);
+
+						if (/*TODO firstTime*/true) {
+
+							Intent intent = new Intent(getApplicationContext(), BusinessWelcomeActivity.class);
+							startActivity(intent);
+						}	
 					}
 				});
 			}
 		});
 		t.start();
-		
+
 	}
 
 	/***
@@ -110,7 +127,7 @@ public class BusinessOpeningScreenActivity extends AbstractActivity{
 		@Override
 		public void onClick(View clickedBtn) {
 			Fragment newFragment = null;
-			
+
 			if(clickedBtn==homeFragmentBtn){
 				newFragment =  new BusinessDashboardFragment();
 			}else if(clickedBtn==mapFragmentBtn){
@@ -124,7 +141,7 @@ public class BusinessOpeningScreenActivity extends AbstractActivity{
 			latestPressedBtn = (ImageView) clickedBtn;
 			FragmentManager fragmentManager = getSupportFragmentManager();
 			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-			
+
 			fragmentTransaction.replace(R.id.business_fragment_layout, newFragment);
 			fragmentTransaction.commit();
 

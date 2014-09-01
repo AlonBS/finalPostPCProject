@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -26,6 +27,8 @@ public class ClientWelcomeActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.client_welcome_dialog_activity);
 		
+		setScreenSize();
+		
 		initViews();
 		
 		setChooseLocationBtnListener();
@@ -34,6 +37,14 @@ public class ClientWelcomeActivity extends FragmentActivity {
 		
 		setFinishBtnListener();
 
+	}
+	
+	private void setScreenSize() {
+		
+		// This will set this dialog-themed activity to take 80% of the screen
+		DisplayMetrics metrics = getResources().getDisplayMetrics();
+        int screenSize = (int) (metrics.widthPixels * 0.80);
+		getWindow().setLayout(screenSize, screenSize);
 	}
 	
 	private void initViews() {

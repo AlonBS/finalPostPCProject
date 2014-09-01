@@ -15,6 +15,17 @@ public class ParseClassesNames {
 	
 	
 	
+	
+	/** For Business class */
+	public static final String BUSINESS_CLASS = "Business_Data";
+	public static final String BUSINESS_NAME = "Name";
+	public static final String BUSINESS_TYPE = "Type";
+	public static final String BUSINESS_PICTURE = "Picture";
+	public static final String BUSINESS_LOCATION = "Location";
+	
+	
+	
+	
 	/*public static final String as = "asd";
 	public static final String as = "asd";
 	public static final String as = "asd";

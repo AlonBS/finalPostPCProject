@@ -12,7 +12,6 @@
     <string name="password">Password</string>
 
     <!-- Login-in activity strings -->
-
     <string name="login">Log In</string>
     <string name="no_account">Don\'t have an account yet? </string>
     <string name="sign_up">Sign Up</string>
@@ -40,13 +39,21 @@
     <string name="passwords_mismatch">Passwords don\'t match</string>
     <string name="aaemail_address">Email Address</string>
     
+    <!--  welcome screen -->
+    <string name="welcome_to_radius">Welcome to Radius!</string>
     
     <!-- client welcome dialog strings -->
-    <string name="welcome_client">Welcome to Radius! \n\n
-        In order to complete the registration please select you preferable location</string>
+    <string name="welcome_client">In order to complete the registration please select you preferable location</string>
     <string name="set_location">Choose location</string>
     <string name="not_now_btn">Not now</string>
     <string name="finish_btn">Finish!</string>
+    
+    
+    <!-- business welcome dialog strings -->
+        <string name="welcome_business">In order to complete please state your business name, business type, and locate your business on the map.</string>
+    <string name="business_name_hint">Type your business name here</string>
+    <string name="set_location_imageView">Please define your business location</string>
+    <string name="set_business_picture_desc">Select a picture for your business</string>
     
     
     <string name="hello_world">Hello world!</string>

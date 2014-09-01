@@ -23,7 +23,7 @@
         android:required="true" />
 
     <uses-sdk
-        android:minSdkVersion="11"
+        android:minSdkVersion="14"
         android:targetSdkVersion="20" />
 
     <application
@@ -54,7 +54,6 @@
             android:name="com.dna.radius.businessmode.BusinessOpeningScreenActivity"
             android:label="@string/app_name" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -73,6 +72,7 @@
             android:configChanges="orientation|screenSize">
             
             <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -81,6 +81,16 @@
             android:name="com.dna.radius.clientmode.ClientWelcomeActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Holo.Dialog" >
+        </activity>
+        <activity
+            android:name="com.dna.radius.businessmode.BusinessWelcomeActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Holo.Dialog" >
+            <intent-filter>
+                
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            
         </activity>
         
     </application>
