@@ -269,7 +269,7 @@ public class DBHandler {
 	/**
 	 * updates the user's like list, dislike list and favorites list
 	 */
-	public static void loadUesrDataSync(ClientData user){
+	public static void loadUserDataSync(ClientData user){
 		//TODO - alon - implement
 
 		//TODO - remove me!!!

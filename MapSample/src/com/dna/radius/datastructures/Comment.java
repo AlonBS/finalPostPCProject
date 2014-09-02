@@ -28,12 +28,13 @@ public class Comment {
 		return date;
 	}
 
+	//TODO remove? (alon to dror)
 	public static ArrayList<Comment> getCommentsDBDebug() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	
-	/**
+	/** TODO
 	 * This class is for debug purposes only! it is used for loading 
 	 *  comments asynchronously using localDealCommentsTask.
 	 *  We should delete this class whenever the parse server is up.

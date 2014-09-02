@@ -108,7 +108,6 @@ public class ClientWelcomeActivity extends FragmentActivity {
 	}
 	
 	
-	
 	// todo LATLING ?
 	private void finishRegistration(double lat, double lng) { 
 		
@@ -125,15 +124,6 @@ public class ClientWelcomeActivity extends FragmentActivity {
 		
 		newClient.saveInBackground();
 		currentUser.saveInBackground();
-		
-		
-		
-		// update SP to never display welcome screen again
-		SharedPreferences settings = getSharedPreferences(MainActivity.getSPName(), Context.MODE_PRIVATE);
-		SharedPreferences.Editor editor = settings.edit();
-		editor.putBoolean("client First", false);
-		editor.commit();
-		
 	}
 	
 

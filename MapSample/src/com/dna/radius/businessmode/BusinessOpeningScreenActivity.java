@@ -21,14 +21,14 @@ import android.widget.TextView;
 import com.dna.radius.R;
 import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.clientmode.ClientWelcomeActivity;
+import com.dna.radius.infrastructure.BaseActivity;
 import com.dna.radius.login.MainActivity;
-import com.dna.radius.mapsample.AbstractActivity;
 import com.dna.radius.mapsample.MapWindowFragment;
 import com.dna.radius.mapsample.WaitingFragment;
 
 
 
-public class BusinessOpeningScreenActivity extends AbstractActivity{
+public class BusinessOpeningScreenActivity extends BaseActivity{
 	//TODO this value should be given as an input
 	public int myBusinessId = 0;
 	//TODO this value should be given as an input
@@ -101,11 +101,9 @@ public class BusinessOpeningScreenActivity extends AbstractActivity{
 
 					private void displayWelcomeIfNeeded() {
 
-						SharedPreferences settings = getSharedPreferences(MainActivity.getSPName(), Context.MODE_PRIVATE);
-						boolean firstTime = settings.getBoolean("business First", true);
-
-						if (/*TODO firstTime*/true) {
-
+						if (getIntent().getExtras() == null) { // if the bundle returned by getExtras() is 
+																// not null, then it is not first time
+ 
 							Intent intent = new Intent(getApplicationContext(), BusinessWelcomeActivity.class);
 							startActivity(intent);
 						}	

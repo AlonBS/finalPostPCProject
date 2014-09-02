@@ -11,12 +11,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.dna.radius.R;
+import com.dna.radius.infrastructure.BaseActivity;
+import com.dna.radius.login.IntroFragment;
 import com.dna.radius.login.MainActivity;
-import com.dna.radius.mapsample.AbstractActivity;
 import com.dna.radius.mapsample.MapWindowFragment;
 import com.dna.radius.mapsample.WaitingFragment;
 
-public class ClientOpeningScreenActivity extends AbstractActivity{
+public class ClientOpeningScreenActivity extends BaseActivity{
 	ClientData clientData;
 	private int userID; //TODO - alon, should be given from the login module
 	@Override
@@ -49,10 +50,8 @@ public class ClientOpeningScreenActivity extends AbstractActivity{
 					
 					private void displayWelcomeIfNeeded() {
 						
-						SharedPreferences settings = getSharedPreferences(MainActivity.getSPName(), Context.MODE_PRIVATE);
-						boolean firstTime = settings.getBoolean("client First", true);
-						
-						if (/*TODO firstTime*/true) {
+						if (getIntent().getExtras() == null) { // if the bundle returned by getExtras() is 
+															   // not null, then it is not first time
 							
 							Intent intent = new Intent(getApplicationContext(), ClientWelcomeActivity.class);
 							startActivity(intent);

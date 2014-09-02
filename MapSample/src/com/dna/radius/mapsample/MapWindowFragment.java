@@ -1,5 +1,6 @@
 package com.dna.radius.mapsample;
 
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +31,7 @@ import com.dna.radius.datastructures.ExternalBusiness.BuisnessType;
 import com.dna.radius.datastructures.MapBusinessManager;
 import com.dna.radius.datastructures.MapBusinessManager.Property;
 import com.dna.radius.dbhandling.DBHandler;
+import com.dna.radius.infrastructure.BaseActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
@@ -60,7 +62,7 @@ public class MapWindowFragment extends Fragment {
 		
 		clientData = ClientData.getInstance();
 		businessManager = new MapBusinessManager(clientData);
-		isInBusinessMode = AbstractActivity.isInBusinessMode;
+		isInBusinessMode = BaseActivity.isInBusinessMode;
 		
 		//loads the google map objects and set it on the client's home page.
 		FragmentManager manager = getActivity().getSupportFragmentManager();

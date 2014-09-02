@@ -101,22 +101,17 @@ public class LoginFragment extends Fragment {
 							FragmentActivity mainActivity = getActivity();
 							
 							if (lastMode == IntroFragment.CUSTOMER_MODE) {
-								
-								
-								// TODO REMOVE
-								//Toast.makeText(getActivity().getApplicationContext(), "Customer MOde was last logged in", Toast.LENGTH_LONG).show();
 
 								Intent intent = new Intent(mainActivity.getApplicationContext(), ClientOpeningScreenActivity.class);
+								intent.putExtra(MainActivity.SHOW_WELCOME, false);
 								startActivity(intent);
 								mainActivity.finish();
 
 							}
 							else{
-								
-								// TODO REMOVE
-								//Toast.makeText(getActivity().getApplicationContext(), "business MOde was last logged in", Toast.LENGTH_LONG).show();
 
 								Intent intent = new Intent(mainActivity.getApplicationContext(), BusinessOpeningScreenActivity.class);
+								intent.putExtra(MainActivity.SHOW_WELCOME, false);
 								startActivity(intent);
 								mainActivity.finish();
 							}
@@ -167,7 +162,7 @@ public class LoginFragment extends Fragment {
 
 				SharedPreferences settings = getActivity().getSharedPreferences(MainActivity.SP_NAME, Context.MODE_PRIVATE);
 				SharedPreferences.Editor editor = settings.edit();
-				editor.putBoolean("isChecked", isChecked);
+				editor.putBoolean(MainActivity.KEEP_LOGGED, isChecked);
 				editor.commit();
 			}
 		});   

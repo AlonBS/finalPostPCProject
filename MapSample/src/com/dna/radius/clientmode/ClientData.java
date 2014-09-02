@@ -5,6 +5,7 @@ import android.util.Log;
 import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.dbhandling.DBHandler.DealLikeStatus;
 import com.google.android.gms.maps.model.LatLng;
+import com.parse.ParseUser;
 
 /***
  * represents a data object for handling all the relevant data which is needed by
@@ -16,6 +17,9 @@ import com.google.android.gms.maps.model.LatLng;
  *
  */
 public class ClientData{
+	
+	//ParseUser currentUser;
+	
 	private int id;
 	/**lists which holds all the deals which the user liked or disliked*/
 	private ArrayList<Integer> dislikeList = new ArrayList<Integer>();
@@ -40,7 +44,7 @@ public class ClientData{
 	/** loads the Client data from the parse DB*/
 	public static void loadClient(int id){
 		instance = new ClientData(id);
-		DBHandler.loadUesrDataSync(instance);
+		DBHandler.loadUserDataSync(instance);
 	}
 	
 	/**returns the ClientData singleton*/

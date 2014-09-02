@@ -6,11 +6,9 @@ package com.dna.radius.login;
 import com.dna.radius.R;
 import com.dna.radius.businessmode.BusinessOpeningScreenActivity;
 import com.dna.radius.clientmode.ClientOpeningScreenActivity;
-import com.dna.radius.clientmode.ClientWelcomeActivity;
 import com.dna.radius.dbhandling.ParseClassesNames;
 import com.parse.Parse;
 import com.parse.ParseAnonymousUtils;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import android.content.Context;
@@ -19,14 +17,16 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.widget.Toast;
 
 public class MainActivity extends FragmentActivity {
 
 	private final static String APP_ID = "x3jwFIHknyHP4pajQ7P9ottjCnwlnZIPl3JQLNzZ";
 	private final static String CLIENT_KEY = "EXlH8MQcMa8l50sAcrL0jSbQlOhGW6MdJAu4hHAA";
 
-	static final String SP_NAME = "com.dna.radius.SHARED_PREFERENCES";
+	public static final String KEEP_LOGGED = "keepLoggedIn";
+	
+	public static final String SP_NAME = "com.dna.radius.SHARED_PREFERENCES";
+	public static final String SHOW_WELCOME = "showWelcomeScreen";
 
 
 	//static FragmentManager fragmentManager;
@@ -38,30 +38,21 @@ public class MainActivity extends FragmentActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.start_activity);
-		
-		//if ( 3 == 3 ) { // TODO REMOVE! for testing only
-			
-			//startActivity(new Intent(getApplicationContext(), ClientWelcomeActivity.class));
-		//	finish();
-		//}
-		//else { 
 
 		// initializse Parse settings
 		setParse();
 
 		// if 'keep me logged in' was previously set - we log in if possible
 		SharedPreferences settings1 = getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
-		boolean isChecked = settings1.getBoolean("isChecked", false);
+		boolean isChecked = settings1.getBoolean(KEEP_LOGGED, false);
 		
-		checkKeepLoggedIn(false); //TODO change to isChecked
-		 
-		//}
+		checkKeepLoggedIn(isChecked); //TODO change to isChecked
 
 	}
 
 
 	/*
-	 * Sets a parse (connecting information to parse.com cloud).
+	 * Sets Parse.com (connecting information to Parse.com cloud).
 	 */
 	private void setParse() {
 
@@ -69,7 +60,6 @@ public class MainActivity extends FragmentActivity {
 		ParseUser.enableAutomaticUser();
 
 	}
-
 
 
 	private void checkKeepLoggedIn(boolean isChecked) { 
@@ -83,27 +73,22 @@ public class MainActivity extends FragmentActivity {
 			// not anonymous user - we log in
 			if (!ParseAnonymousUtils.isLinked(currentUser)) {
 
-				if (currentUser != null) {
-
-					//User is Verified - Start relevant screen
-					int lastMode = currentUser.getInt(ParseClassesNames.LAST_MODE);
+				// User is Verified - Start relevant screen
+				if (currentUser != null) { 
 					
+					// we lode 'client screen' if last was logged on in this screen, and business otherwise
+					int lastMode = currentUser.getInt(ParseClassesNames.LAST_MODE);
 					if (lastMode == IntroFragment.CUSTOMER_MODE) {
-
-						// TODO REMOVE
-						//Toast.makeText(getApplicationContext(), "Customer MOde", Toast.LENGTH_LONG).show();
 							
 						Intent intent = new Intent(getApplicationContext(), ClientOpeningScreenActivity.class);
+						intent.putExtra(SHOW_WELCOME, false);
 						startActivity(intent);
 						finish();
-
 					}
 					else{
-
-						// TODO REMOVE
-						//Toast.makeText(getApplicationContext(), "Business MOde", Toast.LENGTH_LONG).show();
 						
 						Intent intent = new Intent(getApplicationContext(), BusinessOpeningScreenActivity.class);
+						intent.putExtra(SHOW_WELCOME, false);
 						startActivity(intent);
 						finish();
 					}
@@ -114,18 +99,17 @@ public class MainActivity extends FragmentActivity {
 				
 				SharedPreferences settings = getSharedPreferences(MainActivity.SP_NAME, Context.MODE_PRIVATE);
 				SharedPreferences.Editor editor = settings.edit();
-				editor.putBoolean("isChecked", false);
+				editor.putBoolean(KEEP_LOGGED, false);
 				editor.commit();
 				
 			}
 		}
 
-		//TODO remove 
-		Toast.makeText(getApplicationContext(), "No keep logged in", Toast.LENGTH_LONG).show();
 		openLoginScreen();
 
 	}
 
+	
 	private void openLoginScreen() {
 
 		fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -136,5 +120,4 @@ public class MainActivity extends FragmentActivity {
 
 	}
 	
-	public static String getSPName() { return SP_NAME; }
 }

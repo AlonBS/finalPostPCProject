@@ -265,15 +265,6 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 
 		newClient.saveInBackground();
 		currentUser.saveInBackground();
-
-
-
-		// update SP to never display welcome screen again
-		SharedPreferences settings = getSharedPreferences(MainActivity.getSPName(), Context.MODE_PRIVATE);
-		SharedPreferences.Editor editor = settings.edit();
-		editor.putBoolean("business First", false);
-		editor.commit();
-
 	}
 
 
