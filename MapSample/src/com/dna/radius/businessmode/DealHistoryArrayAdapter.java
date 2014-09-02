@@ -24,11 +24,12 @@ import com.dna.radius.datastructures.DealHistoryObject;
 public class DealHistoryArrayAdapter extends ArrayAdapter<DealHistoryObject>{
 	@SuppressLint("SimpleDateFormat")
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-	
+	ArrayList<DealHistoryObject> list;
 	
 	
 	public DealHistoryArrayAdapter(Context context, int resource, ArrayList<DealHistoryObject> list) {
 		super(context, resource,list);
+		this.list = list;
 	}
 	@Override
 	public void notifyDataSetChanged() {
@@ -56,15 +57,32 @@ public class DealHistoryArrayAdapter extends ArrayAdapter<DealHistoryObject>{
 		//sets the deal data (date, num of likes, num of dislikes) into the proper text view
 		 TextView dataTextView = (TextView)rowView.findViewById(R.id.deal_hist_data_text_view);
 		 String dateStr = dateFormat.format(deal.getDate().getTime());
-		 String dateHtml = " <font color=#000000><b> " + dateStr + ",  </font></b> </t>";
+		 String dateHtml = " <font color=#000000> " + dateStr + ",  </font> &nbsp;";
 		 String numOfLikes = Integer.toString(deal.getNumOfLikes());	
-		 String numOfLikesHtml = " <font color=#008800><b> " + numOfLikes + " likes,  </font></b></t>";
+		 String numOfLikesHtml = " <font color=#008800> " + numOfLikes + " likes,  </font>&nbsp;";
 		 String numOfDislikes = Integer.toString(deal.getNumOfDislikes());
-		 String numOfDislikesHtml = " <font color=#FF0000><b> " + numOfDislikes + " dislikes </font></b></t>";
+		 String numOfDislikesHtml = " <font color=#FF0000> " + numOfDislikes + " dislikes </font>&nbsp;";
 		 dataTextView.setText(Html.fromHtml(dateHtml + numOfLikesHtml + numOfDislikesHtml));
 		 
 		 return rowView;
 	}
-
+	
+	
+	
+	int getTotalLikes(){
+		int sum = 0;
+		for (DealHistoryObject d : list){
+			sum += d.getNumOfLikes();
+		}
+		return sum;
+	}
+	
+	int getTotalDislikes(){
+		int sum = 0;
+		for (DealHistoryObject d : list){
+			sum += d.getNumOfDislikes();
+		}
+		return sum;
+	}
 	
 }	

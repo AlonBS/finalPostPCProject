@@ -48,6 +48,10 @@
     <string name="not_now_btn">Not now</string>
     <string name="finish_btn">Finish!</string>
     
+    <!-- deal history fragment -->
+     <string name="history_fragment_tap_a_deal">Tap on a deal to set it as your current one</string>
+    <string name="history_fragment_total_likes">Total likes: </string>
+    <string name="history_fragment_total_dislikes"> Total dislikes:</string>
     
     <!-- business welcome dialog strings -->
         <string name="welcome_business">In order to complete please state your business name, business type, and locate your business on the map.</string>
@@ -74,7 +78,7 @@
     <string name="type_address">type address here</string>
     <string name="type_comment_here">type your comment here</string>
     <string name="waiting">loading business data from server</string>
-    <string name="sounds_cool">Sounds Cool!</string>
+   
 
     <string-array name="spinner_options">
         <item>All</item>
