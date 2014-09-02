@@ -18,9 +18,10 @@ import com.parse.ParseUser;
  */
 public class ClientData{
 	
-	//ParseUser currentUser;
+	ParseUser currentUser;
 	
-	private int id;
+	private final int id;
+	
 	/**lists which holds all the deals which the user liked or disliked*/
 	private ArrayList<Integer> dislikeList = new ArrayList<Integer>();
 	private ArrayList<Integer> likeList = new ArrayList<Integer>();
@@ -42,7 +43,12 @@ public class ClientData{
 	}
 	
 	/** loads the Client data from the parse DB*/
-	public static void loadClient(int id){
+	public static void loadClientInfo(int id){
+		
+		//TODO ASK DROR? STATIC REFERENCE?
+		//currentUser = ParseUser.getCurrentUser();
+		
+		
 		instance = new ClientData(id);
 		DBHandler.loadUserDataSync(instance);
 	}
@@ -125,6 +131,7 @@ public class ClientData{
 
 	public void addToFavorites(int businessId){
 		if(favourites.contains(businessId)){
+			//TODO why log this? this is not an error (alon)
 			Log.e("ClientData","Error! business already in favourites");
 		}else{
 			favourites.add(businessId);
@@ -135,6 +142,7 @@ public class ClientData{
 	
 	public void removeFromFavorites(int businessId){
 		if(!favourites.contains(businessId)){
+			//TODO same here
 			Log.e("ClientData","Error! business wasnt in favourites before");
 		}else{
 			favourites.add(businessId);

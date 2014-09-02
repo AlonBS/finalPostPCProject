@@ -63,7 +63,7 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 			public void run() {
 
 				ownerData = new OwnerData(myBusinessId,getApplicationContext());
-				ClientData.loadClient(userID);
+				ClientData.loadClientInfo(userID);
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {

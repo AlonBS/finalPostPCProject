@@ -92,6 +92,7 @@ public class SignUpFragment extends Fragment {
 				user.setEmail(emailText);
 				user.put(ParseClassesNames.LAST_MODE, app_mode);
 				
+				
 				//TODO add email verification using emailVerified field
 				
 				//TODO in main??
