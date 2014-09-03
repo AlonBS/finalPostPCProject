@@ -27,8 +27,10 @@ import android.widget.TextView;
 
 import com.dna.radius.R;
 import com.dna.radius.datastructures.Comment;
+import com.dna.radius.datastructures.DealHistoryObject;
 import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.mapsample.CommentsArrayAdapter;
+import com.google.android.gms.wearable.DataApi;
 
 /**
  * represents the first screen which the business owner sees when he is logging in.
@@ -117,9 +119,16 @@ public class BusinessDashboardFragment extends Fragment{
 				.setView(input)
 				.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
+						//saves the current deal into deal history
+						OwnerData data = activityParent.ownerData;
+						DBHandler.addDealToHistory(data.businessID,data.currentDeal,data.numberOfLikes,data.numberOfDislikes);
+						
+						//adds the new Deal
 						String newDealStr = input.getText().toString();
 						activityParent.ownerData.changeDeal(newDealStr);
 						dealTv.setText(newDealStr);
+						
+						
 					}
 				}).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
