@@ -80,8 +80,9 @@ public class MapWindowFragment extends Fragment {
 		gMap.setMyLocationEnabled(true);
 
 		//loads businesses to map
-		DBHandler.loadBusinessListAndMapMarkersAsync(gMap.getCameraPosition().target, gMap, businessManager,LOAD_RADIUS,getActivity());
+		DBHandler.loadBusinessListAndMapMarkersAsync(gMap.getCameraPosition().target, gMap, businessManager,LOAD_RADIUS,this);
 
+		final MapWindowFragment thisFragment = this;
 		//if the the map center was changed significantly (more then a Radius),
 		//starts loading businesses again, around the new radius.
 		gMap.setOnCameraChangeListener(new OnCameraChangeListener() {
@@ -91,7 +92,8 @@ public class MapWindowFragment extends Fragment {
 						Math.abs(position.target.longitude-latestMapCenter.longitude)>LOAD_RADIUS){
 					latestMapCenter = position.target;
 					DBHandler.stopLoadBusinessListAndMapMsarkersAsync();
-					DBHandler.loadBusinessListAndMapMarkersAsync(position.target, gMap, businessManager, LOAD_RADIUS,getActivity());
+					
+					DBHandler.loadBusinessListAndMapMarkersAsync(position.target, gMap, businessManager, LOAD_RADIUS,thisFragment);
 					Log.d("MapWindowFragment","map center was changed significantly. loading businesses again.");
 				}
 
@@ -238,7 +240,7 @@ public class MapWindowFragment extends Fragment {
 	 * This function is called whenever a filter button is pressed / whenever the 
 	 * spinner top value is changed. the map overlays should be updated accordingly.
 	 */
-	private void updateOverlays(){
+	public void updateOverlays(){
 
 		String item = preferencedSpinner.getSelectedItem().toString();	 
 		Property p;

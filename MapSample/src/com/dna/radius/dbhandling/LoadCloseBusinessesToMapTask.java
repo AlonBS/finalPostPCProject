@@ -12,6 +12,7 @@ import android.util.Log;
 import com.dna.radius.datastructures.MapBusinessManager;
 import com.dna.radius.datastructures.ExternalBusiness;
 import com.dna.radius.datastructures.ExternalBusiness.BuisnessType;
+import com.dna.radius.mapsample.MapWindowFragment;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -19,7 +20,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class LoadCloseBusinessesToMapTask extends AsyncTask<Void, ArrayList<ExternalBusiness>, Void> {
-	private Context mContext;
+	private MapWindowFragment calledFragment;
     private boolean stopFlag = false;
     private final WeakReference<GoogleMap> gMapRef;
     int NUM_OF_LOADS_BEFORE_REFRESH = 5;
@@ -54,9 +55,9 @@ public class LoadCloseBusinessesToMapTask extends AsyncTask<Void, ArrayList<Exte
     	markersDB.add(new ExternalBusiness("Katsefet", BuisnessType.RESTURANT, new LatLng(31.779921, 35.187777),id++,new Random().nextInt(99999),new Random().nextInt(99999), new Random().nextInt(99999)));
     }
 
-    public LoadCloseBusinessesToMapTask(Context context,GoogleMap gMap,MapBusinessManager businessManager,double radius) {
+    public LoadCloseBusinessesToMapTask(MapWindowFragment calledFragment,GoogleMap gMap,MapBusinessManager businessManager,double radius) {
         super();
-        mContext = context;
+        this.calledFragment = calledFragment;
         this.gMapRef = new WeakReference<GoogleMap>(gMap);
         this.businessManager = businessManager;
         setDBs_debug();
@@ -144,7 +145,12 @@ public class LoadCloseBusinessesToMapTask extends AsyncTask<Void, ArrayList<Exte
      */
     @Override
     protected void onPostExecute(Void result) {
-        
+    	if (calledFragment != null && calledFragment.isVisible()) {
+    		calledFragment.updateOverlays();
+		}else{
+			return;
+		}
+    
     }
 
     
