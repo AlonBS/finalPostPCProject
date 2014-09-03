@@ -29,8 +29,11 @@
     <string name="email_address">Email Address</string>
     <string name="business_name">Business Name</string>
     <string-array name="business_type_spinner">
-        <item>Restuarant</item>
-        <item>Drogba</item>
+        <item>Restaurant</item>
+        <item>Pub</item>
+        <item>Accommodation</item>
+        <item>Coffee</item>
+        <item>Groceries</item>
     </string-array>
 
     

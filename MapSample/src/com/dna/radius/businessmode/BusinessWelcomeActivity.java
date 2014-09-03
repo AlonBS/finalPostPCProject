@@ -25,6 +25,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -39,20 +40,29 @@ import android.widget.Toast;
 
 public class BusinessWelcomeActivity extends FragmentActivity {
 
-	private EditText businessNameEditText;
-
-	private Spinner businessTypeSpinner;
 
 	private Button finishBtn;
 
 	private String businessName;
+	
 	private int businessType;
+	
 	private LatLng businessLocation;
 
-	boolean typeSelected = false, locationSelected = false;
+	private boolean locationSelected = false;
 	
 	private static final int RESULT_LOAD_IMAGE = 1;
-
+	
+	private Fragment currentFragment = null;
+	
+	/**
+	 * This integer and constants were meant to tell which fragment should be 
+	 * loaded whenever the next button is pressed.*/
+	private int numberOfTimesNextWasPressed = 0;
+	private final int FIND_LOCATION_FRAGEMENT_TURN = 0;
+	private final int GET_IMAGE_FRAGEMENT_TURN = 1;
+	private final int FINISH_FILLING_DETAILS= 2;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -60,30 +70,66 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 		setContentView(R.layout.business_welcome_dialog_activity);
 
 		setScreenSize();
+		
+		setNextBtn();
+		
+		final FragmentManager fragmentManager = getSupportFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+		BusinessWelcomeFillDetailsFragment businessWelcomeFragment = new BusinessWelcomeFillDetailsFragment();
+		fragmentTransaction.add(R.id.business_welcome_main_fragment_layout, businessWelcomeFragment);
+		fragmentTransaction.addToBackStack(null);
+		fragmentTransaction.commit();
 
-		initViews();
+	}
 
-		setBusinessTypeSpinner();
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		super.onBackPressed();
+		numberOfTimesNextWasPressed--;
+	}
+	
+	private void setNextBtn(){
 
 		ImageView nextBtn = (ImageView)findViewById(R.id.next_btn);
 		nextBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				LinearLayout oldLayout = (LinearLayout)findViewById(R.id.business_welcome_details_layout);
-				oldLayout.setVisibility(View.GONE);
 				
-				final FragmentManager fragmentManager = getSupportFragmentManager();
-				FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-				LocationFinderFragment findLocationFragment = new LocationFinderFragment();
-				fragmentTransaction.add(R.id.business_welcome_main_fragment_layout, findLocationFragment);
-				fragmentTransaction.commit();
+				if(numberOfTimesNextWasPressed==FIND_LOCATION_FRAGEMENT_TURN){
+					
+					//tests if it's possible to move to the next fragment
+					final FragmentManager fragmentManager = getSupportFragmentManager();
+					BusinessWelcomeFillDetailsFragment currentFragment = (BusinessWelcomeFillDetailsFragment)fragmentManager.findFragmentById(R.id.business_welcome_main_fragment_layout);
+					if(!currentFragment.finishedFillingAllData()){
+						return;
+					}
+					
+					numberOfTimesNextWasPressed++;
+					
+					//retrives the business name and type
+					businessName = currentFragment.getBusinessName();
+					businessType = currentFragment.getBusinessType();
+					
+					//moves to the next fragment
+					FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+					LocationFinderFragment findLocationFragment = new LocationFinderFragment();
+					fragmentTransaction.replace(R.id.business_welcome_main_fragment_layout, findLocationFragment);
+					fragmentTransaction.addToBackStack(null);
+					fragmentTransaction.commit();
+				}else if(numberOfTimesNextWasPressed==FIND_LOCATION_FRAGEMENT_TURN){
+					
+				}else if(numberOfTimesNextWasPressed==FINISH_FILLING_DETAILS){
+					
+				}else{
+					Log.e("BusinessWelcomeActivity", "error with the next button. numberOfTimesNextWasPressed:" + numberOfTimesNextWasPressed);
+				}
 			}
 		});
 
-		//setFinishBtnListener();
-
+		
 	}
-
+	
 	private void setScreenSize() {
 
 		// This will set this dialog-themed activity to take 80% of the screen
@@ -93,60 +139,7 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 		getWindow().setLayout(screenWidth, screenHeight);
 	}
 
-	private void initViews() {
 
-		businessNameEditText = (EditText) findViewById(R.id.business_name_textView);
-		businessTypeSpinner = (Spinner) findViewById(R.id.business_type_spinner);
-		finishBtn = (Button) findViewById(R.id.finish_btn);
-
-	}
-
-	private void setBusinessTypeSpinner() {
-
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
-				R.array.business_type_spinner, android.R.layout.simple_spinner_item);
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		businessTypeSpinner.setAdapter(adapter);
-
-		businessTypeSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-
-			public void onItemSelected(AdapterView<?> parent, View view, 
-					int pos, long id) {
-				
-				String typeStr = parent.getItemAtPosition(pos).toString();
-				
-				if (typeStr.compareToIgnoreCase(BuisnessType.RESTAURANT.getStringRep()) == 0){
-					
-					businessType = BuisnessType.RESTAURANT.getParseID();
-				}
-				else if (typeStr.compareToIgnoreCase(BuisnessType.PUB.getStringRep()) == 0){
-					
-					businessType = BuisnessType.PUB.getParseID();
-				}
-				else if (typeStr.compareToIgnoreCase(BuisnessType.COFFEE.getStringRep()) == 0){
-					
-					businessType = BuisnessType.COFFEE.getParseID();
-				}
-				else if (typeStr.compareToIgnoreCase(BuisnessType.GROCERIES.getStringRep()) == 0){
-					
-					businessType = BuisnessType.GROCERIES.getParseID();
-				}
-				else if (typeStr.compareToIgnoreCase(BuisnessType.ACCOMMODATION.getStringRep()) == 0){
-					
-					businessType = BuisnessType.ACCOMMODATION.getParseID();
-				}
-			}
-
-			public void onNothingSelected(AdapterView<?> parent) {
-				//TODO REMOVE
-				Toast.makeText(getApplicationContext(), "PLEASE MAKE A SELECTION MADAFACKA", Toast.LENGTH_SHORT).show();
-				
-				typeSelected = false;
-			}
-
-		});
-
-	}
 
 	private void setChooseLocationListener() {
 		ImageView mapImageView = null; //TODO delete
@@ -237,22 +230,7 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 
 	private boolean finishedFillingAllData() {
 
-		businessName = businessNameEditText.getText().toString();
-
-		if (businessName.isEmpty() || illegalBusinessName(businessName)) {
-
-			//TODO maybe different message?
-			Toast.makeText(getApplicationContext(), "PUT BUSINESS!", Toast.LENGTH_SHORT).show();
-			return false;
-		}
-
-		if (!typeSelected) {
-
-			//TODO maybe different message?
-			Toast.makeText(getApplicationContext(), "PUT TYPE!", Toast.LENGTH_SHORT).show();
-			return false;
-		}
-
+		
 		if (!locationSelected) {
 
 			//TODO maybe different message?
@@ -264,12 +242,7 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 
 	}
 
-	private boolean illegalBusinessName(String bn) {
 
-		//TODO business name filter? alpha-numeric only ? 
-		return false;
-
-	}
 
 
 
