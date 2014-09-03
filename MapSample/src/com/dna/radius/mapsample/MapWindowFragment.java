@@ -71,7 +71,7 @@ public class MapWindowFragment extends Fragment {
 		if (gMap!=null){
 			gMap.setOnMarkerClickListener(markerListener);
 		}
-		latestMapCenter = clientData.getHome();
+		latestMapCenter = ClientData.getHome();
 		gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latestMapCenter, DEFAULT_LATLNG_ZOOM));
 		gMap.animateCamera(CameraUpdateFactory.zoomTo(DEFAULT_ANIMATED_ZOOM), 2000, null);
 

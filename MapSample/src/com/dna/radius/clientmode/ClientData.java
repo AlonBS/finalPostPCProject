@@ -63,8 +63,10 @@ public class ClientData{
 	
 	private static void loadLocation() {
 		
-		double[] temp = (double[])clientInfo.get(ParseClassesNames.CLIENT_LOCATION);
-		homeLocation = new LatLng (temp[0], temp[1]);
+		//double[] temp = (double[])clientInfo.get(ParseClassesNames.CLIENT_LOCATION);
+		//homeLocation = new LatLng (temp[0], temp[1]);
+		
+		homeLocation = new LatLng(31.781984, 35.218221); //TODO delete
 		
 	}
 	
