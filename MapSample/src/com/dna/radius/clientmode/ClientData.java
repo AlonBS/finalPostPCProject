@@ -49,9 +49,12 @@ public class ClientData{
 		currentUser = ParseUser.getCurrentUser();
 		clientInfo = currentUser.getParseObject(ParseClassesNames.CLIENT_INFO);
 		
+		loadLocation(); //TODO this should be inside of the if statement
+		
+		
 		if (clientInfo != null) { //This means registration is finished, and we can load data from Parse
 			
-			loadLocation();
+			
 			
 			loadPreferrings();
 			

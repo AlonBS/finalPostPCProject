@@ -1,101 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/background_welcome_activity_2"
-    android:weightSum="1.5" >
+    android:background="@color/background_welcome_activity_2" >
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="0.3"
+        android:id="@+id/layout_next"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#44000000"
         android:orientation="vertical" >
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:background="#FFFFBB33"
-            android:contentDescription="@string/app_name"
-            android:scaleType="center"
-            android:src="@drawable/burger" />
-	
-         <TextView
-            android:id="@+id/welcome_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/welcome_margin"
-            android:text="@string/welcome_to_radius"
-            android:ems="10"
-            android:textColor="@color/white" />
-        
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="1dp" >
+
+            <ImageView
+                android:id="@+id/next_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_action_next_item" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/business_welcome_main_fragment_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/layout_next"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/business_welcome_details_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/layout_next"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical" >
+
         <TextView
             android:id="@+id/welcome_business_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/welcome_margin"
-            android:text="@string/welcome_client"
+            android:text="@string/welcome_business_fill_details"
             android:textColor="@color/white" />
 
         <EditText
             android:id="@+id/business_name_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/business_name_hint"
             android:background="@android:color/darker_gray"
-            android:textColor="@color/white"
-            android:ems="10" >
-
+            android:ems="10"
+            android:hint="@string/business_name_hint"
+            android:textColor="@color/white" >
         </EditText>
 
         <Spinner
             android:id="@+id/business_type_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center" >
-
-            <ImageView
-                android:id="@+id/business_map_imageView"
-                android:layout_width="120dip"
-                android:layout_height="120dip"
-                android:contentDescription="@string/set_location_imageView"
-                android:src="@drawable/map_icon_blue" />
-            
-              <ImageView
-                android:id="@+id/business_set_picture_imageView"
-                android:layout_width="120dip"
-                android:layout_height="120dip"
-                android:contentDescription="@string/set_business_picture_desc"
-                android:src="@drawable/add_pic_icon" />
-              
-        </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1.2"
-        android:gravity="bottom|center"
-        android:padding="5dp" >
-
-        <Button
-            android:id="@+id/not_not_btn"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:text="@string/not_now_btn" />
-
-        <Button
-            android:id="@+id/finish_btn"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="@string/finish_btn" />
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>

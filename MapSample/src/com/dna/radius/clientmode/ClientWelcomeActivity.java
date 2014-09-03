@@ -166,5 +166,8 @@ public class ClientWelcomeActivity extends FragmentActivity {
 		
 	}
 	
-
+	
+	@Override
+	public void onBackPressed() {
+	}
 }

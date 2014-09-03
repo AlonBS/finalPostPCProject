@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!--
          The following two permissions are not required to use
-    	 Google Maps Android API v2, but are recommended.
+    	 Google Maps Android API v2, but are recommended.
     -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -55,7 +55,6 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
-               
             </intent-filter>
         </activity>
         <activity
@@ -72,10 +71,11 @@
         </activity>
         <activity
             android:name="com.dna.radius.businessmode.BusinessWelcomeActivity"
-            android:label="@string/app_name"
+            android:label="@string/welcome_to_radius"
             android:theme="@android:style/Theme.Holo.Dialog" >
             <intent-filter>
-                 
+                <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -85,7 +85,6 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

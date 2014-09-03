@@ -6,6 +6,8 @@ import com.dna.radius.R;
 import com.dna.radius.datastructures.ExternalBusiness.BuisnessType;
 import com.dna.radius.dbhandling.ParseClassesNames;
 import com.dna.radius.login.MainActivity;
+import com.dna.radius.mapsample.LocationFinderFragment;
+import com.dna.radius.mapsample.WaitingFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -18,7 +20,10 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,6 +33,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -36,8 +42,6 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 	private EditText businessNameEditText;
 
 	private Spinner businessTypeSpinner;
-
-	private ImageView mapImageView, choosePicImageView;
 
 	private Button finishBtn;
 
@@ -61,11 +65,22 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 
 		setBusinessTypeSpinner();
 
-		setChooseLocationListener();
+		ImageView nextBtn = (ImageView)findViewById(R.id.next_btn);
+		nextBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				LinearLayout oldLayout = (LinearLayout)findViewById(R.id.business_welcome_details_layout);
+				oldLayout.setVisibility(View.GONE);
+				
+				final FragmentManager fragmentManager = getSupportFragmentManager();
+				FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+				LocationFinderFragment findLocationFragment = new LocationFinderFragment();
+				fragmentTransaction.add(R.id.business_welcome_main_fragment_layout, findLocationFragment);
+				fragmentTransaction.commit();
+			}
+		});
 
-		setChoosePictureListener();
-
-		setFinishBtnListener();
+		//setFinishBtnListener();
 
 	}
 
@@ -73,16 +88,15 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 
 		// This will set this dialog-themed activity to take 80% of the screen
 		DisplayMetrics metrics = getResources().getDisplayMetrics();
-		int screenSize = (int) (metrics.widthPixels * 0.80);
-		getWindow().setLayout(screenSize, screenSize);
+		int screenWidth = (int) (metrics.widthPixels * 0.9);
+		int screenHeight = (int) (metrics.heightPixels * 0.8);
+		getWindow().setLayout(screenWidth, screenHeight);
 	}
 
 	private void initViews() {
 
 		businessNameEditText = (EditText) findViewById(R.id.business_name_textView);
 		businessTypeSpinner = (Spinner) findViewById(R.id.business_type_spinner);
-		mapImageView = (ImageView) findViewById(R.id.business_map_imageView);
-		choosePicImageView = (ImageView) findViewById(R.id.business_set_picture_imageView);
 		finishBtn = (Button) findViewById(R.id.finish_btn);
 
 	}
@@ -135,7 +149,7 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 	}
 
 	private void setChooseLocationListener() {
-
+		ImageView mapImageView = null; //TODO delete
 		mapImageView.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -159,7 +173,7 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 
 	private void setChoosePictureListener() {
 
-
+		ImageView choosePicImageView = null; //TODO delete
 		choosePicImageView.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -284,5 +298,8 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 		currentUser.saveInBackground();
 	}
 
-
+	
+	//@Override
+	//public void onBackPressed() {
+	//}
 }
