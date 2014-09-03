@@ -17,25 +17,30 @@ public class ExternalBusiness implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	public static enum BuisnessType implements Serializable{
-		RESTURANT(R.drawable.resturant_icon,1),
-		PUB(R.drawable.bar_icon,2),
-		HOTEL(R.drawable.hotel_icon,3),
-		COFFEE(R.drawable.coffee_icon,4),
-		SHOPPING(R.drawable.shopping_icon,5);
+		RESTAURANT(R.drawable.resturant_icon,1,"Restaurant"),
+		PUB(R.drawable.bar_icon,2,"Pub"),
+		ACCOMMODATION(R.drawable.hotel_icon,3,"Accommodation"),
+		COFFEE(R.drawable.coffee_icon,4,"Coffee"),
+		GROCERIES(R.drawable.shopping_icon,5, "Groceries");
 		
 		private int iconID;
 		private int parseID;
-		private BuisnessType(int iconID, int parseID){
+		private String stringRep;
+		
+		private BuisnessType(int iconID, int parseID, String rep){
 			this.iconID = iconID;
 			this.parseID = parseID;
+			this.stringRep = rep;
 		}
 		
-		public int getParseID(){
-			return parseID;
-		}
+		public int getParseID(){ return parseID; }
 		
+		public String getStringRep(){ return stringRep;	}
 
 	}
+	
+	
+	
 	public String name;
 	public int iconID;
 	public int numOfStars;

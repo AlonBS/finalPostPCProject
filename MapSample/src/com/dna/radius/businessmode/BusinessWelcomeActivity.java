@@ -41,9 +41,6 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 
 	private Button finishBtn;
 
-	//TODO move to another place - or not needed?
-	enum BusinessType {RESTAURANT, BAR /*add more*/ } ;
-
 	private String businessName;
 	private int businessType;
 	private LatLng businessLocation;
@@ -101,14 +98,29 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 
 			public void onItemSelected(AdapterView<?> parent, View view, 
 					int pos, long id) {
-//				int typeParseRepresentation;
-//				if(string=="Coffee"){
-//					BuisnessType type = BuisnessType.COFFEE;
-//					typeParseRepresentation = type.getParseID();
-//				}else if()
-//				businessType = pos;
-//				
-//				typeSelected = true;
+				
+				String typeStr = parent.getItemAtPosition(pos).toString();
+				
+				if (typeStr.compareToIgnoreCase(BuisnessType.RESTAURANT.getStringRep()) == 0){
+					
+					businessType = BuisnessType.RESTAURANT.getParseID();
+				}
+				else if (typeStr.compareToIgnoreCase(BuisnessType.PUB.getStringRep()) == 0){
+					
+					businessType = BuisnessType.PUB.getParseID();
+				}
+				else if (typeStr.compareToIgnoreCase(BuisnessType.COFFEE.getStringRep()) == 0){
+					
+					businessType = BuisnessType.COFFEE.getParseID();
+				}
+				else if (typeStr.compareToIgnoreCase(BuisnessType.GROCERIES.getStringRep()) == 0){
+					
+					businessType = BuisnessType.GROCERIES.getParseID();
+				}
+				else if (typeStr.compareToIgnoreCase(BuisnessType.ACCOMMODATION.getStringRep()) == 0){
+					
+					businessType = BuisnessType.ACCOMMODATION.getParseID();
+				}
 			}
 
 			public void onNothingSelected(AdapterView<?> parent) {
