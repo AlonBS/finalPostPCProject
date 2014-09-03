@@ -23,6 +23,7 @@ import com.dna.radius.datastructures.MapBusinessManager;
 import com.dna.radius.datastructures.Comment;
 import com.dna.radius.datastructures.DealHistoryObject;
 import com.dna.radius.mapsample.CommentsArrayAdapter;
+import com.dna.radius.mapsample.MapWindowFragment;
 import com.dna.radius.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
@@ -86,8 +87,8 @@ public class DBHandler {
 	 * is less than radius.
 	 * 
 	 */
-	public static void loadBusinessListAndMapMarkersAsync(LatLng mapCenter,GoogleMap gMap, MapBusinessManager bManager,double radius,Context context){
-		loadBusinessesAndMapTask = new LoadCloseBusinessesToMapTask(context, gMap, bManager,radius);
+	public static void loadBusinessListAndMapMarkersAsync(LatLng mapCenter,GoogleMap gMap, MapBusinessManager bManager,double radius,MapWindowFragment fragment){
+		loadBusinessesAndMapTask = new LoadCloseBusinessesToMapTask(fragment, gMap, bManager,radius);
 		loadBusinessesAndMapTask.execute();
 
 	}
