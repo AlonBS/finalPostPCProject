@@ -34,7 +34,7 @@ public class OwnerData {
 	//TODO DROR the context param should be removed
 	public OwnerData(String businessID, Context context){
 		this.businessID = businessID;
-	//	DBHandler.loadOwnerDataSync(this, context);
+		DBHandler.loadOwnerDataSync(this, context);
 	}
 	
 	public void changeDeal(String currentDeal) {
