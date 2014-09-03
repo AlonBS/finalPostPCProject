@@ -33,9 +33,8 @@ public class LikeAndDislikeFragment extends Fragment{
 		View view = inflater.inflate(R.layout.like_and_dislike_fragment,container, false);
 		ImageView imageView = (ImageView) view.findViewById(R.id.business_image_view);
 		
-		clientData = ClientData.getInstance();		
 		activityParent = (ShowDealActivity)getActivity();
-		final int businessID  = activityParent.businessID;
+		final String businessID  = activityParent.businessID;
 		
 		//loads the business image
 		DBHandler.loadBusinessImageViewAsync(businessID, imageView,activityParent);
@@ -69,7 +68,7 @@ public class LikeAndDislikeFragment extends Fragment{
 					}
 					
 					dealStatus = DealLikeStatus.LIKE;
-					clientData.addLikeToDeal(businessID);
+					clientData.addToLikes(businessID);
 					String oldText =likesText.getText().toString();
 					String newStr = Long.toString(Long.parseLong(oldText)+1);
 					likesText.setText(newStr);
@@ -96,7 +95,7 @@ public class LikeAndDislikeFragment extends Fragment{
 						likesText.setText(newStr);
 					}
 					dealStatus = DealLikeStatus.DISLIKE;
-					clientData.addDislikeToDeal(businessID);
+					clientData.addToDislikes(businessID);
 					String newStr = Long.toString(Long.parseLong(dislikesText.getText().toString())+1);
 					dislikesText.setText(newStr);
 				}

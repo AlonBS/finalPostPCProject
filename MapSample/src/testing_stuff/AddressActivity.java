@@ -199,20 +199,20 @@ public class AddressActivity extends Activity {
 	    	markersList = new ArrayList<ExternalBusiness>();
 	    	Random r = new Random();
 	    	int id = 0;
-	    	markersList.add(new ExternalBusiness("MCdonalds", BuisnessType.RESTURANT, new LatLng(31.781099, 35.217668) ,id++,new Random().nextInt(99999),new Random().nextInt(99999), new Random().nextInt(99999)));
-	    	markersList.add(new ExternalBusiness("Ivo", BuisnessType.RESTURANT, new LatLng(31.779949, 35.218948) ,id++,new Random().nextInt(99999),new Random().nextInt(99999), new Random().nextInt(99999)));
-	    	markersList.add(new ExternalBusiness("Dolfin Yam", BuisnessType.RESTURANT, new LatLng(31.779968, 35.221209) ,id++,new Random().nextInt(99999),new Random().nextInt(99999), new Random().nextInt(99999)));
+	    	/*markersList.add(new ExternalBusiness("MCdonalds", BuisnessType.RESTAURANT, new LatLng(31.781099, 35.217668) ,id++,new Random().nextInt(99999),new Random().nextInt(99999), new Random().nextInt(99999)));
+	    	markersList.add(new ExternalBusiness("Ivo", BuisnessType.RESTAURANT, new LatLng(31.779949, 35.218948) ,id++,new Random().nextInt(99999),new Random().nextInt(99999), new Random().nextInt(99999)));
+	    	markersList.add(new ExternalBusiness("Dolfin Yam", BuisnessType.RESTAURANT, new LatLng(31.779968, 35.221209) ,id++,new Random().nextInt(99999),new Random().nextInt(99999), new Random().nextInt(99999)));
 	    	markersList.add(new ExternalBusiness("Birman", BuisnessType.PUB, new LatLng(31.781855, 35.218086) ,id++,new Random().nextInt(99999),new Random().nextInt(99999), new Random().nextInt(99999)));
 	    	markersList.add(new ExternalBusiness("Bullinat", BuisnessType.PUB, new LatLng(31.781984, 35.218221) ,id++,new Random().nextInt(99999),new Random().nextInt(99999), new Random().nextInt(99999)));
-	    	markersList.add(new ExternalBusiness("Hamarush", BuisnessType.RESTURANT, new LatLng(31.781823, 35.219065) ,id++,new Random().nextInt(99999),new Random().nextInt(99999), new Random().nextInt(99999)));
-	    	markersList.add(new ExternalBusiness("Adom", BuisnessType.RESTURANT, new LatLng(31.781334, 35.220703) ,id++,new Random().nextInt(99999),new Random().nextInt(99999), new Random().nextInt(99999)));
+	    	markersList.add(new ExternalBusiness("Hamarush", BuisnessType.RESTAURANT, new LatLng(31.781823, 35.219065) ,id++,new Random().nextInt(99999),new Random().nextInt(99999), new Random().nextInt(99999)));
+	    	markersList.add(new ExternalBusiness("Adom", BuisnessType.RESTAURANT, new LatLng(31.781334, 35.220703) ,id++,new Random().nextInt(99999),new Random().nextInt(99999), new Random().nextInt(99999)));
 	    	markersList.add(new ExternalBusiness("Tel Aviv Bar", BuisnessType.PUB, new LatLng(31.781455, 35.220525) ,id++,new Random().nextInt(99999),new Random().nextInt(99999), new Random().nextInt(99999)));
 	    	markersList.add(new ExternalBusiness("Jabutinski Bar", BuisnessType.PUB, new LatLng(31.779654, 35.221654) ,id++,new Random().nextInt(99999),new Random().nextInt(99999), new Random().nextInt(99999)));
-	    	markersList.add(new ExternalBusiness("Reva Sheva", BuisnessType.SHOPPING, new LatLng(31.779793, 35.219728) ,id++,new Random().nextInt(99999),new Random().nextInt(99999), new Random().nextInt(99999)));
-	    	markersList.add(new ExternalBusiness("The one with the shirts", BuisnessType.SHOPPING, new LatLng(31.779293, 35.221624) ,id++,new Random().nextInt(99999),new Random().nextInt(99999), new Random().nextInt(99999)));
-	    	markersList.add(new ExternalBusiness("Hamashbir Latsarchan", BuisnessType.SHOPPING, new LatLng(31.781824, 35.219959) ,id++,new Random().nextInt(99999),new Random().nextInt(99999), new Random().nextInt(99999)));
+	    	markersList.add(new ExternalBusiness("Reva Sheva", BuisnessType.GROCERIES, new LatLng(31.779793, 35.219728) ,id++,new Random().nextInt(99999),new Random().nextInt(99999), new Random().nextInt(99999)));
+	    	markersList.add(new ExternalBusiness("The one with the shirts", BuisnessType.GROCERIES, new LatLng(31.779293, 35.221624) ,id++,new Random().nextInt(99999),new Random().nextInt(99999), new Random().nextInt(99999)));
+	    	markersList.add(new ExternalBusiness("Hamashbir Latsarchan", BuisnessType.GROCERIES, new LatLng(31.781824, 35.219959) ,id++,new Random().nextInt(99999),new Random().nextInt(99999), new Random().nextInt(99999)));
 	    	markersList.add(new ExternalBusiness("Hataklit", BuisnessType.PUB, new LatLng(31.781905, 35.221372) ,id++,new Random().nextInt(99999),new Random().nextInt(99999), new Random().nextInt(99999)));
-	    	markersList.add(new ExternalBusiness("Hatav Hashmini", BuisnessType.SHOPPING, new LatLng(31.781191, 35.219621) ,id++,new Random().nextInt(99999),new Random().nextInt(99999), new Random().nextInt(99999)));
+	    	markersList.add(new ExternalBusiness("Hatav Hashmini", BuisnessType.GROCERIES, new LatLng(31.781191, 35.219621) ,id++,new Random().nextInt(99999),new Random().nextInt(99999), new Random().nextInt(99999)));*/
 	    }
 	
 }

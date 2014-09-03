@@ -17,7 +17,7 @@ import com.google.android.gms.maps.model.LatLng;
  *
  */
 public class OwnerData {
-	public int businessID;
+	public String businessID;
 	public String name; //busienss name
 	public boolean hasImage; //does the business has an image?
 	public Bitmap image; // the image of the business (if exists)
@@ -32,36 +32,36 @@ public class OwnerData {
 	public boolean hasDeal;
 	
 	//TODO DROR the context param should be removed
-	public OwnerData(int businessID, Context context){
+	public OwnerData(String businessID, Context context){
 		this.businessID = businessID;
-		DBHandler.loadOwnerDataSync(this, context);
+	//	DBHandler.loadOwnerDataSync(this, context);
 	}
 	
 	public void changeDeal(String currentDeal) {
 		this.currentDeal = currentDeal;
-		DBHandler.setDeal(businessID,currentDeal,0,0);
+//		DBHandler.setDeal(businessID,currentDeal,0,0);
 	}
 	
 	public void changeBusinessImage(Bitmap bmap){
 		this.image = bmap;
-		DBHandler.setImage(businessID, bmap);
+//		DBHandler.setImage(businessID, bmap);
 	}
 	
 	public void changeBusinessAddress(String address){
 		this.address = address;
-		DBHandler.setBusinessAddress(businessID,address);
+	//	DBHandler.setBusinessAddress(businessID,address);
 	}
 	public void changeBusinessPhone(String phoneNumber){
 		this.phoneNumber = phoneNumber;
-		DBHandler.setBusinessPhone(businessID,phoneNumber);
+//		DBHandler.setBusinessPhone(businessID,phoneNumber);
 	}
 	public void changeBusinessName(String name){
 		this.name = name;
-		DBHandler.setBusinessName(businessID,name);
+	//	DBHandler.setBusinessName(businessID,name);
 		
 	}
 	public void changeBusinessLocation(LatLng newLocation){
 		this.location = newLocation;
-		DBHandler.setBusinessLocation(businessID,newLocation);
+	//	DBHandler.setBusinessLocation(businessID,newLocation);
 	}
 }

@@ -38,7 +38,7 @@ public class ClientOpeningScreenActivity extends BaseActivity{
 			@Override
 			public void run() {
 				
-				ClientData.loadClientInfo(userID);
+				ClientData.loadClientInfo();
 				
 				runOnUiThread(new Runnable() {
 					@Override
@@ -53,7 +53,7 @@ public class ClientOpeningScreenActivity extends BaseActivity{
 					
 					private void displayWelcomeIfNeeded() {
 						
-						if (ParseUser.getCurrentUser().getParseObject(ParseClassesNames.CLIENT_INFO) == null) { 
+						if (ClientData.clientInfo == null) { 
 							
 							Intent intent = new Intent(getApplicationContext(), ClientWelcomeActivity.class);
 							startActivity(intent);

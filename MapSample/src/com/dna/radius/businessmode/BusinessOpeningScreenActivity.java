@@ -56,9 +56,9 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 			@Override
 			public void run() {
 
-				int tempBusinessId = 0; //TODO how to we get the business id?
+				String tempBusinessId = ""; //TODO how to we get the business id?
 				ownerData = new OwnerData(tempBusinessId,getApplicationContext());
-				ClientData.loadClientInfo(userID);
+				ClientData.loadClientInfo();
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {

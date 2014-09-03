@@ -26,10 +26,10 @@ import com.dna.radius.R;
 		 */
 		public class LoadDealBitmapTask extends AsyncTask<Integer, Void, Bitmap> {
 		    private final WeakReference<ImageView> imageViewRef;
-		    private long businessID;
+		    private String businessID;
 		    private Context context;
 		    
-		    public LoadDealBitmapTask(ImageView imageView,long businessID, Context context) {
+		    public LoadDealBitmapTask(ImageView imageView,String businessID, Context context) {
 		        // Use a WeakReference to ensure the ImageView can be garbage collected
 		    	this.imageViewRef = new WeakReference<ImageView>(imageView);
 		    	this.businessID = businessID;

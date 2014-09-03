@@ -15,8 +15,12 @@ public class ParseClassesNames {
 	public static final String CLIENT_LOCATION = "homeLocation";
 	public static final String CLIENT_PREFERRING = "preferrings";
 	public static final String CLIENT_FAVORITES = "favorites";
+	public static final String CLIENT_FAVORITES_ID = "businessId";
 	public static final String CLIENT_LIKES = "likes";
+	public static final String CLIENT_LIKES_ID = "dealId";
 	public static final String CLIENT_DISLIKES = "dislikes";
+	public static final String CLIENT_DISLIKES_ID = "dealId";
+
 	
 	
 	

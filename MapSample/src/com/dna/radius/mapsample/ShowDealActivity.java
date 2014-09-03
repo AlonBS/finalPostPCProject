@@ -44,7 +44,7 @@ public class ShowDealActivity extends FragmentActivity{
 	private CurrentFragmentType currentFragmentType = CurrentFragmentType.DEAL_FRAGMENT;
 	
 	public boolean isInUserMode;
-	public int businessID, dealID;
+	public String businessID, dealID;
 	public int numOfLikes,numOfDislikes;
 	public BuisnessType bType;
 	private boolean isFavourite;
@@ -62,12 +62,11 @@ public class ShowDealActivity extends FragmentActivity{
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.show_deal_activity);
 		
-		clientData = ClientData.getInstance();
 		
 		Intent intent = getIntent();
 		String businessName = intent.getStringExtra(BUSINESS_NAME_PARAM);
-		businessID = (int)intent.getIntExtra(BUSINESS_ID_PARAM,0);
-		dealID = (int)intent.getIntExtra(DEAL_ID_PARAM,0);
+		businessID = intent.getStringExtra(BUSINESS_ID_PARAM);
+		dealID = intent.getStringExtra(DEAL_ID_PARAM);
 		bType = (BuisnessType)intent.getSerializableExtra(BUSINESS_TYPE_PARAM);
 		int rating = intent.getIntExtra(DEAL_RATING_PARAM, 0);
 		isInUserMode = intent.getBooleanExtra(USER_MODE_PARAM, true);
@@ -150,7 +149,7 @@ public class ShowDealActivity extends FragmentActivity{
 				Bitmap favouriteBmap;
 				if(isFavourite){
 					favouriteBmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_important);
-					clientData.addToFavorites(businessID);
+					clientData.addToFavourites(businessID);
 					}else{
 					favouriteBmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_not_important);
 					clientData.removeFromFavorites(businessID);

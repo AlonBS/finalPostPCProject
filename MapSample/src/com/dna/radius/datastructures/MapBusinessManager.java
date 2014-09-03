@@ -77,7 +77,7 @@ public class MapBusinessManager {
 		
 	}
 	
-	private boolean isInTopDeals(long businessId) {
+	private boolean isInTopDeals(String businessId) {
 		// TODO Auto-generated method stub
 		return false;
 	}

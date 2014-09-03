@@ -10,6 +10,8 @@ import com.dna.radius.R;
 import com.dna.radius.dbhandling.ParseClassesNames;
 import com.dna.radius.login.MainActivity;
 import com.google.android.gms.maps.model.LatLng;
+import com.parse.GetCallback;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
@@ -147,6 +149,20 @@ public class ClientWelcomeActivity extends FragmentActivity {
 		// sync online
 		newClient.saveInBackground();
 		currentUser.saveInBackground();
+		
+		//TODO CEHCK
+//		ClientData.currentUser.fetchInBackground(new GetCallback<ParseObject>() {
+//
+//			@Override
+//			public void done(ParseObject arg0, ParseException arg1) {
+//				// TODO REMOVE?
+//				
+//			}
+//		});
+		
+		
+		ClientData.currentUser.fetchInBackground(null);
+		
 	}
 	
 

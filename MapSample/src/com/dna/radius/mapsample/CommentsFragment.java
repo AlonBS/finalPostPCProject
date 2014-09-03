@@ -29,14 +29,14 @@ import com.dna.radius.dbhandling.DBHandler;
 public class CommentsFragment extends Fragment{
 
 
-	private int dealID = -1;
+	private String dealID = "";
 
 	/***
 	 * In order to prevent spamming, 
 	 * for each comment which the users add, the map holds the time it happened.
 	 */
-	static final HashMap<Integer,Long > previousComments = new HashMap<>();
-	public CommentsFragment(int dealID){
+	static final HashMap<String,Long > previousComments = new HashMap<>();
+	public CommentsFragment(String dealID){
 		this.dealID = dealID;
 	}
 
@@ -46,7 +46,6 @@ public class CommentsFragment extends Fragment{
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.comments_fragment,container, false);
-		final ClientData clientData = ClientData.getInstance();
 		final ShowDealActivity parentActivity = (ShowDealActivity)getActivity();
 
 		//load the comments list
@@ -95,7 +94,7 @@ public class CommentsFragment extends Fragment{
 
 					Toast.makeText(getActivity(), "Thank you for your comment!", Toast.LENGTH_SHORT).show();				
 					previousComments.put(dealID,System.currentTimeMillis());
-					String userName = clientData.getUserName();
+					String userName = ClientData.getUserName();
 					Date date = new Date();
 					String commentStr = newCommentEditText.getText().toString();
 					DBHandler.addComment(dealID, new Comment(commentStr,userName,date));

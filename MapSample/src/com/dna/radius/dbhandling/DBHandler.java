@@ -26,6 +26,8 @@ import com.dna.radius.mapsample.CommentsArrayAdapter;
 import com.dna.radius.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 
 /**
@@ -104,7 +106,7 @@ public class DBHandler {
 	 * otherwise - does nothing at all :(
 	 * 
 	 */
-	public static void loadBusinessImageViewAsync(long businessID ,ImageView imageView, Context context){
+	public static void loadBusinessImageViewAsync(String businessID ,ImageView imageView, Context context){
 		LoadDealBitmapTask loadTask = new LoadDealBitmapTask(imageView, businessID,context);
 		context.getClass();
 		loadTask.execute();
@@ -133,7 +135,7 @@ public class DBHandler {
 	 * this function loads it from parse.
 	 * @param BusinessID
 	 */
-	public static ExternalBusinessExtraInfo getExtraInfoOnExternalBusiness(int BusinessID){
+	public static ExternalBusinessExtraInfo getExtraInfoOnExternalBusiness(String BusinessID){
 		//******************************88
 		//TODO - erase the sleeping operation!! its for testing only
 		try {
@@ -231,7 +233,7 @@ public class DBHandler {
 
 
 		owner.name = "Mcdonalds";
-		owner.businessID = 0;
+		owner.businessID = "SAD";
 		owner.image = BitmapFactory.decodeResource(context.getResources(), R.drawable.burger);
 		owner.numberOfLikes = 23131;
 		owner.numberOfDislikes = 524;
@@ -269,7 +271,7 @@ public class DBHandler {
 	/**
 	 * updates the user's like list, dislike list and favorites list
 	 */
-	public static void loadUserDataSync(ClientData user){
+	public static void loadClientInfoSync(ParseObject base, ClientData instance){
 		//TODO - alon - implement
 
 		//TODO - remove me!!!
@@ -281,6 +283,12 @@ public class DBHandler {
 			e.printStackTrace();
 		}
 		//*******************
+		
+		//instance.setHome(base.getLocation, updateServers);
+		
+		//base.getJSONObject(arg0)
+		
+		
 
 		//TODO These strings should be returned from parse
 		String favouritesStr = "";
@@ -293,7 +301,7 @@ public class DBHandler {
 		//TODO These values should be returned from parse
 		double homeLatitude = 31.78507 ; 
 		double homeLongitude = 35.214328;
-		user.setHome(new LatLng(homeLatitude, homeLongitude), false);
+		//instance.setHome(new LatLng(homeLatitude, homeLongitude), false);
 
 	}
 
@@ -316,7 +324,7 @@ public class DBHandler {
 	 * this method should check if the user already commented on this deal before.
 	 * if he did - the new comment should replace the previous one.
 	 */
-	public static void addComment(int dealID, Comment comment){
+	public static void addComment(String dealID, Comment comment){
 		//TODO - alon, dbhandling
 	}
 
@@ -331,7 +339,7 @@ public class DBHandler {
 	}
 
 
-	public static void setImage(int businessID, Bitmap image) {
+	public static void setImage(String businessID, Bitmap image) {
 		// TODO ALON
 
 	}
@@ -340,26 +348,26 @@ public class DBHandler {
 	 * changes the business current deal according to the given parameters.
 	 * set the numbers of likes correspondly. 
 	 */
-	public static void setDeal(int businessID, String deal, int numOfLikes, int numOfDislikes) {
+	public static void setDeal(String businessID, String deal, int numOfLikes, int numOfDislikes) {
 		// TODO ALON
 
 	}
-	public static void setBusinessName(int businessID, String name) {
-		// TODO ALON
-
-	}
-
-	public static void setBusinessPhone(int businessID, String phone) {
+	public static void setBusinessName(String businessID, String name) {
 		// TODO ALON
 
 	}
 
-	public static void setBusinessAddress(int businessID, String address) {
+	public static void setBusinessPhone(String businessID, String phone) {
 		// TODO ALON
 
 	}
 
-	public static void setBusinessLocation(int businessID, LatLng location) {
+	public static void setBusinessAddress(String businessID, String address) {
+		// TODO ALON
+
+	}
+
+	public static void setBusinessLocation(String businessID, LatLng location) {
 		// TODO ALON
 		double latitude = location.latitude;
 		double longitude = location.longitude;
@@ -369,14 +377,14 @@ public class DBHandler {
 	/***
 	 * receives a business id and a deal, deletes the deal from the business's history list.
 	 */
-	public static void deletedDealFromHistory(int businessID,DealHistoryObject deal){
+	public static void deletedDealFromHistory(String businessID,DealHistoryObject deal){
 		
 	}
 	
 	/***
 	 * receives a business id and a deal, adds the deal to the business's history list.
 	 */
-	public static void addDealToHistory(int businessID,String deal,int numOfLikes,int numOfDislikes){
+	public static void addDealToHistory(String businessID,String deal,int numOfLikes,int numOfDislikes){
 
 	}
 

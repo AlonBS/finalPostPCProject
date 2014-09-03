@@ -60,7 +60,6 @@ public class MapWindowFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.map_window_fragment,container, false);
 		
-		clientData = ClientData.getInstance();
 		businessManager = new MapBusinessManager(clientData);
 		isInBusinessMode = BaseActivity.isInBusinessMode;
 		
@@ -106,9 +105,9 @@ public class MapWindowFragment extends Fragment {
 		typeToButton = new HashMap<>();
 		typeToButton.put(BuisnessType.COFFEE, coffeeBtn);
 		typeToButton.put(BuisnessType.PUB, pubBtn);
-		typeToButton.put(BuisnessType.HOTEL, hotelBtn);
-		typeToButton.put(BuisnessType.SHOPPING, shoppingBtn);
-		typeToButton.put(BuisnessType.RESTURANT, restBtn);
+		typeToButton.put(BuisnessType.ACCOMMODATION, hotelBtn);
+		typeToButton.put(BuisnessType.GROCERIES, shoppingBtn);
+		typeToButton.put(BuisnessType.RESTAURANT, restBtn);
 		
 		restBtn.setOnClickListener(filterBtnClickListener);
 		pubBtn.setOnClickListener(filterBtnClickListener);
@@ -164,7 +163,7 @@ public class MapWindowFragment extends Fragment {
 			@Override
 			public boolean onLongClick(View v) {
 				LatLng latLng = gMap.getCameraPosition().target;
-				clientData.setHome(latLng,true);
+				clientData.setHome(latLng);
 				
 				Toast.makeText(getActivity(), "new home location was selected", Toast.LENGTH_SHORT).show();
 				return false;
