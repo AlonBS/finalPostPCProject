@@ -237,8 +237,8 @@ public class MapWindowFragment extends Fragment {
 	};
 
 	/**
-	 * This function is called whenever a filter button is pressed / whenever the 
-	 * spinner top value is changed. the map overlays should be updated accordingly.
+	 * This function is called to make sure the the overlays visibility is according to
+	 * the user preferenced.
 	 */
 	public void updateOverlays(){
 
