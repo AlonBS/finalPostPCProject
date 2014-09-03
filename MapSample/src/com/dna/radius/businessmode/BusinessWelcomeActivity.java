@@ -3,6 +3,7 @@ package com.dna.radius.businessmode;
 import java.util.ArrayList;
 
 import com.dna.radius.R;
+import com.dna.radius.datastructures.ExternalBusiness.BuisnessType;
 import com.dna.radius.dbhandling.ParseClassesNames;
 import com.dna.radius.login.MainActivity;
 import com.google.android.gms.maps.model.LatLng;
@@ -100,10 +101,14 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 
 			public void onItemSelected(AdapterView<?> parent, View view, 
 					int pos, long id) {
-
-				businessType = pos;
-				
-				typeSelected = true;
+//				int typeParseRepresentation;
+//				if(string=="Coffee"){
+//					BuisnessType type = BuisnessType.COFFEE;
+//					typeParseRepresentation = type.getParseID();
+//				}else if()
+//				businessType = pos;
+//				
+//				typeSelected = true;
 			}
 
 			public void onNothingSelected(AdapterView<?> parent) {

@@ -107,9 +107,6 @@ public class BaseActivity extends FragmentActivity{
 	private void handleSwitchMode() {
 		
 
-		if(!isInBusinessMode && ClientData.getInstance().doesUserHaveBusiness()){
-			Toast.makeText(this, getResources().getString(R.string.dont_have_business), Toast.LENGTH_LONG).show();
-		}else{
 			isInBusinessMode = !isInBusinessMode;
 			String msgPrefix = isInBusinessMode?  getResources().getString(R.string.to_business_mode):getResources().getString(R.string.to_client_mode);
 			String msg = getResources().getString(R.string.are_you_sure) + " " + msgPrefix;
@@ -132,7 +129,6 @@ public class BaseActivity extends FragmentActivity{
 					// Do nothing.
 				}
 			}).show();
-		}
 	}
 
 	

@@ -39,7 +39,6 @@ public class ClientOpeningScreenActivity extends BaseActivity{
 			public void run() {
 				
 				ClientData.loadClientInfo(userID);
-				clientData = ClientData.getInstance();
 				
 				runOnUiThread(new Runnable() {
 					@Override

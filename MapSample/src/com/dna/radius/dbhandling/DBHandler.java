@@ -294,7 +294,6 @@ public class DBHandler {
 		double homeLatitude = 31.78507 ; 
 		double homeLongitude = 35.214328;
 		user.setHome(new LatLng(homeLatitude, homeLongitude), false);
-		user.setHaveBusiness(true);
 
 	}
 

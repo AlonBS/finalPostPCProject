@@ -138,6 +138,10 @@ public class ClientWelcomeActivity extends FragmentActivity {
 		} catch (JSONException e) {
 			Log.e("JSON_CREATION", e.getMessage());
 		}
+		
+	
+		
+		
 		newClient.put(ParseClassesNames.CLIENT_PREFERRING, prefs);
 
 		// add a pointer in user to client. i.e. user->clientData

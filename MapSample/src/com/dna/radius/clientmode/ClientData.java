@@ -18,7 +18,7 @@ import com.parse.ParseUser;
  */
 public class ClientData{
 	
-	ParseUser currentUser;
+	private ParseUser currentUser;
 	
 	private final int id;
 	
@@ -28,7 +28,7 @@ public class ClientData{
 	private ArrayList<Integer> favourites = new ArrayList<Integer>();
 	
 	/**holds true if the user is also signed up as a business*/
-	private boolean haveBusiness = false;
+//	private boolean haveBusiness = false;
 	
 	private LatLng homeLocation;
 	private String userName;
@@ -68,6 +68,7 @@ public class ClientData{
 	 */
 	public void setHome(LatLng latlng,boolean updateServers){
 		this.homeLocation = latlng;
+		currentUser = ParseUser.getCurrentUser();
 		if(updateServers){
 			DBHandler.setHome(id, latlng.latitude,  latlng.longitude);
 		}
@@ -81,20 +82,7 @@ public class ClientData{
 		return homeLocation;
 	}
 	
-	/***
-	 * a setter for the haveBusiness flag.
-	 */
-	public void setHaveBusiness(boolean haveBusiness) {
-		this.haveBusiness = haveBusiness;
-	}
-	
-	/***
-	 * return true if the current user is also registered as a business owner.
-	 * @return
-	 */
-	public boolean doesUserHaveBusiness(){
-		return haveBusiness;
-	}
+
 	
 	/**
 	 * returns the user's favourites list
