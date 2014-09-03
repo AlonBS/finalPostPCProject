@@ -3,9 +3,7 @@ package com.dna.radius.businessmode;
 
 
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -20,17 +18,13 @@ import android.widget.TextView;
 
 import com.dna.radius.R;
 import com.dna.radius.clientmode.ClientData;
-import com.dna.radius.clientmode.ClientWelcomeActivity;
 import com.dna.radius.infrastructure.BaseActivity;
-import com.dna.radius.login.MainActivity;
 import com.dna.radius.mapsample.MapWindowFragment;
 import com.dna.radius.mapsample.WaitingFragment;
 
 
 
 public class BusinessOpeningScreenActivity extends BaseActivity{
-	//TODO this value should be given as an input
-	public int myBusinessId = 0;
 	//TODO this value should be given as an input
 	public int userID = 0;
 
@@ -62,7 +56,8 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 			@Override
 			public void run() {
 
-				ownerData = new OwnerData(myBusinessId,getApplicationContext());
+				int tempBusinessId = 0; //TODO how to we get the business id?
+				ownerData = new OwnerData(tempBusinessId,getApplicationContext());
 				ClientData.loadClientInfo(userID);
 				runOnUiThread(new Runnable() {
 					@Override

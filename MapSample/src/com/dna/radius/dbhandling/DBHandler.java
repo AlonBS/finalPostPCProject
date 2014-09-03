@@ -94,7 +94,7 @@ public class DBHandler {
 		if(loadBusinessesAndMapTask!=null){
 			loadBusinessesAndMapTask.stopTask();
 		}
-			
+
 	}
 
 	/**
@@ -109,7 +109,7 @@ public class DBHandler {
 		context.getClass();
 		loadTask.execute();
 	}
-	
+
 	/***this object is used whenever a business marker is pressed on the map,
 	 * or whenever one of the businesses in the top businesses list is pressed.
 	 * in this case - more information is needed regarding to the business, such as:
@@ -119,7 +119,7 @@ public class DBHandler {
 		public String address;
 		public String phone;
 		public String dealStr;
-		
+
 		public ExternalBusinessExtraInfo(String address,String phone,String dealStr ){
 			this.address = address;
 			this.phone = phone;
@@ -147,10 +147,10 @@ public class DBHandler {
 		String dealStr = "ONLY TODAY AND DURING THE REST OF THE YEAR!!! BUY A COOOOL SHIRT AND GET A PLASTIC BUG TO PUT IT IN FOR 10 AGOROT ONLY!!! wow!!"; 
 		String phoneStr = "050-8512391";
 		String addressStr = "Jaffa St. Jerusalem";
-		
+
 		return new ExternalBusinessExtraInfo(addressStr, phoneStr, dealStr);
-		
-		
+
+
 	}
 
 	public enum DealLikeStatus{LIKE,DISLIKE,DONT_CARE};
@@ -209,7 +209,7 @@ public class DBHandler {
 		}
 
 	}
-	
+
 	/**
 	 * receives an owner data objects, load all it's fields from parse except for the comments list,
 	 * which will be loaded saperatly.
@@ -218,7 +218,7 @@ public class DBHandler {
 	 */
 	public static void loadOwnerDataSync(OwnerData owner, Context context){
 		//TODO  ALON - all these values shuold be received from parse
-		
+
 		//TODO - remove me!!!
 		//******************
 		try {
@@ -228,8 +228,8 @@ public class DBHandler {
 			e.printStackTrace();
 		}
 		//*******************
-		
-		
+
+
 		owner.name = "Mcdonalds";
 		owner.businessID = 0;
 		owner.image = BitmapFactory.decodeResource(context.getResources(), R.drawable.burger);
@@ -258,13 +258,13 @@ public class DBHandler {
 		owner.dealHistory.add(new DealHistoryObject(new Random().nextInt(99999),"Buy a nokia Phone and get free games! (snake) ",new Date(),new Random().nextInt(9999),new Random().nextInt(9999)));
 		owner.dealHistory.add(new DealHistoryObject(new Random().nextInt(99999),"only 99.99$ for a full Kosher cellular package ",new Date(),new Random().nextInt(9999),new Random().nextInt(9999)));
 		owner.dealHistory.add(new DealHistoryObject(new Random().nextInt(99999),"Buy a set of Tfilin and get a free tour at Kivrey Zadikim ",new Date(),new Random().nextInt(9999),new Random().nextInt(9999)));
-		
-		
-		
 
-		
+
+
+
+
 	}
-	
+
 
 	/**
 	 * updates the user's like list, dislike list and favorites list
@@ -281,7 +281,7 @@ public class DBHandler {
 			e.printStackTrace();
 		}
 		//*******************
-		
+
 		//TODO These strings should be returned from parse
 		String favouritesStr = "";
 		String likesStr = "";
@@ -329,37 +329,55 @@ public class DBHandler {
 		loadTopBusinesses = new LoadTopBusinessesRunnable(view, context);
 		new Thread(loadTopBusinesses){}.start();
 	}
-	
-	
+
+
 	public static void setImage(int businessID, Bitmap image) {
 		// TODO ALON
-		
+
 	}
-	
-	public static void setDeal(int businessID, String deal) {
+
+	/**
+	 * changes the business current deal according to the given parameters.
+	 * set the numbers of likes correspondly. 
+	 */
+	public static void setDeal(int businessID, String deal, int numOfLikes, int numOfDislikes) {
 		// TODO ALON
-		
+
 	}
 	public static void setBusinessName(int businessID, String name) {
 		// TODO ALON
-		
+
 	}
-	
+
 	public static void setBusinessPhone(int businessID, String phone) {
 		// TODO ALON
-		
+
 	}
-	
+
 	public static void setBusinessAddress(int businessID, String address) {
 		// TODO ALON
-		
+
 	}
-	
+
 	public static void setBusinessLocation(int businessID, LatLng location) {
 		// TODO ALON
 		double latitude = location.latitude;
 		double longitude = location.longitude;
+
+	}
+
+	/***
+	 * receives a business id and a deal, deletes the deal from the business's history list.
+	 */
+	public static void deletedDealFromHistory(int businessID,DealHistoryObject deal){
 		
+	}
+	
+	/***
+	 * receives a business id and a deal, adds the deal to the business's history list.
+	 */
+	public static void addDealToHistory(int businessID,String deal,int numOfLikes,int numOfDislikes){
+
 	}
 
 }

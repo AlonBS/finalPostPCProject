@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.dna.radius.R;
 import com.dna.radius.datastructures.DealHistoryObject;
+import com.dna.radius.dbhandling.DBHandler;
 /**
  * represents the history fragment for the business owner.
  * should contain a list of deal with number of likes and dislikes for each.
@@ -41,7 +42,7 @@ public class BusinessHistoryFragment extends Fragment{
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.business_history_fragment,container, false);	
-		BusinessOpeningScreenActivity parentActivity = (BusinessOpeningScreenActivity)getActivity();
+		final BusinessOpeningScreenActivity parentActivity = (BusinessOpeningScreenActivity)getActivity();
 		//load the comments list
 		ListView dealHistoryListView = (ListView)view.findViewById(R.id.deal_history_list_view);
 		registerForContextMenu(dealHistoryListView);
@@ -53,7 +54,7 @@ public class BusinessHistoryFragment extends Fragment{
 			//TODO mant strings to put into string file DROR
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View v, int position,long arg3) {
-				DealHistoryObject dealObject = (DealHistoryObject)adapter.getItemAtPosition(position);
+				final DealHistoryObject dealObject = (DealHistoryObject)adapter.getItemAtPosition(position);
 				Log.d("BusinessHistoryFragment", "pressed on the following deal: " + dealObject.getDealStr());
 				final TextView chosenDeal = new TextView(getActivity());
 				//chosenDeal.setBackgroundColor(Color.BLACK);
@@ -66,9 +67,11 @@ public class BusinessHistoryFragment extends Fragment{
 				//.setMessage("what would you like to do next?")
 				.setPositiveButton("delete it from history", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
+						DBHandler.deletedDealFromHistory(parentActivity.ownerData.businessID,dealObject);
 					}
 				}).setNegativeButton("set as current deal", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
+						
 					}
 				}).show();
 			

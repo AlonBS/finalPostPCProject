@@ -39,7 +39,7 @@ public class OwnerData {
 	
 	public void changeDeal(String currentDeal) {
 		this.currentDeal = currentDeal;
-		DBHandler.setDeal(businessID,currentDeal);
+		DBHandler.setDeal(businessID,currentDeal,0,0);
 	}
 	
 	public void changeBusinessImage(Bitmap bmap){
