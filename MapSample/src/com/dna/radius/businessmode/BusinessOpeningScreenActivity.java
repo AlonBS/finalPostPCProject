@@ -126,7 +126,7 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 			}else if(clickedBtn==mapFragmentBtn){
 				newFragment =  new MapWindowFragment();
 			}else if(clickedBtn==businessHistoryFragment){
-				newFragment =  new BusinessHistoryFragment(); //TODO - implement this
+				newFragment =  new BusinessHistoryFragment();
 			}
 			if((latestPressedBtn == clickedBtn) && (clickedBtn!=homeFragmentBtn)){
 				return;

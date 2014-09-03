@@ -54,8 +54,9 @@ public class ClientWelcomeActivity extends FragmentActivity {
 		
 		// This will set this dialog-themed activity to take 80% of the screen
 		DisplayMetrics metrics = getResources().getDisplayMetrics();
-        int screenSize = (int) (metrics.widthPixels * 0.80);
-		getWindow().setLayout(screenSize, screenSize);
+		int height = (int) (metrics.heightPixels * 1);
+        int width = (int) (metrics.widthPixels * 1);
+		getWindow().setLayout(height, width);
 	}
 	
 	private void initViews() {
