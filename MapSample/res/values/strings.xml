@@ -73,7 +73,9 @@
     <string name="business_type_forgot_to_fill"> Please fill your business type </string>
     <string name="business_phone_hint"> Please fill your business phone number </string>
      <string name="business_phone_forgot_to_fill"> Please fill your business phone number </string>
-	
+	    <string name="business_address_hint"> Please fill your business phone number </string>
+     <string name="business_address_forgot_to_fill"> Please fill your business address </string>
+     
     <!-- switching between client/user modes -->
     <string name="switch_mode"> switch mode</string>
     <string name="to_business_mode"> to business mode?</string>
