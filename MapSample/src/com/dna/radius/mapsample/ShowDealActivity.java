@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -66,6 +67,9 @@ public class ShowDealActivity extends FragmentActivity{
 		Intent intent = getIntent();
 		String businessName = intent.getStringExtra(BUSINESS_NAME_PARAM);
 		businessID = intent.getStringExtra(BUSINESS_ID_PARAM);
+		Log.d("ShowDealActivity", "shows the deal of the the business id: " + businessID);
+		//TODO remove
+		
 		dealID = intent.getStringExtra(DEAL_ID_PARAM);
 		bType = (BuisnessType)intent.getSerializableExtra(BUSINESS_TYPE_PARAM);
 		int rating = intent.getIntExtra(DEAL_RATING_PARAM, 0);

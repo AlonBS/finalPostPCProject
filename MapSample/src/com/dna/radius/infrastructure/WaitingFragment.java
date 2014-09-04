@@ -1,4 +1,4 @@
-package com.dna.radius.mapsample;
+package com.dna.radius.infrastructure;
 
 
 import com.dna.radius.R;

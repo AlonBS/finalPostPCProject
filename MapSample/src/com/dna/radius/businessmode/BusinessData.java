@@ -16,7 +16,7 @@ import com.google.android.gms.maps.model.LatLng;
  * @author dror
  *
  */
-public class OwnerData {
+public class BusinessData {
 	public String businessID;
 	public String name; //busienss name
 	public boolean hasImage; //does the business has an image?
@@ -32,7 +32,7 @@ public class OwnerData {
 	public boolean hasDeal;
 	
 	//TODO DROR the context param should be removed
-	public OwnerData(String businessID, Context context){
+	public BusinessData(String businessID, Context context){
 		this.businessID = businessID;
 		DBHandler.loadOwnerDataSync(this, context);
 	}

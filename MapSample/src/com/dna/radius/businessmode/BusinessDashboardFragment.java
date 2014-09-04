@@ -116,7 +116,7 @@ public class BusinessDashboardFragment extends Fragment{
 				.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
 						//saves the current deal into deal history
-						OwnerData data = activityParent.ownerData;
+						BusinessData data = activityParent.ownerData;
 						DBHandler.addDealToHistory(data.businessID,data.currentDeal,data.numberOfLikes,data.numberOfDislikes);
 						
 						//adds the new Deal

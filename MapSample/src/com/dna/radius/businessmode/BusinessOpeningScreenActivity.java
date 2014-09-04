@@ -19,8 +19,8 @@ import android.widget.TextView;
 import com.dna.radius.R;
 import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.infrastructure.BaseActivity;
+import com.dna.radius.infrastructure.WaitingFragment;
 import com.dna.radius.mapsample.MapWindowFragment;
-import com.dna.radius.mapsample.WaitingFragment;
 
 
 
@@ -37,7 +37,7 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 	private ImageView latestPressedBtn;
 
 
-	public OwnerData ownerData;
+	public BusinessData ownerData;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -57,7 +57,7 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 			public void run() {
 
 				String tempBusinessId = ""; //TODO how to we get the business id?
-				ownerData = new OwnerData(tempBusinessId,getApplicationContext());
+				ownerData = new BusinessData(tempBusinessId,getApplicationContext());
 				ClientData.loadClientInfo();
 				runOnUiThread(new Runnable() {
 					@Override

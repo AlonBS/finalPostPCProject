@@ -10,8 +10,8 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.dna.radius.R;
 import com.dna.radius.infrastructure.BaseActivity;
+import com.dna.radius.infrastructure.WaitingFragment;
 import com.dna.radius.mapsample.MapWindowFragment;
-import com.dna.radius.mapsample.WaitingFragment;
 
 
 public class ClientOpeningScreenActivity extends BaseActivity{

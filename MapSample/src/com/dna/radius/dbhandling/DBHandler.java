@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dna.radius.businessmode.OwnerData;
+import com.dna.radius.businessmode.BusinessData;
 import com.dna.radius.businessmode.TopBusinessesHorizontalView;
 import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.datastructures.MapBusinessManager;
@@ -219,7 +219,7 @@ public class DBHandler {
 	 * loads the following fields:
 	 * @param user
 	 */
-	public static void loadOwnerDataSync(OwnerData owner, Context context){
+	public static void loadOwnerDataSync(BusinessData owner, Context context){
 		//TODO  ALON - all these values shuold be received from parse
 
 		//TODO - remove me!!!
