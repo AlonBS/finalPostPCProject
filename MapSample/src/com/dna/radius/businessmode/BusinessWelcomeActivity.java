@@ -44,6 +44,7 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.business_welcome_dialog_activity);
 

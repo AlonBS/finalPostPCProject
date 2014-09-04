@@ -54,7 +54,7 @@
     <string name="welcome_client">In order to complete the registration please select you preferable location</string>
     <string name="set_location">Choose location</string>
     <string name="not_now_btn">Not now</string>
-    <string name="finish_btn">Finish!</string>
+    <string name="finish_btn">Finish</string>
     <string name="welcome_business_fill_details">In order to complete the registration please fill the following details</string>
     <!-- deal history fragment -->
     <string name="history_fragment_tap_a_deal">Tap on a deal to set it as your current one</string>
@@ -81,7 +81,7 @@
     <!-- choose image fragment -->
     <string name="business_choose_image_message">Please choose an image for your business! </string>
     <string name="business_choose_image_can_be_done_later">This stage can be completed later on </string>
-    <string name="business_choose_image_camera_source">take a picutre </string>
+    <string name="business_choose_image_camera_source">take a picture </string>
     <string name="business_choose_image_gallery_source">open gallery </string>
 
     <!-- switching between client/user modes -->

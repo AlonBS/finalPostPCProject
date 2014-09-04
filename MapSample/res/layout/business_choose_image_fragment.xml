@@ -20,22 +20,26 @@
         android:orientation="vertical" >
 
         <Button
+            android:paddingRight = "20dp"
             android:gravity = "center"
             android:id="@+id/camera_button"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:background="@drawable/choose_image_fragment_button_bg"
-            android:drawableLeft="@drawable/ic_action_camera"
+            android:drawableRight="@drawable/ic_action_camera"
             android:text="@string/business_choose_image_camera_source" />
 
         <Button
+            android:paddingRight = "20dp"
             android:gravity = "center"
             android:id="@+id/gallery_button"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
+            android:layout_gravity="center"
             android:background="@drawable/choose_image_fragment_button_bg"
-            android:drawableLeft="@drawable/ic_action_camera"
+            android:drawableRight="@drawable/ic_action_picture"
             android:text="@string/business_choose_image_gallery_source" />
     </LinearLayout>
 
