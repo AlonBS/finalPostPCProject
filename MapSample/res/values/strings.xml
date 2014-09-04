@@ -63,19 +63,27 @@
 
     <!-- business welcome dialog strings -->
     <string name="welcome_business">In order to complete please state your business name, business type, and locate your business on the map.</string>
+    <string name="find_location_please_varify"> Please varify that your business location fits to the given address. if not, please locate your business on the map </string>
     <string name="set_location_imageView">Please define your business location</string>
     <string name="set_business_picture_desc">Select a picture for your business</string>
     <string name="type_comment_here">type your comment here</string>
     <string name="likes"> Likes</string>
     <string name="dislikes"> Dislikes</string>
     <string name="business_name_hint">  Business name </string>
-     <string name="business_name_forgot_to_fill">  Please fill your business name </string>
+    <string name="business_name_forgot_to_fill">  Please fill your business name </string>
     <string name="business_type_forgot_to_fill"> Please fill your business type </string>
     <string name="business_phone_hint"> Business phone number </string>
-     <string name="business_phone_forgot_to_fill"> Please fill your business phone number </string>
-	    <string name="business_address_hint"> Business address </string>
-     <string name="business_address_forgot_to_fill"> Please fill your business address </string>
-     
+    <string name="business_phone_forgot_to_fill"> Please fill your business phone number </string>
+    <string name="business_address_hint"> Business address </string>
+    <string name="business_address_forgot_to_fill"> Please fill your business address </string>
+    <string name="button_next"> NEXT </string>
+    <string name="button_done"> DONE </string>
+    <!-- choose image fragment -->
+    <string name="business_choose_image_message">Please choose an image for your business! </string>
+    <string name="business_choose_image_can_be_done_later">This stage can be completed later on </string>
+    <string name="business_choose_image_camera_source">take a picutre </string>
+    <string name="business_choose_image_gallery_source">open gallery </string>
+
     <!-- switching between client/user modes -->
     <string name="switch_mode"> switch mode</string>
     <string name="to_business_mode"> to business mode?</string>

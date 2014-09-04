@@ -2,24 +2,8 @@ package com.dna.radius.businessmode;
 
 import java.util.ArrayList;
 
-import com.dna.radius.R;
-import com.dna.radius.datastructures.ExternalBusiness.BuisnessType;
-import com.dna.radius.dbhandling.ParseClassesNames;
-import com.dna.radius.login.MainActivity;
-import com.dna.radius.mapsample.LocationFinderFragment;
-import com.dna.radius.mapsample.WaitingFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.parse.ParseObject;
-import com.parse.ParseUser;
-
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
+import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -28,101 +12,126 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Spinner;
-import android.widget.Toast;
+
+import com.dna.radius.R;
+import com.dna.radius.dbhandling.ParseClassesNames;
+import com.dna.radius.mapsample.LocationFinderFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 public class BusinessWelcomeActivity extends FragmentActivity {
-
-
-	private Button finishBtn;
 
 	private String businessName;
 	private int businessType;
 	private String businessPhoneNumber;
 	private String businessAddress;
-	
 	private LatLng businessLocation;
+	private Bitmap businessBitmap;
 
-	private boolean locationSelected = false;
-	
-	private static final int RESULT_LOAD_IMAGE = 1;
-	
-	private Fragment currentFragment = null;
-	
+
+
 	/**
 	 * This integer and constants were meant to tell which fragment should be 
 	 * loaded whenever the next button is pressed.*/
 	private int numberOfTimesNextWasPressed = 0;
-	private final int FIND_LOCATION_FRAGEMENT_TURN = 0;
-	private final int GET_IMAGE_FRAGEMENT_TURN = 1;
-	private final int FINISH_FILLING_DETAILS= 2;
-	
+	private final int FIND_LOCATION_FRAGEMENT_IS_NEXT = 0;
+	private final int GET_IMAGE_FRAGEMENT_TURN_IS_NEXT = 1;
+	private final int FINISH_FILLING_DETAILS_IS_NEXT= 2;
+
+	private Button progressButton;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.business_welcome_dialog_activity);
 
 		setScreenSize();
-		
-		setNextBtn();
-		
+
+		setProgressBtn();
+
+		//starts the fill details fragment
 		final FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		BusinessWelcomeFillDetailsFragment businessWelcomeFragment = new BusinessWelcomeFillDetailsFragment();
 		fragmentTransaction.add(R.id.business_welcome_main_fragment_layout, businessWelcomeFragment);
-		fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();
 
 	}
 
+	
 	@Override
 	public void onBackPressed() {
-		// TODO Auto-generated method stub
-		super.onBackPressed();
+		//if the user is in the fill detail screen - do nothing
 		numberOfTimesNextWasPressed--;
-	}
-	
-	private void setNextBtn(){
+		if(numberOfTimesNextWasPressed<FIND_LOCATION_FRAGEMENT_IS_NEXT){
+			numberOfTimesNextWasPressed = 0;
+			return;
+		}
+		
+		//if not - set the button to be a progress button
+		super.onBackPressed();
+		progressButton.setCompoundDrawablesWithIntrinsicBounds(null, null,  getResources().getDrawable(R.drawable.ic_action_next_item),  null);
+		progressButton.setText(getResources().getString(R.string.next_button).toUpperCase());
 
-		ImageView nextBtn = (ImageView)findViewById(R.id.next_btn);
-		nextBtn.setOnClickListener(new OnClickListener() {
+	}
+
+	private void setProgressBtn(){
+
+		progressButton = (Button)findViewById(R.id.progress_btn);
+		progressButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				
-				if(numberOfTimesNextWasPressed==FIND_LOCATION_FRAGEMENT_TURN){
-					
-					//tests if it's possible to move to the next fragment
+
+				if(numberOfTimesNextWasPressed==FIND_LOCATION_FRAGEMENT_IS_NEXT || 
+						numberOfTimesNextWasPressed==GET_IMAGE_FRAGEMENT_TURN_IS_NEXT){
 					final FragmentManager fragmentManager = getSupportFragmentManager();
-					BusinessWelcomeFillDetailsFragment currentFragment = (BusinessWelcomeFillDetailsFragment)fragmentManager.findFragmentById(R.id.business_welcome_main_fragment_layout);
-					if(!currentFragment.didUserFillAllData()){
-						return;
+					Fragment nextFragment = null;
+					if(numberOfTimesNextWasPressed==FIND_LOCATION_FRAGEMENT_IS_NEXT){
+						//tests if it's possible to move to the next fragment
+
+						BusinessWelcomeFillDetailsFragment currentFragment = (BusinessWelcomeFillDetailsFragment)fragmentManager.findFragmentById(R.id.business_welcome_main_fragment_layout);
+						if(!currentFragment.didUserFillAllData()){
+							return;
+						}
+
+						//Retrieves the business data from fragment
+						businessName = currentFragment.getBusinessName();
+						businessType = currentFragment.getBusinessType();
+						businessAddress = currentFragment.getBusinessAddress();
+						businessPhoneNumber = currentFragment.getBusinessPhoneNumber();
+
+						nextFragment =  new LocationFinderFragment(businessAddress);
+
+
+					}else if(numberOfTimesNextWasPressed==GET_IMAGE_FRAGEMENT_TURN_IS_NEXT){
+
+						//gets the chosen location from the fragment
+						LocationFinderFragment currentFragment = (LocationFinderFragment)fragmentManager.findFragmentById(R.id.business_welcome_main_fragment_layout);
+						if(!currentFragment.didUserFillAllData()){
+							return;
+						}
+						businessLocation = currentFragment.getLocation();
+						nextFragment = new BusinessChooseImageFragment();
+
+						//changes the next Button to finish button
+						progressButton.setCompoundDrawablesWithIntrinsicBounds(null, null,  getResources().getDrawable(R.drawable.ic_action_done),  null);
+						progressButton.setText(getResources().getString(R.string.finish_btn).toUpperCase());
 					}
-					
+
 					numberOfTimesNextWasPressed++;
-					
-					//Retrieves the business name and type
-					businessName = currentFragment.getBusinessName();
-					businessType = currentFragment.getBusinessType();
-					businessAddress = currentFragment.getBusinessAddress();
-					businessPhoneNumber = currentFragment.getBusinessPhoneNumber();
-					
+
 					//moves to the next fragment
 					FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-					LocationFinderFragment findLocationFragment = businessAddress==null? new LocationFinderFragment() : new LocationFinderFragment(businessAddress);
-					fragmentTransaction.replace(R.id.business_welcome_main_fragment_layout, findLocationFragment);
+					fragmentTransaction.replace(R.id.business_welcome_main_fragment_layout, nextFragment);
 					fragmentTransaction.addToBackStack(null);
 					fragmentTransaction.commit();
-				}else if(numberOfTimesNextWasPressed==FIND_LOCATION_FRAGEMENT_TURN){
+
+				}else if(numberOfTimesNextWasPressed==FINISH_FILLING_DETAILS_IS_NEXT){
 					
-				}else if(numberOfTimesNextWasPressed==FINISH_FILLING_DETAILS){
+					finishRegistration();
+					finish(); // activity
 					
 				}else{
 					Log.e("BusinessWelcomeActivity", "error with the next button. numberOfTimesNextWasPressed:" + numberOfTimesNextWasPressed);
@@ -130,9 +139,9 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 			}
 		});
 
-		
+
 	}
-	
+
 	private void setScreenSize() {
 
 		// This will set this dialog-themed activity to take 80% of the screen
@@ -144,120 +153,13 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 
 
 
-	private void setChooseLocationListener() {
-		ImageView mapImageView = null; //TODO delete
-		mapImageView.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO  DROR  - how to open map in here!? 
-				businessLocation = new LatLng(32,23); // should be taken from map
-
-				if (/*legal coordinates were taken from map*/ true) {
-
-					locationSelected = true;
-
-				}
-				else {
-					
-					locationSelected = false;
-				}
-			}
-		});
-
-	}
-
-	private void setChoosePictureListener() {
-
-		ImageView choosePicImageView = null; //TODO delete
-		choosePicImageView.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-
-				Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-				startActivityForResult(i, RESULT_LOAD_IMAGE);
-
-			}
-		});
-
-	}
-	
-	
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		
-		super.onActivityResult(requestCode, resultCode, data);
-
-		if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null) {
-			
-			Uri selectedImage = data.getData();
-			String[] filePathColumn = { MediaStore.Images.Media.DATA };
-
-			Cursor cursor = getContentResolver().query(selectedImage,
-					filePathColumn, null, null, null);
-			cursor.moveToFirst();
-
-			int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-			String picturePath = cursor.getString(columnIndex);
-			cursor.close();
-
-			ImageView imageView = (ImageView) findViewById(R.id.buisness_image_view);
-			imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-			
-
-		}
-	}
-
-
-	private void setFinishBtnListener() {
-
-		finishBtn.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-
-				if (finishedFillingAllData()) {
-
-					//save to parse user new location and close
-					finishRegistration(); //TODO data recived from map
-					finish(); // activity
-
-
-				}
-
-			}
-		});
-
-	}
-
-	private boolean finishedFillingAllData() {
-
-		
-		if (!locationSelected) {
-
-			//TODO maybe different message?
-			Toast.makeText(getApplicationContext(), "PUT LOCATIN MAFAFACKA!", Toast.LENGTH_SHORT).show();
-			return false;
-		}
-		
-		return true;
-
-	}
-
-
-
-
-
-
-	// todo LATLING ?
 	private void finishRegistration() { 
 
 		ParseObject newClient = new ParseObject(ParseClassesNames.BUSINESS_CLASS);
-		
+
 		newClient.put(ParseClassesNames.BUSINESS_NAME, businessName);
 		newClient.put(ParseClassesNames.BUSINESS_TYPE, businessType);
-		
+		//TODO - save the phone number and the user address, if they are not empty.
 		//TODO add picture to parse - using parseFile
 		//newClient.put(ParseClassesNames.BUSINESS_PICTURE, businessLocation);
 
@@ -274,8 +176,5 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 		currentUser.saveInBackground();
 	}
 
-	
-	//@Override
-	//public void onBackPressed() {
-	//}
+
 }

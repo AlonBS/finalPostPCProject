@@ -37,14 +37,22 @@ public class LocationFinderFragment extends Fragment {
 	private static LatLng defaultLocation = new LatLng(31.781984, 35.218221);
 	private LatLng chosenLocation = null;
 	
-	private String address = null;
-	
-	public LocationFinderFragment(){
-		
-	}
-	
+	private String address = "";
+	private boolean addressWasGivenAsParameter = false;
+
+	/**
+	 * Builds a new LocationFinderFragment. the fragment sets the map center according to the given address.
+	 * if the given address is empty or null, the map center will be the default map center.
+	 * @param address
+	 */
 	public LocationFinderFragment(String address){
-		this.address = address;
+		if(address==null || address.equals("")){
+			this.address = "";
+			addressWasGivenAsParameter = false;
+		}else{
+			this.address = address;
+			addressWasGivenAsParameter = true;
+		}
 	}
 	
 
@@ -56,8 +64,17 @@ public class LocationFinderFragment extends Fragment {
 		
 		//sets a request according to the current
 		TextView userRequestTv = (TextView)view.findViewById(R.id.find_location_user_request);
-		String textRequest = isInBusinessMode?	getResources().getString(R.string.find_location_business_request) : 
-							getResources().getString(R.string.find_location_client_request);
+		String textRequest;
+		if(isInBusinessMode){
+			if(addressWasGivenAsParameter){
+				textRequest = getResources().getString(R.string.find_location_please_varify);
+			}else{
+				textRequest = getResources().getString(R.string.find_location_business_request);
+			}
+		}else{
+			textRequest = getResources().getString(R.string.find_location_client_request);
+		}
+
 		userRequestTv.setText(textRequest);
 		
 		
@@ -84,7 +101,7 @@ public class LocationFinderFragment extends Fragment {
 		//handles the search address feature
 		final ImageView searchAddressBtn = (ImageView)view.findViewById(R.id.search_address_button);
 		final EditText etAddress = (EditText)view.findViewById(R.id.search_address_edit_text);
-		if(address!=null){
+		if(addressWasGivenAsParameter){
 			etAddress.setHint(address);
 		}
 		searchAddressBtn.setOnClickListener(new OnClickListener() {
@@ -98,7 +115,7 @@ public class LocationFinderFragment extends Fragment {
 			}
 		});
 
-		if(address!=null){
+		if(addressWasGivenAsParameter){
 			boolean success = searchForAddress(address);
 			if(!success){
 				Toast.makeText(getActivity().getApplicationContext(), "couln't find your location based on the supplied address, please tap on the screen and set your location",Toast.LENGTH_LONG ).show();
@@ -161,7 +178,7 @@ public class LocationFinderFragment extends Fragment {
 	}
 	
 	public boolean didUserFillAllData() {
-		return chosenLocation == null;
+		return chosenLocation != null;
 	}
 
 	/**
@@ -172,6 +189,7 @@ public class LocationFinderFragment extends Fragment {
 	public LatLng getLocation(){
 		return chosenLocation;
 	}
+	
 
 }
 
