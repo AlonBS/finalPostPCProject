@@ -4,7 +4,6 @@ package com.dna.radius.businessmode;
 import java.util.ArrayList;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -27,10 +26,8 @@ import android.widget.TextView;
 
 import com.dna.radius.R;
 import com.dna.radius.datastructures.Comment;
-import com.dna.radius.datastructures.DealHistoryObject;
 import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.mapsample.CommentsArrayAdapter;
-import com.google.android.gms.wearable.DataApi;
 
 /**
  * represents the first screen which the business owner sees when he is logging in.
@@ -112,7 +109,6 @@ public class BusinessDashboardFragment extends Fragment{
 			@Override
 			public void onClick(View v) {
 				final EditText input = new EditText(activityParent);
-				// TODO Auto-generated method stub
 				new AlertDialog.Builder(activityParent)
 				.setTitle("Add A new Deal")
 				.setMessage("please add a new deal to replace the old one")
@@ -152,14 +148,11 @@ public class BusinessDashboardFragment extends Fragment{
 
 	@Override
 	public void onPause() {
-		// TODO Auto-generated method stub
 		super.onPause();
-		//DBHandler.close(); //TODO what to do in this case?
 	}
 
 	@Override
 	public void onDestroyView() {
-		// TODO Auto-generated method stub
 		super.onDestroyView();
 		DBHandler.close();
 	}

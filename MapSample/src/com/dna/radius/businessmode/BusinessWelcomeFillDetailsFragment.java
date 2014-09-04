@@ -1,8 +1,5 @@
 package com.dna.radius.businessmode;
 
-import com.dna.radius.R;
-import com.dna.radius.datastructures.ExternalBusiness.BuisnessType;
-
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,12 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemSelectedListener;
+
+import com.dna.radius.R;
+import com.dna.radius.datastructures.ExternalBusiness.BuisnessType;
 
 public class BusinessWelcomeFillDetailsFragment extends Fragment{
 
@@ -30,7 +29,7 @@ public class BusinessWelcomeFillDetailsFragment extends Fragment{
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+
 		View view = inflater.inflate(R.layout.business_welcome_fill_details_fragment,container, false);	
 
 		businessNameEditText = (EditText) view.findViewById(R.id.business_name_textView);
@@ -86,9 +85,6 @@ public class BusinessWelcomeFillDetailsFragment extends Fragment{
 			}
 
 			public void onNothingSelected(AdapterView<?> parent) {
-				//TODO REMOVE
-				Toast.makeText(getActivity(), "PLEASE MAKE A SELECTION MADAFACKA", Toast.LENGTH_SHORT).show();
-				
 				typeSelected = false;
 			}
 
