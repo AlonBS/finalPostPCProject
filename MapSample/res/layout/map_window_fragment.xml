@@ -52,7 +52,7 @@
          android:layout_width="0dp"
          android:layout_height="wrap_content"
          android:layout_weight="0.1"
-         android:src="@drawable/bar_icon" />
+         android:src="@drawable/background_selector" />
      <ImageView
          android:id="@+id/hotel_filter_btn"
          android:layout_width="0dp"
