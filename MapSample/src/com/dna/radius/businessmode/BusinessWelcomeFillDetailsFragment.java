@@ -20,7 +20,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 
 public class BusinessWelcomeFillDetailsFragment extends Fragment{
 
-	private EditText businessNameEditText;
+	private EditText businessNameEditText, businessAddressEditText, businessPhoneEditText;
 	private int businessType;
 	private Spinner businessTypeSpinner;
 	private boolean typeSelected = false;
@@ -35,7 +35,9 @@ public class BusinessWelcomeFillDetailsFragment extends Fragment{
 
 		businessNameEditText = (EditText) view.findViewById(R.id.business_name_textView);
 		businessTypeSpinner = (Spinner) view.findViewById(R.id.business_type_spinner);
-
+		businessPhoneEditText = (EditText) view.findViewById(R.id.business_phone_textView);
+		businessAddressEditText = (EditText) view.findViewById(R.id.business_address_textView);
+		
 		setBusinessTypeSpinner();
 		
 		
@@ -127,5 +129,11 @@ public class BusinessWelcomeFillDetailsFragment extends Fragment{
 	}
 	public int getBusinessType(){
 		return businessType;
+	}
+	public String getBusinessPhoneNumber(){
+		return businessPhoneEditText.getText().toString();
+	}
+	public String getBusinessAddress(){
+		return businessAddressEditText.getText().toString();
 	}
 }

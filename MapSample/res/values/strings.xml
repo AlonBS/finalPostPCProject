@@ -68,12 +68,12 @@
     <string name="type_comment_here">type your comment here</string>
     <string name="likes"> Likes</string>
     <string name="dislikes"> Dislikes</string>
-    <string name="business_name_hint">  Please fill your business name </string>
+    <string name="business_name_hint">  Business name </string>
      <string name="business_name_forgot_to_fill">  Please fill your business name </string>
     <string name="business_type_forgot_to_fill"> Please fill your business type </string>
-    <string name="business_phone_hint"> Please fill your business phone number </string>
+    <string name="business_phone_hint"> Business phone number </string>
      <string name="business_phone_forgot_to_fill"> Please fill your business phone number </string>
-	    <string name="business_address_hint"> Please fill your business phone number </string>
+	    <string name="business_address_hint"> Business address </string>
      <string name="business_address_forgot_to_fill"> Please fill your business address </string>
      
     <!-- switching between client/user modes -->

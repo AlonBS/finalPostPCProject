@@ -37,6 +37,15 @@ public class LocationFinderFragment extends Fragment {
 	private static LatLng defaultLocation = new LatLng(31.781984, 35.218221);
 	private LatLng chosenLocation = null;
 	
+	private String address = null;
+	
+	public LocationFinderFragment(){
+		
+	}
+	
+	public LocationFinderFragment(String address){
+		this.address = address;
+	}
 	
 
 	@Override
@@ -75,50 +84,63 @@ public class LocationFinderFragment extends Fragment {
 		//handles the search address feature
 		final ImageView searchAddressBtn = (ImageView)view.findViewById(R.id.search_address_button);
 		final EditText etAddress = (EditText)view.findViewById(R.id.search_address_edit_text);
-
+		if(address!=null){
+			etAddress.setHint(address);
+		}
 		searchAddressBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				final String addressStr = etAddress.getText().toString();
-				Log.d("SEARCH ADRESS", "searching for: " + addressStr );
-				Geocoder geoCoder = new Geocoder(getActivity(), Locale.getDefault());
-				try {
-					List<Address> addresses = geoCoder.getFromLocationName(addressStr, 5);
-					if (addresses.size() > 0) {
-						Double lat = (double) (addresses.get(0).getLatitude());
-						Double lon = (double) (addresses.get(0).getLongitude());
-						Log.d("lat-long", "" + lat + "......." + lon);
-						final LatLng latLngLocation = new LatLng(lat, lon);
-						
-						gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngLocation, DEFAULT_LATLNG_ZOOM));
-						// Zoom in, animating the camera.
-						gMap.animateCamera(CameraUpdateFactory.zoomTo(DEFAULT_ANIMATED_ZOOM), 2000, null);
-					
-						if(chosenLocation!=null){
-							gMap.clear();
-						}
-						gMap.addMarker(new MarkerOptions().position(latLngLocation));
-						chosenLocation = latLngLocation;
-						Log.d("SEARCH ADRESS", "done searcing for : " + addressStr );
-					}else{
-						Toast.makeText(getActivity().getApplicationContext(), "couln't find the given address",Toast.LENGTH_SHORT ).show();
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
+				String addressStr = etAddress.getText().toString();
+				boolean success = searchForAddress(addressStr);
+				if(!success){
 					Toast.makeText(getActivity().getApplicationContext(), "couln't find the given address",Toast.LENGTH_SHORT ).show();
 				}
-				catch (NullPointerException e) {
-					e.printStackTrace();
-					Toast.makeText(getActivity().getApplicationContext(), "couln't find the given address",Toast.LENGTH_SHORT ).show();
-				}
-
 			}
 		});
 
+		if(address!=null){
+			boolean success = searchForAddress(address);
+			if(!success){
+				Toast.makeText(getActivity().getApplicationContext(), "couln't find your location based on the supplied address, please tap on the screen and set your location",Toast.LENGTH_LONG ).show();
+			}
+			chosenLocation = gMap.getCameraPosition().target;
+		}
 		return view;
 	}
 
 
+	private boolean searchForAddress(String addressStr){
+		Log.d("SEARCH ADRESS", "searching for: " + addressStr );
+		Geocoder geoCoder = new Geocoder(getActivity(), Locale.getDefault());
+		try {
+			List<Address> addresses = geoCoder.getFromLocationName(addressStr, 5);
+			if (addresses.size() > 0) {
+				Double lat = (double) (addresses.get(0).getLatitude());
+				Double lon = (double) (addresses.get(0).getLongitude());
+				Log.d("lat-long", "" + lat + "......." + lon);
+				final LatLng latLngLocation = new LatLng(lat, lon);
+				
+				gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngLocation, DEFAULT_LATLNG_ZOOM));
+				// Zoom in, animating the camera.
+				gMap.animateCamera(CameraUpdateFactory.zoomTo(DEFAULT_ANIMATED_ZOOM), 2000, null);
+			
+				if(chosenLocation!=null){
+					gMap.clear();
+				}
+				gMap.addMarker(new MarkerOptions().position(latLngLocation));
+				chosenLocation = latLngLocation;
+				Log.d("SEARCH ADRESS", "done searcing for : " + addressStr );
+			}else{
+				return false;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+
+	}
+	
 	@Override
 	public void onDestroyView() {
 		// TODO Auto-generated method stub

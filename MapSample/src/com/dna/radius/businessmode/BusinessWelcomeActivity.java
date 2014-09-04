@@ -44,8 +44,9 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 	private Button finishBtn;
 
 	private String businessName;
-	
 	private int businessType;
+	private String businessPhoneNumber;
+	private String businessAddress;
 	
 	private LatLng businessLocation;
 
@@ -107,13 +108,15 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 					
 					numberOfTimesNextWasPressed++;
 					
-					//retrives the business name and type
+					//Retrieves the business name and type
 					businessName = currentFragment.getBusinessName();
 					businessType = currentFragment.getBusinessType();
+					businessAddress = currentFragment.getBusinessAddress();
+					businessPhoneNumber = currentFragment.getBusinessPhoneNumber();
 					
 					//moves to the next fragment
 					FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-					LocationFinderFragment findLocationFragment = new LocationFinderFragment();
+					LocationFinderFragment findLocationFragment = businessAddress==null? new LocationFinderFragment() : new LocationFinderFragment(businessAddress);
 					fragmentTransaction.replace(R.id.business_welcome_main_fragment_layout, findLocationFragment);
 					fragmentTransaction.addToBackStack(null);
 					fragmentTransaction.commit();
