@@ -26,7 +26,7 @@ public class BusinessWelcomeFillDetailsFragment extends Fragment{
 	private boolean typeSelected = false;
 	private String businessName;
 			
-			
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -98,21 +98,16 @@ public class BusinessWelcomeFillDetailsFragment extends Fragment{
 	 * return true iff the user filled all the relevant data
 	 * @return
 	 */
-	public boolean finishedFillingAllData() {
+	public boolean didUserFillAllData() {
 
 		businessName = businessNameEditText.getText().toString();
 
 		if (businessName.isEmpty() || illegalBusinessName(businessName)) {
-
-			//TODO maybe different message?
-			Toast.makeText(getActivity(), "PUT BUSINESS!", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(), getResources().getString(R.string.business_name_forgot_to_fill), Toast.LENGTH_SHORT).show();
 			return false;
 		}
-
 		if (!typeSelected) {
-
-			//TODO maybe different message?
-			Toast.makeText(getActivity(), "PUT TYPE!", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(), getResources().getString(R.string.business_type_forgot_to_fill), Toast.LENGTH_SHORT).show();
 			return false;
 		}
 		

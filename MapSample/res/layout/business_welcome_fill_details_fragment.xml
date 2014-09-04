@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:background="@color/background_welcome_activity_2" >
 
-
     <LinearLayout
         android:id="@+id/business_welcome_details_layout"
         android:layout_width="match_parent"
@@ -24,6 +23,7 @@
             android:id="@+id/business_name_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:background="@android:color/darker_gray"
             android:ems="10"
             android:hint="@string/business_name_hint"
@@ -33,7 +33,30 @@
         <Spinner
             android:id="@+id/business_type_spinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp" />
+
+        <EditText
+            android:id="@+id/business_address_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@android:color/darker_gray"
+            android:ems="10"
+            
+            android:textColor="@color/white" >
+
+            <EditText
+                android:id="@+id/business_phone_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"
+                android:ems="10"
+
+                android:textColor="@color/white" >
+            </EditText>
+        </EditText>
     </LinearLayout>
 
 </RelativeLayout>

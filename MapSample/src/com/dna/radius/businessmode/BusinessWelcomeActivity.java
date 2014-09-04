@@ -101,7 +101,7 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 					//tests if it's possible to move to the next fragment
 					final FragmentManager fragmentManager = getSupportFragmentManager();
 					BusinessWelcomeFillDetailsFragment currentFragment = (BusinessWelcomeFillDetailsFragment)fragmentManager.findFragmentById(R.id.business_welcome_main_fragment_layout);
-					if(!currentFragment.finishedFillingAllData()){
+					if(!currentFragment.didUserFillAllData()){
 						return;
 					}
 					

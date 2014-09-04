@@ -17,6 +17,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dna.radius.R;
@@ -26,7 +27,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class LocationFinderFragment extends Fragment {
@@ -37,21 +37,21 @@ public class LocationFinderFragment extends Fragment {
 	private static LatLng defaultLocation = new LatLng(31.781984, 35.218221);
 	private LatLng chosenLocation = null;
 	
-	/**
-	 * returns the location which was chosen by the user.
-	 * if the user still didn't choose a location, returns null.
-	 * @return
-	 */
-	public LatLng getLocation(){
-		return chosenLocation;
-	}
+	
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.find_location_fragment,container, false);
 
 		isInBusinessMode = BaseActivity.isInBusinessMode;
-
+		
+		//sets a request according to the current
+		TextView userRequestTv = (TextView)view.findViewById(R.id.find_location_user_request);
+		String textRequest = isInBusinessMode?	getResources().getString(R.string.find_location_business_request) : 
+							getResources().getString(R.string.find_location_client_request);
+		userRequestTv.setText(textRequest);
+		
+		
 		//loads the google map objects and set it on the client's home page.
 		FragmentManager manager = getActivity().getSupportFragmentManager();
 		gMap = ((SupportMapFragment)manager.findFragmentById(R.id.map)).getMap();
@@ -137,7 +137,19 @@ public class LocationFinderFragment extends Fragment {
 		}
 
 	}
+	
+	public boolean didUserFillAllData() {
+		return chosenLocation == null;
+	}
 
+	/**
+	 * returns the location which was chosen by the user.
+	 * if the user still didn't choose a location, returns null.
+	 * @return
+	 */
+	public LatLng getLocation(){
+		return chosenLocation;
+	}
 
 }
 

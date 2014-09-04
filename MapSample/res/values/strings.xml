@@ -28,7 +28,9 @@
     <string name="password_confirmation">Password Confirmation</string>
     <string name="email_address">Email Address</string>
     <string name="business_name">Business Name</string>
+
     <string-array name="business_type_spinner">
+        <item>Business type</item>
         <item>Restaurant</item>
         <item>Pub</item>
         <item>Accommodation</item>
@@ -36,15 +38,18 @@
         <item>Groceries</item>
     </string-array>
 
-    
     <!-- signup_activity error strings -->
     <string name="illegal_user_name">User name is illegal. \n Please use only characters and numbers</string>
     <string name="passwords_mismatch">Passwords don\'t match</string>
     <string name="aaemail_address">Email Address</string>
-    
-    <!--  welcome screen -->
+
+    <!-- welcome screen -->
     <string name="welcome_to_radius">Welcome to Radius!</string>
-    
+
+    <!-- welcome dialogs -->
+    <string name="find_location_business_request">please set your business location by tapping on the screen or by searching for an address</string>
+    <string name="find_location_client_request">please set your default location by tapping on the screen or by searching for an address</string>
+
     <!-- client welcome dialog strings -->
     <string name="welcome_client">In order to complete the registration please select you preferable location</string>
     <string name="set_location">Choose location</string>
@@ -52,38 +57,38 @@
     <string name="finish_btn">Finish!</string>
     <string name="welcome_business_fill_details">In order to complete the registration please fill the following details</string>
     <!-- deal history fragment -->
-     <string name="history_fragment_tap_a_deal">Tap on a deal to set it as your current one</string>
+    <string name="history_fragment_tap_a_deal">Tap on a deal to set it as your current one</string>
     <string name="history_fragment_total_likes">Total likes: </string>
     <string name="history_fragment_total_dislikes"> Total dislikes:</string>
-    
+
     <!-- business welcome dialog strings -->
-        <string name="welcome_business">In order to complete please state your business name, business type, and locate your business on the map.</string>
-    <string name="business_name_hint">Type your business name here</string>
+    <string name="welcome_business">In order to complete please state your business name, business type, and locate your business on the map.</string>
     <string name="set_location_imageView">Please define your business location</string>
     <string name="set_business_picture_desc">Select a picture for your business</string>
-    
-     <string name="type_comment_here">type your comment here</string>
+    <string name="type_comment_here">type your comment here</string>
     <string name="likes"> Likes</string>
     <string name="dislikes"> Dislikes</string>
-    
-    
-     <!-- switching between client/user modes -->
+    <string name="business_name_hint">  Please fill your business name </string>
+     <string name="business_name_forgot_to_fill">  Please fill your business name </string>
+    <string name="business_type_forgot_to_fill"> Please fill your business type </string>
+    <string name="business_phone_hint"> Please fill your business phone number </string>
+     <string name="business_phone_forgot_to_fill"> Please fill your business phone number </string>
+	
+    <!-- switching between client/user modes -->
     <string name="switch_mode"> switch mode</string>
     <string name="to_business_mode"> to business mode?</string>
     <string name="to_client_mode"> to client mode?</string>
     <string name="are_you_sure"> are you sure you want to switch</string>
     <string name="switching"> switching</string>
     <string name="log_out"> log out</string>
-    
-     <!-- settings -->
+
+    <!-- settings -->
     <string name="user_settings"> user settings</string>
     <string name="business_settings"> business settings</string>
-    
+
     <!-- map -->
     <string name="type_address">type address here</string>
-   
     <string name="waiting">loading data from server</string>
-   
 
     <string-array name="spinner_options">
         <item>All</item>
