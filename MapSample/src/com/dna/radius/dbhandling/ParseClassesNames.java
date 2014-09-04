@@ -13,6 +13,8 @@ public class ParseClassesNames {
 	/** For Client class */
 	public static final String CLIENT_CLASS = "clientData";
 	public static final String CLIENT_LOCATION = "homeLocation";
+	public static final String CLIENT_LOCATION_LAT = "latitude";
+	public static final String CLIENT_LOCATION_LONG = "longtitude";
 	public static final String CLIENT_PREFERRING = "preferrings";
 	public static final String CLIENT_FAVORITES = "favorites";
 	public static final String CLIENT_FAVORITES_ID = "businessId";

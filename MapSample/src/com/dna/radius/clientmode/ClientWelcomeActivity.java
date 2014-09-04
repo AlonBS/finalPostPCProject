@@ -8,20 +8,15 @@ import org.json.JSONObject;
 
 import com.dna.radius.R;
 import com.dna.radius.dbhandling.ParseClassesNames;
-import com.dna.radius.login.MainActivity;
 import com.google.android.gms.maps.model.LatLng;
-import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.Pair;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -30,10 +25,8 @@ public class ClientWelcomeActivity extends FragmentActivity {
 	
 	private Button chooseLocationBtn, notNowBtn, finishBtn;
 	
-	private LatLng location;
-	
 	/** Default locations - TODO - add more */
-	private static final LatLng JAFFA_STREET = new LatLng(31.78507,35.214328);
+	
 	
 	
 	@Override
@@ -45,8 +38,6 @@ public class ClientWelcomeActivity extends FragmentActivity {
 		setScreenSize();
 		
 		initViews();
-		
-		setDefaultLocation();
 		
 		setChooseLocationBtnListener();
 		
@@ -73,12 +64,6 @@ public class ClientWelcomeActivity extends FragmentActivity {
 		
 	}
 	
-	private void setDefaultLocation() {
-		//TODO - possible future we'll add more defualt locations
-		
-		location = JAFFA_STREET;
-		
-	}
 	
 	private void setChooseLocationBtnListener() {
 		
@@ -88,7 +73,7 @@ public class ClientWelcomeActivity extends FragmentActivity {
 			public void onClick(View v) {
 				// TODO  DROR  - how to open map in here!? 
 				
-				location = new LatLng(34, 34);
+				ClientData.homeLocation = new LatLng(34, 34);
 				
 				if (/*legal coordinates were taken from map*/ true) {
 					
@@ -140,10 +125,17 @@ public class ClientWelcomeActivity extends FragmentActivity {
 		ParseObject newClient = new ParseObject(ParseClassesNames.CLIENT_CLASS);
 		
 		// store location on parse
-		ArrayList<Double> coordinates = new ArrayList<Double>();
-		coordinates.add(location.latitude);
-		coordinates.add(location.longitude);
+		JSONObject coordinates = new JSONObject();
+		try {
+			coordinates.put(ParseClassesNames.CLIENT_LOCATION_LAT ,ClientData.homeLocation.latitude);
+			coordinates.put(ParseClassesNames.CLIENT_LOCATION_LONG ,ClientData.homeLocation.longitude);
+			
+		} catch (JSONException e) {
+			
+			Log.e("JSON_CREATION", e.getMessage());
+		}
 		newClient.put(ParseClassesNames.CLIENT_LOCATION, coordinates);
+		
 		
 		// store preferences (favorites, likes & dislikes)
 		JSONObject prefs = new JSONObject();
@@ -151,35 +143,33 @@ public class ClientWelcomeActivity extends FragmentActivity {
 			prefs.put(ParseClassesNames.CLIENT_FAVORITES, new JSONArray());
 			prefs.put(ParseClassesNames.CLIENT_LIKES, new JSONArray());
 			prefs.put(ParseClassesNames.CLIENT_DISLIKES, new JSONArray());
+			
 		} catch (JSONException e) {
+			
 			Log.e("JSON_CREATION", e.getMessage());
 		}
 		newClient.put(ParseClassesNames.CLIENT_PREFERRING, prefs);
 
+		
 		// add a pointer in user to client. i.e. user->clientData
-		ParseUser currentUser = ParseUser.getCurrentUser();
-		currentUser.put(ParseClassesNames.CLIENT_INFO, newClient);
+		ClientData.currentUser.put(ParseClassesNames.CLIENT_INFO, newClient);
+		
 		
 		// sync online
-		newClient.saveInBackground();
-		currentUser.saveInBackground();
-		
-		//TODO CEHCK
-//		ClientData.currentUser.fetchInBackground(new GetCallback<ParseObject>() {
-//
-//			@Override
-//			public void done(ParseObject arg0, ParseException arg1) {
-//				// TODO REMOVE?
-//				
-//			}
-//		});
-		
-		
-		ClientData.currentUser.fetchIfNeededInBackground(null);
-		ClientData.clientInfo.fetchIfNeededInBackground(null);
-		
-		ClientData.homeLocation = location;
+		try {
+			
+			newClient.save();
+			ClientData.currentUser.save();
+			ClientData.clientInfo = newClient;
+			
+			ClientData.currentUser.fetchIfNeeded();
+			ClientData.clientInfo.fetchIfNeeded();
+			
+		} catch (ParseException e) {
+			Log.e("Welcome - Client", e.getMessage());
+		}
 	}
+	
 	
 	
 	@Override

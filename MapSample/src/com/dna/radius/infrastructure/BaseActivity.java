@@ -15,13 +15,10 @@ import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.dna.radius.R;
 import com.dna.radius.businessmode.BusinessOpeningScreenActivity;
-import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.clientmode.ClientOpeningScreenActivity;
-import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.login.MainActivity;
 import com.parse.ParseUser;
 
@@ -42,6 +39,7 @@ public class BaseActivity extends FragmentActivity{
 		super.onCreate(arg0);
 	}
 
+	
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.main_menu, menu);
@@ -49,6 +47,7 @@ public class BaseActivity extends FragmentActivity{
 		return true;
 	}
 
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub

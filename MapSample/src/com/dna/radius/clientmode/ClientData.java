@@ -1,17 +1,21 @@
 package com.dna.radius.clientmode;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
-import com.dna.radius.dbhandling.DBHandler;
-import com.dna.radius.dbhandling.ParseClassesNames;
+
 import com.dna.radius.dbhandling.DBHandler.DealLikeStatus;
+import com.dna.radius.dbhandling.ParseClassesNames;
 import com.google.android.gms.maps.model.LatLng;
+import com.parse.GetCallback;
+import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 /***
@@ -24,68 +28,89 @@ import com.parse.ParseUser;
  *
  */
 public class ClientData{
-	
+
 	static ParseUser currentUser;
-	
+
 	static ParseObject clientInfo;
-	
+
 	static LatLng homeLocation;
-	
+
 	/**lists which holds all the deals which the user liked or disliked*/
 	private static ArrayList<String> favourites = new ArrayList<String>();
 	private static ArrayList<String> likes = new ArrayList<String>();
 	private static ArrayList<String> dislikes = new ArrayList<String>();
-	
-	
+
+	//TODO ? add private class?
+	private static final LatLng JAFFA_STREET = new LatLng(31.78507,35.214328);
+
+
 	public static String getUserName(){
 		return currentUser.getUsername();
 	}
-	
-	
+
+
 	/** loads the Client data from the parse DB*/
 	public static void loadClientInfo(){
-		
-		currentUser = ParseUser.getCurrentUser();
-		clientInfo = currentUser.getParseObject(ParseClassesNames.CLIENT_INFO);
-		
-		if (clientInfo != null) { //This means registration is finished, and we can load data from Parse
-			
-			loadLocation(); //TODO this should be inside of the if statement	
-			
-			loadPreferrings();
-			
+
+		try {
+			currentUser = ParseUser.getCurrentUser().fetchIfNeeded();
+			clientInfo = currentUser.getParseObject(ParseClassesNames.CLIENT_INFO).fetchIfNeeded();
+
+		} catch (ParseException e) {
+
+			Log.e("Client - fetch info", e.getMessage());
 		}
-		
-		
+
+		if (clientInfo != null && clientInfo.isDataAvailable()) { //This means registration has finished, and we can load data from Parse
+
+			loadLocation(); //TODO this should be inside of the if statement	
+
+			loadPreferrings();
+
+		}
+		else {
+
+			homeLocation = JAFFA_STREET;
+		}
+
+
 	}
-	
-	
-	private static void loadLocation() {
-		
-		double[] temp = (double[])clientInfo.get(ParseClassesNames.CLIENT_LOCATION);
-		homeLocation = new LatLng (temp[0], temp[1]);
-		
-		//homeLocation = new LatLng(31.781984, 35.218221); //TODO delete
-		
+
+
+	private static void loadLocation()   {
+
+
+		JSONObject jo = clientInfo.getJSONObject(ParseClassesNames.CLIENT_LOCATION);
+		try {
+			homeLocation = new LatLng(jo.getDouble(ParseClassesNames.CLIENT_LOCATION_LAT),
+					jo.getDouble(ParseClassesNames.CLIENT_LOCATION_LONG));
+
+		} catch (JSONException e) {
+
+			Log.e("Client -load location", e.getMessage());
+		}
+
+
 	}
-	
-	
+
+
+
 	private static void loadPreferrings() {
-		
-		
+
+
 		JSONObject jo = clientInfo.getJSONObject(ParseClassesNames.CLIENT_PREFERRING);
-		
+
 		try {
 			loadFavorites(jo.getJSONArray(ParseClassesNames.CLIENT_FAVORITES));
 			loadLikes(jo.getJSONArray(ParseClassesNames.CLIENT_LIKES));
 			loadDislikes(jo.getJSONArray(ParseClassesNames.CLIENT_DISLIKES));
-			
+
 		} catch (JSONException e) {
 			Log.e("Client - getting Array of preferences", e.getMessage());
 		}
 	}
-	
-	
+
+
 	private static void loadFavorites(JSONArray ar) {
 
 		int length = ar.length();
@@ -97,8 +122,8 @@ public class ClientData{
 			}
 		}
 	}
-	
-	
+
+
 	private static void loadLikes(JSONArray ar) {
 
 		int length = ar.length();
@@ -110,8 +135,8 @@ public class ClientData{
 			}
 		}
 	}
-	
-	
+
+
 	private static void loadDislikes(JSONArray ar) {
 
 		int length = ar.length();
@@ -124,13 +149,13 @@ public class ClientData{
 		}
 	}
 
-	
+
 	/***
 	 * gets the user's home location according to the given LatLng.
 	 * if the updateServers parameter is true, updates the parse servers as well.
 	 */
 	public static LatLng getHome(){ return homeLocation; }
-	
+
 	/***
 	 * sets the user's home location according to the given LatLng.
 	 * if the updateServers parameter is true, updates the parse servers as well.
@@ -140,30 +165,30 @@ public class ClientData{
 		ArrayList<Double> coordinates = new ArrayList<Double>();
 		coordinates.add(latlng.latitude);
 		coordinates.add(latlng.longitude);
-		
+
 		clientInfo.put(ParseClassesNames.CLIENT_LOCATION, coordinates);
-		
+
 		// TODO - maybe concentrate more than one call
 		clientInfo.saveEventually();
 	}
-	
 
-	
+
+
 	/**
 	 * returns the user's favourites list
 	 * @return
 	 */
 	public static void addToFavourites(String businessId){
-		
+
 		addToStorage(favourites, businessId,
 				ParseClassesNames.CLIENT_PREFERRING,
 				ParseClassesNames.CLIENT_FAVORITES,
 				ParseClassesNames.CLIENT_FAVORITES_ID,
 				"Add to Favorites");
-		
+
 	}
-	
-	
+
+
 	/**
 	 * returns the user's likes list
 	 * @return
@@ -190,9 +215,9 @@ public class ClientData{
 				ParseClassesNames.CLIENT_DISLIKES_ID,
 				"Add to dislikes");
 	}
-	
-	
-	
+
+
+
 	/**
 	 * 
 	 * @param ds
@@ -209,57 +234,57 @@ public class ClientData{
 
 			ds.add(itemId);
 			JSONObject newItem = new JSONObject();
-			
+
 			try {
-				
+
 				newItem.put(n3, itemId);
 				clientInfo.getJSONObject(n1).getJSONArray(n2).put(newItem);
-				
+
 			} catch (JSONException e) {
-				
+
 				Log.e(errMsg, e.getMessage());
 			}
 
 			clientInfo.saveEventually();
 		}
 		else {
-			
+
 			Log.e(errMsg, "Item was added twice");
 		}
 	}
-	
-	
+
+
 	public static void removeFromFavorites(String businessId) {
-		
+
 		removeFromStorage(favourites, businessId,
 				ParseClassesNames.CLIENT_PREFERRING,
 				ParseClassesNames.CLIENT_FAVORITES,
 				ParseClassesNames.CLIENT_FAVORITES_ID,
 				"Remove from Favorites");
 	}
-				
-				
-	
+
+
+
 	public static void removeFromLikes(String dealId){
-		
+
 		removeFromStorage(likes, dealId,
 				ParseClassesNames.CLIENT_PREFERRING,
 				ParseClassesNames.CLIENT_LIKES,
 				ParseClassesNames.CLIENT_LIKES_ID,
 				"Remove from Likes");
 	}
-	
-	
+
+
 	public static void removeFromDislikes(String dealId){
-	
+
 		removeFromStorage(dislikes, dealId,
 				ParseClassesNames.CLIENT_PREFERRING,
 				ParseClassesNames.CLIENT_DISLIKES,
 				ParseClassesNames.CLIENT_DISLIKES_ID,
 				"Remove from Dislikes");
 	}
-	
-	
+
+
 	/**
 	 * 
 	 * @param ds
@@ -271,70 +296,70 @@ public class ClientData{
 	 */
 	private static void removeFromStorage(ArrayList<String> ds, String itemId,
 			String n1, String n2, String n3, String errMsg) {
-		
+
 		if(ds.contains(itemId)){
-			
+
 			ds.remove(itemId);
 			try {
-				
+
 				JSONArray newArr = new JSONArray();
-				
+
 				for (String f : ds){
 					JSONObject temp = new JSONObject().put(n3, f);
 					newArr.put(temp);
 				}
-				
+
 				clientInfo.getJSONObject(n1).put(n2, newArr);
 				clientInfo.saveEventually();
-				
+
 			} catch (JSONException e) {
 				Log.e(errMsg, e.getMessage());
 			}
 
 		}else{
-			
+
 			Log.e(errMsg,"Item wasn't in db to remove");
 		}
 	}
-	
+
 
 	/**
 	 * receives a business id and check if it's in the user favorites list.
 	 */
 	public static boolean isInFavourites(String businessId){
-		
+
 		return favourites.contains(businessId);
 	}
 
-	
-	
-	
+
+
+
 	/**
 	 * return LIKE/DISLIKE/DONT_CARE according to the user preferences regarding
 	 * to the current business deal.
 	 * @return
 	 */
 	public static DealLikeStatus getDealLikeStatus(String businessId){
-		
+
 		if (likes.contains(businessId))
 			return DealLikeStatus.LIKE;
-		
+
 		else if(dislikes.contains(businessId))
 			return DealLikeStatus.DISLIKE;
-		
+
 		return DealLikeStatus.DONT_CARE;
 	}
-	
-//	public static void addLikeToDeal(int businessId){
-//		//likeList.add(""); // CHANGE
-//		//DBHandler.setLikeToDeal(id, businessId, getDealLikeStatus(businessId));
-//	}
-	
-	
-//	public static void addDislikeToDeal(int businessId){
-//		//DBHandler.setDislikeToDeal(id, businessId, getDealLikeStatus(businessId));
-//	}
-	
+
+	//	public static void addLikeToDeal(int businessId){
+	//		//likeList.add(""); // CHANGE
+	//		//DBHandler.setLikeToDeal(id, businessId, getDealLikeStatus(businessId));
+	//	}
+
+
+	//	public static void addDislikeToDeal(int businessId){
+	//		//DBHandler.setDislikeToDeal(id, businessId, getDealLikeStatus(businessId));
+	//	}
+
 	public static void setDontCareToDeal(String businessId){
 		//DBHandler.setDontCareToDeal(id, businessId, getDealLikeStatus(businessId));
 	}
