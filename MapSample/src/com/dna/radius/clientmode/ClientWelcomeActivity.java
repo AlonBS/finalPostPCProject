@@ -32,6 +32,10 @@ public class ClientWelcomeActivity extends FragmentActivity {
 	
 	private LatLng location;
 	
+	/** Default locations - TODO - add more */
+	private static final LatLng JAFFA_STREET = new LatLng(31.78507,35.214328);
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -41,6 +45,8 @@ public class ClientWelcomeActivity extends FragmentActivity {
 		setScreenSize();
 		
 		initViews();
+		
+		setDefaultLocation();
 		
 		setChooseLocationBtnListener();
 		
@@ -52,7 +58,7 @@ public class ClientWelcomeActivity extends FragmentActivity {
 	
 	private void setScreenSize() {
 		
-		// This will set this dialog-themed activity to take 80% of the screen
+		// This will set this dialog-theme activity to take 80% of the screen
 		DisplayMetrics metrics = getResources().getDisplayMetrics();
 		int height = (int) (metrics.heightPixels * 1);
         int width = (int) (metrics.widthPixels * 1);
@@ -64,6 +70,13 @@ public class ClientWelcomeActivity extends FragmentActivity {
 		chooseLocationBtn = (Button) findViewById(R.id.choose_location_btn);
 		notNowBtn = (Button) findViewById(R.id.not_not_btn);
 		finishBtn = (Button) findViewById(R.id.finish_btn);
+		
+	}
+	
+	private void setDefaultLocation() {
+		//TODO - possible future we'll add more defualt locations
+		
+		location = JAFFA_STREET;
 		
 	}
 	
@@ -162,12 +175,13 @@ public class ClientWelcomeActivity extends FragmentActivity {
 //		});
 		
 		
-		ClientData.currentUser.fetchInBackground(null);
+		ClientData.currentUser.fetchIfNeededInBackground(null);
+		ClientData.clientInfo.fetchIfNeededInBackground(null);
 		
+		ClientData.homeLocation = location;
 	}
 	
 	
 	@Override
-	public void onBackPressed() {
-	}
+	public void onBackPressed() {/* Do nothing*/}
 }

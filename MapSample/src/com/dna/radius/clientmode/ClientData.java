@@ -29,14 +29,13 @@ public class ClientData{
 	
 	static ParseObject clientInfo;
 	
+	static LatLng homeLocation;
+	
 	/**lists which holds all the deals which the user liked or disliked*/
 	private static ArrayList<String> favourites = new ArrayList<String>();
 	private static ArrayList<String> likes = new ArrayList<String>();
 	private static ArrayList<String> dislikes = new ArrayList<String>();
 	
-	
-	private static LatLng homeLocation;
-
 	
 	public static String getUserName(){
 		return currentUser.getUsername();
@@ -49,12 +48,9 @@ public class ClientData{
 		currentUser = ParseUser.getCurrentUser();
 		clientInfo = currentUser.getParseObject(ParseClassesNames.CLIENT_INFO);
 		
-		loadLocation(); //TODO this should be inside of the if statement
-		
-		
 		if (clientInfo != null) { //This means registration is finished, and we can load data from Parse
 			
-			
+			loadLocation(); //TODO this should be inside of the if statement	
 			
 			loadPreferrings();
 			
@@ -66,10 +62,10 @@ public class ClientData{
 	
 	private static void loadLocation() {
 		
-		//double[] temp = (double[])clientInfo.get(ParseClassesNames.CLIENT_LOCATION);
-		//homeLocation = new LatLng (temp[0], temp[1]);
+		double[] temp = (double[])clientInfo.get(ParseClassesNames.CLIENT_LOCATION);
+		homeLocation = new LatLng (temp[0], temp[1]);
 		
-		homeLocation = new LatLng(31.781984, 35.218221); //TODO delete
+		//homeLocation = new LatLng(31.781984, 35.218221); //TODO delete
 		
 	}
 	
