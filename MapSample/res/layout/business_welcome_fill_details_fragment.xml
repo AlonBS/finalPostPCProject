@@ -37,25 +37,26 @@
             android:layout_margin="5dp" />
 
         <EditText
+                        
+            android:id="@+id/business_phone_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@android:color/darker_gray"
+            android:ems="10"
+            android:hint="@string/business_address_hint"
+            android:textColor="@color/white" >
+        </EditText>
+
+        <EditText
             android:id="@+id/business_address_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:background="@android:color/darker_gray"
             android:ems="10"
-            
+            android:hint="@string/business_phone_hint"
             android:textColor="@color/white" >
-
-            <EditText
-                android:id="@+id/business_phone_textView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:background="@android:color/darker_gray"
-                android:ems="10"
-
-                android:textColor="@color/white" >
-            </EditText>
         </EditText>
     </LinearLayout>
 
