@@ -51,23 +51,23 @@ public class ClientData{
 
 	/** loads the Client data from the parse DB*/
 	public static void loadClientInfo(){
-		
+
 		currentUser = ParseUser.getCurrentUser();
-		
+
 		try {
-			
+
 			if (currentUser != null) {
-				
+
 				currentUser.fetchIfNeeded();
-				
+
 				if (currentUser.isDataAvailable()) {
-					
+
 					clientInfo = currentUser.getParseObject(ParseClassesNames.CLIENT_INFO);
 
 					if (clientInfo != null) { //This means registration has finished, and we can load data from Parse
-						
+
 						clientInfo.fetchIfNeeded();
-				
+
 						if (clientInfo.isDataAvailable()) {
 
 							loadLocation();
@@ -75,17 +75,17 @@ public class ClientData{
 							loadPreferrings();
 						}
 					}
-					
+
 					else {
 
 						homeLocation = JAFFA_STREET;
 					}
 				}
-				
+
 			}
-			
+
 		} catch (ParseException e) {
-			
+
 			Log.e("Client - fetch info", e.getMessage());
 		}
 	}
@@ -214,6 +214,10 @@ public class ClientData{
 				ParseClassesNames.CLIENT_LIKES,
 				ParseClassesNames.CLIENT_LIKES_ID,
 				"Add to Likes");
+		
+		if (isInDislikes(dealId)) {
+			removeFromDislikes(dealId);
+		}
 	}
 
 
@@ -228,6 +232,10 @@ public class ClientData{
 				ParseClassesNames.CLIENT_DISLIKES,
 				ParseClassesNames.CLIENT_DISLIKES_ID,
 				"Add to dislikes");
+		
+		if (isInLikes(dealId)) {
+			removeFromLikes(dealId);
+		}
 	}
 
 
@@ -344,8 +352,24 @@ public class ClientData{
 
 		return favourites.contains(businessId);
 	}
+	
+	
+	/**
+	 * receives a business id and check if it's in the user favorites list.
+	 */
+	public static boolean isInLikes(String dealId){
 
+		return likes.contains(dealId);
+	}
+	
+	
+	/**
+	 * receives a business id and check if it's in the user favorites list.
+	 */
+	public static boolean isInDislikes(String dealId){
 
+		return dislikes.contains(dealId);
+	}
 
 
 	/**
@@ -364,17 +388,14 @@ public class ClientData{
 		return DealLikeStatus.DONT_CARE;
 	}
 
-	//	public static void addLikeToDeal(int businessId){
-	//		//likeList.add(""); // CHANGE
-	//		//DBHandler.setLikeToDeal(id, businessId, getDealLikeStatus(businessId));
-	//	}
 
-
-	//	public static void addDislikeToDeal(int businessId){
-	//		//DBHandler.setDislikeToDeal(id, businessId, getDealLikeStatus(businessId));
-	//	}
-
-	public static void setDontCareToDeal(String businessId){
-		//DBHandler.setDontCareToDeal(id, businessId, getDealLikeStatus(businessId));
+	public static void setDontCareToDeal(String dealId){
+		
+		if (isInLikes(dealId)) {
+			removeFromLikes(dealId);
+		}
+		else {
+			removeFromDislikes(dealId);
+		}
 	}
 }
