@@ -54,7 +54,7 @@ public class ClientData{
 
 		try {
 			currentUser = ParseUser.getCurrentUser().fetchIfNeeded();
-			clientInfo = currentUser.getParseObject(ParseClassesNames.CLIENT_INFO).fetchIfNeeded();
+			clientInfo = currentUser.getParseObject(ParseClassesNames.CLIENT_INFO);
 
 		} catch (ParseException e) {
 
@@ -63,6 +63,13 @@ public class ClientData{
 
 		if (clientInfo != null && clientInfo.isDataAvailable()) { //This means registration has finished, and we can load data from Parse
 
+			try {
+				clientInfo.fetchIfNeeded();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+			
 			loadLocation(); //TODO this should be inside of the if statement	
 
 			loadPreferrings();
