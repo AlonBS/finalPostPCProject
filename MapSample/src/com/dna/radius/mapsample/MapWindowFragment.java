@@ -198,9 +198,11 @@ public class MapWindowFragment extends Fragment {
 		return view;
 	}
 
-	private boolean instanceSaced = false;
-
-
+	
+	public void setLocation(LatLng location){
+		gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, DEFAULT_ANIMATED_ZOOM));
+		gMap.animateCamera(CameraUpdateFactory.zoomTo(DEFAULT_ANIMATED_ZOOM), 2000, null);
+	}
 
 
 	@Override
