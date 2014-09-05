@@ -108,7 +108,7 @@ public class ClientWelcomeActivity extends FragmentActivity {
 				//receives the location from the activity
 				final FragmentManager fragmentManager = getSupportFragmentManager();
 				LocationFinderFragment currentFragment = (LocationFinderFragment)fragmentManager.findFragmentById(R.id.client_welcome_main_fragment_layout);
-				if(!currentFragment.didUserFillAllData()){
+				if(!currentFragment.neededInfoGiven()){
 					return;
 				}
 				ClientData.homeLocation = currentFragment.getLocation();
