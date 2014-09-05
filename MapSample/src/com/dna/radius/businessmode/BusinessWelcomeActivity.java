@@ -2,6 +2,7 @@ package com.dna.radius.businessmode;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -188,7 +189,51 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 		
 		BusinessData.currentDeal = null;
 		BusinessData.hasADealOnDisplay = false;
-		newBusiness.put(ParseClassesNames.BUSINESS_CURRENT_DEAL, new JSONObject()); 
+		newBusiness.put(ParseClassesNames.BUSINESS_CURRENT_DEAL, new JSONObject());
+		
+		//build deal-history column:
+		JSONObject dealsHistory = new JSONObject();
+		try {
+			dealsHistory.put(ParseClassesNames.BUSINESS_HISTORY_TOTAL_LIKES, 0);
+			dealsHistory.put(ParseClassesNames.BUSINESS_HISTORY_TOTAL_DISLIKES, 0);
+			dealsHistory.put(ParseClassesNames.BUSINESS_HISTORY_TOTAL_NUM_OF_DEALS, 0);
+			dealsHistory.put(ParseClassesNames.BUSINESS_HISTORY_DEALS, new JSONArray());
+
+		} catch (JSONException e) {
+
+			Log.e("Business - deal history create", e.getMessage());
+		}
+		newBusiness.put(ParseClassesNames.CLIENT_PREFERRING, dealsHistory);
+		
+		
+		
+		
+		
+		
+//		
+//		 "totalLikes" : 13523523,
+//			"totalDisLikes" : 23234234,
+//			"totalNumberOfDeals" : 30,
+//			"deals" : [
+//		        {
+//					"dealId": "234fg##5",
+//					"dealContent": "Kol ha'olam kulu - gesher zar meod"
+//					"numberOfLikes": 141
+//					"numberOfDislikes": 234
+//		            "date": "12/14/1988"
+//		        },
+//		        {
+//		            "business_Id": "234fg"
+//		        }
+//		    ],
+//		
+		
+		
+		
+		
+		
+		
+		
 
 
 		// add a pointer in user to business. i.e. user->businessData

@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -16,6 +18,7 @@ import android.util.Log;
 import com.dna.radius.R;
 import com.dna.radius.datastructures.Comment;
 import com.dna.radius.datastructures.Deal;
+import com.dna.radius.datastructures.DealHistoryManager;
 import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.dbhandling.ParseClassesNames;
 import com.dna.radius.infrastructure.SupportedTypes;
@@ -55,15 +58,13 @@ public class BusinessData {
 	static boolean hasImageOnDisplay; //does the business has an image?
 	public Bitmap image; // the image of the business (if exists)
 	
+	static DealHistoryManager dealsHistory;
 	
+	private static final float DEFAULT_RATING = 3;
 	
-	public ArrayList<Deal> dealHistory;
+	private static final String SEPERATOR = "###";
 	
-	
-	
-	static final float DEFAULT_RATING = 3;
-	
-	
+	static final String DATE_FORMAT = "dd-MM-yyyy";
 	
 	/** loads the Client data from the parse DB*/
 	public static void loadBusinessInfo(){
@@ -94,7 +95,7 @@ public class BusinessData {
 
 					else {
 						
-						//set defualt values for first time
+						//set default values for first time
 						businessName = "";
 						businessRating = 0;
 
@@ -121,6 +122,8 @@ public class BusinessData {
 		loadLocation();
 		
 		loadCurrentDeal();
+		
+		loadDealsHistory();
 	}
 	
 	
@@ -190,7 +193,7 @@ public class BusinessData {
 					jo.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_CONTENT),
 					jo.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_LIKES),
 					jo.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_DISLIKES),
-					new SimpleDateFormat("yyyy-MM-dd").parse(jo.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE)));
+					new SimpleDateFormat(DATE_FORMAT).parse(jo.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE)));
 			
 			hasADealOnDisplay = true;
 			
@@ -203,8 +206,48 @@ public class BusinessData {
 			
 			Log.e("Business -load current deal", e.getMessage());
 		}
+	}
+	
+	
+	private static void loadDealsHistory() {
 		
+		int totalLikes, totalDislikes, totalDeals;
+		ArrayList<Deal> oldDeals = new ArrayList<Deal>();
 		
+		JSONObject jo = businessInfo.getJSONObject(ParseClassesNames.BUSINESS_HISTORY);
+		try {
+			
+			totalLikes = jo.getInt(ParseClassesNames.BUSINESS_HISTORY_TOTAL_LIKES);
+			totalDislikes = jo.getInt(ParseClassesNames.BUSINESS_HISTORY_TOTAL_DISLIKES);
+			totalDeals = jo.getInt(ParseClassesNames.BUSINESS_HISTORY_TOTAL_NUM_OF_DEALS);
+			
+			JSONArray ja = jo.getJSONArray(ParseClassesNames.BUSINESS_HISTORY_DEALS);
+			int len = ja.length();
+			
+			for (int i = 0 ; i < len ; ++i) {
+				
+				JSONObject temp = ja.getJSONObject(i);
+				
+				oldDeals.add( new Deal(temp.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID),
+					temp.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_CONTENT),
+					temp.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_LIKES),
+					temp.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_DISLIKES),
+					new SimpleDateFormat(DATE_FORMAT).parse(jo.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE))));
+				
+			}
+			
+			dealsHistory = new DealHistoryManager(totalLikes, totalDislikes, totalDeals, oldDeals);
+			
+		}
+		catch (JSONException e) {
+		
+			Log.e("Business - history create", e.getMessage());
+		}
+		
+		catch (java.text.ParseException e) {
+			
+			Log.e("Business - load old deals", e.getMessage());
+		}
 	}
 
 	
@@ -219,16 +262,70 @@ public class BusinessData {
 	
 	
 	
-	//TODO DROR the context param should be removed
-//	public BusinessData(String businessID, Context context){
-//		this.businessID = businessID;
-//		DBHandler.loadOwnerDataSync(this, context);
-//	}
 	
-	public void changeDeal(String currentDeal) {
-		//this.currentDeal = currentDeal;
+	public static void createNewDeal(String content) {
+		
+		String id = businessInfo.getObjectId() + SEPERATOR + Integer.toString(dealsHistory.getTotalNumOfDeals());
+		Date date = new Date();
+		
+		// update locally
+		Deal newDeal = new Deal(id, content, 0, 0, date);
+		
+		//update on Parse.Com
+		JSONObject newDealJO = new JSONObject();
+		try {
+			
+			newDealJO.put(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID, id);
+			newDealJO.put(ParseClassesNames.BUSINESS_CURRENT_DEAL_CONTENT, content);
+			newDealJO.put(ParseClassesNames.BUSINESS_CURRENT_DEAL_LIKES, 0);
+			newDealJO.put(ParseClassesNames.BUSINESS_CURRENT_DEAL_DISLIKES, 0);
+			newDealJO.put(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE, date);
+			
+		} catch (JSONException e) {
+			
+			Log.e("Business - new deal create", e.getMessage());
+		}
+		businessInfo.put(ParseClassesNames.BUSINESS_CURRENT_DEAL, newDealJO);
+		
+		
+		// check if history update is required
+		if (hasADealOnDisplay) {
+			
+			// history update - locally
+			dealsHistory.incTotalNumOfLikes(currentDeal.getNumOfLikes());
+			dealsHistory.incTotalNumOfDisLikes(currentDeal.getNumOfDislikes());
+			dealsHistory.incTotalNumOfDeals();
+
+			dealsHistory.addOldDeal(currentDeal);
+			currentDeal = newDeal;
+			
+			
+			// history update - on Parse.com
+			JSONObject oldDealsJO = businessInfo.getJSONObject(ParseClassesNames.BUSINESS_HISTORY);
+			oldDealsJO.put(ParseClassesNames.BUSINESS_HISTORY_TOTAL_LIKES, dealsHistory.getNumOfLikes());
+			oldDealsJO.put(ParseClassesNames.BUSINESS_HISTORY_TOTAL_DISLIKES, dealsHistory.getNumOfDislikes());
+			oldDealsJO.put(ParseClassesNames.BUSINESS_HISTORY_TOTAL_NUM_OF_DEALS, dealsHistory.getTotalNumOfDeals());
+			
+			oldDealsJO.put(ParseClassesNames.BUSINESS_HISTORY_DEALS,
+					oldDealsJO.getJSONArray(ParseClassesNames.BUSINESS_HISTORY_DEALS).put(newDealJO));
+			
+			businessInfo.put(ParseClassesNames.BUSINESS_HISTORY, oldDealsJO);
+			
+			//TODO should be saveEventually
+			currentUser.saveInBackground(null);
+			businessInfo.saveInBackground(null);
+		}
+		
+		
+		
+		hasADealOnDisplay = true;
+		
+		
 //		DBHandler.setDeal(businessID,currentDeal,0,0);
 	}
+	
+	
+	
 	
 	public void changeBusinessImage(Bitmap bmap){
 	//	this.image = bmap;

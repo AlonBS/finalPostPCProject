@@ -43,6 +43,12 @@ public class ParseClassesNames {
 	public static final String BUSINESS_CURRENT_DEAL_LIKES = "likes";
 	public static final String BUSINESS_CURRENT_DEAL_DISLIKES = "disliks";
 	public static final String BUSINESS_CURRENT_DEAL_DATE = "createdAt";
+	public static final String BUSINESS_HISTORY = "dealsHistory";
+	public static final String BUSINESS_HISTORY_TOTAL_LIKES = "totalLikes";
+	public static final String BUSINESS_HISTORY_TOTAL_DISLIKES = "totalDislikes";
+	public static final String BUSINESS_HISTORY_TOTAL_NUM_OF_DEALS = "totalNumberOfDeals";
+	public static final String BUSINESS_HISTORY_DEALS = "oldDealsInfo";
+	
 	
 	
 	

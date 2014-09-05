@@ -121,7 +121,7 @@ public class BusinessDashboardFragment extends Fragment{
 						
 						//adds the new Deal
 						String newDealStr = input.getText().toString();
-						activityParent.ownerData.changeDeal(newDealStr);
+						activityParent.ownerData.createNewDeal(newDealStr);
 						dealTv.setText(newDealStr);
 						
 						

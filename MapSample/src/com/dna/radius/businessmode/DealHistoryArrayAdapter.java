@@ -23,7 +23,7 @@ import com.dna.radius.datastructures.Deal;
  */
 public class DealHistoryArrayAdapter extends ArrayAdapter<Deal>{
 	@SuppressLint("SimpleDateFormat")
-	private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+	private SimpleDateFormat dateFormat = new SimpleDateFormat(BusinessData.DATE_FORMAT);
 	ArrayList<Deal> list;
 	
 	
