@@ -15,10 +15,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
-
 
 import com.dna.radius.R;
 import com.dna.radius.clientmode.ClientData;
@@ -39,40 +37,39 @@ public class ShowDealActivity extends FragmentActivity{
 	public final static String CURRENT_DEAL_STR_PARAM = "currentDealParam";	
 	public final static String PHONE_STR_PARAM = "phone";
 	public final static String ADDRESS_STR_PARAM = "address";	
-	
-	
+
+
 	//a button which allows switching between the like fragment and the comments fragment.
 	private ImageView switchFragmentsButton;
 	//used for switching between fragments.
 	private enum CurrentFragmentType{DEAL_FRAGMENT,COMMENTS_FRAGMENT};
 	private CurrentFragmentType currentFragmentType = CurrentFragmentType.DEAL_FRAGMENT;
-	
+
 	public boolean isInUserMode;
 	public String businessID, dealID,phoneStr,addressStr,dealStr;
 	public int numOfLikes,numOfDislikes;
 	public BuisnessType bType;
 	private boolean isFavourite;
-	
+
 	/**The curreny Deal comments List*/
 	public ArrayList<Comment> commentsList;
-	
-	ClientData clientData;
-	
 
-	
+	ClientData clientData;
+	private String businessName;
+
+
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.show_deal_activity);
-		
-		
+
+
 		Intent intent = getIntent();
-		String businessName = intent.getStringExtra(BUSINESS_NAME_PARAM);
+		//loads the relevant data
+		businessName = intent.getStringExtra(BUSINESS_NAME_PARAM);
 		businessID = intent.getStringExtra(BUSINESS_ID_PARAM);
-		Log.d("ShowDealActivity", "shows the deal of the the business id: " + businessID);
-		//TODO remove
-		
 		dealID = intent.getStringExtra(DEAL_ID_PARAM);
 		bType = (BuisnessType)intent.getSerializableExtra(BUSINESS_TYPE_PARAM);
 		int rating = intent.getIntExtra(DEAL_RATING_PARAM, 0);
@@ -82,20 +79,23 @@ public class ShowDealActivity extends FragmentActivity{
 		phoneStr = intent.getStringExtra(PHONE_STR_PARAM);
 		addressStr = intent.getStringExtra(ADDRESS_STR_PARAM);
 		dealStr = intent.getStringExtra(CURRENT_DEAL_STR_PARAM);
+
+		//sets the views
 		TextView businessNameTV = (TextView)findViewById(R.id.businessTitle);
 		businessNameTV.setText(businessName);
-
-		Log.d("ShowDealActivity", "businessId:" + businessID + ", dealID:" + dealID);
-		
+		TextView dealTextView = (TextView)findViewById(R.id.dealTextView);
+		dealTextView.setText(dealStr);
+		TextView detailsTV = (TextView)findViewById(R.id.businessDetails);
+		detailsTV.setText(addressStr + "    " + phoneStr);
 		RatingBar ratingBar = (RatingBar)findViewById(R.id.businessRatingBar);
 		ratingBar.setRating(rating);
-		/**overrides rating bar's on touch method so it won't change anything*/
-		ratingBar.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				return;
-			}
-		});
+
+		Log.d("ShowDealActivity", "businessId:" + businessID + ", dealID:" + dealID); //TODO remove
+
+
+		/**overrides rating bar's on touch method so it won't do anything*/
+		ratingBar.setOnClickListener(new OnClickListener() {@Override
+			public void onClick(View arg0) {return;}});
 
 		//handles the switch fragment button
 		switchFragmentsButton = (ImageView)findViewById(R.id.switchFragmentButton);
@@ -104,50 +104,14 @@ public class ShowDealActivity extends FragmentActivity{
 		//until the Extra data will be loaded fully - this button is unusable.
 		switchFragmentsButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) {return;}
-		});
-		
-		//this thread loads the relevant user data and then loads the activities views.
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						//the progress bar is no longer needed
-						ProgressBar progressBar = (ProgressBar)findViewById(R.id.progressBar);
-						progressBar.setVisibility(View.GONE);
-						
-						//updates the relevant text views accordingly
-						TextView dealTextView = (TextView)findViewById(R.id.dealTextView);
-						dealTextView.setText(dealStr);
-						TextView detailsTV = (TextView)findViewById(R.id.businessDetails);
-						detailsTV.setText(addressStr + "    " + phoneStr);
-						
-						//the switch fragment button is now activated
-						switchFragmentsButton.setOnClickListener(new OnClickListener() {
-							
-							@Override
-							public void onClick(View v) {
-								onFragmentSwitchBtnClick();
-								
-							}
-						});
-						
-						//starts the deal fragment
-						FragmentManager fragmentManager = getSupportFragmentManager();
-						FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-						LikeAndDislikeFragment dealPresantorFragment = new LikeAndDislikeFragment();
-						fragmentTransaction.add(R.id.deal_or_comments_fragment, dealPresantorFragment);
-						fragmentTransaction.commit();
-					}
-				});
+			public void onClick(View v) {
+				onFragmentSwitchBtnClick();
 			}
-		}).start();
-		
+		});
+
 		//handles the favourites button
 		final ImageView favouritesBtn = (ImageView)findViewById(R.id.favourites_flag);
-		isFavourite = clientData.isInFavourites(businessID);
+		isFavourite = ClientData.isInFavourites(businessID);
 		if(isFavourite){
 			Bitmap favouriteBmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_important);
 			favouritesBtn.setImageBitmap(favouriteBmap);
@@ -159,24 +123,31 @@ public class ShowDealActivity extends FragmentActivity{
 				Bitmap favouriteBmap;
 				if(isFavourite){
 					favouriteBmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_important);
-					clientData.addToFavourites(businessID);
-					}else{
+					ClientData.addToFavourites(businessID);
+				}else{
 					favouriteBmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_not_important);
-					clientData.removeFromFavorites(businessID);
+					ClientData.removeFromFavorites(businessID);
 				}
 				favouritesBtn.setImageBitmap(favouriteBmap);
 			}
 		});
 		
-}
+		//starts the deal fragment
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+		LikeAndDislikeFragment dealPresantorFragment = new LikeAndDislikeFragment();
+		fragmentTransaction.add(R.id.deal_or_comments_fragment, dealPresantorFragment);
+		fragmentTransaction.commit();
 
-	
+	}
+
+
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 		DBHandler.close();
 	}
-	
+
 	/**
 	 * this function is called whenever the comment button / the back arrow button is pressed.
 	 * in this case - a new fragment should be loaded to the screen.
@@ -188,8 +159,8 @@ public class ShowDealActivity extends FragmentActivity{
 		Bitmap newIcon;
 		if (currentFragmentType == CurrentFragmentType.DEAL_FRAGMENT){
 			currentFragmentType = CurrentFragmentType.COMMENTS_FRAGMENT;
-			 fragmentToSwitch = new CommentsFragment(dealID);
-			 newIcon= BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_back);
+			fragmentToSwitch = new CommentsFragment(dealID);
+			newIcon= BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_back);
 		}else{
 			currentFragmentType = CurrentFragmentType.DEAL_FRAGMENT;
 			fragmentToSwitch = new LikeAndDislikeFragment();
@@ -197,8 +168,8 @@ public class ShowDealActivity extends FragmentActivity{
 		}
 		fragmentTransaction.replace(R.id.deal_or_comments_fragment, fragmentToSwitch);
 		fragmentTransaction.commit();
-		
+
 		switchFragmentsButton.setImageBitmap(newIcon);
 	}
-	
+
 }
