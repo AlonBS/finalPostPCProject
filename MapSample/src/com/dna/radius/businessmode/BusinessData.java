@@ -69,6 +69,7 @@ public class BusinessData {
 	public static void loadBusinessInfo(){
 
 		currentUser = ParseUser.getCurrentUser();
+	
 
 		try {
 
@@ -134,6 +135,8 @@ public class BusinessData {
 
 			Log.e("Business -load location", e.getMessage());
 		}
+		
+		
 		
 	}
 //	
