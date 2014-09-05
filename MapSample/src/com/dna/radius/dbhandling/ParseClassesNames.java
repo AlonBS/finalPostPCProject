@@ -13,8 +13,8 @@ public class ParseClassesNames {
 	/** For Client class */
 	public static final String CLIENT_CLASS = "clientData";
 	public static final String CLIENT_LOCATION = "homeLocation";
-	public static final String CLIENT_LOCATION_LAT = "latitude";
-	public static final String CLIENT_LOCATION_LONG = "longtitude";
+	public static final String CLIENT_LOCATION_LAT = "homeLatitude";
+	public static final String CLIENT_LOCATION_LONG = "homeLongtitude";
 	public static final String CLIENT_PREFERRING = "preferrings";
 	public static final String CLIENT_FAVORITES = "favorites";
 	public static final String CLIENT_FAVORITES_ID = "businessId";
@@ -22,8 +22,6 @@ public class ParseClassesNames {
 	public static final String CLIENT_LIKES_ID = "dealId";
 	public static final String CLIENT_DISLIKES = "dislikes";
 	public static final String CLIENT_DISLIKES_ID = "dealId";
-
-	
 	
 	
 	
@@ -32,8 +30,20 @@ public class ParseClassesNames {
 	public static final String BUSINESS_CLASS = "businessData";
 	public static final String BUSINESS_NAME = "name";
 	public static final String BUSINESS_TYPE = "type";
+	public static final String BUSINESS_RATING = "rating";
+	public static final String BUSINESS_ADDRESS = "address";
+	public static final String BUSINESS_PHONE = "phoneNumber";
 	public static final String BUSINESS_PICTURE = "picture";
 	public static final String BUSINESS_LOCATION = "location";
+	public static final String BUSINESS_LOCATION_LAT = "businessLatitude";
+	public static final String BUSINESS_LOCATION_LONG = "businessLongtitude";
+	public static final String BUSINESS_CURRENT_DEAL = "currentDeal";
+	public static final String BUSINESS_CURRENT_DEAL_ID = "id";
+	public static final String BUSINESS_CURRENT_DEAL_CONTENT = "content";
+	public static final String BUSINESS_CURRENT_DEAL_LIKES = "likes";
+	public static final String BUSINESS_CURRENT_DEAL_DISLIKES = "disliks";
+	public static final String BUSINESS_CURRENT_DEAL_DATE = "createdAt";
+	
 	
 	
 	

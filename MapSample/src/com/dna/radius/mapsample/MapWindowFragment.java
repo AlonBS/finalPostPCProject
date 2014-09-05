@@ -29,11 +29,11 @@ import android.widget.Toast;
 import com.dna.radius.R;
 import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.datastructures.ExternalBusiness;
-import com.dna.radius.datastructures.ExternalBusiness.BuisnessType;
 import com.dna.radius.datastructures.MapBusinessManager;
 import com.dna.radius.datastructures.MapBusinessManager.Property;
 import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.infrastructure.BaseActivity;
+import com.dna.radius.infrastructure.SupportedTypes;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
@@ -50,7 +50,7 @@ public class MapWindowFragment extends Fragment {
 	final double LOAD_RADIUS = 0.01; 	
 	private static final float DEFAULT_LATLNG_ZOOM = 20;
 	private static final float DEFAULT_ANIMATED_ZOOM = 15;
-	private HashMap<BuisnessType,ImageView> typeToButton;
+	private HashMap<SupportedTypes.BusinessType,ImageView> typeToButton;
 	private ImageView restBtn,pubBtn,hotelBtn,shoppingBtn,coffeeBtn;
 	private View view;
 	private Spinner preferencedSpinner;
@@ -107,11 +107,11 @@ public class MapWindowFragment extends Fragment {
 		coffeeBtn = (ImageView)view.findViewById(R.id.coffee_filter_btn);
 
 		typeToButton = new HashMap<>();
-		typeToButton.put(BuisnessType.COFFEE, coffeeBtn);
-		typeToButton.put(BuisnessType.PUB, pubBtn);
-		typeToButton.put(BuisnessType.ACCOMMODATION, hotelBtn);
-		typeToButton.put(BuisnessType.GROCERIES, shoppingBtn);
-		typeToButton.put(BuisnessType.RESTAURANT, restBtn);
+		typeToButton.put(SupportedTypes.BusinessType.COFFEE, coffeeBtn);
+		typeToButton.put(SupportedTypes.BusinessType.PUB, pubBtn);
+		typeToButton.put(SupportedTypes.BusinessType.ACCOMMODATION, hotelBtn);
+		typeToButton.put(SupportedTypes.BusinessType.GROCERIES, shoppingBtn);
+		typeToButton.put(SupportedTypes.BusinessType.RESTAURANT, restBtn);
 
 		restBtn.setOnClickListener(filterBtnClickListener);
 		pubBtn.setOnClickListener(filterBtnClickListener);

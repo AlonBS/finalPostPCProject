@@ -27,7 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dna.radius.R;
-import com.dna.radius.datastructures.DealHistoryObject;
+import com.dna.radius.datastructures.Deal;
 import com.dna.radius.dbhandling.DBHandler;
 /**
  * represents the history fragment for the business owner.
@@ -46,7 +46,7 @@ public class BusinessHistoryFragment extends Fragment{
 		//load the comments list
 		ListView dealHistoryListView = (ListView)view.findViewById(R.id.deal_history_list_view);
 		registerForContextMenu(dealHistoryListView);
-		ArrayList<DealHistoryObject> dealHistoryList = parentActivity.ownerData.dealHistory;
+		ArrayList<Deal> dealHistoryList = parentActivity.ownerData.dealHistory;
 		adapter = new DealHistoryArrayAdapter(getActivity(),android.R.layout.simple_list_item_1, dealHistoryList);
 		dealHistoryListView.setAdapter(adapter);
 		
@@ -54,12 +54,12 @@ public class BusinessHistoryFragment extends Fragment{
 			//TODO mant strings to put into string file DROR
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View v, int position,long arg3) {
-				final DealHistoryObject dealObject = (DealHistoryObject)adapter.getItemAtPosition(position);
-				Log.d("BusinessHistoryFragment", "pressed on the following deal: " + dealObject.getDealStr());
+				final Deal dealObject = (Deal)adapter.getItemAtPosition(position);
+				Log.d("BusinessHistoryFragment", "pressed on the following deal: " + dealObject.getContent());
 				final TextView chosenDeal = new TextView(getActivity());
 				//chosenDeal.setBackgroundColor(Color.BLACK);
 				//chosenDeal.setTextColor(Color.WHITE);
-				chosenDeal.setText("You chose the following deal: \n\n" + dealObject.getDealStr() + "\n\n what do you want to do now?");
+				chosenDeal.setText("You chose the following deal: \n\n" + dealObject.getContent() + "\n\n what do you want to do now?");
 				
 				new AlertDialog.Builder(getActivity())
 				//.setTitle("You chose the following deal: \n" + dealObject.getDealStr())
@@ -67,7 +67,12 @@ public class BusinessHistoryFragment extends Fragment{
 				//.setMessage("what would you like to do next?")
 				.setPositiveButton("delete it from history", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
-						DBHandler.deletedDealFromHistory(parentActivity.ownerData.businessID,dealObject);
+						
+						
+						//DBHandler.deletedDealFromHistory(parentActivity.ownerData.businessID,dealObject);
+						
+						//TODO 
+						//BusinessData.deleteDealFromHistory();
 					}
 				}).setNegativeButton("set as current deal", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {

@@ -20,13 +20,12 @@ import com.dna.radius.R;
 import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.infrastructure.BaseActivity;
 import com.dna.radius.infrastructure.WaitingFragment;
+import com.dna.radius.login.MainActivity;
 import com.dna.radius.mapsample.MapWindowFragment;
 
 
 
 public class BusinessOpeningScreenActivity extends BaseActivity{
-	//TODO this value should be given as an input
-	public int userID = 0;
 
 	/**buttons which allow switching between fragments*/
 	private ImageView homeFragmentBtn;
@@ -56,48 +55,69 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 			@Override
 			public void run() {
 
-				String tempBusinessId = ""; //TODO how to we get the business id?
-				ownerData = new BusinessData(tempBusinessId,getApplicationContext());
-				ClientData.loadClientInfo();
+				//String tempBusinessId = ""; //TODO how to we get the business id?
+				//ownerData = new BusinessData(tempBusinessId,getApplicationContext());
+				
+				BusinessData.loadBusinessInfo();
+				
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
-						//loads the business dashboard fragment
-						FragmentManager fragmentManager = getSupportFragmentManager();
-						FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-						BusinessDashboardFragment dashboardFragment = new BusinessDashboardFragment();
-						fragmentTransaction.replace(R.id.business_fragment_layout, dashboardFragment);
-						fragmentTransaction.commit();
-
-						//sets the business name and rating
-						TextView businessNameTv = (TextView)findViewById(R.id.businessTitle);
-						businessNameTv.setText(ownerData.name);
-						RatingBar ratingBar = (RatingBar)findViewById(R.id.businessRatingBar);
-						ratingBar.setRating(ownerData.rating);
-						/**overrides rating bar's on touch method so it won't change anything*/
-						ratingBar.setOnTouchListener(new OnTouchListener() {
-							public boolean onTouch(View v, MotionEvent event) {
-								return true;
-							}
-						});
-
-						//add listeners to fragment buttons
-						homeFragmentBtn = (ImageView)findViewById(R.id.refresh_btn);
-						mapFragmentBtn = (ImageView)findViewById(R.id.map_btn);
-						businessHistoryFragment = (ImageView)findViewById(R.id.stats_btn);	
-						homeFragmentBtn.setOnClickListener(new FragmentBtnOnClickListener());
-						mapFragmentBtn.setOnClickListener(new FragmentBtnOnClickListener());
-						businessHistoryFragment.setOnClickListener(new FragmentBtnOnClickListener());
-
-						latestPressedBtn = homeFragmentBtn;
+						
+						loadDashBoard();
+						
+						loadNameAndRating();
+						
+						setOnClickListeners();
 
 						displayWelcomeIfNeeded();
 					}
+					
+					
+					private void loadDashBoard() {
+						
+						final FragmentManager fragmentManager = getSupportFragmentManager();
+						FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+						BusinessDashboardFragment dashboardFragment = new BusinessDashboardFragment();
+						fragmentTransaction.replace(R.id.business_fragment_layout, dashboardFragment);
+						fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+						fragmentTransaction.commit();
+					}
+					
+					private void loadNameAndRating() {
+						
+						TextView businessNameTv = (TextView) findViewById(R.id.businessTitle);
+						businessNameTv.setText(BusinessData.businessName);
+						
+						RatingBar ratingBar = (RatingBar) findViewById(R.id.businessRatingBar);
+						ratingBar.setRating((float)BusinessData.businessRating);
+						
+						// overrides rating bar's on touch method so it won't change anything
+						ratingBar.setOnTouchListener(new OnTouchListener() {
+							public boolean onTouch(View v, MotionEvent event) { return true; }
+						});
+					}
+					
+					
+					private void setOnClickListeners() {
+						
+						homeFragmentBtn = (ImageView)findViewById(R.id.refresh_btn);
+						mapFragmentBtn = (ImageView)findViewById(R.id.map_btn);
+						businessHistoryFragment = (ImageView)findViewById(R.id.stats_btn);
+						
+						FragmentChangerBtnOnClickListener f = new FragmentChangerBtnOnClickListener();
+						
+						homeFragmentBtn.setOnClickListener(f);
+						mapFragmentBtn.setOnClickListener(f);
+						businessHistoryFragment.setOnClickListener(f);
+
+						latestPressedBtn = homeFragmentBtn;
+					}
+					
 
 					private void displayWelcomeIfNeeded() {
 
-						if (getIntent().getExtras() == null) { // if the bundle returned by getExtras() is 
-																// not null, then it is not first time
+						if (BusinessData.businessInfo == null) { 
  
 							Intent intent = new Intent(getApplicationContext(), BusinessWelcomeActivity.class);
 							startActivity(intent);
@@ -115,27 +135,36 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 	 * according to the button which was pressed.
 	 *
 	 */
-	private class FragmentBtnOnClickListener implements OnClickListener{
+	private class FragmentChangerBtnOnClickListener implements OnClickListener{
 
 		@Override
 		public void onClick(View clickedBtn) {
+			
+			//TODO add refresh button?
+			if((latestPressedBtn == clickedBtn) && (clickedBtn!=homeFragmentBtn)) { return; }
+			
+			
 			Fragment newFragment = null;
-
-			if(clickedBtn==homeFragmentBtn){
+			if (clickedBtn == homeFragmentBtn) {
+				
 				newFragment =  new BusinessDashboardFragment();
-			}else if(clickedBtn==mapFragmentBtn){
+				
+			}else if (clickedBtn == mapFragmentBtn){
+				
 				newFragment =  new MapWindowFragment();
-			}else if(clickedBtn==businessHistoryFragment){
+				
+			}else if( clickedBtn == businessHistoryFragment){
+				
 				newFragment =  new BusinessHistoryFragment();
+				
 			}
-			if((latestPressedBtn == clickedBtn) && (clickedBtn!=homeFragmentBtn)){
-				return;
-			}
+			
 			latestPressedBtn = (ImageView) clickedBtn;
+			
 			FragmentManager fragmentManager = getSupportFragmentManager();
 			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
 			fragmentTransaction.replace(R.id.business_fragment_layout, newFragment);
+			fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 			fragmentTransaction.commit();
 
 		}

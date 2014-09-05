@@ -1,7 +1,6 @@
 package com.dna.radius.infrastructure;
 
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
@@ -10,6 +9,7 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,55 +29,54 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class LocationFinderFragment extends Fragment {
+	
 	private GoogleMap gMap;
-	private boolean isInBusinessMode;
 	private static final float DEFAULT_LATLNG_ZOOM = 20;
 	private static final float DEFAULT_ANIMATED_ZOOM = 15;
 	private static LatLng defaultLocation = new LatLng(31.781984, 35.218221);
 	private LatLng chosenLocation = null;
 	
 	private String address = "";
-	private boolean addressWasGivenAsParameter = false;
 
 	/**
 	 * Builds a new LocationFinderFragment. the fragment sets the map center according to the given address.
 	 * if the given address is empty or null, the map center will be the default map center.
 	 * @param address
 	 */
-	public LocationFinderFragment(String address){
-		if(address==null || address.equals("")){
+	public LocationFinderFragment(String address) {
+		
+		if (address==null || address.equals("")) {
 			this.address = "";
-			addressWasGivenAsParameter = false;
-		}else{
+			
+		} else {
 			this.address = address;
-			addressWasGivenAsParameter = true;
 		}
 	}
 	
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+		
 		View view = inflater.inflate(R.layout.find_location_fragment,container, false);
-
-		isInBusinessMode = BaseActivity.isInBusinessMode;
 		
 		//sets a request according to the current
-		TextView userRequestTv = (TextView)view.findViewById(R.id.find_location_user_request);
+		TextView userRequestTextView = (TextView)view.findViewById(R.id.find_location_user_request);
 		String textRequest;
-		if(isInBusinessMode){
-			if(addressWasGivenAsParameter){
+		
+		if (BaseActivity.isInBusinessMode) {
+			
+			if( !address.isEmpty() )
 				textRequest = getResources().getString(R.string.find_location_please_varify);
-			}else{
+			else
 				textRequest = getResources().getString(R.string.find_location_business_request);
-			}
-		}else{
+			
+		}else {
 			textRequest = getResources().getString(R.string.find_location_client_request);
 		}
 
-		userRequestTv.setText(textRequest);
+		userRequestTextView.setText(textRequest);
 		
-		
-		//loads the google map objects and set it on the client's home page.
+		//loads the google map objects and set the default location
 		FragmentManager manager = getActivity().getSupportFragmentManager();
 		gMap = ((SupportMapFragment)manager.findFragmentById(R.id.map)).getMap();
 		gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, DEFAULT_LATLNG_ZOOM));
@@ -97,16 +96,19 @@ public class LocationFinderFragment extends Fragment {
 				chosenLocation = point;
 			}
 		});
+		
+		
 		//handles the search address feature
 		final ImageView searchAddressBtn = (ImageView)view.findViewById(R.id.search_address_button);
-		final EditText etAddress = (EditText)view.findViewById(R.id.search_address_edit_text);
-		if(addressWasGivenAsParameter){
-			etAddress.setHint(address);
+		final EditText addressEditText = (EditText)view.findViewById(R.id.search_address_edit_text);
+		if( !address.isEmpty() ){
+			addressEditText.setHint(address);
 		}
+		
 		searchAddressBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				String addressStr = etAddress.getText().toString();
+				String addressStr = addressEditText.getText().toString();
 				boolean success = searchForAddress(addressStr);
 				if(!success){
 					Toast.makeText(getActivity().getApplicationContext(), "couln't find the given address",Toast.LENGTH_SHORT ).show();
@@ -114,7 +116,7 @@ public class LocationFinderFragment extends Fragment {
 			}
 		});
 
-		if(addressWasGivenAsParameter){
+		if( !address.isEmpty() ){
 			boolean success = searchForAddress(address);
 			if(!success){
 				Toast.makeText(getActivity().getApplicationContext(), "couln't find your location based on the supplied address, please tap on the screen and set your location",Toast.LENGTH_LONG ).show();
@@ -165,9 +167,9 @@ public class LocationFinderFragment extends Fragment {
 		//kills the old map
 		SupportMapFragment mapFragment = ((SupportMapFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.map));
 
-		if(mapFragment != null && !getActivity().isFinishing()) {
+		if (mapFragment != null && !getActivity().isFinishing()) {
 			FragmentManager fM = getActivity().getSupportFragmentManager();
-			android.support.v4.app.FragmentTransaction trans = fM.beginTransaction();
+			FragmentTransaction trans = fM.beginTransaction();
 
 			trans.remove(mapFragment);
 			trans.commitAllowingStateLoss();
@@ -176,7 +178,7 @@ public class LocationFinderFragment extends Fragment {
 
 	}
 	
-	public boolean didUserFillAllData() {
+	public boolean neededInfoGiven() {
 		return chosenLocation != null;
 	}
 
@@ -185,11 +187,9 @@ public class LocationFinderFragment extends Fragment {
 	 * if the user still didn't choose a location, returns null.
 	 * @return
 	 */
-	public LatLng getLocation(){
+	public LatLng getLocation() {
 		return chosenLocation;
 	}
-	
-
 }
 
 

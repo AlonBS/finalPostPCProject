@@ -21,8 +21,8 @@ import android.widget.TextView;
 import com.dna.radius.R;
 import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.datastructures.Comment;
-import com.dna.radius.datastructures.ExternalBusiness.BuisnessType;
 import com.dna.radius.dbhandling.DBHandler;
+import com.dna.radius.infrastructure.SupportedTypes;
 
 public class ShowDealActivity extends FragmentActivity{
 	//needed parameters for the activity
@@ -48,7 +48,7 @@ public class ShowDealActivity extends FragmentActivity{
 	public boolean isInUserMode;
 	public String businessID, dealID,phoneStr,addressStr,dealStr;
 	public int numOfLikes,numOfDislikes;
-	public BuisnessType bType;
+	public SupportedTypes.BusinessType bType;
 	private boolean isFavourite;
 
 	/**The curreny Deal comments List*/
@@ -71,7 +71,7 @@ public class ShowDealActivity extends FragmentActivity{
 		businessName = intent.getStringExtra(BUSINESS_NAME_PARAM);
 		businessID = intent.getStringExtra(BUSINESS_ID_PARAM);
 		dealID = intent.getStringExtra(DEAL_ID_PARAM);
-		bType = (BuisnessType)intent.getSerializableExtra(BUSINESS_TYPE_PARAM);
+		bType = (SupportedTypes.BusinessType)intent.getSerializableExtra(BUSINESS_TYPE_PARAM);
 		int rating = intent.getIntExtra(DEAL_RATING_PARAM, 0);
 		isInUserMode = intent.getBooleanExtra(USER_MODE_PARAM, true);
 		numOfLikes = intent.getIntExtra(NUM_OF_LIKES_PARAM,0);

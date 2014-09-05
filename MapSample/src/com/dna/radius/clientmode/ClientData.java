@@ -70,9 +70,7 @@ public class ClientData{
 
 						if (clientInfo.isDataAvailable()) {
 
-							loadLocation();
-
-							loadPreferrings();
+							loadExtraInfo();
 						}
 					}
 
@@ -88,6 +86,14 @@ public class ClientData{
 
 			Log.e("Client - fetch info", e.getMessage());
 		}
+	}
+	
+	
+	private static void loadExtraInfo() {
+		
+		loadLocation();
+
+		loadPreferrings();
 	}
 
 
@@ -106,7 +112,6 @@ public class ClientData{
 
 
 	}
-
 
 
 	private static void loadPreferrings() {

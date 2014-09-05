@@ -51,11 +51,11 @@ public class BusinessDashboardFragment extends Fragment{
 		activityParent = (BusinessOpeningScreenActivity)getActivity();
 
 		final TextView dealTv = (TextView) view.findViewById(R.id.deal_tv);
-		dealTv.setText(activityParent.ownerData.currentDeal);
+		dealTv.setText(BusinessData.currentDeal.getContent());
 
 		/*handles the image of the business*/
 		imageView = (ImageView)view.findViewById(R.id.buisness_image_view);
-		if(activityParent.ownerData.hasImage){
+		if(BusinessData.hasImageOnDisplay()){
 			imageView.setImageBitmap(activityParent.ownerData.image);
 		}else{
 			imageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.set_business_image));
@@ -97,9 +97,9 @@ public class BusinessDashboardFragment extends Fragment{
 
 		/**handles the number of likes and dislikes*/
 		TextView numOfLikesTV = (TextView)view.findViewById(R.id.num_of_likes_tv);
-		numOfLikesTV.setText(Long.toString(activityParent.ownerData.numberOfLikes));
+		numOfLikesTV.setText(Long.toString(BusinessData.currentDeal.getNumOfLikes()));
 		TextView numOfDislikesTV = (TextView)view.findViewById(R.id.num_of_dislikes_tv);
-		numOfDislikesTV.setText(Long.toString(activityParent.ownerData.numberOfDislikes));
+		numOfDislikesTV.setText(Long.toString(BusinessData.currentDeal.getNumOfDislikes()));
 
 		/***
 		 * allows adding a new deal instead of the old one
@@ -115,9 +115,8 @@ public class BusinessDashboardFragment extends Fragment{
 				.setView(input)
 				.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
-						//saves the current deal into deal history
-						BusinessData data = activityParent.ownerData;
-						DBHandler.addDealToHistory(data.businessID,data.currentDeal,data.numberOfLikes,data.numberOfDislikes);
+						//TODO implement this method in businessData' saves the current deal into deal history
+						//DBHandler.addDealToHistory(BusinessData.currentUser.getObjectId(),data.currentDeal,data.numberOfLikes,data.numberOfDislikes);
 						
 						//adds the new Deal
 						String newDealStr = input.getText().toString();

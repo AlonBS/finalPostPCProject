@@ -22,7 +22,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.dna.radius.datastructures.ExternalBusiness;
-import com.dna.radius.datastructures.ExternalBusiness.BuisnessType;
 import com.dna.radius.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;

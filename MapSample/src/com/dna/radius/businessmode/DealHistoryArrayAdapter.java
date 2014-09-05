@@ -14,20 +14,20 @@ import android.widget.TextView;
 
 import com.dna.radius.R;
 import com.dna.radius.datastructures.Comment;
-import com.dna.radius.datastructures.DealHistoryObject;
+import com.dna.radius.datastructures.Deal;
 
 /***
  * represents an array adapter view for the comments list.
  * @author dror
  *
  */
-public class DealHistoryArrayAdapter extends ArrayAdapter<DealHistoryObject>{
+public class DealHistoryArrayAdapter extends ArrayAdapter<Deal>{
 	@SuppressLint("SimpleDateFormat")
 	private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-	ArrayList<DealHistoryObject> list;
+	ArrayList<Deal> list;
 	
 	
-	public DealHistoryArrayAdapter(Context context, int resource, ArrayList<DealHistoryObject> list) {
+	public DealHistoryArrayAdapter(Context context, int resource, ArrayList<Deal> list) {
 		super(context, resource,list);
 		this.list = list;
 	}
@@ -49,9 +49,9 @@ public class DealHistoryArrayAdapter extends ArrayAdapter<DealHistoryObject>{
 		 }
 		 
 		 //sets the deal string into the proper text view
-		 DealHistoryObject deal =  super.getItem(position);
+		 Deal deal =  super.getItem(position);
 		 TextView dealTextView = (TextView)rowView.findViewById(R.id.deal_hist_text_view);
-		 String dealStr = deal.getDealStr();
+		 String dealStr = deal.getContent();
 		 dealTextView.setText(dealStr);
 		 
 		//sets the deal data (date, num of likes, num of dislikes) into the proper text view
@@ -71,7 +71,7 @@ public class DealHistoryArrayAdapter extends ArrayAdapter<DealHistoryObject>{
 	
 	int getTotalLikes(){
 		int sum = 0;
-		for (DealHistoryObject d : list){
+		for (Deal d : list){
 			sum += d.getNumOfLikes();
 		}
 		return sum;
@@ -79,7 +79,7 @@ public class DealHistoryArrayAdapter extends ArrayAdapter<DealHistoryObject>{
 	
 	int getTotalDislikes(){
 		int sum = 0;
-		for (DealHistoryObject d : list){
+		for (Deal d : list){
 			sum += d.getNumOfDislikes();
 		}
 		return sum;

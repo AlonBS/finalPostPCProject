@@ -15,15 +15,16 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.dna.radius.R;
-import com.dna.radius.datastructures.ExternalBusiness.BuisnessType;
+import com.dna.radius.infrastructure.SupportedTypes;
 
 public class BusinessWelcomeFillDetailsFragment extends Fragment{
 
 	private EditText businessNameEditText, businessAddressEditText, businessPhoneEditText;
-	private int businessType;
+	
 	private Spinner businessTypeSpinner;
-	private boolean typeSelected = false;
+	
 	private String businessName;
+	private SupportedTypes.BusinessType businessType;
 			
 	
 	@Override
@@ -57,35 +58,14 @@ public class BusinessWelcomeFillDetailsFragment extends Fragment{
 					int pos, long id) {
 				
 				String typeStr = parent.getItemAtPosition(pos).toString();
-				typeSelected = true;
-				if (typeStr.compareToIgnoreCase(BuisnessType.RESTAURANT.getStringRep()) == 0){
-					
-					businessType = BuisnessType.RESTAURANT.getParseID();
-					
-				}
-				else if (typeStr.compareToIgnoreCase(BuisnessType.PUB.getStringRep()) == 0){
-					
-					businessType = BuisnessType.PUB.getParseID();
-				}
-				else if (typeStr.compareToIgnoreCase(BuisnessType.COFFEE.getStringRep()) == 0){
-					
-					businessType = BuisnessType.COFFEE.getParseID();
-				}
-				else if (typeStr.compareToIgnoreCase(BuisnessType.GROCERIES.getStringRep()) == 0){
-					
-					businessType = BuisnessType.GROCERIES.getParseID();
-				}
-				else if (typeStr.compareToIgnoreCase(BuisnessType.ACCOMMODATION.getStringRep()) == 0){
-					
-					businessType = BuisnessType.ACCOMMODATION.getParseID();
-				}else{
+				businessType = SupportedTypes.BusinessType.stringToType(typeStr);
+				
+				if (businessType == null) {
 					Log.e("BusinessWelcomeFillDerailsFragment", "error choosing a spinner option");
-					typeSelected = false;
 				}
 			}
 
 			public void onNothingSelected(AdapterView<?> parent) {
-				typeSelected = false;
 			}
 
 		});
@@ -96,7 +76,7 @@ public class BusinessWelcomeFillDetailsFragment extends Fragment{
 	 * return true iff the user filled all the relevant data
 	 * @return
 	 */
-	public boolean didUserFillAllData() {
+	public boolean neededInfoGiven() {
 
 		businessName = businessNameEditText.getText().toString();
 
@@ -104,7 +84,7 @@ public class BusinessWelcomeFillDetailsFragment extends Fragment{
 			Toast.makeText(getActivity(), getResources().getString(R.string.business_name_forgot_to_fill), Toast.LENGTH_SHORT).show();
 			return false;
 		}
-		if (!typeSelected) {
+		if (businessType == null) {
 			Toast.makeText(getActivity(), getResources().getString(R.string.business_type_forgot_to_fill), Toast.LENGTH_SHORT).show();
 			return false;
 		}
@@ -123,13 +103,19 @@ public class BusinessWelcomeFillDetailsFragment extends Fragment{
 	public String getBusinessName(){
 		return businessName;
 	}
-	public int getBusinessType(){
+	
+	public SupportedTypes.BusinessType getBusinessType(){
 		return businessType;
 	}
+	
 	public String getBusinessPhoneNumber(){
+		
 		return businessPhoneEditText.getText().toString();
 	}
+	
 	public String getBusinessAddress(){
+		
 		return businessAddressEditText.getText().toString();
 	}
+	
 }
