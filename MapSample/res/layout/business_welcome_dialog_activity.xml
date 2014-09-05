@@ -26,12 +26,12 @@
             android:paddingTop="1dp" >
 
             <Button
-                android:text="@string/button_next"
                 android:id="@+id/progress_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:drawableRight="@drawable/ic_action_next_item" />
+                android:drawableRight="@drawable/ic_action_next_item"
+                android:text="@string/button_next" />
         </RelativeLayout>
     </LinearLayout>
 
@@ -43,7 +43,5 @@
         android:layout_alignParentTop="true"
         android:orientation="vertical" >
     </LinearLayout>
-
-   
 
 </RelativeLayout>

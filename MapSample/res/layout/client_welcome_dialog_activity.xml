@@ -1,62 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:background="@color/background_welcome_activity_2" >
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="0.5"
+        android:id="@+id/layout_next"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#99000000"
         android:orientation="vertical" >
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:background="#FFFFBB33"
-            android:contentDescription="@string/app_name"
-            android:scaleType="center"
-            android:src="@drawable/burger" />
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
 
-        <TextView
-            android:id="@+id/welcome_client_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/welcome_margin"
-            android:text="@string/welcome_client" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="1dp" >
 
-        <Button
-            android:id="@+id/choose_location_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:layout_margin="20dp"
-            android:text="@string/set_location" />
+            <Button
+                android:id="@+id/not_not_btn"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:layout_alignParentLeft="true"
+                android:text="@string/not_now_btn" />
+
+            <Button
+                android:id="@+id/finish_btn"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_alignParentRight="true"
+                android:drawableRight="@drawable/ic_action_done"
+                android:text="@string/finish_btn" />
+        </RelativeLayout>
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/client_welcome_main_fragment_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="bottom|center"
-        android:padding="5dp" >
-
-        <Button
-            android:id="@+id/not_not_btn"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:text="@string/not_now_btn" />
-
-        <Button
-            android:id="@+id/finish_btn"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:enabled="false"
-            android:text="@string/finish_btn" />
+        android:layout_above="@id/layout_next"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical" >
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

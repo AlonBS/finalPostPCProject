@@ -49,7 +49,8 @@
     <!-- welcome dialogs -->
     <string name="find_location_business_request">please set your business location by tapping on the screen or by searching for an address</string>
     <string name="find_location_client_request">please set your default location by tapping on the screen or by searching for an address</string>
-
+ 	<string name="forgot_to_set_location">you forget to set a location</string>	
+ 
     <!-- client welcome dialog strings -->
     <string name="welcome_client">In order to complete the registration please select you preferable location</string>
     <string name="set_location">Choose location</string>
@@ -78,6 +79,7 @@
     <string name="business_address_forgot_to_fill"> Please fill your business address </string>
     <string name="button_next"> NEXT </string>
     <string name="button_done"> DONE </string>
+    
     <!-- choose image fragment -->
     <string name="business_choose_image_message">Please choose an image for your business! </string>
     <string name="business_choose_image_can_be_done_later">This stage can be completed later on </string>

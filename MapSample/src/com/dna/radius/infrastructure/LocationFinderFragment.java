@@ -168,7 +168,7 @@ public class LocationFinderFragment extends Fragment {
 		if(mapFragment != null && !getActivity().isFinishing()) {
 			FragmentManager fM = getActivity().getSupportFragmentManager();
 			android.support.v4.app.FragmentTransaction trans = fM.beginTransaction();
-
+			
 			trans.remove(mapFragment);
 			trans.commitAllowingStateLoss();
 			mapFragment = null;
@@ -177,7 +177,12 @@ public class LocationFinderFragment extends Fragment {
 	}
 	
 	public boolean didUserFillAllData() {
-		return chosenLocation != null;
+		if(chosenLocation != null){
+			return true;
+		}else{
+			Toast.makeText(getActivity(),getResources().getString(R.string.forgot_to_set_location),Toast.LENGTH_SHORT).show();
+			return false;
+		}
 	}
 
 	/**

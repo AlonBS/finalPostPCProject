@@ -1,37 +1,33 @@
 package com.dna.radius.clientmode;
 
-import java.util.ArrayList;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.dna.radius.R;
-import com.dna.radius.dbhandling.ParseClassesNames;
-import com.google.android.gms.maps.model.LatLng;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseUser;
-
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+import com.dna.radius.R;
+import com.dna.radius.dbhandling.ParseClassesNames;
+import com.dna.radius.infrastructure.LocationFinderFragment;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+
+@SuppressLint("DefaultLocale")
 public class ClientWelcomeActivity extends FragmentActivity {
 	
-	private Button chooseLocationBtn, notNowBtn, finishBtn;
-	
-	/** Default locations - TODO - add more */
-	
-	
+	private Button notNowBtn, finishBtn;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.client_welcome_dialog_activity);
 		
@@ -39,11 +35,17 @@ public class ClientWelcomeActivity extends FragmentActivity {
 		
 		initViews();
 		
-		setChooseLocationBtnListener();
-		
 		setNotNowBtnListener();
 		
 		setFinishBtnListener();
+		
+		//starts the location fragment
+		final FragmentManager fragmentManager = getSupportFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+		LocationFinderFragment locationFragment = new LocationFinderFragment("");
+		fragmentTransaction.add(R.id.client_welcome_main_fragment_layout, locationFragment);
+		fragmentTransaction.commit();
+
 
 	}
 	
@@ -51,42 +53,24 @@ public class ClientWelcomeActivity extends FragmentActivity {
 		
 		// This will set this dialog-theme activity to take 80% of the screen
 		DisplayMetrics metrics = getResources().getDisplayMetrics();
-		int height = (int) (metrics.heightPixels * 1);
-        int width = (int) (metrics.widthPixels * 1);
-		getWindow().setLayout(height, width);
+		int screenWidth = (int) (metrics.widthPixels * 0.9);
+		int screenHeight = (int) (metrics.heightPixels * 0.8);
+		getWindow().setLayout(screenWidth,screenHeight);
+		
 	}
 	
 	private void initViews() {
 		
-		chooseLocationBtn = (Button) findViewById(R.id.choose_location_btn);
 		notNowBtn = (Button) findViewById(R.id.not_not_btn);
+		notNowBtn.setText(notNowBtn.getText().toString().toUpperCase());
+		
 		finishBtn = (Button) findViewById(R.id.finish_btn);
+		finishBtn.setText(finishBtn.getText().toString().toUpperCase());
 		
 	}
 	
-	
-	private void setChooseLocationBtnListener() {
-		
-		chooseLocationBtn.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO  DROR  - how to open map in here!? 
-				
-				ClientData.homeLocation = new LatLng(34, 34);
-				
-				if (/*legal coordinates were taken from map*/ true) {
-					
-					finishBtn.setEnabled(true);
-					
-				}
-			}
-		});
-			
-	}
 	
 	private void setNotNowBtnListener() {
-		
 		
 		notNowBtn.setOnClickListener(new OnClickListener() {
 			
@@ -109,10 +93,17 @@ public class ClientWelcomeActivity extends FragmentActivity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				
+				//receives the location from the activity
+				final FragmentManager fragmentManager = getSupportFragmentManager();
+				LocationFinderFragment currentFragment = (LocationFinderFragment)fragmentManager.findFragmentById(R.id.client_welcome_main_fragment_layout);
+				if(!currentFragment.didUserFillAllData()){
+					return;
+				}
+				ClientData.homeLocation = currentFragment.getLocation();
 				
 				//save to parse user new location and close
-				finishRegistration(); //TODO data recived from map
+				finishRegistration();
 				finish(); // activity
 			}
 		});
