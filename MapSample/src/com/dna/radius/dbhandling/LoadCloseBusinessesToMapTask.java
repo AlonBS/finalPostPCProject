@@ -2,15 +2,12 @@ package com.dna.radius.dbhandling;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.dna.radius.datastructures.MapBusinessManager;
 import com.dna.radius.datastructures.ExternalBusiness;
-import com.dna.radius.infrastructure.SupportedTypes;
+import com.dna.radius.datastructures.MapBusinessManager;
 import com.dna.radius.mapsample.MapWindowFragment;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;

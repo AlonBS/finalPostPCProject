@@ -116,9 +116,9 @@ public class BaseActivity extends FragmentActivity{
 				public void onClick(DialogInterface dialog, int whichButton) {
 					Intent myIntent = null;
 					if(isInBusinessMode){
-						myIntent = new Intent(getApplicationContext(), ClientOpeningScreenActivity.class);
-					}else{
 						myIntent = new Intent(getApplicationContext(), BusinessOpeningScreenActivity.class);
+					}else{
+						myIntent = new Intent(getApplicationContext(), ClientOpeningScreenActivity.class);
 					}
 					startActivity(myIntent);
 					//TODO ADD finish(); ??? 

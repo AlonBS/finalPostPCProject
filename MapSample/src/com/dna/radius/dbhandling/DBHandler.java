@@ -1,38 +1,28 @@
 package com.dna.radius.dbhandling;
 
-import java.security.acl.Owner;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-import testing_stuff.LoadDealInfoRunnable;
 import testing_stuff.LoadTopBusinessesRunnable;
-
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.net.wifi.SupplicantState;
 import android.util.Log;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.dna.radius.businessmode.BusinessData;
-import com.dna.radius.businessmode.TopBusinessesHorizontalView;
 import com.dna.radius.clientmode.ClientData;
-import com.dna.radius.datastructures.ExternalBusiness;
-import com.dna.radius.datastructures.MapBusinessManager;
 import com.dna.radius.datastructures.Comment;
 import com.dna.radius.datastructures.Deal;
-import com.dna.radius.datastructures.ExternalBusiness.BuisnessType;
+import com.dna.radius.datastructures.ExternalBusiness;
+import com.dna.radius.datastructures.MapBusinessManager;
+import com.dna.radius.infrastructure.SupportedTypes;
 import com.dna.radius.mapsample.CommentsArrayAdapter;
 import com.dna.radius.mapsample.MapWindowFragment;
-import com.dna.radius.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.parse.ParseObject;
-import com.parse.ParseUser;
 
 
 /**
@@ -314,21 +304,21 @@ public class DBHandler {
     	markersDB = new ArrayList<ExternalBusiness>();
     	Random r = new Random();
     	String currentDeal = "ONLY TODAY AND DURING THE REST OF THE YEAR!!! BUY A COOOOL SHIRT AND GET A PLASTIC BUG TO PUT IT IN FOR 10 AGOROT ONLY!!! wow!!";
-    	markersDB.add(new ExternalBusiness("MCdonalds", BuisnessType.RESTAURANT, new LatLng(31.781099, 35.217668),Integer.toString(id),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-    	markersDB.add(new ExternalBusiness("Ivo", BuisnessType.RESTAURANT, new LatLng(31.779949, 35.218948),Integer.toString(id),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-    	markersDB.add(new ExternalBusiness("Dolfin Yam", BuisnessType.RESTAURANT, new LatLng(31.779968, 35.221209),Integer.toString(id),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-    	markersDB.add(new ExternalBusiness("Birman", BuisnessType.PUB, new LatLng(31.781855, 35.218086),Integer.toString(id),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-    	markersDB.add(new ExternalBusiness("Bullinat", BuisnessType.PUB, new LatLng(31.781984, 35.218221),Integer.toString(id),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-    	markersDB.add(new ExternalBusiness("Hamarush", BuisnessType.RESTAURANT, new LatLng(31.781823, 35.219065),Integer.toString(id),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-    	markersDB.add(new ExternalBusiness("Adom", BuisnessType.RESTAURANT, new LatLng(31.781334, 35.220703),Integer.toString(id),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-    	markersDB.add(new ExternalBusiness("Tel Aviv Bar", BuisnessType.PUB, new LatLng(31.781455, 35.220525),Integer.toString(id),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-    	markersDB.add(new ExternalBusiness("Jabutinski Bar", BuisnessType.PUB, new LatLng(31.779654, 35.221654),Integer.toString(id),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-    	markersDB.add(new ExternalBusiness("Reva Sheva", BuisnessType.GROCERIES, new LatLng(31.779793, 35.219728),Integer.toString(id),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-    	markersDB.add(new ExternalBusiness("The one with the shirts", BuisnessType.GROCERIES, new LatLng(31.779293, 35.221624),Integer.toString(id),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-    	markersDB.add(new ExternalBusiness("Hamashbir Latsarchan", BuisnessType.GROCERIES, new LatLng(31.781824, 35.219959),Integer.toString(id),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-    	markersDB.add(new ExternalBusiness("Hataklit", BuisnessType.PUB, new LatLng(31.781905, 35.221372),Integer.toString(id),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-    	markersDB.add(new ExternalBusiness("Hatav Hashmini", BuisnessType.GROCERIES, new LatLng(31.781191, 35.219621),Integer.toString(id),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-    	markersDB.add(new ExternalBusiness("Katsefet", BuisnessType.RESTAURANT, new LatLng(31.779921, 35.187777),Integer.toString(id),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
+    	markersDB.add(new ExternalBusiness("MCdonalds", SupportedTypes.BusinessType.RESTAURANT, new LatLng(31.781099, 35.217668),Integer.toString(1),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
+    	markersDB.add(new ExternalBusiness("Ivo", SupportedTypes.BusinessType.RESTAURANT, new LatLng(31.779949, 35.218948),Integer.toString(2),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
+    	markersDB.add(new ExternalBusiness("Dolfin Yam", SupportedTypes.BusinessType.RESTAURANT, new LatLng(31.779968, 35.221209),Integer.toString(3),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
+    	markersDB.add(new ExternalBusiness("Birman", SupportedTypes.BusinessType.PUB, new LatLng(31.781855, 35.218086),Integer.toString(4),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
+    	markersDB.add(new ExternalBusiness("Bullinat", SupportedTypes.BusinessType.PUB, new LatLng(31.781984, 35.218221),Integer.toString(5),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
+    	markersDB.add(new ExternalBusiness("Hamarush", SupportedTypes.BusinessType.RESTAURANT, new LatLng(31.781823, 35.219065),Integer.toString(6),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
+    	markersDB.add(new ExternalBusiness("Adom", SupportedTypes.BusinessType.RESTAURANT, new LatLng(31.781334, 35.220703),Integer.toString(7),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
+    	markersDB.add(new ExternalBusiness("Tel Aviv Bar", SupportedTypes.BusinessType.PUB, new LatLng(31.781455, 35.220525),Integer.toString(8),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
+    	markersDB.add(new ExternalBusiness("Jabutinski Bar", SupportedTypes.BusinessType.PUB, new LatLng(31.779654, 35.221654),Integer.toString(9),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
+    	markersDB.add(new ExternalBusiness("Reva Sheva", SupportedTypes.BusinessType.GROCERIES, new LatLng(31.779793, 35.219728),Integer.toString(10),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
+    	markersDB.add(new ExternalBusiness("The one with the shirts", SupportedTypes.BusinessType.GROCERIES, new LatLng(31.779293, 35.221624),Integer.toString(11),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
+    	markersDB.add(new ExternalBusiness("Hamashbir Latsarchan", SupportedTypes.BusinessType.GROCERIES, new LatLng(31.781824, 35.219959),Integer.toString(12),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
+    	markersDB.add(new ExternalBusiness("Hataklit", SupportedTypes.BusinessType.PUB, new LatLng(31.781905, 35.221372),Integer.toString(13),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
+    	markersDB.add(new ExternalBusiness("Hatav Hashmini", SupportedTypes.BusinessType.GROCERIES, new LatLng(31.781191, 35.219621),Integer.toString(14),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
+    	markersDB.add(new ExternalBusiness("Katsefet", SupportedTypes.BusinessType.RESTAURANT, new LatLng(31.779921, 35.187777),Integer.toString(15),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
     }
 
 }
