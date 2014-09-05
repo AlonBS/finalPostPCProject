@@ -91,7 +91,7 @@ public class MapWindowFragment extends Fragment {
 						Math.abs(position.target.longitude-latestMapCenter.longitude)>LOAD_RADIUS){
 					latestMapCenter = position.target;
 					DBHandler.stopLoadBusinessListAndMapMsarkersAsync();
-					
+
 					DBHandler.loadBusinessListAndMapMarkersAsync(position.target, gMap, businessManager, LOAD_RADIUS,thisFragment);
 					Log.d("MapWindowFragment","map center was changed significantly. loading businesses again.");
 				}
@@ -163,25 +163,28 @@ public class MapWindowFragment extends Fragment {
 
 		//handles the set/get home location feature
 		final ImageView homeButton = (ImageView)view.findViewById(R.id.map_home_btn);
-		homeButton.setOnLongClickListener(new OnLongClickListener() {
-			@Override
-			public boolean onLongClick(View v) {
-				LatLng latLng = gMap.getCameraPosition().target;
-				clientData.setHome(latLng);
+		if(isInBusinessMode){
+			homeButton.setVisibility(View.GONE);
+		}else{
+			homeButton.setOnLongClickListener(new OnLongClickListener() {
+				@Override
+				public boolean onLongClick(View v) {
+					LatLng latLng = gMap.getCameraPosition().target;
+					ClientData.setHome(latLng);
 
-				Toast.makeText(getActivity(), "new home location was selected", Toast.LENGTH_SHORT).show();
-				return false;
-			}
-		});
-		homeButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				LatLng loc = clientData.getHome();
-				gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, DEFAULT_ANIMATED_ZOOM));
-				gMap.animateCamera(CameraUpdateFactory.zoomTo(DEFAULT_ANIMATED_ZOOM), 2000, null);
-			}
-		});	
-
+					Toast.makeText(getActivity(), "new home location was selected", Toast.LENGTH_SHORT).show();
+					return false;
+				}
+			});
+			homeButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					LatLng loc = ClientData.getHome();
+					gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, DEFAULT_ANIMATED_ZOOM));
+					gMap.animateCamera(CameraUpdateFactory.zoomTo(DEFAULT_ANIMATED_ZOOM), 2000, null);
+				}
+			});	
+		}
 		//handles the spinner preferences (top deals/favourites/etc)
 		preferencedSpinner = (Spinner)view.findViewById(R.id.filter_spinner);
 		preferencedSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -195,10 +198,12 @@ public class MapWindowFragment extends Fragment {
 		return view;
 	}
 
-	private boolean instanceSaced = false;
 	
-	
-	
+	public void setLocation(LatLng location){
+		gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, DEFAULT_ANIMATED_ZOOM));
+		gMap.animateCamera(CameraUpdateFactory.zoomTo(DEFAULT_ANIMATED_ZOOM), 2000, null);
+	}
+
 
 	@Override
 	public void onDestroyView() {
@@ -208,11 +213,11 @@ public class MapWindowFragment extends Fragment {
 
 		//kills the old map
 		SupportMapFragment mapFragment = ((SupportMapFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.map));
-		
+
 		if(mapFragment != null && !getActivity().isFinishing()) {
 			FragmentManager fM = getActivity().getSupportFragmentManager();
 			android.support.v4.app.FragmentTransaction trans = fM.beginTransaction();
-			
+
 			trans.remove(mapFragment);
 			trans.commitAllowingStateLoss();
 			mapFragment = null;

@@ -170,7 +170,7 @@ public class LocationFinderFragment extends Fragment {
 		if (mapFragment != null && !getActivity().isFinishing()) {
 			FragmentManager fM = getActivity().getSupportFragmentManager();
 			FragmentTransaction trans = fM.beginTransaction();
-
+			
 			trans.remove(mapFragment);
 			trans.commitAllowingStateLoss();
 			mapFragment = null;
@@ -179,7 +179,12 @@ public class LocationFinderFragment extends Fragment {
 	}
 	
 	public boolean neededInfoGiven() {
-		return chosenLocation != null;
+		if(chosenLocation != null){
+			return true;
+		}else{
+			Toast.makeText(getActivity(),getResources().getString(R.string.forgot_to_set_location),Toast.LENGTH_SHORT).show();
+			return false;
+		}
 	}
 
 	/**

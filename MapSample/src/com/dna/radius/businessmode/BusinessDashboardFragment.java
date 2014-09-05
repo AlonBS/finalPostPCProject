@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import com.dna.radius.R;
 import com.dna.radius.datastructures.Comment;
+import com.dna.radius.datastructures.ExternalBusiness;
 import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.mapsample.CommentsArrayAdapter;
 
@@ -136,7 +137,9 @@ public class BusinessDashboardFragment extends Fragment{
 
 		/**sets the top businesses segment*/
 		TopBusinessesHorizontalView topBusinessesScroll = (TopBusinessesHorizontalView)view.findViewById(R.id.top_businesses_list_view);
-		DBHandler.LoadTopBusinessesAsync(topBusinessesScroll,activityParent);
+		for(ExternalBusiness b : activityParent.topBusinesses){
+			topBusinessesScroll.addBusiness(b, null);
+		}
 
 		return view;
 
