@@ -8,7 +8,6 @@ import java.util.Random;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -60,7 +59,7 @@ public class BusinessData {
 	
 	static DealHistoryManager dealsHistory;
 	
-	private static final float DEFAULT_RATING = 3;
+	static final float DEFAULT_RATING = 3;
 	
 	private static final String SEPERATOR = "###";
 	
@@ -333,16 +332,21 @@ public class BusinessData {
 			
 			// history update - on Parse.com
 			JSONObject oldDealsJO = businessInfo.getJSONObject(ParseClassesNames.BUSINESS_HISTORY);
-			oldDealsJO.put(ParseClassesNames.BUSINESS_HISTORY_TOTAL_LIKES, dealsHistory.getNumOfLikes());
-			oldDealsJO.put(ParseClassesNames.BUSINESS_HISTORY_TOTAL_DISLIKES, dealsHistory.getNumOfDislikes());
-			oldDealsJO.put(ParseClassesNames.BUSINESS_HISTORY_TOTAL_NUM_OF_DEALS, dealsHistory.getTotalNumOfDeals());
-			
-			oldDealsJO.put(ParseClassesNames.BUSINESS_HISTORY_DEALS,
-					oldDealsJO.getJSONArray(ParseClassesNames.BUSINESS_HISTORY_DEALS).put(newDealJO));
+			try {
+				oldDealsJO.put(ParseClassesNames.BUSINESS_HISTORY_TOTAL_LIKES, dealsHistory.getNumOfLikes());
+				oldDealsJO.put(ParseClassesNames.BUSINESS_HISTORY_TOTAL_DISLIKES, dealsHistory.getNumOfDislikes());
+				oldDealsJO.put(ParseClassesNames.BUSINESS_HISTORY_TOTAL_NUM_OF_DEALS, dealsHistory.getTotalNumOfDeals());
+				
+				oldDealsJO.put(ParseClassesNames.BUSINESS_HISTORY_DEALS,
+						oldDealsJO.getJSONArray(ParseClassesNames.BUSINESS_HISTORY_DEALS).put(newDealJO));
+				
+			} catch (JSONException e) {
+				Log.e("Business - new deal create", e.getMessage());
+			}
 			
 			businessInfo.put(ParseClassesNames.BUSINESS_HISTORY, oldDealsJO);
 			
-			//TODO should be saveEventually
+			//TODO should be saveEventually()
 			currentUser.saveInBackground(null);
 			businessInfo.saveInBackground(null);
 		}
