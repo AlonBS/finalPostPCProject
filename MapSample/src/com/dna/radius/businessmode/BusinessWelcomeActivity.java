@@ -16,7 +16,7 @@ import android.widget.Button;
 
 import com.dna.radius.R;
 import com.dna.radius.dbhandling.ParseClassesNames;
-import com.dna.radius.mapsample.LocationFinderFragment;
+import com.dna.radius.infrastructure.LocationFinderFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.parse.ParseObject;
 import com.parse.ParseUser;

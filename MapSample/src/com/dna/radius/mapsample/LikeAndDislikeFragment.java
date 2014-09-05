@@ -27,7 +27,6 @@ public class LikeAndDislikeFragment extends Fragment{
 	private ImageView dislikeBtn;
 	private View likeBtn;
 	private ShowDealActivity activityParent;
-	private ClientData clientData;
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.like_and_dislike_fragment,container, false);
@@ -46,7 +45,7 @@ public class LikeAndDislikeFragment extends Fragment{
 		dislikesText.setText(Long.toString(activityParent.numOfDislikes));
 		
 		//handles the like and dislikes buttons.
-		dealStatus = clientData.getDealLikeStatus(businessID);
+		dealStatus = ClientData.getDealLikeStatus(businessID);
 		likeBtn = (ImageView)view.findViewById(R.id.sounds_cool_btn);
 		likeBtn.setOnClickListener(new OnClickListener() {
 			@Override
@@ -60,7 +59,7 @@ public class LikeAndDislikeFragment extends Fragment{
 					
 					String newStr = Long.toString(Long.parseLong(likesText.getText().toString())-1);
 					likesText.setText(newStr);
-					clientData.setDontCareToDeal(businessID);
+					ClientData.setDontCareToDeal(businessID);
 				}else{
 					if(dealStatus==DealLikeStatus.DISLIKE){
 						String newStr = Long.toString(Long.parseLong(dislikesText.getText().toString())-1);
@@ -68,7 +67,7 @@ public class LikeAndDislikeFragment extends Fragment{
 					}
 					
 					dealStatus = DealLikeStatus.LIKE;
-					clientData.addToLikes(businessID);
+					ClientData.addToLikes(businessID);
 					String oldText =likesText.getText().toString();
 					String newStr = Long.toString(Long.parseLong(oldText)+1);
 					likesText.setText(newStr);
@@ -86,7 +85,7 @@ public class LikeAndDislikeFragment extends Fragment{
 				}
 				if(dealStatus==DealLikeStatus.DISLIKE){
 					dealStatus = DealLikeStatus.DONT_CARE;
-					clientData.setDontCareToDeal(businessID);
+					ClientData.setDontCareToDeal(businessID);
 					String newStr = Long.toString(Long.parseLong(dislikesText.getText().toString())-1);
 					dislikesText.setText(newStr);
 				}else{
@@ -95,7 +94,7 @@ public class LikeAndDislikeFragment extends Fragment{
 						likesText.setText(newStr);
 					}
 					dealStatus = DealLikeStatus.DISLIKE;
-					clientData.addToDislikes(businessID);
+					ClientData.addToDislikes(businessID);
 					String newStr = Long.toString(Long.parseLong(dislikesText.getText().toString())+1);
 					dislikesText.setText(newStr);
 				}
@@ -111,6 +110,7 @@ public class LikeAndDislikeFragment extends Fragment{
 	 * this function changes the backroung of the dislike and like buttons
 	 * according to the user preferenced. 
 	 */
+	@SuppressWarnings("deprecation")
 	private void setDislikeAndLikeBG(){
 		if(!activityParent.isInUserMode){
 

@@ -1,4 +1,4 @@
-package com.dna.radius.mapsample;
+package com.dna.radius.infrastructure;
 
 
 import java.io.IOException;
@@ -21,7 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dna.radius.R;
-import com.dna.radius.infrastructure.BaseActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
