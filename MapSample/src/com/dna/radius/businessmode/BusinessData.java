@@ -136,6 +136,37 @@ public class BusinessData {
 		}
 		
 	}
+	
+	
+	
+	public static String getUserName(){
+		return currentUser.getUsername();
+	}
+	
+	public static String getEmail(){
+		return currentUser.getEmail();
+	}
+	
+	public static void setUserName(String newUserName){
+		//TODO alon - is this enough? + saveEventually() get stuck.
+		currentUser.setUsername(newUserName);
+		currentUser.saveInBackground();
+	}
+	
+	public static void setEmail(String newEmail){
+		//TODO alon - is this enough? + saveEventually() get stuck.
+		currentUser.setEmail(newEmail);
+		currentUser.saveInBackground();
+	}
+	
+	public static void setPassword(String newPassword){
+		//TODO alon - is this enough? + saveEventually() get stuck.
+		currentUser.setPassword(newPassword); 
+		currentUser.saveInBackground();
+	}
+	
+	
+	
 //	
 //	//TODO - remove me!!!
 //	//******************

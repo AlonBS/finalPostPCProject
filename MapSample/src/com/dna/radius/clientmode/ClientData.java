@@ -47,7 +47,28 @@ public class ClientData{
 	public static String getUserName(){
 		return currentUser.getUsername();
 	}
-
+	
+	public static void setUserName(String newUserName){
+		//TODO ALON - is it enough? + saveEventually() get stuck
+		currentUser.setUsername(newUserName);
+		currentUser.saveInBackground(); 
+	}
+	
+	public static String getEmail(){
+		return currentUser.getEmail();
+	}
+	
+	public static void setEmail(String newEmail){
+		//TODO ALON - is it enough? + saveEventually() get stuck
+		currentUser.setEmail(newEmail); 
+		currentUser.saveInBackground(); 
+	}
+	
+	public static void setPassword(String newPassword){
+		//TODO ALON - is it enough? + saveEventually() get stuck
+		currentUser.setPassword(newPassword); 
+		currentUser.saveInBackground(); 
+	}
 
 	/** loads the Client data from the parse DB*/
 	public static void loadClientInfo(){

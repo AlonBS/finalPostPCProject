@@ -18,6 +18,7 @@ import android.view.MenuItem;
 
 import com.dna.radius.R;
 import com.dna.radius.businessmode.BusinessOpeningScreenActivity;
+import com.dna.radius.clientmode.ClientGeneralSettingsActivity;
 import com.dna.radius.clientmode.ClientOpeningScreenActivity;
 import com.dna.radius.login.MainActivity;
 import com.parse.ParseUser;
@@ -27,7 +28,7 @@ import com.parse.ParseUser;
  * all activities running on this app.
  */
 
-public class BaseActivity extends FragmentActivity{
+public abstract class BaseActivity extends FragmentActivity{
 	//TODO this value should be set when the application starts!!
 	public static boolean isInBusinessMode = true; 
 
@@ -94,12 +95,13 @@ public class BaseActivity extends FragmentActivity{
 
 	}
 
-	
-	private void handleSettings() {
+	protected void handleSettings(){
+		if(!isInBusinessMode){
+			Intent myIntent = new Intent(this, ClientGeneralSettingsActivity.class);
+			startActivity(myIntent);
+		}
 		
-		ParseUser user = ParseUser.getCurrentUser();
 		
-		//TODO SHOULD DESTINGIUSH BETWEEN client and business
 	}
 
 

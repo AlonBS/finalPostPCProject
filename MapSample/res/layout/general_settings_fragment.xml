@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:padding="10dp"
+    android:orientation="vertical" >
+
+    <EditText
+        android:id="@+id/user_name_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center" >
+    </EditText>
+
+    <EditText
+        android:layout_marginTop="10dp"
+        android:id="@+id/password_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/new_password"
+        android:inputType="textPassword" />
+
+    <EditText
+        android:layout_marginTop="10dp"
+        android:id="@+id/password_confirmation_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/new_password_confirmation"
+        android:inputType="textPassword" />
+
+    <EditText
+        android:layout_marginTop="10dp"
+        android:id="@+id/email_address_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textEmailAddress" />
+
+    <Button
+        android:gravity="center"
+        android:id="@+id/apply_changes_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/apply_settings" />
+
+</LinearLayout>
