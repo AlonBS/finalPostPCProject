@@ -291,6 +291,9 @@ public class MapWindowFragment extends Fragment {
 				myIntent.putExtra(ShowDealActivity.NUM_OF_DISLIKES_PARAM, bMarker.numOfDislikes); 
 				myIntent.putExtra(ShowDealActivity.NUM_OF_LIKES_PARAM, bMarker.numOfLikes);
 				myIntent.putExtra(ShowDealActivity.USER_MODE_PARAM, !isInBusinessMode);
+				myIntent.putExtra(ShowDealActivity.PHONE_STR_PARAM, bMarker.phoneStr); 
+				myIntent.putExtra(ShowDealActivity.ADDRESS_STR_PARAM, bMarker.addressStr);
+				myIntent.putExtra(ShowDealActivity.CURRENT_DEAL_STR_PARAM, bMarker.currentDealStr);
 				getActivity().startActivity(myIntent);
 			}
 			return false;

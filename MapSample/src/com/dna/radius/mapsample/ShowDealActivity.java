@@ -25,7 +25,6 @@ import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.datastructures.Comment;
 import com.dna.radius.datastructures.ExternalBusiness.BuisnessType;
 import com.dna.radius.dbhandling.DBHandler;
-import com.dna.radius.dbhandling.DBHandler.ExternalBusinessExtraInfo;
 
 public class ShowDealActivity extends FragmentActivity{
 	//needed parameters for the activity
@@ -37,6 +36,10 @@ public class ShowDealActivity extends FragmentActivity{
 	public final static String USER_MODE_PARAM = "IsInUserMode";	
 	public final static String NUM_OF_LIKES_PARAM = "likesParam";
 	public final static String NUM_OF_DISLIKES_PARAM = "dislikesParam";	
+	public final static String CURRENT_DEAL_STR_PARAM = "currentDealParam";	
+	public final static String PHONE_STR_PARAM = "phone";
+	public final static String ADDRESS_STR_PARAM = "address";	
+	
 	
 	//a button which allows switching between the like fragment and the comments fragment.
 	private ImageView switchFragmentsButton;
@@ -45,7 +48,7 @@ public class ShowDealActivity extends FragmentActivity{
 	private CurrentFragmentType currentFragmentType = CurrentFragmentType.DEAL_FRAGMENT;
 	
 	public boolean isInUserMode;
-	public String businessID, dealID;
+	public String businessID, dealID,phoneStr,addressStr,dealStr;
 	public int numOfLikes,numOfDislikes;
 	public BuisnessType bType;
 	private boolean isFavourite;
@@ -76,9 +79,13 @@ public class ShowDealActivity extends FragmentActivity{
 		isInUserMode = intent.getBooleanExtra(USER_MODE_PARAM, true);
 		numOfLikes = intent.getIntExtra(NUM_OF_LIKES_PARAM,0);
 		numOfDislikes = intent.getIntExtra(NUM_OF_DISLIKES_PARAM,0);
+		phoneStr = intent.getStringExtra(PHONE_STR_PARAM);
+		addressStr = intent.getStringExtra(ADDRESS_STR_PARAM);
+		dealStr = intent.getStringExtra(CURRENT_DEAL_STR_PARAM);
 		TextView businessNameTV = (TextView)findViewById(R.id.businessTitle);
 		businessNameTV.setText(businessName);
 
+		Log.d("ShowDealActivity", "businessId:" + businessID + ", dealID:" + dealID);
 		
 		RatingBar ratingBar = (RatingBar)findViewById(R.id.businessRatingBar);
 		ratingBar.setRating(rating);
@@ -104,7 +111,6 @@ public class ShowDealActivity extends FragmentActivity{
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				final ExternalBusinessExtraInfo extraInfo = DBHandler.getExtraInfoOnExternalBusiness(businessID);
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
@@ -114,9 +120,9 @@ public class ShowDealActivity extends FragmentActivity{
 						
 						//updates the relevant text views accordingly
 						TextView dealTextView = (TextView)findViewById(R.id.dealTextView);
-						dealTextView.setText(extraInfo.dealStr);
+						dealTextView.setText(dealStr);
 						TextView detailsTV = (TextView)findViewById(R.id.businessDetails);
-						detailsTV.setText(extraInfo.address + "    " + extraInfo.phone);
+						detailsTV.setText(addressStr + "    " + phoneStr);
 						
 						//the switch fragment button is now activated
 						switchFragmentsButton.setOnClickListener(new OnClickListener() {

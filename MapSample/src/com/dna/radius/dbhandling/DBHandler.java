@@ -113,48 +113,48 @@ public class DBHandler {
 		loadTask.execute();
 	}
 
-	/***this object is used whenever a business marker is pressed on the map,
-	 * or whenever one of the businesses in the top businesses list is pressed.
-	 * in this case - more information is needed regarding to the business, such as:
-	 * phone number, address and deal text. This object holds these data items.
-	 */
-	public static class ExternalBusinessExtraInfo{
-		public String address;
-		public String phone;
-		public String dealStr;
+//	/***this object is used whenever a business marker is pressed on the map,
+//	 * or whenever one of the businesses in the top businesses list is pressed.
+//	 * in this case - more information is needed regarding to the business, such as:
+//	 * phone number, address and deal text. This object holds these data items.
+//	 */
+//	public static class ExternalBusinessExtraInfo{
+//		public String address;
+//		public String phone;
+//		public String dealStr;
+//
+//		public ExternalBusinessExtraInfo(String address,String phone,String dealStr ){
+//			this.address = address;
+//			this.phone = phone;
+//			this.dealStr = dealStr;
+//		}
+//	}
 
-		public ExternalBusinessExtraInfo(String address,String phone,String dealStr ){
-			this.address = address;
-			this.phone = phone;
-			this.dealStr = dealStr;
-		}
-	}
-
-	/**
-	 * this function is called whenever the ShowDealActivity is turned on.
-	 * in this case, more data is needed, such as - address, phone and deal string.
-	 * this function loads it from parse.
-	 * @param BusinessID
-	 */
-	public static ExternalBusinessExtraInfo getExtraInfoOnExternalBusiness(String BusinessID){
-		//******************************88
-		//TODO - erase the sleeping operation!! its for testing only
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
-		//******************************88
-		//TODO - ALON this data should be loaded from parse
-		String dealStr = "ONLY TODAY AND DURING THE REST OF THE YEAR!!! BUY A COOOOL SHIRT AND GET A PLASTIC BUG TO PUT IT IN FOR 10 AGOROT ONLY!!! wow!!"; 
-		String phoneStr = "050-8512391";
-		String addressStr = "Jaffa St. Jerusalem";
-
-		return new ExternalBusinessExtraInfo(addressStr, phoneStr, dealStr);
-
-
-	}
+//	/**
+//	 * this function is called whenever the ShowDealActivity is turned on.
+//	 * in this case, more data is needed, such as - address, phone and deal string.
+//	 * this function loads it from parse.
+//	 * @param BusinessID
+//	 */
+//	public static ExternalBusinessExtraInfo getExtraInfoOnExternalBusiness(String BusinessID){
+//		//******************************88
+//		//TODO - erase the sleeping operation!! its for testing only
+//		try {
+//			Thread.sleep(1000);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}	
+//		//******************************88
+//		//TODO - ALON this data should be loaded from parse
+//		String dealStr = "ONLY TODAY AND DURING THE REST OF THE YEAR!!! BUY A COOOOL SHIRT AND GET A PLASTIC BUG TO PUT IT IN FOR 10 AGOROT ONLY!!! wow!!"; 
+//		String phoneStr = "050-8512391";
+//		String addressStr = "Jaffa St. Jerusalem";
+//
+//		return new ExternalBusinessExtraInfo(addressStr, phoneStr, dealStr);
+//
+//
+//	}
 
 	public enum DealLikeStatus{LIKE,DISLIKE,DONT_CARE};
 	/**

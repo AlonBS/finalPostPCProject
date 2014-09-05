@@ -32,7 +32,8 @@ public class LoadTopBusinessesRunnable implements Runnable{
 			//it should load two things in each iteration: 
 			//	1. a business marker object from the top businesses list.
 			// 	2. an image view which is corresonding to the top businesses list.
-			final ExternalBusiness bm = new ExternalBusiness("MCdonalds", BuisnessType.RESTAURANT, new LatLng(31.781099, 35.217668),"",new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)));
+			String currentDeal = "ONLY TODAY AND DURING THE REST OF THE YEAR!!! BUY A COOOOL SHIRT AND GET A PLASTIC BUG TO PUT IT IN FOR 10 AGOROT ONLY!!! wow!!";
+			final ExternalBusiness bm = new ExternalBusiness("MCdonalds", BuisnessType.RESTAURANT, new LatLng(31.781099, 35.217668),"",new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal);
 			final Bitmap businessBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.burger);
 			final TopBusinessesHorizontalView horizontalView = businessesHorizontalViewRef.get();
 			if (!stopFlag && horizontalView != null && bm != null) {

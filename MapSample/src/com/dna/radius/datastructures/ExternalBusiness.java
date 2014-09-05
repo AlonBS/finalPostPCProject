@@ -50,8 +50,12 @@ public class ExternalBusiness implements Serializable{
 	public LatLng pos;
 	public String businessId;
 	public String currentDealID;
-
-	public ExternalBusiness(String name,BuisnessType type,LatLng pos,String id,int numOfLikes,int numOfDislikes,String currentDealID){
+	public String phoneStr;
+	public String addressStr;
+	public String currentDealStr;
+	
+	public ExternalBusiness(String name,BuisnessType type,LatLng pos,String id,int numOfLikes,
+							int numOfDislikes,String currentDealID,String phoneStr,String addressStr,String currentDealStr){
 		this.name = name;
 		this.type = type;
 		this.numOfStars = new Random().nextInt(5);
@@ -61,6 +65,9 @@ public class ExternalBusiness implements Serializable{
 		this.numOfDislikes = numOfDislikes;
 		this.numOfLikes = numOfLikes;
 		this.currentDealID = currentDealID;
+		this.currentDealStr = currentDealStr;
+		this.addressStr = addressStr;
+		this.phoneStr = phoneStr;
 	}
 	
 }

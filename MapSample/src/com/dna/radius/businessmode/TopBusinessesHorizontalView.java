@@ -93,6 +93,9 @@ public class TopBusinessesHorizontalView extends HorizontalScrollView{
 				myIntent.putExtra(ShowDealActivity.NUM_OF_DISLIKES_PARAM, bm.numOfDislikes); //Optional parameters
 				myIntent.putExtra(ShowDealActivity.NUM_OF_LIKES_PARAM, bm.numOfLikes); //Optional parameters
 				myIntent.putExtra(ShowDealActivity.USER_MODE_PARAM, false);
+				myIntent.putExtra(ShowDealActivity.PHONE_STR_PARAM, bm.phoneStr); 
+				myIntent.putExtra(ShowDealActivity.ADDRESS_STR_PARAM, bm.addressStr);
+				myIntent.putExtra(ShowDealActivity.CURRENT_DEAL_STR_PARAM, bm.currentDealStr);
 				context.startActivity(myIntent);
 			}
 		});
