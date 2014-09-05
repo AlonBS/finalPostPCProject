@@ -1,4 +1,4 @@
-package com.dna.radius.dbhandling;
+package testing_stuff;
 
 import java.lang.ref.WeakReference;
 import java.util.Random;

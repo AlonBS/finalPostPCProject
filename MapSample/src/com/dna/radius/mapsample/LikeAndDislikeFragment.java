@@ -113,7 +113,6 @@ public class LikeAndDislikeFragment extends Fragment{
 	@SuppressWarnings("deprecation")
 	private void setDislikeAndLikeBG(){
 		if(!activityParent.isInUserMode){
-
 			dislikeBtn.setBackgroundDrawable(getResources().getDrawable(R.drawable.like_dislike_shape));
 			likeBtn.setBackgroundDrawable(getResources().getDrawable(R.drawable.like_dislike_shape));
 			return;

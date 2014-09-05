@@ -31,37 +31,15 @@ public class LoadCloseBusinessesToMapTask extends AsyncTask<Void, ArrayList<Exte
 	private double minLongitude;
     
     
-    //TODO - the markersDB object and the  loadDBs_debug are only for debug, delete them!
-    private static List<ExternalBusiness> markersDB; //TODO: delete
-    public void setDBs_debug()
-    {
-    	int id = 0;
-    	markersDB = new ArrayList<ExternalBusiness>();
-    	Random r = new Random();
-    	String currentDeal = "ONLY TODAY AND DURING THE REST OF THE YEAR!!! BUY A COOOOL SHIRT AND GET A PLASTIC BUG TO PUT IT IN FOR 10 AGOROT ONLY!!! wow!!";
-    	markersDB.add(new ExternalBusiness("MCdonalds", BuisnessType.RESTAURANT, new LatLng(31.781099, 35.217668),Integer.toString(id),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-    	markersDB.add(new ExternalBusiness("Ivo", BuisnessType.RESTAURANT, new LatLng(31.779949, 35.218948),Integer.toString(id),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-    	markersDB.add(new ExternalBusiness("Dolfin Yam", BuisnessType.RESTAURANT, new LatLng(31.779968, 35.221209),Integer.toString(id),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-    	markersDB.add(new ExternalBusiness("Birman", BuisnessType.PUB, new LatLng(31.781855, 35.218086),Integer.toString(id),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-    	markersDB.add(new ExternalBusiness("Bullinat", BuisnessType.PUB, new LatLng(31.781984, 35.218221),Integer.toString(id),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-    	markersDB.add(new ExternalBusiness("Hamarush", BuisnessType.RESTAURANT, new LatLng(31.781823, 35.219065),Integer.toString(id),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-    	markersDB.add(new ExternalBusiness("Adom", BuisnessType.RESTAURANT, new LatLng(31.781334, 35.220703),Integer.toString(id),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-    	markersDB.add(new ExternalBusiness("Tel Aviv Bar", BuisnessType.PUB, new LatLng(31.781455, 35.220525),Integer.toString(id),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-    	markersDB.add(new ExternalBusiness("Jabutinski Bar", BuisnessType.PUB, new LatLng(31.779654, 35.221654),Integer.toString(id),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-    	markersDB.add(new ExternalBusiness("Reva Sheva", BuisnessType.GROCERIES, new LatLng(31.779793, 35.219728),Integer.toString(id),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-    	markersDB.add(new ExternalBusiness("The one with the shirts", BuisnessType.GROCERIES, new LatLng(31.779293, 35.221624),Integer.toString(id),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-    	markersDB.add(new ExternalBusiness("Hamashbir Latsarchan", BuisnessType.GROCERIES, new LatLng(31.781824, 35.219959),Integer.toString(id),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-    	markersDB.add(new ExternalBusiness("Hataklit", BuisnessType.PUB, new LatLng(31.781905, 35.221372),Integer.toString(id),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-    	markersDB.add(new ExternalBusiness("Hatav Hashmini", BuisnessType.GROCERIES, new LatLng(31.781191, 35.219621),Integer.toString(id),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-    	markersDB.add(new ExternalBusiness("Katsefet", BuisnessType.RESTAURANT, new LatLng(31.779921, 35.187777),Integer.toString(id),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-    }
+    
+    
 
     public LoadCloseBusinessesToMapTask(MapWindowFragment calledFragment,GoogleMap gMap,MapBusinessManager businessManager,double radius) {
         super();
         this.calledFragment = calledFragment;
         this.gMapRef = new WeakReference<GoogleMap>(gMap);
         this.businessManager = businessManager;
-        setDBs_debug();
+        
         
         LatLng mapCenter = gMap.getCameraPosition().target;
       	maxLatitude = mapCenter.latitude + radius;
@@ -98,7 +76,7 @@ public class LoadCloseBusinessesToMapTask extends AsyncTask<Void, ArrayList<Exte
         
         //TODO - load from parse only the businesses which their latlng coordinates are 
         //in the range: minLatidue:maxLatidue and minLongitude:maxLongitude 
-    	for(ExternalBusiness m:markersDB){
+    	for(ExternalBusiness m:DBHandler.markersDB){
     		if(stopFlag){
     			return null;
     		}

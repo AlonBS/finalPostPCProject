@@ -3,6 +3,8 @@ package com.dna.radius.businessmode;
 
 
 
+import java.util.List;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,6 +20,8 @@ import android.widget.TextView;
 
 import com.dna.radius.R;
 import com.dna.radius.clientmode.ClientData;
+import com.dna.radius.datastructures.ExternalBusiness;
+import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.infrastructure.BaseActivity;
 import com.dna.radius.infrastructure.WaitingFragment;
 import com.dna.radius.mapsample.MapWindowFragment;
@@ -36,7 +40,9 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 	/**holds the lates button which was pressed*/
 	private ImageView latestPressedBtn;
 
-
+	/**the top businesses list. it's public because the business dashboard fragment uses it**/
+	public List<ExternalBusiness> topBusinesses;
+	
 	public BusinessData ownerData;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +59,15 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 
 		//a thread which loads the ClientData and OwnerData.
 		Thread t = new Thread(new Runnable() {
+
 			@Override
 			public void run() {
 
 				String tempBusinessId = ""; //TODO how to we get the business id?
 				ownerData = new BusinessData(tempBusinessId,getApplicationContext());
 				ClientData.loadClientInfo();
+				topBusinesses = DBHandler.LoadTopBusinessesSync();
+
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
