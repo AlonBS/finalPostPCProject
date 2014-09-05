@@ -38,6 +38,13 @@
         <item>Groceries</item>
     </string-array>
 
+    <!-- general settings strings -->
+    <string name="apply_settings">APPLY SETTINGS</string>
+    <string name="new_password">new password</string>
+    <string name="new_password_confirmation">new password confirmation</string>
+    <string name="data_changed_successfully">data changed successfully</string>
+    <string name="general_settings">General Settings</string>
+
     <!-- signup_activity error strings -->
     <string name="illegal_user_name">User name is illegal. \n Please use only characters and numbers</string>
     <string name="passwords_mismatch">Passwords don\'t match</string>
@@ -49,8 +56,8 @@
     <!-- welcome dialogs -->
     <string name="find_location_business_request">please set your business location by tapping on the screen or by searching for an address</string>
     <string name="find_location_client_request">please set your default location by tapping on the screen or by searching for an address</string>
- 	<string name="forgot_to_set_location">you forget to set a location</string>	
- 
+    <string name="forgot_to_set_location">you forget to set a location</string>
+
     <!-- client welcome dialog strings -->
     <string name="welcome_client">In order to complete the registration please select you preferable location</string>
     <string name="set_location">Choose location</string>
@@ -79,7 +86,7 @@
     <string name="business_address_forgot_to_fill"> Please fill your business address </string>
     <string name="button_next"> NEXT </string>
     <string name="button_done"> DONE </string>
-    
+
     <!-- choose image fragment -->
     <string name="business_choose_image_message">Please choose an image for your business! </string>
     <string name="business_choose_image_can_be_done_later">This stage can be completed later on </string>

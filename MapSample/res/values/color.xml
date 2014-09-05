@@ -13,6 +13,6 @@
     <color name="background_welcome_activity_1">#E7FEFF</color>
     <color name="background_welcome_activity_2">#536872</color>
     <color name="background_welcome_activity_3">#00563F</color>
-    
+    <color name="background_settings_activities">#536872</color>
     
 </resources>
