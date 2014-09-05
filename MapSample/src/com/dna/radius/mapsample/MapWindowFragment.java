@@ -170,7 +170,7 @@ public class MapWindowFragment extends Fragment {
 				@Override
 				public boolean onLongClick(View v) {
 					LatLng latLng = gMap.getCameraPosition().target;
-					clientData.setHome(latLng);
+					ClientData.setHome(latLng);
 
 					Toast.makeText(getActivity(), "new home location was selected", Toast.LENGTH_SHORT).show();
 					return false;
@@ -179,7 +179,7 @@ public class MapWindowFragment extends Fragment {
 			homeButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					LatLng loc = clientData.getHome();
+					LatLng loc = ClientData.getHome();
 					gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, DEFAULT_ANIMATED_ZOOM));
 					gMap.animateCamera(CameraUpdateFactory.zoomTo(DEFAULT_ANIMATED_ZOOM), 2000, null);
 				}
