@@ -59,7 +59,7 @@ public class MapBusinessManager {
 	/**returns true if a business has a certain property.*/
 	public boolean hasProperty(ExternalBusiness buisness,Property p){
 		if(p==Property.FAVORITES_PROP){
-			boolean retVal = clientData.isInFavourites(buisness.businessId); //TODO - improve!
+			boolean retVal = ClientData.isInFavourites(buisness.businessId); //TODO - improve!
 			return retVal;
 		}else if(p==Property.TOP_DEALS_PROP){
 			return isInTopDeals(buisness.businessId); 

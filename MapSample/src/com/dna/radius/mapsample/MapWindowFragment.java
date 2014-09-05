@@ -207,7 +207,6 @@ public class MapWindowFragment extends Fragment {
 
 	@Override
 	public void onDestroyView() {
-		// TODO Auto-generated method stub
 		super.onDestroyView();
 		DBHandler.close();
 
