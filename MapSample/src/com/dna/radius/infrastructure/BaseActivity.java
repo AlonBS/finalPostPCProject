@@ -18,6 +18,7 @@ import android.view.MenuItem;
 
 import com.dna.radius.R;
 import com.dna.radius.businessmode.BusinessOpeningScreenActivity;
+import com.dna.radius.businessmode.BusinessSettingsActivity;
 import com.dna.radius.clientmode.ClientGeneralSettingsActivity;
 import com.dna.radius.clientmode.ClientOpeningScreenActivity;
 import com.dna.radius.login.MainActivity;
@@ -101,7 +102,7 @@ public abstract class BaseActivity extends FragmentActivity{
 			Intent myIntent = new Intent(this, ClientGeneralSettingsActivity.class);
 			startActivity(myIntent);
 		}else{
-			Intent myIntent = new Intent(this, ClientGeneralSettingsActivity.class);
+			Intent myIntent = new Intent(this, BusinessSettingsActivity.class);
 			startActivity(myIntent);
 		}
 		

@@ -25,7 +25,6 @@ public class BusinessFillDetailsFragment extends Fragment{
 
 	private Spinner businessTypeSpinner;
 
-	private String businessName;
 	private SupportedTypes.BusinessType businessType;
 
 	/**these parameters are used for changing the default hints whenever the business is already
@@ -109,7 +108,7 @@ public class BusinessFillDetailsFragment extends Fragment{
 	 */
 	public boolean neededInfoGiven() {
 
-		businessName = businessNameEditText.getText().toString();
+		String businessName = businessNameEditText.getText().toString();
 
 		if (businessName.isEmpty() || illegalBusinessName(businessName)) {
 			Toast.makeText(getActivity(), getResources().getString(R.string.business_name_forgot_to_fill), Toast.LENGTH_SHORT).show();
@@ -132,7 +131,7 @@ public class BusinessFillDetailsFragment extends Fragment{
 	}
 
 	public String getBusinessName(){
-		return businessName;
+		return businessNameEditText.getText().toString();
 	}
 
 	public SupportedTypes.BusinessType getBusinessType(){

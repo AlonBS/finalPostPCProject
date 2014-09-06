@@ -29,14 +29,18 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class LocationFinderFragment extends Fragment {
-	
+
 	private GoogleMap gMap;
 	private static final float DEFAULT_LATLNG_ZOOM = 20;
 	private static final float DEFAULT_ANIMATED_ZOOM = 15;
 	private static LatLng defaultLocation = new LatLng(31.781984, 35.218221);
 	private LatLng chosenLocation = null;
-	
+
+	//this varible is set if the business owner filled the address field in the welcome screen
 	private String address = "";
+	//this variably is set if the location is already exists 
+	//(whenever the owner wants to change his location through the settings activity)
+	private LatLng prevLocation = null;
 
 	/**
 	 * Builds a new LocationFinderFragment. the fragment sets the map center according to the given address.
@@ -44,38 +48,38 @@ public class LocationFinderFragment extends Fragment {
 	 * @param address
 	 */
 	public LocationFinderFragment(String address) {
-		
+
 		if (address==null || address.equals("")) {
 			this.address = "";
-			
+
 		} else {
 			this.address = address;
 		}
 	}
-	
+
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-		
+
 		View view = inflater.inflate(R.layout.find_location_fragment,container, false);
-		
+
 		//sets a request according to the current
 		TextView userRequestTextView = (TextView)view.findViewById(R.id.find_location_user_request);
 		String textRequest;
-		
+
 		if (BaseActivity.isInBusinessMode) {
-			
+
 			if( !address.isEmpty() )
 				textRequest = getResources().getString(R.string.find_location_please_varify);
 			else
 				textRequest = getResources().getString(R.string.find_location_business_request);
-			
+
 		}else {
 			textRequest = getResources().getString(R.string.find_location_client_request);
 		}
 
 		userRequestTextView.setText(textRequest);
-		
+
 		//loads the google map objects and set the default location
 		FragmentManager manager = getActivity().getSupportFragmentManager();
 		gMap = ((SupportMapFragment)manager.findFragmentById(R.id.map)).getMap();
@@ -91,20 +95,20 @@ public class LocationFinderFragment extends Fragment {
 				if(chosenLocation!=null){
 					gMap.clear();
 				}
-				
+
 				gMap.addMarker(new MarkerOptions().position(point));
 				chosenLocation = point;
 			}
 		});
-		
-		
+
+
 		//handles the search address feature
 		final ImageView searchAddressBtn = (ImageView)view.findViewById(R.id.search_address_button);
 		final EditText addressEditText = (EditText)view.findViewById(R.id.search_address_edit_text);
 		if( !address.isEmpty() ){
 			addressEditText.setHint(address);
 		}
-		
+
 		searchAddressBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -123,6 +127,16 @@ public class LocationFinderFragment extends Fragment {
 			}
 			chosenLocation = gMap.getCameraPosition().target;
 		}
+
+		//if the business already has a location - the map center will be the existing location
+		if(prevLocation!=null){
+			gMap.clear();
+			gMap.addMarker(new MarkerOptions().position(prevLocation));
+			chosenLocation = prevLocation;
+			gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, DEFAULT_LATLNG_ZOOM));
+			gMap.animateCamera(CameraUpdateFactory.zoomTo(DEFAULT_ANIMATED_ZOOM), 2000, null);
+
+		}
 		return view;
 	}
 
@@ -137,11 +151,11 @@ public class LocationFinderFragment extends Fragment {
 				Double lon = (double) (addresses.get(0).getLongitude());
 				Log.d("lat-long", "" + lat + "......." + lon);
 				final LatLng latLngLocation = new LatLng(lat, lon);
-				
+
 				gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngLocation, DEFAULT_LATLNG_ZOOM));
 				// Zoom in, animating the camera.
 				gMap.animateCamera(CameraUpdateFactory.zoomTo(DEFAULT_ANIMATED_ZOOM), 2000, null);
-			
+
 				if(chosenLocation!=null){
 					gMap.clear();
 				}
@@ -158,7 +172,17 @@ public class LocationFinderFragment extends Fragment {
 		return true;
 
 	}
-	
+
+	/**
+	 * this function is called in case that the business already had a location before.
+	 * meaning that the business is already exists and the owner changes his data through
+	 * the settings activity.
+	 * @param prevLocation
+	 */
+	public void setPreviousLocation(LatLng prevLocation){
+		this.prevLocation = prevLocation;
+	}
+
 	@Override
 	public void onDestroyView() {
 		// TODO Auto-generated method stub
@@ -170,14 +194,14 @@ public class LocationFinderFragment extends Fragment {
 		if (mapFragment != null && !getActivity().isFinishing()) {
 			FragmentManager fM = getActivity().getSupportFragmentManager();
 			FragmentTransaction trans = fM.beginTransaction();
-			
+
 			trans.remove(mapFragment);
 			trans.commitAllowingStateLoss();
 			mapFragment = null;
 		}
 
 	}
-	
+
 	public boolean neededInfoGiven() {
 		if(chosenLocation != null){
 			return true;
