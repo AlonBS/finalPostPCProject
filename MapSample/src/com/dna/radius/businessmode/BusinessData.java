@@ -170,6 +170,7 @@ public class BusinessData {
 			Log.e("Business - location change", e.getMessage());
 		}
 		businessInfo.put(ParseClassesNames.BUSINESS_LOCATION, coordinates);
+		businessInfo.saveInBackground();
 	}
 	
 	

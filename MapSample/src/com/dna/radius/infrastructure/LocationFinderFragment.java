@@ -133,7 +133,7 @@ public class LocationFinderFragment extends Fragment {
 			gMap.clear();
 			gMap.addMarker(new MarkerOptions().position(prevLocation));
 			chosenLocation = prevLocation;
-			gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, DEFAULT_LATLNG_ZOOM));
+			gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(chosenLocation, DEFAULT_LATLNG_ZOOM));
 			gMap.animateCamera(CameraUpdateFactory.zoomTo(DEFAULT_ANIMATED_ZOOM), 2000, null);
 
 		}
