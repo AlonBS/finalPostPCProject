@@ -33,7 +33,7 @@ public class ParseClassesNames {
 	public static final String BUSINESS_RATING = "rating";
 	public static final String BUSINESS_ADDRESS = "address";
 	public static final String BUSINESS_PHONE = "phoneNumber";
-	public static final String BUSINESS_PICTURE = "picture";
+	public static final String BUSINESS_IMAGE = "image";
 	public static final String BUSINESS_LOCATION = "location";
 	public static final String BUSINESS_LOCATION_LAT = "businessLatitude";
 	public static final String BUSINESS_LOCATION_LONG = "businessLongtitude";

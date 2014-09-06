@@ -55,23 +55,23 @@ public class DBHandler {
 			loadTopBusinesses = null;
 		}
 	}
+//
+//	/**
+//	 * set a new home location for the user.
+//	 */
+//	public static void setHome(int id, double lat, double lng){
+//		//TODO - ALON - implement
+//	}
+//
 
-	/**
-	 * set a new home location for the user.
-	 */
-	public static void setHome(int id, double lat, double lng){
-		//TODO - ALON - implement
-	}
-
-
-	/**
-	 * adds a business id to the user favorites table.
-	 * @param id
-	 */
-	public static void updateFavourites(int userId, ArrayList<Integer> favouritesList){
-		//TODO - alon, implement
-	}
-
+//	/**
+//	 * adds a business id to the user favorites table.
+//	 * @param id
+//	 */
+//	public static void updateFavourites(int userId, ArrayList<Integer> favouritesList){
+//		//TODO - alon, implement
+//	}
+//
 
 
 	/**

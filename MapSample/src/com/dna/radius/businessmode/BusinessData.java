@@ -1,30 +1,34 @@
 package com.dna.radius.businessmode;
 
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Random;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 
-import com.dna.radius.R;
-import com.dna.radius.datastructures.Comment;
 import com.dna.radius.datastructures.Deal;
 import com.dna.radius.datastructures.DealHistoryManager;
-import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.dbhandling.ParseClassesNames;
 import com.dna.radius.infrastructure.SupportedTypes;
+import com.dna.radius.infrastructure.SupportedTypes.BusinessType;
 import com.google.android.gms.maps.model.LatLng;
+import com.parse.GetDataCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.parse.ProgressCallback;
+import com.parse.SaveCallback;
 
 /***
  * an owner data object represents all the data which the business owner needs for
@@ -47,23 +51,130 @@ public class BusinessData {
 	
 	
 
-	static boolean hasADealOnDisplay;
+	//static boolean hasADealOnDisplay;
 	static Deal currentDeal; //the current deal string
 	//public int numberOfLikes;
 	//public int numberOfDislikes;
 	
 	
 	
-	static boolean hasImageOnDisplay; //does the business has an image?
-	public Bitmap image; // the image of the business (if exists)
+	static boolean hasImage; //does the business has an image?
+	static Bitmap businessImage = null; // the image of the business (if exists)
 	
 	static DealHistoryManager dealsHistory;
 	
 	static final float DEFAULT_RATING = 3;
 	
+	
 	private static final String SEPERATOR = "###";
 	
 	static final String DATE_FORMAT = "dd-MM-yyyy";
+	
+	
+	
+	public static String getUserName(){ return currentUser.getUsername(); }
+	
+	
+	
+	public static void setUserName(String newUserName){
+		//TODO alon - is this enough? + saveEventually() get stuck.
+		currentUser.setUsername(newUserName);
+		currentUser.saveInBackground();
+	}
+	
+	public static String getEmail(){ return currentUser.getEmail(); }
+	
+	public static void setEmail(String newEmail){
+		//TODO alon - is this enough? + saveEventually() get stuck.
+		currentUser.setEmail(newEmail);
+		currentUser.saveInBackground();
+	}
+	
+	public static void setPassword(String newPassword){
+		//TODO alon - is this enough? + saveEventually() get stuck.
+		currentUser.setPassword(newPassword); 
+		currentUser.saveInBackground();
+	}
+	
+	
+	public static boolean hasADealOnDisplay() { return currentDeal != null; }
+	
+	public static boolean hasImage() { return hasImage; }
+	
+	public static boolean imageFullyLoaded() { return businessImage != null; }
+	
+	
+
+//	public static Bitmap getImage(){
+//		return businessImage;
+//	}
+//	
+//	public static void setImage (Bitmap newImage) {
+//		businessImage = newImage;
+//		//TODO save image on parse
+//	}
+	
+	public static String getName() { return businessName; }
+	
+	public static void setName(String newName) {
+		
+		businessName = newName;
+		businessInfo.put(ParseClassesNames.BUSINESS_NAME, businessAddress);
+		businessInfo.saveInBackground(); //TODO should be saveEvantually()
+	}
+	
+	public static SupportedTypes.BusinessType getType() { return businessType; }
+	
+	public static void setType (BusinessType newType) {
+		
+		businessType = newType;
+		businessInfo.put(ParseClassesNames.BUSINESS_TYPE, businessType.getStringRep());
+		businessInfo.saveInBackground(); //TODO should be saveEvantually()
+	}
+	
+	
+	public String getAddress(){ return businessAddress; }
+	
+	public void setAddress(String newAddress) {
+		
+		businessAddress = newAddress;
+		businessInfo.put(ParseClassesNames.BUSINESS_ADDRESS, businessAddress);
+		businessInfo.saveInBackground(); //TODO should be saveEvantually()
+	}
+	
+	
+	public static String getPhoneNumber() { return businessPhoneNumber; }
+	
+	public static void setPhoneNumber(String newPhoneNumber) {
+		
+		businessPhoneNumber = newPhoneNumber;
+		businessInfo.put(ParseClassesNames.BUSINESS_PHONE, businessPhoneNumber);
+		businessInfo.saveInBackground(); //TODO should be saveEvantually()
+	}
+	
+	
+	public static LatLng getLocation() { return businessLocation; }
+	
+	public static void setLocation (LatLng newLocation) {
+		
+		businessLocation = newLocation;
+		
+		JSONObject coordinates = new JSONObject();
+		try {
+			coordinates.put(ParseClassesNames.BUSINESS_LOCATION_LAT , businessLocation.latitude);
+			coordinates.put(ParseClassesNames.BUSINESS_LOCATION_LONG , businessLocation.longitude);
+
+		} catch (JSONException e) {
+
+			Log.e("Business - location change", e.getMessage());
+		}
+		businessInfo.put(ParseClassesNames.BUSINESS_LOCATION, coordinates);
+	}
+	
+	
+	
+	
+	
 	
 	/** loads the Client data from the parse DB*/
 	public static void loadBusinessInfo(){
@@ -112,17 +223,22 @@ public class BusinessData {
 	
 	private static void loadExtraInfo() {
 		
+		loadRawData();
+
+		loadLocation();
+				
+		loadCurrentDeal();
+		
+		loadDealsHistory();
+	}
+	
+	private static void loadRawData() {
+		
 		businessName = businessInfo.getString(ParseClassesNames.BUSINESS_INFO);
 		businessRating = businessInfo.getDouble(ParseClassesNames.BUSINESS_RATING); // range should be: [0, 5]
 		businessType = SupportedTypes.BusinessType.stringToType(businessInfo.getString(ParseClassesNames.BUSINESS_TYPE));
 		businessAddress = businessInfo.getString(ParseClassesNames.BUSINESS_ADDRESS);
 		businessPhoneNumber = businessInfo.getString(ParseClassesNames.BUSINESS_PHONE);
-
-		loadLocation();
-		
-		loadCurrentDeal();
-		
-		loadDealsHistory();
 	}
 	
 	
@@ -143,32 +259,88 @@ public class BusinessData {
 	}
 	
 	
-	
-	public static String getUserName(){
-		return currentUser.getUsername();
+	static void loadImage(final ImageView im, final ProgressBar pb) {
+		
+		
+		ParseFile file = businessInfo.getParseFile(ParseClassesNames.BUSINESS_IMAGE);
+		
+		if (file == null) {
+			
+			hasImage = false;
+			return;
+		}
+		
+		file.getDataInBackground(
+				new GetDataCallback() {
+
+					public void done(byte[] data, ParseException e) {
+
+						if (e == null) {
+
+							pb.setVisibility(View.GONE);
+							businessImage = BitmapFactory.decodeByteArray(data, 0 ,data.length);
+							if(im==null){
+								return;
+							}
+							im.setImageBitmap(businessImage);
+							im.setVisibility(View.GONE);
+							hasImage = true;
+						}
+						else {
+							Log.e("Business - Load image", e.getMessage());
+						}
+					}
+				});
+
+		//TODO add progress feature ?
+//				new ProgressCallback() {
+//
+//					@Override
+//					public void done(Integer arg0) {
+//						// TODO Auto-generated method stub
+//
+//					}
+//				});
 	}
 	
-	public static String getEmail(){
-		return currentUser.getEmail();
-	}
 	
-	public static void setUserName(String newUserName){
-		//TODO alon - is this enough? + saveEventually() get stuck.
-		currentUser.setUsername(newUserName);
-		currentUser.saveInBackground();
+	static void setImage(Bitmap newImage) {
+		
+		//TODO Remove old picture reference
+		
+		businessImage = newImage;   
+	    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+	    byte[] data = stream.toByteArray();
+
+	    if (data != null){
+	    	
+	        final ParseFile file = new ParseFile(data);
+	        
+	        file.saveInBackground(new SaveCallback() {
+
+				@Override
+				public void done(ParseException e) {
+					
+					if (e==null) {
+						
+						businessInfo.put(ParseClassesNames.BUSINESS_IMAGE, file);
+						businessInfo.saveInBackground(); //TODO SHOULD BE SAVE EVENTUALLY
+						
+					}
+				}
+			});
+	    }
 	}
+	    
+	    
+		
+		
+		
 	
-	public static void setEmail(String newEmail){
-		//TODO alon - is this enough? + saveEventually() get stuck.
-		currentUser.setEmail(newEmail);
-		currentUser.saveInBackground();
-	}
+		
 	
-	public static void setPassword(String newPassword){
-		//TODO alon - is this enough? + saveEventually() get stuck.
-		currentUser.setPassword(newPassword); 
-		currentUser.saveInBackground();
-	}
+	
+	
 	
 	
 	
@@ -224,9 +396,6 @@ public class BusinessData {
 					jo.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_LIKES),
 					jo.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_DISLIKES),
 					new SimpleDateFormat(DATE_FORMAT).parse(jo.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE)));
-			
-			hasADealOnDisplay = true;
-			
 
 		} catch (JSONException e) {
 
@@ -287,12 +456,6 @@ public class BusinessData {
 	
 	
 	
-	
-	
-	
-	
-	
-	
 	public static void createNewDeal(String content) {
 		
 		String id = businessInfo.getObjectId() + SEPERATOR + Integer.toString(dealsHistory.getTotalNumOfDeals());
@@ -319,7 +482,7 @@ public class BusinessData {
 		
 		
 		// check if history update is required
-		if (hasADealOnDisplay) {
+		if ( hasADealOnDisplay() ) {
 			
 			// history update - locally
 			dealsHistory.incTotalNumOfLikes(currentDeal.getNumOfLikes());
@@ -350,44 +513,9 @@ public class BusinessData {
 			currentUser.saveInBackground(null);
 			businessInfo.saveInBackground(null);
 		}
-		
-		
-		
-		hasADealOnDisplay = true;
-		
-		
-//		DBHandler.setDeal(businessID,currentDeal,0,0);
 	}
 	
 	
 	
 	
-	public void changeBusinessImage(Bitmap bmap){
-	//	this.image = bmap;
-//		DBHandler.setImage(businessID, bmap);
-	}
-	
-	public void changeBusinessAddress(String address){
-	//	this.address = address;
-	//	DBHandler.setBusinessAddress(businessID,address);
-	}
-	public void changeBusinessPhone(String phoneNumber){
-		//this.phoneNumber = phoneNumber;
-//		DBHandler.setBusinessPhone(businessID,phoneNumber);
-	}
-	
-	public void changeBusinessName(String name){
-		//this.name = name;
-	//	DBHandler.setBusinessName(businessID,name);
-		
-	}
-	public void changeBusinessLocation(LatLng newLocation){
-		this.businessLocation = newLocation;
-	//	DBHandler.setBusinessLocation(businessID,newLocation);
-	}
-	
-	
-	public static boolean hasADealOnDisplay() { return hasADealOnDisplay; }
-	
-	public static boolean hasImageOnDisplay() { return hasImageOnDisplay; }
 }

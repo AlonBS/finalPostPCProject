@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.dna.radius.R;
@@ -56,8 +58,14 @@ public class BusinessDashboardFragment extends Fragment{
 
 		/*handles the image of the business*/
 		imageView = (ImageView)view.findViewById(R.id.buisness_image_view);
-		if(BusinessData.hasImageOnDisplay()){
-			imageView.setImageBitmap(activityParent.ownerData.image);
+		if(BusinessData.hasImage()){
+			if(BusinessData.imageFullyLoaded()){
+				imageView.setImageBitmap(BusinessData.businessImage);
+				imageView.setVisibility(View.VISIBLE);
+				//TODO - DROR handle imageview and progress bar visibility
+			}else{
+				BusinessData.loadImage(imageView, new ProgressBar(getActivity()));//TODO
+			}
 		}else{
 			imageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.set_business_image));
 		}
@@ -192,7 +200,7 @@ public class BusinessDashboardFragment extends Fragment{
 	    }
 		
 		if(newBmap!=null){
-			activityParent.ownerData.changeBusinessImage(newBmap);
+			//BusinessData.setImage(newBmap.compress(CompressFormat.JPEG, )); TODO CANGE
 			imageView.setImageBitmap(newBmap);
 		}else{
 			Log.e("BusinessDashboardFragment", "ERROR!! The RETURNED BITMAP IS NULL");

@@ -63,7 +63,7 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 
 	}
 
-	
+
 	@Override
 	public void onBackPressed() {
 		//if the user is in the fill detail screen - do nothing
@@ -72,7 +72,7 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 			numberOfTimesNextWasPressed = 0;
 			return;
 		}
-		
+
 		//if not - set the button to be a progress button
 		super.onBackPressed();
 		progressButton.setCompoundDrawablesWithIntrinsicBounds(null, null,  getResources().getDrawable(R.drawable.ic_action_next_item),  null);
@@ -80,23 +80,23 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 
 	}
 
-	
+
 	private void setProgressBtn(){
 
 		progressButton = (Button)findViewById(R.id.progress_btn);
 		progressButton.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 
 				if (numberOfTimesNextWasPressed == FIND_LOCATION_FRAGEMENT_IS_NEXT || 
 						numberOfTimesNextWasPressed == GET_IMAGE_FRAGEMENT_TURN_IS_NEXT) {
-					
+
 					final FragmentManager fragmentManager = getSupportFragmentManager();
 					Fragment nextFragment = null;
-					
+
 					if (numberOfTimesNextWasPressed == FIND_LOCATION_FRAGEMENT_IS_NEXT) {
-						
+
 						//tests if it's possible to move to the next fragment
 						BusinessWelcomeFillDetailsFragment currentFragment = (BusinessWelcomeFillDetailsFragment)fragmentManager.findFragmentById(R.id.business_welcome_main_fragment_layout);
 						if( !currentFragment.neededInfoGiven()) return;
@@ -115,7 +115,7 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 						//gets the chosen location from the fragment
 						LocationFinderFragment currentFragment = (LocationFinderFragment)fragmentManager.findFragmentById(R.id.business_welcome_main_fragment_layout);
 						if (!currentFragment.neededInfoGiven()) return;
-						
+
 						BusinessData.businessLocation = currentFragment.getLocation();
 						nextFragment = new BusinessChooseImageFragment();
 
@@ -134,12 +134,12 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 					fragmentTransaction.commit();
 
 				}else if (numberOfTimesNextWasPressed == FINISH_FILLING_DETAILS_IS_NEXT) {
-					
+
 					finishRegistration();
 					finish(); // activity
-					
+
 				}else{
-					
+
 					Log.e("BusinessWelcomeActivity", "error with the next button. numberOfTimesNextWasPressed:" + numberOfTimesNextWasPressed);
 				}
 			}
@@ -167,12 +167,6 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 		newBusiness.put(ParseClassesNames.BUSINESS_TYPE, BusinessData.businessType.getStringRep());
 		newBusiness.put(ParseClassesNames.BUSINESS_ADDRESS, BusinessData.businessAddress);
 		newBusiness.put(ParseClassesNames.BUSINESS_PHONE, BusinessData.businessPhoneNumber);
-		
-		BusinessData.businessRating = BusinessData.DEFAULT_RATING;
-		newBusiness.put(ParseClassesNames.BUSINESS_RATING, BusinessData.DEFAULT_RATING);
-		
-		//TODO add picture to parse - using parseFile
-		newBusiness.put(ParseClassesNames.BUSINESS_PICTURE, "yosi");
 
 		// store location on parse
 		JSONObject coordinates = new JSONObject();
@@ -185,12 +179,19 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 			Log.e("Business - location create", e.getMessage());
 		}
 		newBusiness.put(ParseClassesNames.BUSINESS_LOCATION, coordinates);
-		
-		
+
+		BusinessData.businessRating = BusinessData.DEFAULT_RATING;
+		newBusiness.put(ParseClassesNames.BUSINESS_RATING, BusinessData.DEFAULT_RATING);
+
+		//TODO add picture to parse - using parseFile
+//		newBusiness.put(ParseClassesNames.BUSINESS_PICTURE, "yosi");
+
+
+
+
 		BusinessData.currentDeal = null;
-		BusinessData.hasADealOnDisplay = false;
 		newBusiness.put(ParseClassesNames.BUSINESS_CURRENT_DEAL, new JSONObject());
-		
+
 		//build deal-history column:
 		JSONObject dealsHistory = new JSONObject();
 		try {
@@ -204,53 +205,53 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 			Log.e("Business - deal history create", e.getMessage());
 		}
 		newBusiness.put(ParseClassesNames.CLIENT_PREFERRING, dealsHistory);
-		
-		
-		
-		
-		
-		
-//		
-//		 "totalLikes" : 13523523,
-//			"totalDisLikes" : 23234234,
-//			"totalNumberOfDeals" : 30,
-//			"deals" : [
-//		        {
-//					"dealId": "234fg##5",
-//					"dealContent": "Kol ha'olam kulu - gesher zar meod"
-//					"numberOfLikes": 141
-//					"numberOfDislikes": 234
-//		            "date": "12/14/1988"
-//		        },
-//		        {
-//		            "business_Id": "234fg"
-//		        }
-//		    ],
-//		
-		
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
+		//		
+		//		 "totalLikes" : 13523523,
+		//			"totalDisLikes" : 23234234,
+		//			"totalNumberOfDeals" : 30,
+		//			"deals" : [
+		//		        {
+		//					"dealId": "234fg##5",
+		//					"dealContent": "Kol ha'olam kulu - gesher zar meod"
+		//					"numberOfLikes": 141
+		//					"numberOfDislikes": 234
+		//		            "date": "12/14/1988"
+		//		        },
+		//		        {
+		//		            "business_Id": "234fg"
+		//		        }
+		//		    ],
+		//		
+
+
+
+
+
+
+
 
 
 		// add a pointer in user to business. i.e. user->businessData
 		ParseUser currentUser = ParseUser.getCurrentUser();
 		currentUser.put(ParseClassesNames.BUSINESS_INFO, newBusiness);
 
-		
+
 		// sync online
 		try {
-			
+
 			newBusiness.save();
 			BusinessData.currentUser.save();
 			BusinessData.businessInfo = newBusiness;
-			
+
 			BusinessData.currentUser.fetchIfNeeded();
 			BusinessData.businessInfo.fetchIfNeeded();
-			
+
 		} catch (ParseException e) {
 			Log.e("Welcome - business", e.getMessage());
 		}
