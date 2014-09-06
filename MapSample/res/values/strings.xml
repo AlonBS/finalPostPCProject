@@ -5,11 +5,16 @@
     <string name="action_settings">Settings</string>
 
     <!-- General strings -->
-
     <string name="welcome">Welcome!</string>
     <string name="next_button">Next</string>
     <string name="user_name">User Name</string>
     <string name="password">Password</string>
+
+    <!-- business strings -->
+    <string name="Settings_title">Settings</string>
+    <string name="user_settings">User Settings</string>
+    <string name="Location_settings">Location Settings</string>
+    <string name="business_settings">Business Settings</string>
 
     <!-- Login-in activity strings -->
     <string name="login">Log In</string>
@@ -101,9 +106,6 @@
     <string name="switching"> switching</string>
     <string name="log_out"> log out</string>
 
-    <!-- settings -->
-    <string name="user_settings"> user settings</string>
-    <string name="business_settings"> business settings</string>
 
     <!-- map -->
     <string name="type_address">type address here</string>

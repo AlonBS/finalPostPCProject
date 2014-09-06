@@ -57,7 +57,7 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 		//starts the fill details fragment
 		final FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-		BusinessWelcomeFillDetailsFragment businessWelcomeFragment = new BusinessWelcomeFillDetailsFragment();
+		BusinessFillDetailsFragment businessWelcomeFragment = new BusinessFillDetailsFragment();
 		fragmentTransaction.add(R.id.business_welcome_main_fragment_layout, businessWelcomeFragment);
 		fragmentTransaction.commit();
 
@@ -98,7 +98,7 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 					if (numberOfTimesNextWasPressed == FIND_LOCATION_FRAGEMENT_IS_NEXT) {
 
 						//tests if it's possible to move to the next fragment
-						BusinessWelcomeFillDetailsFragment currentFragment = (BusinessWelcomeFillDetailsFragment)fragmentManager.findFragmentById(R.id.business_welcome_main_fragment_layout);
+						BusinessFillDetailsFragment currentFragment = (BusinessFillDetailsFragment)fragmentManager.findFragmentById(R.id.business_welcome_main_fragment_layout);
 						if( !currentFragment.neededInfoGiven()) return;
 
 						//Retrieves the business data from fragment

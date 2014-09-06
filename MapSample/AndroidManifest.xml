@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!--
          The following two permissions are not required to use
-    	 Google Maps Android API v2, but are recommended.
+    	 Google Maps Android API v2, but are recommended.
     -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -79,7 +79,14 @@
         </activity>
         <activity
             android:name="com.dna.radius.clientmode.ClientGeneralSettingsActivity"
-            android:label="@string/general_settings">
+            android:label="@string/general_settings" >
+            <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.dna.radius.businessmode.BusinessSettingsActivity"
+            android:label="@string/general_settings" >
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
