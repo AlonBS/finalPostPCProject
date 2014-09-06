@@ -202,14 +202,21 @@ public class ClientData{
 	 */
 	public static void setHome(LatLng latlng){
 		homeLocation = latlng;
-		ArrayList<Double> coordinates = new ArrayList<Double>();
-		coordinates.add(latlng.latitude);
-		coordinates.add(latlng.longitude);
-
+		//ArrayList<JSONObject> coordinates = new ArrayList<JSONObject>();
+		JSONObject coordinates = new JSONObject();
+		try {
+			coordinates.put(ParseClassesNames.CLIENT_LOCATION_LAT ,ClientData.homeLocation.latitude);
+			coordinates.put(ParseClassesNames.CLIENT_LOCATION_LONG ,ClientData.homeLocation.longitude);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		clientInfo.put(ParseClassesNames.CLIENT_LOCATION, coordinates);
-
+		
 		// TODO - maybe concentrate more than one call
 		clientInfo.saveEventually();
+		
+		
 	}
 
 
