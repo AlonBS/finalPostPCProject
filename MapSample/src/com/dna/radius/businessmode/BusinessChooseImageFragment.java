@@ -1,8 +1,11 @@
 package com.dna.radius.businessmode;
 
+import java.io.ByteArrayOutputStream;
+
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
@@ -113,6 +116,8 @@ public class BusinessChooseImageFragment extends  Fragment{
 	}
 	
 	public Bitmap getImageBitmap(){
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		currentBitmap.compress(CompressFormat.JPEG, 100, baos);
 		return currentBitmap;
 	}
 
