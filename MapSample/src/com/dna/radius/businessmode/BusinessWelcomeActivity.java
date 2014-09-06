@@ -91,10 +91,11 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 			@Override
 			public void onClick(View v) {
 
+				final FragmentManager fragmentManager = getSupportFragmentManager();
+				
 				if (numberOfTimesNextWasPressed == FIND_LOCATION_FRAGEMENT_IS_NEXT || 
 						numberOfTimesNextWasPressed == GET_IMAGE_FRAGEMENT_TURN_IS_NEXT) {
 
-					final FragmentManager fragmentManager = getSupportFragmentManager();
 					Fragment nextFragment = null;
 
 					if (numberOfTimesNextWasPressed == FIND_LOCATION_FRAGEMENT_IS_NEXT) {
@@ -136,7 +137,13 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 					fragmentTransaction.commit();
 
 				}else if (numberOfTimesNextWasPressed == FINISH_FILLING_DETAILS_IS_NEXT) {
-
+					
+					BusinessChooseImageFragment currentFragment = (BusinessChooseImageFragment)fragmentManager.findFragmentById(R.id.business_welcome_main_fragment_layout);
+					
+					if (currentFragment.neededInfoGiven()) {
+						BusinessData.businessImage = currentFragment.getImageBitmap();
+					}
+					
 					finishRegistration();
 					finish(); // activity
 
@@ -186,10 +193,11 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 		}
 		newBusiness.put(ParseClassesNames.BUSINESS_LOCATION, coordinates);
 
-		
-
-		//TODO add picture to parse - using parseFile
-//		newBusiness.put(ParseClassesNames.BUSINESS_PICTURE, "yosi");
+		// TODO this is akum
+		if (BusinessData.businessImage != null) {
+			
+			BusinessData.setImage(BusinessData.businessImage);
+		}
 
 
 		BusinessData.currentDeal = null;
@@ -209,42 +217,6 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 			Log.e("Business - deal history create", e.getMessage());
 		}
 		newBusiness.put(ParseClassesNames.BUSINESS_HISTORY, dealsHistory);
-
-
-
-
-
-
-		//		
-		//		 "totalLikes" : 13523523,
-		//			"totalDisLikes" : 23234234,
-		//			"totalNumberOfDeals" : 30,
-		//			"deals" : [
-		//		        {
-		//					"dealId": "234fg##5",
-		//					"dealContent": "Kol ha'olam kulu - gesher zar meod"
-		//					"numberOfLikes": 141
-		//					"numberOfDislikes": 234
-		//		            "date": "12/14/1988"
-		//					"comment" : [
-		//						{
-		//								"authorName" : "yosi"
-		//								"commentContent: "YA ZAIN"
-		//								"commentDate" : 12/13/2035
-		//
-		//		        },
-		//		        {
-		//		            "business_Id": "234fg"
-		//		        }
-		//		    ],
-		//		
-
-
-
-
-
-
-
 
 
 		// add a pointer in user to business. i.e. user->businessData

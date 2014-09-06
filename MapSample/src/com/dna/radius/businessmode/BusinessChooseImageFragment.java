@@ -148,6 +148,11 @@ public class BusinessChooseImageFragment extends  Fragment{
 	public Bitmap getImageBitmap(){
 		return currentBitmap;
 	}
+	
+	
+	public boolean neededInfoGiven(){
+		return currentBitmap != null;
+	}
 
 
 
