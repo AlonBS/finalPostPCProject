@@ -1,5 +1,6 @@
 package com.dna.radius.datastructures;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -10,34 +11,46 @@ import java.util.Date;
 public class Deal {
 	
 	private String id;
-	private String content;
+	private String dealContent;
 	private int numOfLikes;
 	private int numOfDislikes;
 	private Date date;
+	private ArrayList<Comment> dealComments;
 	
 	public Deal(String id, String content,
 			int numOfLikes, int numOfDislikes, Date date) {
 		
 		this.id = id;
-		this.content = content;
+		this.dealContent = content;
 		this.numOfLikes = numOfLikes;
 		this.numOfDislikes = numOfDislikes;
 		this.date = date;
+		
+		this.dealComments = new ArrayList<Comment>();
+		
 	}
 	
 	public String getId() { return id; }
 	
-	public String getContent() { return content; }
+	public String getDealContent() { return dealContent; }
 	
 	public int getNumOfDislikes() { return numOfDislikes; }
 	
 	public int getNumOfLikes() { return numOfLikes; }
 	
-	public Date getDate() { return date; }
+	public Date getDealDate() { return date; }
 	
 	public void setNumOfLikes(int numOfLikes) { this.numOfLikes = numOfLikes; }
 	
 	public void setNumOfDislikes(int numOfDislikes) { this.numOfDislikes = numOfDislikes; }
+	
+	public void addComment(Comment newComment) { dealComments.add(newComment); }
+	
+	// TODO - needed?
+	public ArrayList<Comment> getComments() { return dealComments; }
+	
+	//TODO - needed?
+	public void setComments(ArrayList<Comment> comments) { this.dealComments = comments; }
 	
 	
 }

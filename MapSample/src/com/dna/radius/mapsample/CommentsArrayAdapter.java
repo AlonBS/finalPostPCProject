@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.dna.radius.R;
 import com.dna.radius.datastructures.Comment;
+import com.dna.radius.infrastructure.BaseActivity;
 
 /***
  * represents an array adapter view for the comments list.
@@ -47,14 +48,15 @@ public class CommentsArrayAdapter extends ArrayAdapter<Comment>{
 		 }
 		 
 		 Comment c =  super.getItem(position);
-		 String commentStr = c.getCommentStr();
-		 String userNameStr = c.getUserName();		 
-		 String dateStr = dateFormat.format(c.getDate().getTime());
+		 String authorName = c.getAuthorName();		
+		 String commentContent = c.getCommentContent();
+		 String dateStr = new SimpleDateFormat(BaseActivity.DATE_FORMAT).format(c.getCommentDate()); 
+		 
 		 
 		 TextView rowTextView = (TextView)rowView.findViewById(R.id.comment_text_view);
 		 
-		 String userNameHtml = " <font color=#000000><b> " + userNameStr + ": </font></b>";
-		 String commentHtml = "<font color=#000000>" + commentStr + "</font>   ";
+		 String userNameHtml = " <font color=#000000><b> " + authorName + ": </font></b>";
+		 String commentHtml = "<font color=#000000>" + commentContent + "</font>   ";
 		 String dateHtml = "<font color=#0000DD><b>" + dateStr + "<b></font>";
 		 
 		 rowTextView.setText(Html.fromHtml(userNameHtml + commentHtml + dateHtml));

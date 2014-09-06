@@ -39,10 +39,14 @@ public class ParseClassesNames {
 	public static final String BUSINESS_LOCATION_LONG = "businessLongtitude";
 	public static final String BUSINESS_CURRENT_DEAL = "currentDeal";
 	public static final String BUSINESS_CURRENT_DEAL_ID = "id";
-	public static final String BUSINESS_CURRENT_DEAL_CONTENT = "content";
+	public static final String BUSINESS_CURRENT_DEAL_CONTENT = "dealContent";
 	public static final String BUSINESS_CURRENT_DEAL_LIKES = "likes";
-	public static final String BUSINESS_CURRENT_DEAL_DISLIKES = "disliks";
-	public static final String BUSINESS_CURRENT_DEAL_DATE = "createdAt";
+	public static final String BUSINESS_CURRENT_DEAL_DISLIKES = "dislikes";
+	public static final String BUSINESS_CURRENT_DEAL_DATE = "dealDate";
+	public static final String BUSINESS_CURRENT_DEAL_COMMENTS = "comments";
+	public static final String BUSINESS_CURRENT_DEAL_COMMENTS_AUTHOR = "authorName";
+	public static final String BUSINESS_CURRENT_DEAL_COMMENTS_CONTENT = "commentContent";
+	public static final String BUSINESS_CURRENT_DEAL_COMMENTS_DATE = "commentDate";
 	public static final String BUSINESS_HISTORY = "dealsHistory";
 	public static final String BUSINESS_HISTORY_TOTAL_LIKES = "totalLikes";
 	public static final String BUSINESS_HISTORY_TOTAL_DISLIKES = "totalDislikes";

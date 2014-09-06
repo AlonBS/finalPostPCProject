@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.dna.radius.R;
+import com.dna.radius.businessmode.BusinessData;
 import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.datastructures.Comment;
 import com.dna.radius.dbhandling.DBHandler;
@@ -88,16 +89,17 @@ public class CommentsFragment extends Fragment{
 					}
 
 					if(!addComment){
+						// todo remove
 						Toast.makeText(getActivity(), "you already commented on this deal lately", Toast.LENGTH_SHORT).show();				
 						return;
 					}
 
+					// TODO (alon) - change. maybe remove
 					Toast.makeText(getActivity(), "Thank you for your comment!", Toast.LENGTH_SHORT).show();				
 					previousComments.put(dealID,System.currentTimeMillis());
-					String userName = ClientData.getUserName();
-					Date date = new Date();
-					String commentStr = newCommentEditText.getText().toString();
-					DBHandler.addComment(dealID, new Comment(commentStr,userName,date));
+					String authorName = ClientData.getUserName();
+					String commentContent = newCommentEditText.getText().toString();
+					BusinessData.addCommentToCurrentDeal( new Comment(authorName, commentContent, new Date()) );
 					newCommentEditText.setText(getResources().getString(R.string.type_comment_here));
 				}
 			});

@@ -4,29 +4,34 @@ import java.util.Date;
 
 /**
  * Represents a comment object.
- * @author dror
  *
  */
 public class Comment {
-	private String commentStr;
-	private String userName;
-	private Date date;
+
+	private String authorName;
+	private String commentContent;
+	private Date commentDate;
 	
-	public Comment(String commentStr,String userName,Date date){
-		this.commentStr = commentStr;
-		this.userName = userName;
-		this.date = date;
+	public Comment (String author, String con ,Date date){
+		
+		this.authorName = author;
+		this.commentContent = con;
+		this.commentDate = date;
 	}
 	
-	public String getCommentStr(){
-		return commentStr;
-	}
-	public String getUserName(){
-		return userName;
-	}
-	public Date getDate(){
-		return date;
-	}
+	public String getAuthorName() { return authorName; }
+	
+	public String getCommentContent() { return commentContent; }
+	
+	public Date getCommentDate() { return commentDate; }
+	
+	
+	
+	
+	
+	
+	
+	//TODO REMOVE!
 
 	//TODO remove? (alon to dror)
 	public static ArrayList<Comment> getCommentsDBDebug() {

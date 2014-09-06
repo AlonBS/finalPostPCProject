@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.dna.radius.datastructures.Comment;
 import com.dna.radius.datastructures.Deal;
 import com.dna.radius.datastructures.DealHistoryManager;
 import com.dna.radius.dbhandling.ParseClassesNames;
@@ -68,7 +69,7 @@ public class BusinessData {
 	
 	private static final String SEPERATOR = "###";
 	
-	static final String DATE_FORMAT = "dd-MM-yyyy";
+	
 	
 	
 	
@@ -180,7 +181,6 @@ public class BusinessData {
 	public static void loadBusinessInfo(){
 
 		currentUser = ParseUser.getCurrentUser();
-	
 
 		try {
 
@@ -208,7 +208,6 @@ public class BusinessData {
 						//set default values for first time
 						businessName = "";
 						businessRating = 0;
-
 					}
 				}
 
@@ -253,9 +252,6 @@ public class BusinessData {
 
 			Log.e("Business -load location", e.getMessage());
 		}
-		
-		
-		
 	}
 	
 	
@@ -279,11 +275,10 @@ public class BusinessData {
 
 							pb.setVisibility(View.GONE);
 							businessImage = BitmapFactory.decodeByteArray(data, 0 ,data.length);
-							if(im==null){
-								return;
-							}
+							
+							if (im == null) return;
+							
 							im.setImageBitmap(businessImage);
-							im.setVisibility(View.GONE);
 							hasImage = true;
 						}
 						else {
@@ -291,16 +286,6 @@ public class BusinessData {
 						}
 					}
 				});
-
-		//TODO add progress feature ?
-//				new ProgressCallback() {
-//
-//					@Override
-//					public void done(Integer arg0) {
-//						// TODO Auto-generated method stub
-//
-//					}
-//				});
 	}
 	
 	
@@ -395,7 +380,8 @@ public class BusinessData {
 					jo.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_CONTENT),
 					jo.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_LIKES),
 					jo.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_DISLIKES),
-					new SimpleDateFormat(DATE_FORMAT).parse(jo.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE)));
+					new SimpleDateFormat(BusinessOpeningScreenActivity.DATE_FORMAT)
+						.parse(jo.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE)));
 
 		} catch (JSONException e) {
 
@@ -431,7 +417,7 @@ public class BusinessData {
 					temp.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_CONTENT),
 					temp.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_LIKES),
 					temp.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_DISLIKES),
-					new SimpleDateFormat(DATE_FORMAT).parse(jo.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE))));
+					new SimpleDateFormat(BusinessOpeningScreenActivity.DATE_FORMAT).parse(jo.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE))));
 				
 			}
 			
@@ -453,10 +439,10 @@ public class BusinessData {
 	
 	
 	
-	
-	
-	
 	public static void createNewDeal(String content) {
+		
+		// get old deal (as JSON object)
+		JSONObject oldDealJO = businessInfo.getJSONObject(ParseClassesNames.BUSINESS_CURRENT_DEAL);
 		
 		String id = businessInfo.getObjectId() + SEPERATOR + Integer.toString(dealsHistory.getTotalNumOfDeals());
 		Date date = new Date();
@@ -472,7 +458,8 @@ public class BusinessData {
 			newDealJO.put(ParseClassesNames.BUSINESS_CURRENT_DEAL_CONTENT, content);
 			newDealJO.put(ParseClassesNames.BUSINESS_CURRENT_DEAL_LIKES, 0);
 			newDealJO.put(ParseClassesNames.BUSINESS_CURRENT_DEAL_DISLIKES, 0);
-			newDealJO.put(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE, date);
+			newDealJO.put(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE, new SimpleDateFormat(BusinessOpeningScreenActivity.DATE_FORMAT).format(date));
+			newDealJO.put(ParseClassesNames.BUSINESS_CURRENT_DEAL_COMMENTS, new JSONArray());
 			
 		} catch (JSONException e) {
 			
@@ -487,11 +474,8 @@ public class BusinessData {
 			// history update - locally
 			dealsHistory.incTotalNumOfLikes(currentDeal.getNumOfLikes());
 			dealsHistory.incTotalNumOfDisLikes(currentDeal.getNumOfDislikes());
-			dealsHistory.incTotalNumOfDeals();
 
-			dealsHistory.addOldDeal(currentDeal);
-			currentDeal = newDeal;
-			
+			dealsHistory.addDeal(currentDeal);
 			
 			// history update - on Parse.com
 			JSONObject oldDealsJO = businessInfo.getJSONObject(ParseClassesNames.BUSINESS_HISTORY);
@@ -501,21 +485,48 @@ public class BusinessData {
 				oldDealsJO.put(ParseClassesNames.BUSINESS_HISTORY_TOTAL_NUM_OF_DEALS, dealsHistory.getTotalNumOfDeals());
 				
 				oldDealsJO.put(ParseClassesNames.BUSINESS_HISTORY_DEALS,
-						oldDealsJO.getJSONArray(ParseClassesNames.BUSINESS_HISTORY_DEALS).put(newDealJO));
+						oldDealsJO.getJSONArray(ParseClassesNames.BUSINESS_HISTORY_DEALS).put(oldDealJO));
 				
 			} catch (JSONException e) {
 				Log.e("Business - new deal create", e.getMessage());
 			}
 			
 			businessInfo.put(ParseClassesNames.BUSINESS_HISTORY, oldDealsJO);
-			
-			//TODO should be saveEventually()
-			currentUser.saveInBackground(null);
-			businessInfo.saveInBackground(null);
 		}
+		
+		dealsHistory.incTotalNumOfDeals();
+		currentDeal = newDeal;
+		
+		//TODO should be saveEventually()
+		currentUser.saveInBackground(null);
+		businessInfo.saveInBackground(null);
 	}
 	
 	
 	
+	public static void addCommentToCurrentDeal(Comment newComment) {
+		
+		currentDeal.addComment(newComment);
+		
+		JSONObject newCommentJO = new JSONObject();
+		
+		try {
+			newCommentJO.put(ParseClassesNames.BUSINESS_CURRENT_DEAL_COMMENTS_AUTHOR, newComment.getAuthorName());
+			newCommentJO.put(ParseClassesNames.BUSINESS_CURRENT_DEAL_COMMENTS_CONTENT, newComment.getCommentContent());
+			newCommentJO.put(ParseClassesNames.BUSINESS_CURRENT_DEAL_COMMENTS_DATE, newComment.getCommentDate());
+			
+			
+			JSONObject currentDealJO = businessInfo.getJSONObject(ParseClassesNames.BUSINESS_CURRENT_DEAL);
+			currentDealJO.getJSONArray(ParseClassesNames.BUSINESS_CURRENT_DEAL_COMMENTS).put(newCommentJO);
+			businessInfo.put(ParseClassesNames.BUSINESS_CURRENT_DEAL, currentDealJO);
+						
+			// TODO should be eventually
+			businessInfo.saveInBackground();			
+			
+			
+		} catch (JSONException e) {
+			Log.e("Business - add comment to deal", e.getMessage());
+		}
+	}
 	
 }

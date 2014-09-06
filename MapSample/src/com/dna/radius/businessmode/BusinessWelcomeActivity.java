@@ -20,6 +20,8 @@ import android.widget.Button;
 
 import com.dna.radius.R;
 import com.dna.radius.clientmode.ClientData;
+import com.dna.radius.datastructures.Deal;
+import com.dna.radius.datastructures.DealHistoryManager;
 import com.dna.radius.dbhandling.ParseClassesNames;
 import com.dna.radius.infrastructure.LocationFinderFragment;
 import com.dna.radius.login.MainActivity;
@@ -163,10 +165,14 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 
 		ParseObject newBusiness = new ParseObject(ParseClassesNames.BUSINESS_CLASS);
 
+		// store raw-data
 		newBusiness.put(ParseClassesNames.BUSINESS_NAME, BusinessData.businessName);
 		newBusiness.put(ParseClassesNames.BUSINESS_TYPE, BusinessData.businessType.getStringRep());
 		newBusiness.put(ParseClassesNames.BUSINESS_ADDRESS, BusinessData.businessAddress);
 		newBusiness.put(ParseClassesNames.BUSINESS_PHONE, BusinessData.businessPhoneNumber);
+		
+		BusinessData.businessRating = BusinessData.DEFAULT_RATING;
+		newBusiness.put(ParseClassesNames.BUSINESS_RATING, BusinessData.DEFAULT_RATING);
 
 		// store location on parse
 		JSONObject coordinates = new JSONObject();
@@ -180,19 +186,17 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 		}
 		newBusiness.put(ParseClassesNames.BUSINESS_LOCATION, coordinates);
 
-		BusinessData.businessRating = BusinessData.DEFAULT_RATING;
-		newBusiness.put(ParseClassesNames.BUSINESS_RATING, BusinessData.DEFAULT_RATING);
+		
 
 		//TODO add picture to parse - using parseFile
 //		newBusiness.put(ParseClassesNames.BUSINESS_PICTURE, "yosi");
-
-
 
 
 		BusinessData.currentDeal = null;
 		newBusiness.put(ParseClassesNames.BUSINESS_CURRENT_DEAL, new JSONObject());
 
 		//build deal-history column:
+		BusinessData.dealsHistory = new DealHistoryManager(0, 0, 0, new ArrayList<Deal>());
 		JSONObject dealsHistory = new JSONObject();
 		try {
 			dealsHistory.put(ParseClassesNames.BUSINESS_HISTORY_TOTAL_LIKES, 0);
@@ -222,6 +226,12 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 		//					"numberOfLikes": 141
 		//					"numberOfDislikes": 234
 		//		            "date": "12/14/1988"
+		//					"comment" : [
+		//						{
+		//								"authorName" : "yosi"
+		//								"commentContent: "YA ZAIN"
+		//								"commentDate" : 12/13/2035
+		//
 		//		        },
 		//		        {
 		//		            "business_Id": "234fg"

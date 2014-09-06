@@ -23,7 +23,6 @@ import com.dna.radius.datastructures.Deal;
  */
 public class DealHistoryArrayAdapter extends ArrayAdapter<Deal>{
 	@SuppressLint("SimpleDateFormat")
-	private SimpleDateFormat dateFormat = new SimpleDateFormat(BusinessData.DATE_FORMAT);
 	ArrayList<Deal> list;
 	
 	
@@ -51,12 +50,12 @@ public class DealHistoryArrayAdapter extends ArrayAdapter<Deal>{
 		 //sets the deal string into the proper text view
 		 Deal deal =  super.getItem(position);
 		 TextView dealTextView = (TextView)rowView.findViewById(R.id.deal_hist_text_view);
-		 String dealStr = deal.getContent();
+		 String dealStr = deal.getDealContent();
 		 dealTextView.setText(dealStr);
 		 
 		//sets the deal data (date, num of likes, num of dislikes) into the proper text view
 		 TextView dataTextView = (TextView)rowView.findViewById(R.id.deal_hist_data_text_view);
-		 String dateStr = dateFormat.format(deal.getDate().getTime());
+		 String dateStr = new SimpleDateFormat(BusinessOpeningScreenActivity.DATE_FORMAT).format(deal.getDealDate().getTime());
 		 String dateHtml = " <font color=#000000> " + dateStr + ",  </font> &nbsp;";
 		 String numOfLikes = Integer.toString(deal.getNumOfLikes());	
 		 String numOfLikesHtml = " <font color=#008800> " + numOfLikes + " likes,  </font>&nbsp;";

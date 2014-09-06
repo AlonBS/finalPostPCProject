@@ -168,42 +168,42 @@ public class DBHandler {
 
 
 
-	/**
-	 * updates the user's like list, dislike list and favorites list
-	 */
-	public static void loadClientInfoSync(ParseObject base, ClientData instance){
-		//TODO - alon - implement
-
-		//TODO - remove me!!!
-		//******************
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//*******************
-		
-		//instance.setHome(base.getLocation, updateServers);
-		
-		//base.getJSONObject(arg0)
-		
-		
-
-		//TODO These strings should be returned from parse
-		String favouritesStr = "";
-		String likesStr = "";
-		String dislikesStr = "";
-		List<String> favoritesList = Arrays.asList(favouritesStr.split("\\s*,\\s*"));
-		List<String> likesList = Arrays.asList(likesStr.split("\\s*,\\s*"));
-		List<String> dislikesList = Arrays.asList(dislikesStr.split("\\s*,\\s*"));
-
-		//TODO These values should be returned from parse
-		double homeLatitude = 31.78507 ; 
-		double homeLongitude = 35.214328;
-		//instance.setHome(new LatLng(homeLatitude, homeLongitude), false);
-
-	}
+//	/**
+//	 * updates the user's like list, dislike list and favorites list
+//	 */
+//	public static void loadClientInfoSync(ParseObject base, ClientData instance){
+//		//TODO - alon - implement
+//
+//		//TODO - remove me!!!
+//		//******************
+//		try {
+//			Thread.sleep(1000);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		//*******************
+//		
+//		//instance.setHome(base.getLocation, updateServers);
+//		
+//		//base.getJSONObject(arg0)
+//		
+//		
+//
+//		//TODO These strings should be returned from parse
+//		String favouritesStr = "";
+//		String likesStr = "";
+//		String dislikesStr = "";
+//		List<String> favoritesList = Arrays.asList(favouritesStr.split("\\s*,\\s*"));
+//		List<String> likesList = Arrays.asList(likesStr.split("\\s*,\\s*"));
+//		List<String> dislikesList = Arrays.asList(dislikesStr.split("\\s*,\\s*"));
+//
+//		//TODO These values should be returned from parse
+//		double homeLatitude = 31.78507 ; 
+//		double homeLongitude = 35.214328;
+//		//instance.setHome(new LatLng(homeLatitude, homeLongitude), false);
+//
+//	}
 
 
 
@@ -224,9 +224,9 @@ public class DBHandler {
 	 * this method should check if the user already commented on this deal before.
 	 * if he did - the new comment should replace the previous one.
 	 */
-	public static void addComment(String dealID, Comment comment){
+	//public static void addComment(String dealID, Comment comment){
 		//TODO - alon, dbhandling
-	}
+	//}
 
 
 //	/***
@@ -243,40 +243,40 @@ public class DBHandler {
 		return markersDB;
 	}
 
-	public static void setImage(String businessID, Bitmap image) {
-		// TODO ALON
+//	public static void setImage(String businessID, Bitmap image) {
+//		// TODO ALON
+//
+//	}
 
-	}
+//	/**
+//	 * changes the business current deal according to the given parameters.
+//	 * set the numbers of likes correspondly. 
+//	 */
+//	public static void setDeal(String businessID, String deal, int numOfLikes, int numOfDislikes) {
+//		// TODO ALON
+//
+//	}
+//	public static void setBusinessName(String businessID, String name) {
+//		// TODO ALON
+//
+//	}
 
-	/**
-	 * changes the business current deal according to the given parameters.
-	 * set the numbers of likes correspondly. 
-	 */
-	public static void setDeal(String businessID, String deal, int numOfLikes, int numOfDislikes) {
-		// TODO ALON
-
-	}
-	public static void setBusinessName(String businessID, String name) {
-		// TODO ALON
-
-	}
-
-	public static void setBusinessPhone(String businessID, String phone) {
-		// TODO ALON
-
-	}
-
-	public static void setBusinessAddress(String businessID, String address) {
-		// TODO ALON
-
-	}
-
-	public static void setBusinessLocation(String businessID, LatLng location) {
-		// TODO ALON
-		double latitude = location.latitude;
-		double longitude = location.longitude;
-
-	}
+//	public static void setBusinessPhone(String businessID, String phone) {
+//		// TODO ALON
+//
+//	}
+//
+//	public static void setBusinessAddress(String businessID, String address) {
+//		// TODO ALON
+//
+//	}
+//
+//	public static void setBusinessLocation(String businessID, LatLng location) {
+//		// TODO ALON
+//		double latitude = location.latitude;
+//		double longitude = location.longitude;
+//
+//	}
 
 	/***
 	 * receives a business id and a deal, deletes the deal from the business's history list.

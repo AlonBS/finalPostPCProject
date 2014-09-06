@@ -22,6 +22,7 @@ import com.dna.radius.infrastructure.LocationFinderFragment;
 import com.dna.radius.mapsample.ShowDealActivity;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 @SuppressLint("DefaultLocale")
 public class ClientWelcomeActivity extends FragmentActivity {
@@ -162,8 +163,8 @@ public class ClientWelcomeActivity extends FragmentActivity {
 
 
 		// add a pointer in user to client. i.e. user->clientData
+		ClientData.currentUser = ParseUser.getCurrentUser();
 		ClientData.currentUser.put(ParseClassesNames.CLIENT_INFO, newClient);
-
 
 		// sync online
 		try {

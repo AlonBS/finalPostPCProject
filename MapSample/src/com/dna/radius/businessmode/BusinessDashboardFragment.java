@@ -56,7 +56,7 @@ public class BusinessDashboardFragment extends Fragment{
 		final TextView dealTv = (TextView) view.findViewById(R.id.deal_tv);
 
 		if(BusinessData.hasADealOnDisplay()){
-			dealTv.setText(BusinessData.currentDeal.getContent());
+			dealTv.setText(BusinessData.currentDeal.getDealContent());
 		}
 		/*handles the image of the business*/
 		imageView = (ImageView)view.findViewById(R.id.buisness_image_view);

@@ -55,11 +55,11 @@ public class BusinessHistoryFragment extends Fragment{
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View v, int position,long arg3) {
 				final Deal dealObject = (Deal)adapter.getItemAtPosition(position);
-				Log.d("BusinessHistoryFragment", "pressed on the following deal: " + dealObject.getContent());
+				Log.d("BusinessHistoryFragment", "pressed on the following deal: " + dealObject.getDealContent());
 				final TextView chosenDeal = new TextView(getActivity());
 				//chosenDeal.setBackgroundColor(Color.BLACK);
 				//chosenDeal.setTextColor(Color.WHITE);
-				chosenDeal.setText("You chose the following deal: \n\n" + dealObject.getContent() + "\n\n what do you want to do now?");
+				chosenDeal.setText("You chose the following deal: \n\n" + dealObject.getDealContent() + "\n\n what do you want to do now?");
 				
 				new AlertDialog.Builder(getActivity())
 				//.setTitle("You chose the following deal: \n" + dealObject.getDealStr())

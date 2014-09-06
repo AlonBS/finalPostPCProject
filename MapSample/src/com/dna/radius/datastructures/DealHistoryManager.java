@@ -9,7 +9,7 @@ public class DealHistoryManager {
 	private int totalNumOfDislikes;
 	private int totalNumOfDeals;
 	
-	ArrayList<Deal> oldDeals;
+	private ArrayList<Deal> oldDeals;
 	
 	public DealHistoryManager(int numOfLikes, int numOfDislikes,
 			int totalNumOfDeals, ArrayList<Deal> deals) {
@@ -35,7 +35,7 @@ public class DealHistoryManager {
 	
 	public void incTotalNumOfDeals () { ++totalNumOfDeals; }
 	
-	public void addOldDeal(Deal d) { oldDeals.add(d); }
+	public void addDeal(Deal d) { oldDeals.add(d); }
 	
 	public void removeOldDeal(Deal d) { oldDeals.remove(d); }
 	
