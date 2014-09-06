@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -26,6 +27,9 @@ public class BusinessChooseImageFragment extends  Fragment{
 	
 	private final static int RESULT_LOAD_IMAGE_GALLERY = 1;
 	private final static int RESULT_LOAD_IMAGE_CAMERA = 2;
+	
+	private static final int IMAGE_HEIGHT = 360;
+	private static final int IMAGE_WIDTH = 480;
 	
 	private ImageView imageView;
 	
@@ -99,7 +103,7 @@ public class BusinessChooseImageFragment extends  Fragment{
 		if(bMap!=null){
 			//TODO - if we want to resize the bMap, that's the way to do it
 			//Bitmap resizedBitmap = Bitmap.createScaledBitmap(bMap, 480,320, false);
-
+			bMap = processImage(bMap);
 			imageView.setImageBitmap(bMap);
 			currentBitmap = bMap;
 		}else{
@@ -115,9 +119,33 @@ public class BusinessChooseImageFragment extends  Fragment{
 		return currentBitmap != null;
 	}
 	
-	public Bitmap getImageBitmap(){
+	
+	/**
+	 * downsamples the image to size IMAGE_HEIGHTxIMAGE_WIDTH,
+	 * also, performs jpeg comression.
+	 * @return
+	 */
+	Bitmap processImage(Bitmap bitmap){
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		currentBitmap.compress(CompressFormat.JPEG, 100, baos);
+		
+		//downsampling
+		double proportion = (double)bitmap.getHeight() / (double)IMAGE_HEIGHT;
+		int newImageHeight = IMAGE_HEIGHT;
+		int newImageWidth= (int)((double)bitmap.getWidth() / proportion);
+		Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, newImageWidth, newImageHeight, true);
+		
+		//cropps from the center
+		Bitmap croppedBitmap = ThumbnailUtils.extractThumbnail(resizedBitmap, IMAGE_WIDTH, IMAGE_HEIGHT);
+		
+		//jpeg compression
+		croppedBitmap.compress(CompressFormat.JPEG, 100, baos);
+		
+		Log.d("BusinessChooseImage","returned a new image, width,height=" +croppedBitmap.getWidth() + "," +  croppedBitmap.getHeight() );
+		Log.d("BusinessChooseImage","original size: width,height=" +bitmap.getWidth() + "," +  bitmap.getHeight() );
+		return croppedBitmap;
+	}
+	
+	public Bitmap getImageBitmap(){
 		return currentBitmap;
 	}
 
