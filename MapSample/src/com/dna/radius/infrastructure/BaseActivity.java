@@ -18,7 +18,6 @@ import android.view.MenuItem;
 
 import com.dna.radius.R;
 import com.dna.radius.businessmode.BusinessOpeningScreenActivity;
-import com.dna.radius.businessmode.BusinessSettingsActivity;
 import com.dna.radius.clientmode.ClientGeneralSettingsActivity;
 import com.dna.radius.clientmode.ClientOpeningScreenActivity;
 import com.dna.radius.login.MainActivity;

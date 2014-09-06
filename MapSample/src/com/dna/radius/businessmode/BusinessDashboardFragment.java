@@ -54,8 +54,10 @@ public class BusinessDashboardFragment extends Fragment{
 		activityParent = (BusinessOpeningScreenActivity)getActivity();
 
 		final TextView dealTv = (TextView) view.findViewById(R.id.deal_tv);
-		dealTv.setText(BusinessData.currentDeal.getContent());
 
+		if(BusinessData.hasADealOnDisplay()){
+			dealTv.setText(BusinessData.currentDeal.getContent());
+		}
 		/*handles the image of the business*/
 		imageView = (ImageView)view.findViewById(R.id.buisness_image_view);
 		if(BusinessData.hasImage()){
@@ -67,6 +69,7 @@ public class BusinessDashboardFragment extends Fragment{
 				BusinessData.loadImage(imageView, new ProgressBar(getActivity()));//TODO
 			}
 		}else{
+			imageView.setVisibility(View.VISIBLE);
 			imageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.set_business_image));
 		}
 
@@ -97,19 +100,22 @@ public class BusinessDashboardFragment extends Fragment{
 		});
 
 
-		/**handles the comments segment*/
-		commentsList = new ArrayList<>();
-		ListView commentsListView = (ListView)view.findViewById(R.id.comments_list_view);
-		CommentsArrayAdapter commentsAdapter = new CommentsArrayAdapter(activityParent,android.R.layout.simple_list_item_1 , commentsList);
-		commentsListView.setAdapter(commentsAdapter);
-		DBHandler.loadCommentsListAsync(commentsList, commentsAdapter);
-
+		if(BusinessData.hasADealOnDisplay()){
+			/**handles the comments segment*/
+			commentsList = new ArrayList<>();
+			ListView commentsListView = (ListView)view.findViewById(R.id.comments_list_view);
+			CommentsArrayAdapter commentsAdapter = new CommentsArrayAdapter(activityParent,android.R.layout.simple_list_item_1 , commentsList);
+			commentsListView.setAdapter(commentsAdapter);
+			DBHandler.loadCommentsListAsync(commentsList, commentsAdapter);
+		}
+		
 		/**handles the number of likes and dislikes*/
 		TextView numOfLikesTV = (TextView)view.findViewById(R.id.num_of_likes_tv);
-		numOfLikesTV.setText(Long.toString(BusinessData.currentDeal.getNumOfLikes()));
 		TextView numOfDislikesTV = (TextView)view.findViewById(R.id.num_of_dislikes_tv);
-		numOfDislikesTV.setText(Long.toString(BusinessData.currentDeal.getNumOfDislikes()));
-
+		if(BusinessData.hasADealOnDisplay()){
+			numOfLikesTV.setText(Long.toString(BusinessData.currentDeal.getNumOfLikes()));
+			numOfDislikesTV.setText(Long.toString(BusinessData.currentDeal.getNumOfDislikes()));
+		}
 		/***
 		 * allows adding a new deal instead of the old one
 		 */
@@ -126,13 +132,13 @@ public class BusinessDashboardFragment extends Fragment{
 					public void onClick(DialogInterface dialog, int whichButton) {
 						//TODO implement this method in businessData' saves the current deal into deal history
 						//DBHandler.addDealToHistory(BusinessData.currentUser.getObjectId(),data.currentDeal,data.numberOfLikes,data.numberOfDislikes);
-						
+
 						//adds the new Deal
 						String newDealStr = input.getText().toString();
-						activityParent.ownerData.createNewDeal(newDealStr);
+						BusinessData.createNewDeal(newDealStr);
 						dealTv.setText(newDealStr);
-						
-						
+
+
 					}
 				}).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
@@ -190,15 +196,15 @@ public class BusinessDashboardFragment extends Fragment{
 			cursor.close();
 
 			newBmap = BitmapFactory.decodeFile(picturePath);
-			
+
 		}
 		else if (requestCode == RESULT_LOAD_IMAGE_CAMERA  && resultCode == FragmentActivity.RESULT_OK) {
-	        Bundle extras = data.getExtras();
-	        newBmap = (Bitmap) extras.get("data");
-	    }else{
-	    	return;
-	    }
-		
+			Bundle extras = data.getExtras();
+			newBmap = (Bitmap) extras.get("data");
+		}else{
+			return;
+		}
+
 		if(newBmap!=null){
 			//BusinessData.setImage(newBmap.compress(CompressFormat.JPEG, )); TODO CANGE
 			imageView.setImageBitmap(newBmap);

@@ -204,7 +204,7 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 
 			Log.e("Business - deal history create", e.getMessage());
 		}
-		newBusiness.put(ParseClassesNames.CLIENT_PREFERRING, dealsHistory);
+		newBusiness.put(ParseClassesNames.BUSINESS_HISTORY, dealsHistory);
 
 
 
@@ -238,8 +238,8 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 
 
 		// add a pointer in user to business. i.e. user->businessData
-		ParseUser currentUser = ParseUser.getCurrentUser();
-		currentUser.put(ParseClassesNames.BUSINESS_INFO, newBusiness);
+		BusinessData.currentUser = ParseUser.getCurrentUser();
+		BusinessData.currentUser.put(ParseClassesNames.BUSINESS_INFO, newBusiness);
 
 
 		// sync online
@@ -251,6 +251,7 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 
 			BusinessData.currentUser.fetchIfNeeded();
 			BusinessData.businessInfo.fetchIfNeeded();
+			
 
 		} catch (ParseException e) {
 			Log.e("Welcome - business", e.getMessage());
