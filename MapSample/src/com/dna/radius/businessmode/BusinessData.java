@@ -120,7 +120,7 @@ public class BusinessData {
 	public static void setName(String newName) {
 		
 		businessName = newName;
-		businessInfo.put(ParseClassesNames.BUSINESS_NAME, businessAddress);
+		businessInfo.put(ParseClassesNames.BUSINESS_NAME, businessName);
 		businessInfo.saveInBackground(); //TODO should be saveEvantually()
 	}
 	
@@ -136,7 +136,7 @@ public class BusinessData {
 	
 	public String getAddress(){ return businessAddress; }
 	
-	public void setAddress(String newAddress) {
+	public static void setAddress(String newAddress) {
 		
 		businessAddress = newAddress;
 		businessInfo.put(ParseClassesNames.BUSINESS_ADDRESS, businessAddress);
@@ -145,6 +145,7 @@ public class BusinessData {
 	
 	
 	public static String getPhoneNumber() { return businessPhoneNumber; }
+	public static String getBusinessAddress() { return businessAddress; }
 	
 	public static void setPhoneNumber(String newPhoneNumber) {
 		
@@ -170,6 +171,7 @@ public class BusinessData {
 			Log.e("Business - location change", e.getMessage());
 		}
 		businessInfo.put(ParseClassesNames.BUSINESS_LOCATION, coordinates);
+		businessInfo.saveInBackground();
 	}
 	
 	
@@ -233,7 +235,7 @@ public class BusinessData {
 	
 	private static void loadRawData() {
 		
-		businessName = businessInfo.getString(ParseClassesNames.BUSINESS_INFO);
+		businessName = businessInfo.getString(ParseClassesNames.BUSINESS_NAME);
 		businessRating = businessInfo.getDouble(ParseClassesNames.BUSINESS_RATING); // range should be: [0, 5]
 		businessType = SupportedTypes.BusinessType.stringToType(businessInfo.getString(ParseClassesNames.BUSINESS_TYPE));
 		businessAddress = businessInfo.getString(ParseClassesNames.BUSINESS_ADDRESS);

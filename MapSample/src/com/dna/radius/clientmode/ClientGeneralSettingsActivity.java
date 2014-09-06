@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.dna.radius.R;
-import com.dna.radius.businessmode.BusinessData;
 import com.dna.radius.infrastructure.BaseActivity;
 import com.dna.radius.infrastructure.GeneralSettingsFragment;
 
@@ -22,13 +21,13 @@ public class ClientGeneralSettingsActivity extends BaseActivity{
 		// TODO Auto-generated method stub
 		super.onCreate(arg0);
 		setContentView(R.layout.client_general_settings_activity);
-		
+
 		final FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		generalSettingsFragment = new GeneralSettingsFragment(ClientData.getUserName(),ClientData.getEmail());
 		fragmentTransaction.add(R.id.general_settings_holder, generalSettingsFragment);
 		fragmentTransaction.commit();
-		
+
 		Button applyChangesBtn = (Button)findViewById(R.id.apply_changes_button);
 		applyChangesBtn.setOnClickListener(new OnClickListener() {
 			@Override
@@ -37,8 +36,8 @@ public class ClientGeneralSettingsActivity extends BaseActivity{
 			}
 		});
 	}
-	
-	
+
+
 	public void applyChangesIfNeeded() {
 
 		boolean didDataChanged = false;
@@ -46,23 +45,15 @@ public class ClientGeneralSettingsActivity extends BaseActivity{
 		//tests if the users changed the user name and changes it accordingly
 		String newUserName = generalSettingsFragment.getUserName();
 		if(!newUserName.equals("") && !newUserName.equals(ClientData.getUserName())){
-			didDataChanged = true;
-			if(isInBusinessMode){
-				BusinessData.setUserName(newUserName);
-			}else{
-				ClientData.setUserName(newUserName);
-			}
+			ClientData.setUserName(newUserName);
+
 		}
 
 		//tests if the users changed the email and changes it accordingly
 		String newEmail = generalSettingsFragment.getEmail();
 		if(!newEmail.equals("") && !newEmail.equals(ClientData.getEmail())){
 			didDataChanged = true;
-			if(isInBusinessMode){
-				BusinessData.setEmail(newEmail);
-			}else{
-				ClientData.setEmail(newEmail);
-			}
+			ClientData.setEmail(newEmail);
 		}
 
 		//tests if the users changed the password and changes it accordingly
@@ -73,11 +64,7 @@ public class ClientGeneralSettingsActivity extends BaseActivity{
 			if(!newPassword.equals(newPasswordConformation)){
 				Toast.makeText(this, getResources().getString(R.string.passwords_mismatch), Toast.LENGTH_SHORT).show();
 			}else{
-				if(isInBusinessMode){
-					BusinessData.setPassword(newPassword);
-				}else{
-					ClientData.setPassword(newPassword);
-				}
+				ClientData.setPassword(newPassword);
 				didDataChanged = true;
 			}
 		}

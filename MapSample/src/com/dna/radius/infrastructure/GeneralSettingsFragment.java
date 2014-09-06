@@ -6,17 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.dna.radius.R;
-import com.dna.radius.businessmode.BusinessData;
-import com.dna.radius.clientmode.ClientData;
-import com.dna.radius.infrastructure.SupportedTypes.BusinessType;
 
 public class GeneralSettingsFragment extends Fragment{
 
 
-	private boolean isInBusinessMode;
 	private EditText userNameEditText;
 	private EditText newPasswordEditText;
 	private EditText newPasswordConformationEditText;
@@ -31,8 +26,6 @@ public class GeneralSettingsFragment extends Fragment{
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.general_settings_fragment,container, false);
-
-		isInBusinessMode = BaseActivity.isInBusinessMode;
 
 		userNameEditText = (EditText)view.findViewById(R.id.user_name_edit_text);
 		newPasswordEditText = (EditText)view.findViewById(R.id.password_edit_text);
