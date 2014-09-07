@@ -14,6 +14,7 @@ import com.dna.radius.R;
 import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.dbhandling.DBHandler.DealLikeStatus;
+import com.dna.radius.infrastructure.BaseActivity;
 
 /***
  * this fragment allows the user to like or dislike a certain deal, if he is
@@ -24,9 +25,13 @@ import com.dna.radius.dbhandling.DBHandler.DealLikeStatus;
  */
 public class LikeAndDislikeFragment extends Fragment{
 	private DealLikeStatus dealStatus;
-	private ImageView dislikeBtn;
+	private View dislikeBtn;
 	private View likeBtn;
 	private ShowDealActivity activityParent;
+	private TextView likesTextView;
+	private TextView dislikesTextView;
+	private ImageView likeImageView;
+	private ImageView dislikeImageView;
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.like_and_dislike_fragment,container, false);
@@ -39,64 +44,68 @@ public class LikeAndDislikeFragment extends Fragment{
 		DBHandler.loadBusinessImageViewAsync(businessID, imageView,activityParent);
 	
 		//updates the likes and dislikes text views
-		final TextView likesText = (TextView)view.findViewById(R.id.like_counter);
-		likesText.setText(Long.toString(activityParent.numOfLikes));
-		final TextView dislikesText = (TextView)view.findViewById(R.id.dislike_counter);
-		dislikesText.setText(Long.toString(activityParent.numOfDislikes));
+		likesTextView = (TextView)view.findViewById(R.id.like_text_view);
+		likesTextView.setText(Long.toString(activityParent.numOfLikes));
+		dislikesTextView = (TextView)view.findViewById(R.id.dislike_text_view);
+		dislikesTextView.setText(Long.toString(activityParent.numOfDislikes));
+		
+		likeImageView = (ImageView)view.findViewById(R.id.like_image_view);
+		dislikeImageView = (ImageView)view.findViewById(R.id.dislike_image_view);
 		
 		//handles the like and dislikes buttons.
 		dealStatus = ClientData.getDealLikeStatus(businessID);
-		likeBtn = (ImageView)view.findViewById(R.id.sounds_cool_btn);
+		likeBtn = (View)view.findViewById(R.id.sounds_cool_btn);
 		likeBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if(!activityParent.isInUserMode){
+				if(BaseActivity.isInBusinessMode){
 					Toast.makeText(activityParent, "it's impossible to like/dislike a deal on business mode", Toast.LENGTH_SHORT).show();
 					return;
 				}
 				if(dealStatus==DealLikeStatus.LIKE){
 					dealStatus = DealLikeStatus.DONT_CARE;
 					
-					String newStr = Long.toString(Long.parseLong(likesText.getText().toString())-1);
-					likesText.setText(newStr);
+					String newStr = Long.toString(Long.parseLong(likesTextView.getText().toString())-1);
+					likesTextView.setText(newStr);
 					ClientData.setDontCareToDeal(businessID);
 				}else{
 					if(dealStatus==DealLikeStatus.DISLIKE){
-						String newStr = Long.toString(Long.parseLong(dislikesText.getText().toString())-1);
-						dislikesText.setText(newStr);
+						String newStr = Long.toString(Long.parseLong(dislikesTextView.getText().toString())-1);
+						dislikesTextView.setText(newStr);
 					}
 					
 					dealStatus = DealLikeStatus.LIKE;
 					ClientData.addToLikes(businessID);
-					String oldText =likesText.getText().toString();
+					String oldText =likesTextView.getText().toString();
 					String newStr = Long.toString(Long.parseLong(oldText)+1);
-					likesText.setText(newStr);
+					likesTextView.setText(newStr);
 				}
 				setDislikeAndLikeBG();
 			}
 		});
-		dislikeBtn = (ImageView)view.findViewById(R.id.no_thanks_btn);
+		dislikeBtn = view.findViewById(R.id.no_thanks_btn);
 		dislikeBtn.setOnClickListener(new OnClickListener() {
 				
 			@Override
 			public void onClick(View v) {
-				if(!activityParent.isInUserMode){
+				if(BaseActivity.isInBusinessMode){
+					Toast.makeText(activityParent, "it's impossible to like/dislike a deal on business mode", Toast.LENGTH_SHORT).show();
 					return;
 				}
 				if(dealStatus==DealLikeStatus.DISLIKE){
 					dealStatus = DealLikeStatus.DONT_CARE;
 					ClientData.setDontCareToDeal(businessID);
-					String newStr = Long.toString(Long.parseLong(dislikesText.getText().toString())-1);
-					dislikesText.setText(newStr);
+					String newStr = Long.toString(Long.parseLong(dislikesTextView.getText().toString())-1);
+					dislikesTextView.setText(newStr);
 				}else{
 					if(dealStatus==DealLikeStatus.LIKE){
-						String newStr = Long.toString(Long.parseLong(likesText.getText().toString())-1);
-						likesText.setText(newStr);
+						String newStr = Long.toString(Long.parseLong(likesTextView.getText().toString())-1);
+						likesTextView.setText(newStr);
 					}
 					dealStatus = DealLikeStatus.DISLIKE;
 					ClientData.addToDislikes(businessID);
-					String newStr = Long.toString(Long.parseLong(dislikesText.getText().toString())+1);
-					dislikesText.setText(newStr);
+					String newStr = Long.toString(Long.parseLong(dislikesTextView.getText().toString())+1);
+					dislikesTextView.setText(newStr);
 				}
 				setDislikeAndLikeBG();
 				
@@ -112,20 +121,18 @@ public class LikeAndDislikeFragment extends Fragment{
 	 */
 	@SuppressWarnings("deprecation")
 	private void setDislikeAndLikeBG(){
-		if(!activityParent.isInUserMode){
-			dislikeBtn.setBackgroundDrawable(getResources().getDrawable(R.drawable.like_dislike_shape));
-			likeBtn.setBackgroundDrawable(getResources().getDrawable(R.drawable.like_dislike_shape));
+		if(BaseActivity.isInBusinessMode){
 			return;
 		}
 		if(dealStatus==DealLikeStatus.LIKE){
-			likeBtn.setBackgroundDrawable(getResources().getDrawable(R.drawable.like_buttons_background_on));
+			likeImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_good_blue));
 		}else{
-			likeBtn.setBackgroundDrawable(getResources().getDrawable(R.drawable.like_buttons_background_off));
+			likeImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_good_black));
 		}
 		if(dealStatus==DealLikeStatus.DISLIKE){
-			dislikeBtn.setBackgroundDrawable(getResources().getDrawable(R.drawable.like_buttons_background_on));
+			dislikeImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_bad_blue));
 		}else{
-			dislikeBtn.setBackgroundDrawable(getResources().getDrawable(R.drawable.like_buttons_background_off));
+			dislikeImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_bad_black));
 		}
 		
 	}

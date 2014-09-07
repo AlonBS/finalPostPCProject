@@ -10,15 +10,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.HorizontalScrollView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.dna.radius.R;
 import com.dna.radius.datastructures.ExternalBusiness;
 import com.dna.radius.mapsample.ShowDealActivity;
-import com.dna.radius.R;
 
 /***
  * a costum view which extends an horizontal scroll view.
@@ -72,6 +70,7 @@ public class TopBusinessesHorizontalView extends HorizontalScrollView{
 		}
 		if(businessLikesTv!=null){
 			businessLikesTv.setText(Long.toString(bm.numOfLikes));
+			
 		}
 		if(businessLikesTv!=null){
 			businessDislikesTv.setText(Long.toString(bm.numOfDislikes));

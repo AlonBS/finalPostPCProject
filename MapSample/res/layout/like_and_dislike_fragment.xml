@@ -1,69 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:background="@drawable/deal_title_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/deal_title_background"
     android:orientation="vertical" >
-    
+
     <ImageView
         android:id="@+id/business_image_view"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="0.6" />
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true" />
 
     <LinearLayout
-        android:id="@+id/buttonsLayout"
-    	android:layout_width="fill_parent"
-    	android:layout_height="wrap_content"
-    	android:orientation="horizontal">
-    	
-        
-      <TextView 
-          android:id = "@+id/dislike_counter"
-          android:layout_height="match_parent"
-          android:layout_width="0dp"
-          android:layout_weight="0.55"
-          android:background="@drawable/like_dislike_shape"
-          android:text="1241"
-           android:gravity="center"
-          android:textColor="#FFFFFFFF"></TextView>
-      
-      
-    	<ImageView 
         android:id="@+id/no_thanks_btn"
-		android:src="@drawable/ic_action_bad"
-    	android:background="@drawable/like_buttons_background_off"
-        android:layout_height="match_parent"
-        android:layout_width="0dp"
-        android:layout_weight="1"/>
-    <!--  <Button 
-        android:id="@+id/comment_btn"
-        android:text="@string/comment"
-        android:layout_height="match_parent"
-        android:layout_width="0dp"
-        android:layout_weight="1"/> -->
-      
-      
-      <ImageView       
-        android:id="@+id/sounds_cool_btn"
-		android:src="@drawable/ic_action_good"        
-        android:layout_height="match_parent"
-        android:background="@drawable/like_buttons_background_off"
-        android:layout_width="0dp"
-        android:layout_weight="1"/>
-      
-      <TextView 
-          android:id = "@+id/like_counter"
-          android:layout_height="match_parent"
-          android:layout_width="0dp"
-          android:layout_weight="0.55"
-          android:background="@drawable/like_dislike_shape"
-          android:gravity="center"
-          android:text="12312"
-          android:textColor="#FFFFFFFF"
-        ></TextView>
-      
-      
-	</LinearLayout>
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/dislike_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_action_bad_black" >
+        </ImageView>
+
+        <TextView
+            android:id="@+id/dislike_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="2dp"
+            android:text="0"
+            android:textColor="#FF000000"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:id="@+id/sounds_cool_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/like_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="2dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_action_good_black" >
+            </ImageView>
+
+            <TextView
+                android:id="@+id/like_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="2dp"
+                android:text="0"
+                android:textColor="#FF000000"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

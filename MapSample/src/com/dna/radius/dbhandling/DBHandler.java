@@ -1,18 +1,16 @@
 package com.dna.radius.dbhandling;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
 import testing_stuff.LoadTopBusinessesRunnable;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.net.wifi.SupplicantState;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.widget.ImageView;
 
-import com.dna.radius.clientmode.ClientData;
+import com.dna.radius.R;
 import com.dna.radius.datastructures.Comment;
 import com.dna.radius.datastructures.Deal;
 import com.dna.radius.datastructures.ExternalBusiness;
@@ -22,7 +20,6 @@ import com.dna.radius.mapsample.CommentsArrayAdapter;
 import com.dna.radius.mapsample.MapWindowFragment;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
-import com.parse.ParseObject;
 
 
 /**
@@ -102,9 +99,10 @@ public class DBHandler {
 	 * 
 	 */
 	public static void loadBusinessImageViewAsync(String businessID ,ImageView imageView, Context context){
-		LoadDealBitmapTask loadTask = new LoadDealBitmapTask(imageView, businessID,context);
-		context.getClass();
-		loadTask.execute();
+//		LoadDealBitmapTask loadTask = new LoadDealBitmapTask(imageView, businessID,context);
+//		context.getClass();
+//		loadTask.execute();
+		imageView.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.image_demo));
 	}
 
 
