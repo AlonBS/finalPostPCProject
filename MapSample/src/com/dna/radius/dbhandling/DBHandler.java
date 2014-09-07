@@ -15,6 +15,7 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.dna.radius.R;
 import com.dna.radius.businessmode.BusinessData;
 import com.dna.radius.businessmode.BusinessOpeningScreenActivity;
 import com.dna.radius.datastructures.Comment;
@@ -30,6 +31,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 
@@ -181,7 +183,8 @@ public class DBHandler {
 			public void done(List<ParseObject> objects, ParseException e) {
 				if (e == null) {
 					
-					result = new ArrayList<ExternalBusiness>();
+					//TODO ALON
+//					boolean result = new ArrayList<ExternalBusiness>();
 
 					for (ParseObject o : objects) {
 						

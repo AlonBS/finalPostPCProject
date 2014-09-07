@@ -77,7 +77,7 @@ public class TopBusinessesHorizontalView extends HorizontalScrollView{
 		}
 
 		RatingBar topBusinessRatingBar = (RatingBar)findViewById(R.id.top_business_rating_bar);
-		topBusinessRatingBar.setRating(bm.rating);
+		topBusinessRatingBar.setRating((float)bm.rating);
 		//set rating bar click listener to do nothing
 		topBusinessRatingBar.setOnClickListener(new OnClickListener() {@Override public void onClick(View arg0) {}});
 
