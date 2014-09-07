@@ -67,7 +67,7 @@ public class BusinessData {
 	static final float DEFAULT_RATING = 3;
 	
 	
-	private static final String SEPERATOR = "###";
+	
 	
 	
 	
@@ -295,7 +295,8 @@ public class BusinessData {
 		
 		//TODO Remove old picture reference
 		
-		businessImage = newImage;   
+		businessImage = newImage;
+		hasImage = true;
 	    ByteArrayOutputStream stream = new ByteArrayOutputStream();
 	    byte[] data = stream.toByteArray();
 
@@ -377,7 +378,7 @@ public class BusinessData {
 	private static void loadCurrentDeal() {
 		
 		JSONObject jo = businessInfo.getJSONObject(ParseClassesNames.BUSINESS_CURRENT_DEAL);
-		try { //String STRING, int , int, date
+		try { 
 			currentDeal = new Deal(jo.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID),
 					jo.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_CONTENT),
 					jo.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_LIKES),
@@ -387,11 +388,11 @@ public class BusinessData {
 
 		} catch (JSONException e) {
 
-			Log.e("Business -load current deal", e.getMessage());
+			Log.e("Business - load current deal", e.getMessage());
 			
 		} catch (java.text.ParseException e) {
 			
-			Log.e("Business -load current deal", e.getMessage());
+			Log.e("Business - load current deal", e.getMessage());
 		}
 	}
 	
@@ -449,7 +450,7 @@ public class BusinessData {
 		// get old deal (as JSON object)
 		JSONObject oldDealJO = businessInfo.getJSONObject(ParseClassesNames.BUSINESS_CURRENT_DEAL);
 		
-		String id = businessInfo.getObjectId() + SEPERATOR + Integer.toString(dealsHistory.getTotalNumOfDeals());
+		String id = businessInfo.getObjectId() + BusinessOpeningScreenActivity.SEPERATOR + Integer.toString(dealsHistory.getTotalNumOfDeals());
 		Date date = new Date();
 		
 		// update locally

@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
+import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.dbhandling.DBHandler.DealLikeStatus;
 import com.dna.radius.dbhandling.ParseClassesNames;
 import com.google.android.gms.maps.model.LatLng;
@@ -196,26 +197,28 @@ public class ClientData{
 	 */
 	public static LatLng getHome(){ return homeLocation; }
 
+	
 	/***
 	 * sets the user's home location according to the given LatLng.
 	 * if the updateServers parameter is true, updates the parse servers as well.
 	 */
-	public static void setHome(LatLng latlng){
+	public static void setHome(LatLng latlng) {
+		
 		homeLocation = latlng;
-		//ArrayList<JSONObject> coordinates = new ArrayList<JSONObject>();
 		JSONObject coordinates = new JSONObject();
 		try {
 			coordinates.put(ParseClassesNames.CLIENT_LOCATION_LAT ,ClientData.homeLocation.latitude);
 			coordinates.put(ParseClassesNames.CLIENT_LOCATION_LONG ,ClientData.homeLocation.longitude);
+			
 		} catch (JSONException e) {
-			e.printStackTrace();
+			
+			Log.e("Client - setHome()", e.getMessage());
+			
 		}
 		clientInfo.put(ParseClassesNames.CLIENT_LOCATION, coordinates);
 		
 		// TODO - maybe concentrate more than one call
-		clientInfo.saveEventually();
-		
-		
+		clientInfo.saveInBackground(); //TODO SHOULD BE saveEvantually()
 	}
 
 
@@ -231,7 +234,6 @@ public class ClientData{
 				ParseClassesNames.CLIENT_FAVORITES,
 				ParseClassesNames.CLIENT_FAVORITES_ID,
 				"Add to Favorites");
-
 	}
 
 
@@ -240,6 +242,8 @@ public class ClientData{
 	 * @return
 	 */
 	public static void addToLikes(String dealId){
+		
+		boolean removalNeeded = false;
 
 		addToStorage(likes, dealId,
 				ParseClassesNames.CLIENT_PREFERRING,
@@ -247,9 +251,14 @@ public class ClientData{
 				ParseClassesNames.CLIENT_LIKES_ID,
 				"Add to Likes");
 		
+		
+		
 		if (isInDislikes(dealId)) {
 			removeFromDislikes(dealId);
+			removalNeeded = true;
 		}
+		
+		DBHandler.addLikeExternally(dealId, removalNeeded);
 	}
 
 

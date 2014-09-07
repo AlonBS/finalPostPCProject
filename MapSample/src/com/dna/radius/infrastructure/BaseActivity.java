@@ -31,6 +31,8 @@ import com.parse.ParseUser;
 
 public abstract class BaseActivity extends FragmentActivity{
 	
+	public static final String SEPERATOR = "###";
+	
 	public static final String DATE_FORMAT = "dd-MM-yyyy";
 	
 	//TODO this value should be set when the application starts!!

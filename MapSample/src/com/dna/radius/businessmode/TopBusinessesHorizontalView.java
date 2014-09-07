@@ -66,7 +66,7 @@ public class TopBusinessesHorizontalView extends HorizontalScrollView{
 		TextView businessLikesTv = (TextView)newLayout.findViewById(R.id.top_business_num_of_likes);
 		TextView businessDislikesTv = (TextView)newLayout.findViewById(R.id.top_business_num_of_dislikes);
 		if(businessNameTv!=null){
-			businessNameTv.setText(bm.name);
+			businessNameTv.setText(bm.businessName);
 		}
 		if(businessLikesTv!=null){
 			businessLikesTv.setText(Long.toString(bm.numOfLikes));
@@ -77,7 +77,7 @@ public class TopBusinessesHorizontalView extends HorizontalScrollView{
 		}
 
 		RatingBar topBusinessRatingBar = (RatingBar)findViewById(R.id.top_business_rating_bar);
-		topBusinessRatingBar.setRating(bm.numOfStars);
+		topBusinessRatingBar.setRating(bm.rating);
 		//set rating bar click listener to do nothing
 		topBusinessRatingBar.setOnClickListener(new OnClickListener() {@Override public void onClick(View arg0) {}});
 
@@ -86,11 +86,11 @@ public class TopBusinessesHorizontalView extends HorizontalScrollView{
 			@Override
 			public void onClick(View v) {
 				Intent myIntent = new Intent(context, ShowDealActivity.class);
-				myIntent.putExtra(ShowDealActivity.BUSINESS_NAME_PARAM, bm.name); //Optional parameters
+				myIntent.putExtra(ShowDealActivity.BUSINESS_NAME_PARAM, bm.businessName); //Optional parameters
 				myIntent.putExtra(ShowDealActivity.BUSINESS_ID_PARAM, bm.businessId); //Optional parameters
 				myIntent.putExtra(ShowDealActivity.DEAL_ID_PARAM, bm.currentDealID); 
 				myIntent.putExtra(ShowDealActivity.BUSINESS_TYPE_PARAM, bm.type); //Optional parameters
-				myIntent.putExtra(ShowDealActivity.DEAL_RATING_PARAM, bm.numOfStars); //Optional parameters
+				myIntent.putExtra(ShowDealActivity.DEAL_RATING_PARAM, bm.rating); //Optional parameters
 				myIntent.putExtra(ShowDealActivity.NUM_OF_DISLIKES_PARAM, bm.numOfDislikes); //Optional parameters
 				myIntent.putExtra(ShowDealActivity.NUM_OF_LIKES_PARAM, bm.numOfLikes); //Optional parameters
 				myIntent.putExtra(ShowDealActivity.USER_MODE_PARAM, false);

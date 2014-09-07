@@ -15,8 +15,13 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.widget.ImageView;
 
+<<<<<<< HEAD
+import com.dna.radius.R;
+=======
 import com.dna.radius.businessmode.BusinessData;
 import com.dna.radius.businessmode.BusinessOpeningScreenActivity;
+import com.dna.radius.clientmode.ClientData;
+>>>>>>> origin/master
 import com.dna.radius.datastructures.Comment;
 import com.dna.radius.datastructures.Deal;
 import com.dna.radius.datastructures.ExternalBusiness;
@@ -27,10 +32,14 @@ import com.dna.radius.mapsample.MapBusinessManager;
 import com.dna.radius.mapsample.MapWindowFragment;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+<<<<<<< HEAD
+=======
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
+>>>>>>> origin/master
 
 
 /**

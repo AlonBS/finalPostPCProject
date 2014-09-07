@@ -13,28 +13,31 @@ import com.google.android.gms.maps.model.LatLng;
  */
 public class ExternalBusiness {
 
-
-	
-	public String name;
-	public int iconID;
-	public int numOfStars;
+	public String businessId;
+	public SupportedTypes.BusinessType type;
+	public double rating;
 	public int numOfLikes;
 	public int numOfDislikes;
-	public SupportedTypes.BusinessType type;
+	
+	
+	public String businessName;
+	public String addressStr;
+	
+	
+	
 	public LatLng pos;
-	public String businessId;
+	
 	public String currentDealID;
 	public String phoneStr;
-	public String addressStr;
+	
 	public String currentDealStr;
 	
 	public ExternalBusiness(String name, SupportedTypes.BusinessType type,LatLng pos,String id,int numOfLikes,
 							int numOfDislikes,String currentDealID,String phoneStr,String addressStr,String currentDealStr){
-		this.name = name;
+		this.businessName = name;
 		this.type = type;
-		this.numOfStars = new Random().nextInt(5);
+		this.rating = new Random().nextInt(5);
 		this.pos = pos;
-		this.iconID = type.getIconID();
 		this.businessId  = id;
 		this.numOfDislikes = numOfDislikes;
 		this.numOfLikes = numOfLikes;
