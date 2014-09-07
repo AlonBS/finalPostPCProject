@@ -1,4 +1,5 @@
 package com.dna.radius.datastructures;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -6,8 +7,11 @@ import java.util.Date;
  * Represents a comment object.
  *
  */
-public class Comment {
+public class Comment implements Serializable {
 
+	private static final long serialVersionUID = -247133707286255824L;
+	
+	
 	private String authorName;
 	private String commentContent;
 	private Date commentDate;

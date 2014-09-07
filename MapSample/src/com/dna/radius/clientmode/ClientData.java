@@ -15,6 +15,7 @@ import com.dna.radius.dbhandling.ParseClassesNames;
 import com.google.android.gms.maps.model.LatLng;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -120,17 +121,20 @@ public class ClientData{
 
 
 	private static void loadLocation()   {
+		
+		ParseGeoPoint gp = clientInfo.getParseGeoPoint(ParseClassesNames.CLIENT_LOCATION);
+		homeLocation = new LatLng(gp.getLatitude(), gp.getLongitude());
 
 
-		JSONObject jo = clientInfo.getJSONObject(ParseClassesNames.CLIENT_LOCATION);
-		try {
-			homeLocation = new LatLng(jo.getDouble(ParseClassesNames.CLIENT_LOCATION_LAT),
-					jo.getDouble(ParseClassesNames.CLIENT_LOCATION_LONG));
-
-		} catch (JSONException e) {
-
-			Log.e("Client -load location", e.getMessage());
-		}
+//		JSONObject jo = clientInfo.getJSONObject(ParseClassesNames.CLIENT_LOCATION);
+//		try {
+//			homeLocation = new LatLng(jo.getDouble(ParseClassesNames.CLIENT_LOCATION_LAT),
+//					jo.getDouble(ParseClassesNames.CLIENT_LOCATION_LONG));
+//
+//		} catch (JSONException e) {
+//
+//			Log.e("Client -load location", e.getMessage());
+//		}
 
 
 	}
@@ -205,20 +209,23 @@ public class ClientData{
 	public static void setHome(LatLng latlng) {
 		
 		homeLocation = latlng;
-		JSONObject coordinates = new JSONObject();
-		try {
-			coordinates.put(ParseClassesNames.CLIENT_LOCATION_LAT ,ClientData.homeLocation.latitude);
-			coordinates.put(ParseClassesNames.CLIENT_LOCATION_LONG ,ClientData.homeLocation.longitude);
-			
-		} catch (JSONException e) {
-			
-			Log.e("Client - setHome()", e.getMessage());
-			
-		}
-		clientInfo.put(ParseClassesNames.CLIENT_LOCATION, coordinates);
+		ParseGeoPoint location = new ParseGeoPoint(homeLocation.latitude, homeLocation.longitude);
+		clientInfo.put(ParseClassesNames.CLIENT_LOCATION, location);
+		clientInfo.saveInBackground(); //TODO SHOULD BE saveEvantually()
+		
+		
+//		JSONObject coordinates = new JSONObject();
+//		try {
+//			coordinates.put(ParseClassesNames.CLIENT_LOCATION_LAT ,ClientData.homeLocation.latitude);
+//			coordinates.put(ParseClassesNames.CLIENT_LOCATION_LONG ,ClientData.homeLocation.longitude);
+//			
+//		} catch (JSONException e) {
+//			
+//			Log.e("Client - setHome()", e.getMessage());
+//			
+//		}
 		
 		// TODO - maybe concentrate more than one call
-		clientInfo.saveInBackground(); //TODO SHOULD BE saveEvantually()
 	}
 
 

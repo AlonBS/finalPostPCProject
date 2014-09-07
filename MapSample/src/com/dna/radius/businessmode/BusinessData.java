@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,6 +20,8 @@ import android.widget.ProgressBar;
 import com.dna.radius.datastructures.Comment;
 import com.dna.radius.datastructures.Deal;
 import com.dna.radius.datastructures.DealHistoryManager;
+import com.dna.radius.datastructures.ExternalBusiness;
+import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.dbhandling.ParseClassesNames;
 import com.dna.radius.infrastructure.SupportedTypes;
 import com.dna.radius.infrastructure.SupportedTypes.BusinessType;
@@ -26,6 +29,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.ProgressCallback;
@@ -50,6 +54,8 @@ public class BusinessData {
 	static String businessPhoneNumber;
 	static LatLng businessLocation;
 	
+	static List<ExternalBusiness> topBusinesses;
+
 	
 
 	//static boolean hasADealOnDisplay;
@@ -161,17 +167,20 @@ public class BusinessData {
 		
 		businessLocation = newLocation;
 		
-		JSONObject coordinates = new JSONObject();
-		try {
-			coordinates.put(ParseClassesNames.BUSINESS_LOCATION_LAT , businessLocation.latitude);
-			coordinates.put(ParseClassesNames.BUSINESS_LOCATION_LONG , businessLocation.longitude);
-
-		} catch (JSONException e) {
-
-			Log.e("Business - location change", e.getMessage());
-		}
-		businessInfo.put(ParseClassesNames.BUSINESS_LOCATION, coordinates);
+		ParseGeoPoint gp = new ParseGeoPoint(newLocation.latitude, newLocation.longitude);
+		businessInfo.put(ParseClassesNames.BUSINESS_LOCATION, gp);
 		businessInfo.saveInBackground();
+		
+		
+//		JSONObject coordinates = new JSONObject();
+//		try {
+//			coordinates.put(ParseClassesNames.BUSINESS_LOCATION_LAT , businessLocation.latitude);
+//			coordinates.put(ParseClassesNames.BUSINESS_LOCATION_LONG , businessLocation.longitude);
+//
+//		} catch (JSONException e) {
+//
+//			Log.e("Business - location change", e.getMessage());
+//		}
 	}
 	
 	
@@ -231,7 +240,10 @@ public class BusinessData {
 		loadCurrentDeal();
 		
 		loadDealsHistory();
+		
+		loadTopBusiness();
 	}
+	
 	
 	private static void loadRawData() {
 		
@@ -245,16 +257,94 @@ public class BusinessData {
 	
 	private static void loadLocation() {
 		
-		JSONObject jo = businessInfo.getJSONObject(ParseClassesNames.BUSINESS_LOCATION);
-		try {
-			businessLocation = new LatLng(jo.getDouble(ParseClassesNames.BUSINESS_LOCATION_LAT),
-					jo.getDouble(ParseClassesNames.BUSINESS_LOCATION_LONG));
+		ParseGeoPoint gp = businessInfo.getParseGeoPoint(ParseClassesNames.BUSINESS_LOCATION);
+		businessLocation = new LatLng(gp.getLatitude(), gp.getLongitude());
+		
+		
+//		JSONObject jo = businessInfo.getJSONObject(ParseClassesNames.BUSINESS_LOCATION);
+//		try {
+//			businessLocation = new LatLng(jo.getDouble(ParseClassesNames.BUSINESS_LOCATION_LAT),
+//					jo.getDouble(ParseClassesNames.BUSINESS_LOCATION_LONG));
+//
+//		} catch (JSONException e) {
+//
+//			Log.e("Business -load location", e.getMessage());
+//		}
+	}
+	
+	
+	private static void loadCurrentDeal() {
+		
+		JSONObject jo = businessInfo.getJSONObject(ParseClassesNames.BUSINESS_CURRENT_DEAL);
+		try { 
+			currentDeal = new Deal(jo.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID),
+					jo.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_CONTENT),
+					jo.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_LIKES),
+					jo.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_DISLIKES),
+					new SimpleDateFormat(BusinessOpeningScreenActivity.DATE_FORMAT)
+						.parse(jo.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE)));
 
 		} catch (JSONException e) {
 
-			Log.e("Business -load location", e.getMessage());
+			Log.e("Business - load current deal", e.getMessage());
+			
+		} catch (java.text.ParseException e) {
+			
+			Log.e("Business - load current deal", e.getMessage());
 		}
 	}
+	
+	
+	private static void loadDealsHistory() {
+		
+		int totalLikes, totalDislikes, totalDeals;
+		ArrayList<Deal> oldDeals = new ArrayList<Deal>();
+		
+		JSONObject jo = businessInfo.getJSONObject(ParseClassesNames.BUSINESS_HISTORY);
+		try {
+			
+			totalLikes = jo.getInt(ParseClassesNames.BUSINESS_HISTORY_TOTAL_LIKES);
+			totalDislikes = jo.getInt(ParseClassesNames.BUSINESS_HISTORY_TOTAL_DISLIKES);
+			totalDeals = jo.getInt(ParseClassesNames.BUSINESS_HISTORY_TOTAL_NUM_OF_DEALS);
+			
+			JSONArray ja = jo.getJSONArray(ParseClassesNames.BUSINESS_HISTORY_DEALS);
+			int len = ja.length();
+			
+			for (int i = 0 ; i < len ; ++i) {
+				
+				JSONObject temp = ja.getJSONObject(i);
+				
+				oldDeals.add( new Deal(temp.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID),
+					temp.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_CONTENT),
+					temp.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_LIKES),
+					temp.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_DISLIKES),
+					//TODO - alon, try to add a deal, log out, log back in, and then open deal history - and youll get an error
+					new SimpleDateFormat(BusinessOpeningScreenActivity.DATE_FORMAT).parse(jo.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE))));
+				
+			}
+			
+			dealsHistory = new DealHistoryManager(totalLikes, totalDislikes, totalDeals, oldDeals);
+			
+		}
+		catch (JSONException e) {
+		
+			Log.e("Business - history create", e.getMessage());
+		}
+		
+		catch (java.text.ParseException e) {
+			
+			Log.e("Business - load old deals", e.getMessage());
+		}
+	}
+	
+	
+	private static void loadTopBusiness() {
+		
+		
+		topBusinesses = DBHandler.LoadTopBusinessesSync();
+		
+	}
+	
 	
 	
 	static void loadImage(final ImageView im, final ProgressBar pb) {
@@ -375,69 +465,6 @@ public class BusinessData {
 
 	
 	
-	private static void loadCurrentDeal() {
-		
-		JSONObject jo = businessInfo.getJSONObject(ParseClassesNames.BUSINESS_CURRENT_DEAL);
-		try { 
-			currentDeal = new Deal(jo.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID),
-					jo.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_CONTENT),
-					jo.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_LIKES),
-					jo.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_DISLIKES),
-					new SimpleDateFormat(BusinessOpeningScreenActivity.DATE_FORMAT)
-						.parse(jo.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE)));
-
-		} catch (JSONException e) {
-
-			Log.e("Business - load current deal", e.getMessage());
-			
-		} catch (java.text.ParseException e) {
-			
-			Log.e("Business - load current deal", e.getMessage());
-		}
-	}
-	
-	
-	private static void loadDealsHistory() {
-		
-		int totalLikes, totalDislikes, totalDeals;
-		ArrayList<Deal> oldDeals = new ArrayList<Deal>();
-		
-		JSONObject jo = businessInfo.getJSONObject(ParseClassesNames.BUSINESS_HISTORY);
-		try {
-			
-			totalLikes = jo.getInt(ParseClassesNames.BUSINESS_HISTORY_TOTAL_LIKES);
-			totalDislikes = jo.getInt(ParseClassesNames.BUSINESS_HISTORY_TOTAL_DISLIKES);
-			totalDeals = jo.getInt(ParseClassesNames.BUSINESS_HISTORY_TOTAL_NUM_OF_DEALS);
-			
-			JSONArray ja = jo.getJSONArray(ParseClassesNames.BUSINESS_HISTORY_DEALS);
-			int len = ja.length();
-			
-			for (int i = 0 ; i < len ; ++i) {
-				
-				JSONObject temp = ja.getJSONObject(i);
-				
-				oldDeals.add( new Deal(temp.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID),
-					temp.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_CONTENT),
-					temp.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_LIKES),
-					temp.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_DISLIKES),
-					//TODO - alon, try to add a deal, log out, log back in, and then open deal history - and youll get an error
-					new SimpleDateFormat(BusinessOpeningScreenActivity.DATE_FORMAT).parse(jo.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE))));
-				
-			}
-			
-			dealsHistory = new DealHistoryManager(totalLikes, totalDislikes, totalDeals, oldDeals);
-			
-		}
-		catch (JSONException e) {
-		
-			Log.e("Business - history create", e.getMessage());
-		}
-		
-		catch (java.text.ParseException e) {
-			
-			Log.e("Business - load old deals", e.getMessage());
-		}
-	}
 
 	
 	public static void deleteCurrentDeal(){

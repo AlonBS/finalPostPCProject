@@ -27,6 +27,7 @@ import com.dna.radius.infrastructure.LocationFinderFragment;
 import com.dna.radius.login.MainActivity;
 import com.google.android.gms.maps.model.LatLng;
 import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
@@ -182,16 +183,20 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 		newBusiness.put(ParseClassesNames.BUSINESS_RATING, BusinessData.DEFAULT_RATING);
 
 		// store location on parse
-		JSONObject coordinates = new JSONObject();
-		try {
-			coordinates.put(ParseClassesNames.BUSINESS_LOCATION_LAT ,BusinessData.businessLocation.latitude);
-			coordinates.put(ParseClassesNames.BUSINESS_LOCATION_LONG ,BusinessData.businessLocation.longitude);
-
-		} catch (JSONException e) {
-
-			Log.e("Business - location create", e.getMessage());
-		}
-		newBusiness.put(ParseClassesNames.BUSINESS_LOCATION, coordinates);
+		ParseGeoPoint location = new ParseGeoPoint(BusinessData.businessLocation.latitude, BusinessData.businessLocation.longitude);
+		newBusiness.put(ParseClassesNames.BUSINESS_LOCATION, location);
+		
+//TODO remove
+//		JSONObject coordinates = new JSONObject();
+//		try {
+//			coordinates.put(ParseClassesNames.BUSINESS_LOCATION_LAT ,BusinessData.businessLocation.latitude);
+//			coordinates.put(ParseClassesNames.BUSINESS_LOCATION_LONG ,BusinessData.businessLocation.longitude);
+//
+//		} catch (JSONException e) {
+//
+//			Log.e("Business - location create", e.getMessage());
+//		}
+		
 
 		// TODO this is akum
 		if (BusinessData.businessImage != null) {

@@ -21,22 +21,26 @@ import android.widget.TextView;
 import com.dna.radius.R;
 import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.datastructures.Comment;
+import com.dna.radius.datastructures.ExternalBusiness;
 import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.infrastructure.SupportedTypes;
 
 public class ShowDealActivity extends FragmentActivity{
 	//needed parameters for the activity
-	public final static String BUSINESS_NAME_PARAM = "BusinessName";
-	public final static String BUSINESS_ID_PARAM = "BusinessID";
-	public final static String DEAL_ID_PARAM = "BusinessID";
-	public final static String BUSINESS_TYPE_PARAM = "BusinessType";
-	public final static String DEAL_RATING_PARAM = "DealRating";
-	public final static String USER_MODE_PARAM = "IsInUserMode";	
-	public final static String NUM_OF_LIKES_PARAM = "likesParam";
-	public final static String NUM_OF_DISLIKES_PARAM = "dislikesParam";	
-	public final static String CURRENT_DEAL_STR_PARAM = "currentDealParam";	
-	public final static String PHONE_STR_PARAM = "phone";
-	public final static String ADDRESS_STR_PARAM = "address";	
+	
+	public static final String EXTERNAL_BUSINESS_KEY = "externBusiness";
+//TODO remove
+//	public final static String BUSINESS_NAME_PARAM = "BusinessName";
+//	public final static String BUSINESS_ID_PARAM = "BusinessID";
+//	public final static String DEAL_ID_PARAM = "BusinessID";
+//	public final static String BUSINESS_TYPE_PARAM = "BusinessType";
+//	public final static String DEAL_RATING_PARAM = "DealRating";
+//	public final static String USER_MODE_PARAM = "IsInUserMode";	
+//	public final static String NUM_OF_LIKES_PARAM = "likesParam";
+//	public final static String NUM_OF_DISLIKES_PARAM = "dislikesParam";	
+//	public final static String CURRENT_DEAL_STR_PARAM = "currentDealParam";	
+//	public final static String PHONE_STR_PARAM = "phone";
+//	public final static String ADDRESS_STR_PARAM = "address";	
 
 
 	//a button which allows switching between the like fragment and the comments fragment.
@@ -51,11 +55,7 @@ public class ShowDealActivity extends FragmentActivity{
 	public SupportedTypes.BusinessType bType;
 	private boolean isFavourite;
 
-	/**The curreny Deal comments List*/
-	public ArrayList<Comment> commentsList;
 
-	ClientData clientData;
-	private String businessName;
 
 
 
@@ -67,28 +67,32 @@ public class ShowDealActivity extends FragmentActivity{
 
 
 		Intent intent = getIntent();
+		
+		ExternalBusiness pressedExternal = (ExternalBusiness)intent.getSerializableExtra(EXTERNAL_BUSINESS_KEY);
+		
 		//loads the relevant data
-		businessName = intent.getStringExtra(BUSINESS_NAME_PARAM);
-		businessID = intent.getStringExtra(BUSINESS_ID_PARAM);
-		dealID = intent.getStringExtra(DEAL_ID_PARAM);
-		bType = (SupportedTypes.BusinessType)intent.getSerializableExtra(BUSINESS_TYPE_PARAM);
-		int rating = intent.getIntExtra(DEAL_RATING_PARAM, 0);
-		isInUserMode = intent.getBooleanExtra(USER_MODE_PARAM, true);
-		numOfLikes = intent.getIntExtra(NUM_OF_LIKES_PARAM,0);
-		numOfDislikes = intent.getIntExtra(NUM_OF_DISLIKES_PARAM,0);
-		phoneStr = intent.getStringExtra(PHONE_STR_PARAM);
-		addressStr = intent.getStringExtra(ADDRESS_STR_PARAM);
-		dealStr = intent.getStringExtra(CURRENT_DEAL_STR_PARAM);
+//		businessName = intent.getStringExtra(BUSINESS_NAME_PARAM);
+//		businessID = intent.getStringExtra(BUSINESS_ID_PARAM);
+//		dealID = intent.getStringExtra(DEAL_ID_PARAM);
+//		bType = (SupportedTypes.BusinessType)intent.getSerializableExtra(BUSINESS_TYPE_PARAM);
+//		int rating = intent.getIntExtra(DEAL_RATING_PARAM, 0);
+//		isInUserMode = intent.getBooleanExtra(USER_MODE_PARAM, true);
+//		numOfLikes = intent.getIntExtra(NUM_OF_LIKES_PARAM,0);
+//		numOfDislikes = intent.getIntExtra(NUM_OF_DISLIKES_PARAM,0);
+//		phoneStr = intent.getStringExtra(PHONE_STR_PARAM);
+//		addressStr = intent.getStringExtra(ADDRESS_STR_PARAM);
+//		dealStr = intent.getStringExtra(CURRENT_DEAL_STR_PARAM);
 
 		//sets the views
 		TextView businessNameTV = (TextView)findViewById(R.id.businessTitle);
-		businessNameTV.setText(businessName);
 		TextView dealTextView = (TextView)findViewById(R.id.dealTextView);
-		dealTextView.setText(dealStr);
 		TextView detailsTV = (TextView)findViewById(R.id.businessDetails);
-		detailsTV.setText(addressStr + "    " + phoneStr);
 		RatingBar ratingBar = (RatingBar)findViewById(R.id.businessRatingBar);
-		ratingBar.setRating(rating);
+		
+		businessNameTV.setText(pressedExternal.getExtenBusinessName());
+		dealTextView.setText(pressedExternal.getExternBusinessDeal().getDealContent());
+		detailsTV.setText(pressedExternal.getExternBusinessAddress() + "    " + pressedExternal.getExternBusinessPhone());
+		ratingBar.setRating((float)pressedExternal.getExternBusinessRating()); //TODO chage to float??
 
 		Log.d("ShowDealActivity", "businessId:" + businessID + ", dealID:" + dealID); //TODO remove
 
@@ -109,6 +113,7 @@ public class ShowDealActivity extends FragmentActivity{
 			}
 		});
 
+		
 		//handles the favourites button
 		final ImageView favouritesBtn = (ImageView)findViewById(R.id.favourites_flag);
 		isFavourite = ClientData.isInFavourites(businessID);
@@ -153,19 +158,24 @@ public class ShowDealActivity extends FragmentActivity{
 	 * in this case - a new fragment should be loaded to the screen.
 	 */
 	private void onFragmentSwitchBtnClick(){
+		
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		Fragment fragmentToSwitch;
 		Bitmap newIcon;
+		
 		if (currentFragmentType == CurrentFragmentType.DEAL_FRAGMENT){
 			currentFragmentType = CurrentFragmentType.COMMENTS_FRAGMENT;
 			fragmentToSwitch = new CommentsFragment(dealID);
 			newIcon= BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_back);
+			
 		}else{
+			
 			currentFragmentType = CurrentFragmentType.DEAL_FRAGMENT;
 			fragmentToSwitch = new LikeAndDislikeFragment();
 			newIcon= BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_chat);
 		}
+		
 		fragmentTransaction.replace(R.id.deal_or_comments_fragment, fragmentToSwitch);
 		fragmentTransaction.commit();
 

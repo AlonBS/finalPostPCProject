@@ -4,7 +4,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -19,12 +18,11 @@ import android.widget.Button;
 import com.dna.radius.R;
 import com.dna.radius.dbhandling.ParseClassesNames;
 import com.dna.radius.infrastructure.LocationFinderFragment;
-import com.dna.radius.mapsample.ShowDealActivity;
 import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
-@SuppressLint("DefaultLocale")
 public class ClientWelcomeActivity extends FragmentActivity {
 	public static final String DID_USER_CHOSE_LAT_PARAM = "userChoseLocation";
 	public static final String LATITUDE_PARAM = "latitudeParam";
@@ -86,7 +84,7 @@ public class ClientWelcomeActivity extends FragmentActivity {
 				// user chose to set his location later - we close dialog
 				finishRegistration();
 
-				Bundle data = new Bundle();
+				Bundle data = new Bundle(); //TODO bundle is needed?
 				data.putBoolean(DID_USER_CHOSE_LAT_PARAM, false);
 				Intent intent = new Intent();
 				intent.putExtras(data);
@@ -109,13 +107,14 @@ public class ClientWelcomeActivity extends FragmentActivity {
 				//receives the location from the activity
 				final FragmentManager fragmentManager = getSupportFragmentManager();
 				LocationFinderFragment currentFragment = (LocationFinderFragment)fragmentManager.findFragmentById(R.id.client_welcome_main_fragment_layout);
-				if(!currentFragment.neededInfoGiven()){
+				if( !currentFragment.neededInfoGiven() )
 					return;
-				}
+				
 				ClientData.homeLocation = currentFragment.getLocation();
 
 				//save to parse user new location and close
 				finishRegistration();
+				
 				Bundle data = new Bundle();
 				data.putBoolean(DID_USER_CHOSE_LAT_PARAM, true);
 				data.putSerializable(LATITUDE_PARAM, ClientData.homeLocation.latitude);
@@ -135,17 +134,20 @@ public class ClientWelcomeActivity extends FragmentActivity {
 
 		ParseObject newClient = new ParseObject(ParseClassesNames.CLIENT_CLASS);
 
-		// store location on parse
-		JSONObject coordinates = new JSONObject();
-		try {
-			coordinates.put(ParseClassesNames.CLIENT_LOCATION_LAT ,ClientData.homeLocation.latitude);
-			coordinates.put(ParseClassesNames.CLIENT_LOCATION_LONG ,ClientData.homeLocation.longitude);
+		ParseGeoPoint location = new ParseGeoPoint(ClientData.homeLocation.latitude, ClientData.homeLocation.longitude);
+		newClient.put(ParseClassesNames.CLIENT_LOCATION, location);
 
-		} catch (JSONException e) {
-
-			Log.e("JSON_CREATION", e.getMessage());
-		}
-		newClient.put(ParseClassesNames.CLIENT_LOCATION, coordinates);
+//TODO remove (old version of location - stored as JSON object)
+//		// store location on parse
+//		JSONObject coordinates = new JSONObject();
+//		try {
+//			coordinates.put(ParseClassesNames.CLIENT_LOCATION_LAT ,ClientData.homeLocation.latitude);
+//			coordinates.put(ParseClassesNames.CLIENT_LOCATION_LONG ,ClientData.homeLocation.longitude);
+//
+//		} catch (JSONException e) {
+//
+//			Log.e("JSON_CREATION", e.getMessage());
+//		}
 
 
 		// store preferences (favorites, likes & dislikes)

@@ -263,12 +263,13 @@ public class MapWindowFragment extends Fragment {
 		}
 
 		for(ExternalBusiness bm :  MapBusinessManager.getAllBusinesses()){
+			
 			Marker m = MapBusinessManager.getMarker(bm);
 			if(m==null){
 				Log.d("filterBtnClickListener","didn't find corresponding marker for a business");
 				continue;
 			}
-			ImageView button = typeToButton.get(bm.type);
+			ImageView button = typeToButton.get(bm.getExternBusinessType());
 			if(button.isSelected()){
 				m.setVisible(false);
 			}else{
@@ -286,22 +287,28 @@ public class MapWindowFragment extends Fragment {
 		@Override
 		public boolean onMarkerClick(Marker marker) {
 			ExternalBusiness pressedExternalBusiness = MapBusinessManager.getBusiness(marker);
-			if(pressedExternalBusiness==null)
-				Log.e("MapWindowsFragment", "the returned marker is null");
-			else{
+			if (pressedExternalBusiness != null) {
+				
 				Intent myIntent = new Intent(getActivity(), ShowDealActivity.class);
-				myIntent.putExtra(ShowDealActivity.BUSINESS_NAME_PARAM, pressedExternalBusiness.businessName);
-				myIntent.putExtra(ShowDealActivity.BUSINESS_ID_PARAM, pressedExternalBusiness.businessId);
-				myIntent.putExtra(ShowDealActivity.DEAL_ID_PARAM, pressedExternalBusiness.currentDealID); 
-				myIntent.putExtra(ShowDealActivity.BUSINESS_TYPE_PARAM, pressedExternalBusiness.type);
-				myIntent.putExtra(ShowDealActivity.DEAL_RATING_PARAM, pressedExternalBusiness.rating);
-				myIntent.putExtra(ShowDealActivity.NUM_OF_DISLIKES_PARAM, pressedExternalBusiness.numOfDislikes); 
-				myIntent.putExtra(ShowDealActivity.NUM_OF_LIKES_PARAM, pressedExternalBusiness.numOfLikes);
-				myIntent.putExtra(ShowDealActivity.USER_MODE_PARAM, !BaseActivity.isInBusinessMode);
-				myIntent.putExtra(ShowDealActivity.PHONE_STR_PARAM, pressedExternalBusiness.phoneStr); 
-				myIntent.putExtra(ShowDealActivity.ADDRESS_STR_PARAM, pressedExternalBusiness.addressStr);
-				myIntent.putExtra(ShowDealActivity.CURRENT_DEAL_STR_PARAM, pressedExternalBusiness.currentDealStr);
+				myIntent.putExtra(ShowDealActivity.EXTERNAL_BUSINESS_KEY, pressedExternalBusiness);
+				
+//TODO remove
+//				myIntent.putExtra(ShowDealActivity.BUSINESS_NAME_PARAM, pressedExternalBusiness.businessName);
+//				myIntent.putExtra(ShowDealActivity.BUSINESS_ID_PARAM, pressedExternalBusiness.externBusinessId);
+//				myIntent.putExtra(ShowDealActivity.DEAL_ID_PARAM, pressedExternalBusiness.currentDealID); 
+//				myIntent.putExtra(ShowDealActivity.BUSINESS_TYPE_PARAM, pressedExternalBusiness.externBusinessType);
+//				myIntent.putExtra(ShowDealActivity.DEAL_RATING_PARAM, pressedExternalBusiness.rating);
+//				myIntent.putExtra(ShowDealActivity.NUM_OF_DISLIKES_PARAM, pressedExternalBusiness.numOfDislikes); 
+//				myIntent.putExtra(ShowDealActivity.NUM_OF_LIKES_PARAM, pressedExternalBusiness.numOfLikes);
+//				myIntent.putExtra(ShowDealActivity.USER_MODE_PARAM, !BaseActivity.isInBusinessMode);
+//				myIntent.putExtra(ShowDealActivity.PHONE_STR_PARAM, pressedExternalBusiness.phoneStr); 
+//				myIntent.putExtra(ShowDealActivity.ADDRESS_STR_PARAM, pressedExternalBusiness.addressStr);
+//				myIntent.putExtra(ShowDealActivity.CURRENT_DEAL_STR_PARAM, pressedExternalBusiness.currentDealStr);
 				getActivity().startActivity(myIntent);
+				
+			}
+			else {
+				Log.e("MapWindowsFragment", "the returned marker is null");
 			}
 			return false;
 		}

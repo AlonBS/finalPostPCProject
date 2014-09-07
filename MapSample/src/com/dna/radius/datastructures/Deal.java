@@ -1,5 +1,6 @@
 package com.dna.radius.datastructures;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -8,7 +9,10 @@ import java.util.Date;
  * should be displayed in the deal history list.
  *
  */
-public class Deal {
+public class Deal implements Serializable {
+	
+	private static final long serialVersionUID = -9140388376492045296L;
+	
 	
 	private String id;
 	private String dealContent;

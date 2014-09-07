@@ -111,7 +111,7 @@ public class BusinessDashboardFragment extends Fragment{
 			ListView commentsListView = (ListView)view.findViewById(R.id.comments_list_view);
 			CommentsArrayAdapter commentsAdapter = new CommentsArrayAdapter(activityParent,android.R.layout.simple_list_item_1 , commentsList);
 			commentsListView.setAdapter(commentsAdapter);
-			DBHandler.loadCommentsListAsync(commentsList, commentsAdapter);
+			DBHandler.loadCommentsListAsync(commentsAdapter);
 		}
 
 		/**handles the number of likes and dislikes*/
@@ -148,8 +148,8 @@ public class BusinessDashboardFragment extends Fragment{
 
 		/**sets the top businesses segment*/
 		TopBusinessesHorizontalView topBusinessesScroll = (TopBusinessesHorizontalView)view.findViewById(R.id.top_businesses_list_view);
-		for(ExternalBusiness b : activityParent.topBusinesses){
-			topBusinessesScroll.addBusiness(b, null);
+		for(ExternalBusiness b : BusinessData.topBusinesses){
+			topBusinessesScroll.addBusiness(b);
 		}
 
 

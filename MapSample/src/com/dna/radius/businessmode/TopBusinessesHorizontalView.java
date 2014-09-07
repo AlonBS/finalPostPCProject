@@ -26,9 +26,10 @@ import com.dna.radius.R;
  *
  */
 public class TopBusinessesHorizontalView extends HorizontalScrollView{
+	
 	private Context context;
 	/**maximum number of business which will be shown in the view*/
-	private final int NUMBER_OF_TOP_BUSINESSES_MAX = 10;
+	private final int MAX__TOP_BUSINESSES = 10;
 	/**the list of all the businesses*/
 	private ArrayList<ExternalBusiness> topBusinessesList = new ArrayList<>();
 	private LinearLayout hostLayout = null;
@@ -38,72 +39,84 @@ public class TopBusinessesHorizontalView extends HorizontalScrollView{
 		super(context);
 		this.context = context;
 	}
+	
 	/**C-tor*/
 	public TopBusinessesHorizontalView(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
 		this.context = context;
 	}
+	
 	/**C-tor*/
 	public TopBusinessesHorizontalView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle); 	
 		this.context = context;
 	}
+	
 
 	/**Add a business into the top list*/
-	public boolean addBusiness(final ExternalBusiness bm, Bitmap image){
+	public boolean addBusiness(final ExternalBusiness eb) {
+		
 		if(hostLayout == null){
 			hostLayout = (LinearLayout)this.findViewById(R.id.top_businesses_linear_layout);
 		}
-		if(topBusinessesList.size()>NUMBER_OF_TOP_BUSINESSES_MAX){
+		
+		if(topBusinessesList.size()>MAX__TOP_BUSINESSES){
 			Log.e("TopBusinessesHorizontalView", "to many businesses were added into top list");
 			return false;
 		}
 
 		LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		LinearLayout newLayout = (LinearLayout) inflater.inflate(R.layout.top_businesses_col,hostLayout,false);
+		
 		hostLayout.addView(newLayout);
-		topBusinessesList.add(bm);
-		TextView businessNameTv = (TextView)newLayout.findViewById(R.id.top_business_name);
-		TextView businessLikesTv = (TextView)newLayout.findViewById(R.id.top_business_num_of_likes);
-		TextView businessDislikesTv = (TextView)newLayout.findViewById(R.id.top_business_num_of_dislikes);
-		if(businessNameTv!=null){
-			businessNameTv.setText(bm.businessName);
+		topBusinessesList.add(eb);
+		
+		TextView businessNameTextView = (TextView) newLayout.findViewById(R.id.top_business_name);
+		TextView businessLikesTextView = (TextView) newLayout.findViewById(R.id.top_business_num_of_likes);
+		TextView businessDislikesTextView = (TextView) newLayout.findViewById(R.id.top_business_num_of_dislikes);
+		RatingBar businessRatingBar = (RatingBar) newLayout.findViewById(R.id.top_business_rating_bar);
+		
+		if (businessNameTextView != null) {
+			businessNameTextView.setText(eb.getExtenBusinessName());
 		}
-		if(businessLikesTv!=null){
-			businessLikesTv.setText(Long.toString(bm.numOfLikes));
+		if (businessLikesTextView != null) {
+			businessLikesTextView.setText(Integer.toString(eb.getExternBusinessDeal().getNumOfLikes()));
 		}
-		if(businessLikesTv!=null){
-			businessDislikesTv.setText(Long.toString(bm.numOfDislikes));
+		if (businessLikesTextView != null) {
+			businessDislikesTextView.setText(Integer.toString(eb.getExternBusinessDeal().getNumOfDislikes()));
 		}
-
-		RatingBar topBusinessRatingBar = (RatingBar)findViewById(R.id.top_business_rating_bar);
-		topBusinessRatingBar.setRating(bm.rating);
+		if (businessRatingBar != null) {
+			businessRatingBar.setRating((float)eb.getExternBusinessRating());
+		}
+		
+		
 		//set rating bar click listener to do nothing
-		topBusinessRatingBar.setOnClickListener(new OnClickListener() {@Override public void onClick(View arg0) {}});
+		businessRatingBar.setOnClickListener(new OnClickListener() {@Override public void onClick(View arg0) {}});
 
 		//whenever a business is pressed - opens a ShowDealActivity.
 		newLayout.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Intent myIntent = new Intent(context, ShowDealActivity.class);
-				myIntent.putExtra(ShowDealActivity.BUSINESS_NAME_PARAM, bm.businessName); //Optional parameters
-				myIntent.putExtra(ShowDealActivity.BUSINESS_ID_PARAM, bm.businessId); //Optional parameters
-				myIntent.putExtra(ShowDealActivity.DEAL_ID_PARAM, bm.currentDealID); 
-				myIntent.putExtra(ShowDealActivity.BUSINESS_TYPE_PARAM, bm.type); //Optional parameters
-				myIntent.putExtra(ShowDealActivity.DEAL_RATING_PARAM, bm.rating); //Optional parameters
-				myIntent.putExtra(ShowDealActivity.NUM_OF_DISLIKES_PARAM, bm.numOfDislikes); //Optional parameters
-				myIntent.putExtra(ShowDealActivity.NUM_OF_LIKES_PARAM, bm.numOfLikes); //Optional parameters
-				myIntent.putExtra(ShowDealActivity.USER_MODE_PARAM, false);
-				myIntent.putExtra(ShowDealActivity.PHONE_STR_PARAM, bm.phoneStr); 
-				myIntent.putExtra(ShowDealActivity.ADDRESS_STR_PARAM, bm.addressStr);
-				myIntent.putExtra(ShowDealActivity.CURRENT_DEAL_STR_PARAM, bm.currentDealStr);
+				myIntent.putExtra(ShowDealActivity.EXTERNAL_BUSINESS_KEY, eb);
 				context.startActivity(myIntent);
+				
+//				myIntent.putExtra(ShowDealActivity.BUSINESS_NAME_PARAM, eb.businessName); //Optional parameters
+//				myIntent.putExtra(ShowDealActivity.BUSINESS_ID_PARAM, eb.externBusinessId); //Optional parameters
+//				myIntent.putExtra(ShowDealActivity.DEAL_ID_PARAM, eb.currentDealID); 
+//				myIntent.putExtra(ShowDealActivity.BUSINESS_TYPE_PARAM, eb.externBusinessType); //Optional parameters
+//				myIntent.putExtra(ShowDealActivity.DEAL_RATING_PARAM, eb.rating); //Optional parameters
+//				myIntent.putExtra(ShowDealActivity.NUM_OF_DISLIKES_PARAM, eb.numOfDislikes); //Optional parameters
+//				myIntent.putExtra(ShowDealActivity.NUM_OF_LIKES_PARAM, eb.numOfLikes); //Optional parameters
+//				myIntent.putExtra(ShowDealActivity.USER_MODE_PARAM, false);
+//				myIntent.putExtra(ShowDealActivity.PHONE_STR_PARAM, eb.phoneStr); 
+//				myIntent.putExtra(ShowDealActivity.ADDRESS_STR_PARAM, eb.addressStr);
+//				myIntent.putExtra(ShowDealActivity.CURRENT_DEAL_STR_PARAM, eb.currentDealStr);
+				
 			}
 		});
 
 		return true;
 	}
-
-
 }

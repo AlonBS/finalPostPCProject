@@ -55,7 +55,8 @@ public class CommentsFragment extends Fragment{
 		ArrayList<Comment> commentsList = new ArrayList<Comment>();//todoDal.all(TodoDAL.DB_TYPE.SQLITE);
 		CommentsArrayAdapter adapter = new CommentsArrayAdapter(parentActivity,android.R.layout.simple_list_item_1, commentsList);
 		commentsListView.setAdapter(adapter);
-		DBHandler.loadCommentsListAsync(commentsList, adapter);
+		
+		DBHandler.loadCommentsListAsync(adapter);
 
 		//if the user is in user mode - allows him to comment on a certain deal.
 		if(!parentActivity.isInUserMode){

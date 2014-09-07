@@ -23,8 +23,6 @@ public class ClientOpeningScreenActivity extends BaseActivity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.client_opening_screen);
 
-		isInBusinessMode = false;
-
 		final FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		WaitingFragment waitFragment = new WaitingFragment();

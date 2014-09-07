@@ -39,8 +39,7 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 	/**holds the lates button which was pressed*/
 	private ImageView latestPressedBtn;
 
-	/**the top businesses list. it's public because the business dashboard fragment uses it**/
-	public List<ExternalBusiness> topBusinesses;
+	
 	
 	public BusinessData ownerData;
 	@Override
@@ -66,8 +65,6 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 				//ownerData = new BusinessData(tempBusinessId,getApplicationContext());
 				
 				BusinessData.loadBusinessInfo();
-				
-				topBusinesses = DBHandler.LoadTopBusinessesSync();
 
 				runOnUiThread(new Runnable() {
 					@Override

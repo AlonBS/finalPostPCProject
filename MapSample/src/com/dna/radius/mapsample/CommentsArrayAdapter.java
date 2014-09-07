@@ -34,7 +34,7 @@ public class CommentsArrayAdapter extends ArrayAdapter<Comment>{
 	public void notifyDataSetChanged() {
 		super.notifyDataSetChanged();
 	}
-	
+
 	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {

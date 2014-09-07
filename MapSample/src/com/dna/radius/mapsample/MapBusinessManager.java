@@ -44,7 +44,10 @@ public class MapBusinessManager {
 		GoogleMap gMap = gMapRef.get();
 		
 		for(ExternalBusiness b : businesses){
-			Marker m =  gMap.addMarker(new MarkerOptions().position(b.pos).title(b.businessName).icon(BitmapDescriptorFactory.fromResource(b.type.getIconID())));
+			Marker m =  gMap.addMarker(new MarkerOptions()
+				.position(b.getExternBuisnessLocation())
+				.title(b.getExtenBusinessName())
+				.icon(BitmapDescriptorFactory.fromResource(b.getExternBusinessType().getIconID())));
 			BusinessToMarker.put(b,m);
 			markerToBusiness.put(m,b);
 		}
@@ -52,13 +55,13 @@ public class MapBusinessManager {
 	}
     
     public static void loadExternalBusinesses(){
-    	if(gMapRef==null || gMapRef.get()==null){
+    	
+    	if (gMapRef == null || gMapRef.get() == null) {
 			Log.d("MapBusinessManager.addExternalBusiness", "the map doesnt exist anymore");
 		}
     	GoogleMap gMap = gMapRef.get();
     	LatLng location = gMap.getCameraPosition().target;
     	DBHandler.getExternalBusinessAtRadius(location, MapWindowFragment.LOAD_RADIUS);
-    	
     }
     
     
@@ -76,9 +79,13 @@ public class MapBusinessManager {
 	public static Marker getMarker(ExternalBusiness b){
 		return BusinessToMarker.get(b);
 	}
+	
 	public static ExternalBusiness getBusiness(Marker m){
 		return markerToBusiness.get(m);
 	}
+	
+	
+//TODO 
 //	public static void addBusiness(ExternalBusiness b,Marker m){
 //		BusinessToMarker.put(b,m);
 //		markerToBusiness.put(m,b);
@@ -88,33 +95,42 @@ public class MapBusinessManager {
 	 * according to the propery enum list*/
 	public enum Property{FAVORITES_PROP,TOP_BUSINESS_PROP,TOP_DEALS_PROP,ALL;}
 	
+	
+	//TODO (alon - to dror) - unused?
+	//public static boolean hasProperty(Marker marker, Property p){
+	//	ExternalBusiness buisness = markerToBusiness.get(marker);
+	//	return hasProperty(buisness, p);		
+	//}	
+	
 	/**returns true if a business has a certain property.*/
-	public static boolean hasProperty(ExternalBusiness buisness,Property p){
-		if(p==Property.FAVORITES_PROP){
-			boolean retVal = ClientData.isInFavourites(buisness.businessId); //TODO - improve!
-			return retVal;
-		}else if(p==Property.TOP_DEALS_PROP){
-			return isInTopDeals(buisness.businessId); 
-		}else if(p==Property.TOP_BUSINESS_PROP){
-			return buisness.rating>=4;
+	public static boolean hasProperty(ExternalBusiness extern ,Property p){
+		
+		if (p == Property.FAVORITES_PROP) {
+			return ClientData.isInFavourites(extern.getExternBusinessId()); //TODO - improve!
+			
+		}else if (p == Property.TOP_DEALS_PROP) {
+			
+			return isInTopDeals(extern.getExternBusinessId());
+			
+		}else if(p == Property.TOP_BUSINESS_PROP) {
+			return extern.getExternBusinessRating() >= 4; //TODO decide creteria
 		}
-		else if(p==Property.ALL){
+		else if (p == Property.ALL) {
 			return true;
+			
 		}else{
 			Log.e("BusinessManager", "ERROR Illegal property!!");
-			
 			return true;
 		}
-		
-		
 	}
+
+	
 	
 	private static boolean isInTopDeals(String businessId) {
+		
+		// TODO call DBhandler topBusiness finder
 		// TODO Auto-generated method stub
 		return false;
 	}
-	public static boolean hasProperty(Marker marker,Property p){
-		ExternalBusiness buisness = markerToBusiness.get(marker);
-		return hasProperty(buisness, p);		
-	}	
+	
 }
