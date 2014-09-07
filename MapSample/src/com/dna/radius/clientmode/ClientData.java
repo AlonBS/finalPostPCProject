@@ -204,9 +204,6 @@ public class ClientData{
 	 */
 	public static void setHome(LatLng latlng) {
 		
-		DBHandler.temp();
-		
-		/*
 		homeLocation = latlng;
 		JSONObject coordinates = new JSONObject();
 		try {
@@ -222,7 +219,6 @@ public class ClientData{
 		
 		// TODO - maybe concentrate more than one call
 		clientInfo.saveInBackground(); //TODO SHOULD BE saveEvantually()
-		*/
 	}
 
 

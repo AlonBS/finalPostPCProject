@@ -6,13 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,11 +28,10 @@ import com.dna.radius.R;
 import com.dna.radius.businessmode.BusinessData;
 import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.datastructures.ExternalBusiness;
-import com.dna.radius.datastructures.MapBusinessManager;
-import com.dna.radius.datastructures.MapBusinessManager.Property;
 import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.infrastructure.BaseActivity;
 import com.dna.radius.infrastructure.SupportedTypes;
+import com.dna.radius.mapsample.MapBusinessManager.Property;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
@@ -45,10 +42,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
 public class MapWindowFragment extends Fragment {
-	private MapBusinessManager businessManager;
 	private GoogleMap gMap;
-	private boolean isInBusinessMode;
-	final double LOAD_RADIUS = 0.01; 	
+	public static final double LOAD_RADIUS = 0.01; 	
 	private static final float DEFAULT_LATLNG_ZOOM = 20;
 	private static final float DEFAULT_ANIMATED_ZOOM = 15;
 	private HashMap<SupportedTypes.BusinessType,ImageView> typeToButton;
@@ -62,7 +57,6 @@ public class MapWindowFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.map_window_fragment,container, false);
 
-		businessManager = new MapBusinessManager();
 
 		//loads the google map objects and set it on the client's home page.
 		FragmentManager manager = getActivity().getSupportFragmentManager();
@@ -70,6 +64,8 @@ public class MapWindowFragment extends Fragment {
 		if (gMap!=null){
 			gMap.setOnMarkerClickListener(markerListener);
 		}
+			
+		MapBusinessManager.init(gMap);
 		
 		if(BaseActivity.isInBusinessMode){
 			latestMapCenter = BusinessData.getLocation();
@@ -83,8 +79,9 @@ public class MapWindowFragment extends Fragment {
 		gMap.setMyLocationEnabled(true);
 
 		//loads businesses to map
-		DBHandler.loadBusinessListAndMapMarkersAsync(gMap.getCameraPosition().target, gMap, businessManager,LOAD_RADIUS,this);
-
+//		DBHandler.loadBusinessListAndMapMarkersAsync(gMap.getCameraPosition().target, gMap, businessManager,LOAD_RADIUS,this);
+		MapBusinessManager.loadExternalBusinesses();
+		
 		final MapWindowFragment thisFragment = this;
 		//if the the map center was changed significantly (more then a Radius),
 		//starts loading businesses again, around the new radius.
@@ -94,9 +91,9 @@ public class MapWindowFragment extends Fragment {
 				if (Math.abs(position.target.latitude-latestMapCenter.latitude)>LOAD_RADIUS ||
 						Math.abs(position.target.longitude-latestMapCenter.longitude)>LOAD_RADIUS){
 					latestMapCenter = position.target;
-					DBHandler.stopLoadBusinessListAndMapMsarkersAsync();
+//					DBHandler.stopLoadBusinessListAndMapMsarkersAsync();
 
-					DBHandler.loadBusinessListAndMapMarkersAsync(position.target, gMap, businessManager, LOAD_RADIUS,thisFragment);
+//					DBHandler.loadBusinessListAndMapMarkersAsync(position.target, gMap, businessManager, LOAD_RADIUS,thisFragment);
 					Log.d("MapWindowFragment","map center was changed significantly. loading businesses again.");
 				}
 
@@ -167,7 +164,7 @@ public class MapWindowFragment extends Fragment {
 
 		//handles the set/get home location feature
 		final ImageView homeButton = (ImageView)view.findViewById(R.id.map_home_btn);
-		if(isInBusinessMode){
+		if(BaseActivity.isInBusinessMode){
 			homeButton.setVisibility(View.GONE);
 		}else{
 			homeButton.setOnLongClickListener(new OnLongClickListener() {
@@ -208,7 +205,10 @@ public class MapWindowFragment extends Fragment {
 		gMap.animateCamera(CameraUpdateFactory.zoomTo(DEFAULT_ANIMATED_ZOOM), 2000, null);
 	}
 
-
+	public GoogleMap getGMap(){
+		return gMap;
+	}
+	
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
@@ -262,8 +262,8 @@ public class MapWindowFragment extends Fragment {
 			p = Property.ALL;
 		}
 
-		for(ExternalBusiness bm :  businessManager.getAllBusinesses()){
-			Marker m = businessManager.getMarker(bm);
+		for(ExternalBusiness bm :  MapBusinessManager.getAllBusinesses()){
+			Marker m = MapBusinessManager.getMarker(bm);
 			if(m==null){
 				Log.d("filterBtnClickListener","didn't find corresponding marker for a business");
 				continue;
@@ -272,7 +272,7 @@ public class MapWindowFragment extends Fragment {
 			if(button.isSelected()){
 				m.setVisible(false);
 			}else{
-				boolean visibilityState = businessManager.hasProperty(bm, p);
+				boolean visibilityState = MapBusinessManager.hasProperty(bm, p);
 				m.setVisible(visibilityState);
 			}
 		}
@@ -285,23 +285,22 @@ public class MapWindowFragment extends Fragment {
 	private OnMarkerClickListener markerListener = new OnMarkerClickListener() {
 		@Override
 		public boolean onMarkerClick(Marker marker) {
-			ExternalBusiness bMarker = businessManager.getBusiness(marker);
-			if(bMarker==null)
-				Toast.makeText(getActivity(),"sry null", Toast.LENGTH_SHORT).show();
+			ExternalBusiness pressedExternalBusiness = MapBusinessManager.getBusiness(marker);
+			if(pressedExternalBusiness==null)
+				Log.e("MapWindowsFragment", "the returned marker is null");
 			else{
-				Toast.makeText(getActivity(),"your in: " +  bMarker.name, Toast.LENGTH_SHORT).show();
 				Intent myIntent = new Intent(getActivity(), ShowDealActivity.class);
-				myIntent.putExtra(ShowDealActivity.BUSINESS_NAME_PARAM, bMarker.name);
-				myIntent.putExtra(ShowDealActivity.BUSINESS_ID_PARAM, bMarker.businessId);
-				myIntent.putExtra(ShowDealActivity.DEAL_ID_PARAM, bMarker.currentDealID); 
-				myIntent.putExtra(ShowDealActivity.BUSINESS_TYPE_PARAM, bMarker.type);
-				myIntent.putExtra(ShowDealActivity.DEAL_RATING_PARAM, bMarker.numOfStars);
-				myIntent.putExtra(ShowDealActivity.NUM_OF_DISLIKES_PARAM, bMarker.numOfDislikes); 
-				myIntent.putExtra(ShowDealActivity.NUM_OF_LIKES_PARAM, bMarker.numOfLikes);
-				myIntent.putExtra(ShowDealActivity.USER_MODE_PARAM, !isInBusinessMode);
-				myIntent.putExtra(ShowDealActivity.PHONE_STR_PARAM, bMarker.phoneStr); 
-				myIntent.putExtra(ShowDealActivity.ADDRESS_STR_PARAM, bMarker.addressStr);
-				myIntent.putExtra(ShowDealActivity.CURRENT_DEAL_STR_PARAM, bMarker.currentDealStr);
+				myIntent.putExtra(ShowDealActivity.BUSINESS_NAME_PARAM, pressedExternalBusiness.businessName);
+				myIntent.putExtra(ShowDealActivity.BUSINESS_ID_PARAM, pressedExternalBusiness.businessId);
+				myIntent.putExtra(ShowDealActivity.DEAL_ID_PARAM, pressedExternalBusiness.currentDealID); 
+				myIntent.putExtra(ShowDealActivity.BUSINESS_TYPE_PARAM, pressedExternalBusiness.type);
+				myIntent.putExtra(ShowDealActivity.DEAL_RATING_PARAM, pressedExternalBusiness.rating);
+				myIntent.putExtra(ShowDealActivity.NUM_OF_DISLIKES_PARAM, pressedExternalBusiness.numOfDislikes); 
+				myIntent.putExtra(ShowDealActivity.NUM_OF_LIKES_PARAM, pressedExternalBusiness.numOfLikes);
+				myIntent.putExtra(ShowDealActivity.USER_MODE_PARAM, !BaseActivity.isInBusinessMode);
+				myIntent.putExtra(ShowDealActivity.PHONE_STR_PARAM, pressedExternalBusiness.phoneStr); 
+				myIntent.putExtra(ShowDealActivity.ADDRESS_STR_PARAM, pressedExternalBusiness.addressStr);
+				myIntent.putExtra(ShowDealActivity.CURRENT_DEAL_STR_PARAM, pressedExternalBusiness.currentDealStr);
 				getActivity().startActivity(myIntent);
 			}
 			return false;

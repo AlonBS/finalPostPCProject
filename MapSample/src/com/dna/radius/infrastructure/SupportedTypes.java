@@ -14,11 +14,11 @@ public class SupportedTypes {
 		COFFEE(R.drawable.coffee_icon,"Coffee"),
 		GROCERIES(R.drawable.shopping_icon, "Groceries");
 		
-		private int iconID;
+		private int iconDrawableID;
 		private String stringRep;
 		
 		private BusinessType(int iconID, String rep){
-			this.iconID = iconID;
+			this.iconDrawableID = iconID;
 			this.stringRep = rep;
 		}
 		
@@ -26,7 +26,7 @@ public class SupportedTypes {
 		public String getStringRep(){ return stringRep;	}
 		
 		public int getIconID() {
-			return iconID;
+			return iconDrawableID;
 		}
 		
 		public static BusinessType stringToType(String str){
