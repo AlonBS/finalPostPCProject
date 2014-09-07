@@ -429,14 +429,13 @@ public class ClientData{
 		return DealLikeStatus.DONT_CARE;
 	}
 
-
-	public static void setDontCareToDeal(String dealId){
-		
-		if (isInLikes(dealId)) {
-			removeFromLikes(dealId);
-		}
-		else {
-			removeFromDislikes(dealId);
-		}
-	}
+//	public static void setDontCareToDeal(String dealId){
+//		
+//		if (isInLikes(dealId)) {
+//			removeFromLikes(dealId);
+//		}
+//		else {
+//			removeFromDislikes(dealId);
+//		}
+//	}
 }
