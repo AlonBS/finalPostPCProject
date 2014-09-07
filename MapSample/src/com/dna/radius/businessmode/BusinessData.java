@@ -438,7 +438,9 @@ public class BusinessData {
 	}
 
 	
-	
+	public static void deleteCurrentDeal(){
+		//TODO alon - this method should delete the current deal and move it to history
+	}
 	
 	
 	public static void createNewDeal(String content) {
