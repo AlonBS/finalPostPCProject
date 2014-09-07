@@ -1,7 +1,9 @@
 package com.dna.radius.mapsample;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,6 +16,7 @@ import com.dna.radius.R;
 import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.dbhandling.DBHandler.DealLikeStatus;
+import com.dna.radius.infrastructure.BaseActivity;
 
 /***
  * this fragment allows the user to like or dislike a certain deal, if he is
@@ -23,116 +26,153 @@ import com.dna.radius.dbhandling.DBHandler.DealLikeStatus;
  *
  */
 public class LikeAndDislikeFragment extends Fragment{
-	private DealLikeStatus dealStatus;
-	private ImageView dislikeBtn;
+	private DealLikeStatus updatedDealStatus,originalDealStatus;
+	private View dislikeBtn;
 	private View likeBtn;
 	private ShowDealActivity activityParent;
-	
+	private TextView likesTextView;
+	private TextView dislikesTextView;
+	private ImageView likeImageView;
+	private ImageView dislikeImageView;
+
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.like_and_dislike_fragment,container, false);
 		ImageView imageView = (ImageView) view.findViewById(R.id.business_image_view);
-		
+
 		activityParent = (ShowDealActivity)getActivity();
-		final String businessID  = activityParent.businessID;
-		
+
 		//loads the business image
-		DBHandler.loadBusinessImageViewAsync(businessID, imageView,activityParent);
-	
+		DBHandler.loadBusinessImageViewAsync(activityParent.dealID, imageView,activityParent);
+
 		//updates the likes and dislikes text views
-		final TextView likesText = (TextView)view.findViewById(R.id.like_counter);
-		likesText.setText(Long.toString(activityParent.numOfLikes));
-		final TextView dislikesText = (TextView)view.findViewById(R.id.dislike_counter);
-		dislikesText.setText(Long.toString(activityParent.numOfDislikes));
-		
+		likesTextView = (TextView)view.findViewById(R.id.like_text_view);
+		likesTextView.setText(Long.toString(activityParent.numOfLikes));
+		dislikesTextView = (TextView)view.findViewById(R.id.dislike_text_view);
+		dislikesTextView.setText(Long.toString(activityParent.numOfDislikes));
+
+		likeImageView = (ImageView)view.findViewById(R.id.like_image_view);
+		dislikeImageView = (ImageView)view.findViewById(R.id.dislike_image_view);
+
 		//handles the like and dislikes buttons.
-		dealStatus = ClientData.getDealLikeStatus(businessID);
-		likeBtn = (ImageView)view.findViewById(R.id.sounds_cool_btn);
+		if(!BaseActivity.isInBusinessMode){
+			originalDealStatus = ClientData.getDealLikeStatus(activityParent.dealID);
+			updatedDealStatus = originalDealStatus;
+		}
+		likeBtn = (View)view.findViewById(R.id.sounds_cool_btn);
 		likeBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if(!activityParent.isInUserMode){
+				if(BaseActivity.isInBusinessMode){
 					Toast.makeText(activityParent, "it's impossible to like/dislike a deal on business mode", Toast.LENGTH_SHORT).show();
 					return;
 				}
-				if(dealStatus==DealLikeStatus.LIKE){
-					dealStatus = DealLikeStatus.DONT_CARE;
-					
-					String newStr = Long.toString(Long.parseLong(likesText.getText().toString())-1);
-					likesText.setText(newStr);
-					ClientData.setDontCareToDeal(businessID);
+				if(updatedDealStatus==DealLikeStatus.LIKE){
+					updatedDealStatus = DealLikeStatus.DONT_CARE;
+
+					String newStr = Long.toString(Long.parseLong(likesTextView.getText().toString())-1);
+					likesTextView.setText(newStr);
 				}else{
-					if(dealStatus==DealLikeStatus.DISLIKE){
-						String newStr = Long.toString(Long.parseLong(dislikesText.getText().toString())-1);
-						dislikesText.setText(newStr);
+					if(updatedDealStatus==DealLikeStatus.DISLIKE){
+						String newStr = Long.toString(Long.parseLong(dislikesTextView.getText().toString())-1);
+						dislikesTextView.setText(newStr);
 					}
-					
-					dealStatus = DealLikeStatus.LIKE;
-					ClientData.addToLikes(businessID);
-					String oldText =likesText.getText().toString();
+
+					updatedDealStatus = DealLikeStatus.LIKE;
+					String oldText =likesTextView.getText().toString();
 					String newStr = Long.toString(Long.parseLong(oldText)+1);
-					likesText.setText(newStr);
+					likesTextView.setText(newStr);
 				}
 				setDislikeAndLikeBG();
 			}
 		});
-		dislikeBtn = (ImageView)view.findViewById(R.id.no_thanks_btn);
+		dislikeBtn = view.findViewById(R.id.no_thanks_btn);
 		dislikeBtn.setOnClickListener(new OnClickListener() {
-				
+
 			@Override
 			public void onClick(View v) {
-				if(!activityParent.isInUserMode){
+				if(BaseActivity.isInBusinessMode){
+					Toast.makeText(activityParent, "it's impossible to like/dislike a deal on business mode", Toast.LENGTH_SHORT).show();
 					return;
 				}
-				if(dealStatus==DealLikeStatus.DISLIKE){
-					dealStatus = DealLikeStatus.DONT_CARE;
-					ClientData.setDontCareToDeal(businessID);
-					String newStr = Long.toString(Long.parseLong(dislikesText.getText().toString())-1);
-					dislikesText.setText(newStr);
+				if(updatedDealStatus==DealLikeStatus.DISLIKE){
+					updatedDealStatus = DealLikeStatus.DONT_CARE;
+					String newStr = Long.toString(Long.parseLong(dislikesTextView.getText().toString())-1);
+					dislikesTextView.setText(newStr);
 				}else{
-					if(dealStatus==DealLikeStatus.LIKE){
-						String newStr = Long.toString(Long.parseLong(likesText.getText().toString())-1);
-						likesText.setText(newStr);
+					if(updatedDealStatus==DealLikeStatus.LIKE){
+						String newStr = Long.toString(Long.parseLong(likesTextView.getText().toString())-1);
+						likesTextView.setText(newStr);
 					}
-					dealStatus = DealLikeStatus.DISLIKE;
-					ClientData.addToDislikes(businessID);
-					String newStr = Long.toString(Long.parseLong(dislikesText.getText().toString())+1);
-					dislikesText.setText(newStr);
+					updatedDealStatus = DealLikeStatus.DISLIKE;
+					String newStr = Long.toString(Long.parseLong(dislikesTextView.getText().toString())+1);
+					dislikesTextView.setText(newStr);
 				}
 				setDislikeAndLikeBG();
-				
+
 			}
 		});
 		setDislikeAndLikeBG();
 		return view;
 	}
+
+
 	
+	
+	
+	private void saveUserActions(){
+		if(BaseActivity.isInBusinessMode){
+			return;
+		}
+		
+		
+		Log.d("LikeAndDislikeFragment.saveUserActions","previus preferences: " + originalDealStatus.name() + ", new preferenced: " + updatedDealStatus.name());
+
+		if(updatedDealStatus==DealLikeStatus.LIKE){
+			ClientData.addToLikes(activityParent.dealID);
+		}else if(updatedDealStatus==DealLikeStatus.DISLIKE){
+			ClientData.addToDislikes(activityParent.dealID);
+		}else if(updatedDealStatus==DealLikeStatus.DONT_CARE){
+			if(originalDealStatus == DealLikeStatus.LIKE){
+				ClientData.removeFromLikes(activityParent.dealID);
+			}else if(originalDealStatus == DealLikeStatus.DISLIKE){
+				ClientData.removeFromDislikes(activityParent.dealID);
+			}
+		}
+	}
+
+
 	/**
 	 * this function changes the backroung of the dislike and like buttons
 	 * according to the user preferenced. 
 	 */
 	@SuppressWarnings("deprecation")
 	private void setDislikeAndLikeBG(){
-		if(!activityParent.isInUserMode){
-			dislikeBtn.setBackgroundDrawable(getResources().getDrawable(R.drawable.like_dislike_shape));
-			likeBtn.setBackgroundDrawable(getResources().getDrawable(R.drawable.like_dislike_shape));
+		if(BaseActivity.isInBusinessMode){
 			return;
 		}
-		if(dealStatus==DealLikeStatus.LIKE){
-			likeBtn.setBackgroundDrawable(getResources().getDrawable(R.drawable.like_buttons_background_on));
+		if(updatedDealStatus==DealLikeStatus.LIKE){
+
+			likeImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_good_blue));
+			likesTextView.setTextColor(Color.BLUE);
 		}else{
-			likeBtn.setBackgroundDrawable(getResources().getDrawable(R.drawable.like_buttons_background_off));
+			likeImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_good_black));
+			likesTextView.setTextColor(Color.BLACK);
 		}
-		if(dealStatus==DealLikeStatus.DISLIKE){
-			dislikeBtn.setBackgroundDrawable(getResources().getDrawable(R.drawable.like_buttons_background_on));
+		if(updatedDealStatus==DealLikeStatus.DISLIKE){
+			dislikesTextView.setTextColor(Color.BLUE);
+			dislikeImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_bad_blue));
 		}else{
-			dislikeBtn.setBackgroundDrawable(getResources().getDrawable(R.drawable.like_buttons_background_off));
+			dislikesTextView.setTextColor(Color.BLACK);
+			dislikeImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_bad_black));
 		}
-		
+
 	}
 	@Override
 	public void onDestroy() {
+		
+		saveUserActions();
 		super.onDestroy();
-		DBHandler.close();
+		DBHandler.close(); //TODO - needed?
 	}
 
 }

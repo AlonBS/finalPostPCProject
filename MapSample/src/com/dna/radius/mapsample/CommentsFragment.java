@@ -22,6 +22,7 @@ import com.dna.radius.businessmode.BusinessData;
 import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.datastructures.Comment;
 import com.dna.radius.dbhandling.DBHandler;
+import com.dna.radius.infrastructure.BaseActivity;
 
 /**
  * This fragment shows comments on a certein deal.
@@ -59,7 +60,7 @@ public class CommentsFragment extends Fragment{
 		DBHandler.loadCommentsListAsync(adapter);
 
 		//if the user is in user mode - allows him to comment on a certain deal.
-		if(!parentActivity.isInUserMode){
+		if(!BaseActivity.isInBusinessMode){
 			LinearLayout linearLayout = (LinearLayout)view.findViewById(R.id.add_comment_layout);
 			linearLayout.setVisibility(View.GONE);
 		}else{

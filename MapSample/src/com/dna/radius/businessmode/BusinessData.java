@@ -561,5 +561,26 @@ public class BusinessData {
 			Log.e("Business - add comment to deal", e.getMessage());
 		}
 	}
+
+
+
+	public static boolean isInFavourites(String businessID) {
+		// TODO ALON - IMPLEMENT!!!
+		return false;
+	}
+
+
+
+	public static void addToFavourites(String businessID) {
+		// TODO ALON - IMPLEMENT!!!
+		
+	}
+
+
+
+	public static void removeFromFavorites(String businessID) {
+		// TODO ALON - IMPLEMENT!!!
+		
+	}
 	
 }

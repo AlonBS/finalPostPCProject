@@ -19,10 +19,12 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.dna.radius.R;
+import com.dna.radius.businessmode.BusinessData;
 import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.datastructures.Comment;
 import com.dna.radius.datastructures.ExternalBusiness;
 import com.dna.radius.dbhandling.DBHandler;
+import com.dna.radius.infrastructure.BaseActivity;
 import com.dna.radius.infrastructure.SupportedTypes;
 
 public class ShowDealActivity extends FragmentActivity{
@@ -49,7 +51,6 @@ public class ShowDealActivity extends FragmentActivity{
 	private enum CurrentFragmentType{DEAL_FRAGMENT,COMMENTS_FRAGMENT};
 	private CurrentFragmentType currentFragmentType = CurrentFragmentType.DEAL_FRAGMENT;
 
-	public boolean isInUserMode;
 	public String businessID, dealID,phoneStr,addressStr,dealStr;
 	public int numOfLikes,numOfDislikes;
 	public SupportedTypes.BusinessType bType;
@@ -76,7 +77,6 @@ public class ShowDealActivity extends FragmentActivity{
 //		dealID = intent.getStringExtra(DEAL_ID_PARAM);
 //		bType = (SupportedTypes.BusinessType)intent.getSerializableExtra(BUSINESS_TYPE_PARAM);
 //		int rating = intent.getIntExtra(DEAL_RATING_PARAM, 0);
-//		isInUserMode = intent.getBooleanExtra(USER_MODE_PARAM, true);
 //		numOfLikes = intent.getIntExtra(NUM_OF_LIKES_PARAM,0);
 //		numOfDislikes = intent.getIntExtra(NUM_OF_DISLIKES_PARAM,0);
 //		phoneStr = intent.getStringExtra(PHONE_STR_PARAM);
@@ -98,8 +98,11 @@ public class ShowDealActivity extends FragmentActivity{
 
 
 		/**overrides rating bar's on touch method so it won't do anything*/
-		ratingBar.setOnClickListener(new OnClickListener() {@Override
-			public void onClick(View arg0) {return;}});
+		ratingBar.setOnClickListener(new OnClickListener() {
+			public void onClick(View arg0) {
+				return;
+			}
+		});
 
 		//handles the switch fragment button
 		switchFragmentsButton = (ImageView)findViewById(R.id.switchFragmentButton);
@@ -116,7 +119,12 @@ public class ShowDealActivity extends FragmentActivity{
 		
 		//handles the favourites button
 		final ImageView favouritesBtn = (ImageView)findViewById(R.id.favourites_flag);
-		isFavourite = ClientData.isInFavourites(businessID);
+		if(BaseActivity.isInBusinessMode){
+			isFavourite = BusinessData.isInFavourites(businessID);
+		}else{
+			isFavourite = ClientData.isInFavourites(businessID);
+
+		}
 		if(isFavourite){
 			Bitmap favouriteBmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_important);
 			favouritesBtn.setImageBitmap(favouriteBmap);
@@ -128,21 +136,38 @@ public class ShowDealActivity extends FragmentActivity{
 				Bitmap favouriteBmap;
 				if(isFavourite){
 					favouriteBmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_important);
-					ClientData.addToFavourites(businessID);
+					if(BaseActivity.isInBusinessMode){
+						BusinessData.addToFavourites(businessID);
+					}else{
+						ClientData.addToFavourites(businessID);
+					}
 				}else{
 					favouriteBmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_not_important);
-					ClientData.removeFromFavorites(businessID);
+					if(BaseActivity.isInBusinessMode){
+						BusinessData.removeFromFavorites(businessID);
+					}else{
+						ClientData.removeFromFavorites(businessID);
+					}
 				}
 				favouritesBtn.setImageBitmap(favouriteBmap);
 			}
 		});
-		
+
 		//starts the deal fragment
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		LikeAndDislikeFragment dealPresantorFragment = new LikeAndDislikeFragment();
 		fragmentTransaction.add(R.id.deal_or_comments_fragment, dealPresantorFragment);
 		fragmentTransaction.commit();
+
+		ImageView cancelButton = (ImageView)findViewById(R.id.close_window);
+		cancelButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
 
 	}
 
