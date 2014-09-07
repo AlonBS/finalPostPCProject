@@ -67,7 +67,7 @@ public class BusinessData {
 	static final float DEFAULT_RATING = 3;
 	
 	
-	private static final String SEPERATOR = "###";
+	
 	
 	
 	
@@ -447,7 +447,7 @@ public class BusinessData {
 		// get old deal (as JSON object)
 		JSONObject oldDealJO = businessInfo.getJSONObject(ParseClassesNames.BUSINESS_CURRENT_DEAL);
 		
-		String id = businessInfo.getObjectId() + SEPERATOR + Integer.toString(dealsHistory.getTotalNumOfDeals());
+		String id = businessInfo.getObjectId() + BusinessOpeningScreenActivity.SEPERATOR + Integer.toString(dealsHistory.getTotalNumOfDeals());
 		Date date = new Date();
 		
 		// update locally

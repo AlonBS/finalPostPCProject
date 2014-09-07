@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
+import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.dbhandling.DBHandler.DealLikeStatus;
 import com.dna.radius.dbhandling.ParseClassesNames;
 import com.google.android.gms.maps.model.LatLng;
@@ -203,6 +204,9 @@ public class ClientData{
 	 */
 	public static void setHome(LatLng latlng) {
 		
+		DBHandler.temp();
+		
+		/*
 		homeLocation = latlng;
 		JSONObject coordinates = new JSONObject();
 		try {
@@ -218,6 +222,7 @@ public class ClientData{
 		
 		// TODO - maybe concentrate more than one call
 		clientInfo.saveInBackground(); //TODO SHOULD BE saveEvantually()
+		*/
 	}
 
 
@@ -241,6 +246,8 @@ public class ClientData{
 	 * @return
 	 */
 	public static void addToLikes(String dealId){
+		
+		boolean removalNeeded = false;
 
 		addToStorage(likes, dealId,
 				ParseClassesNames.CLIENT_PREFERRING,
@@ -248,9 +255,14 @@ public class ClientData{
 				ParseClassesNames.CLIENT_LIKES_ID,
 				"Add to Likes");
 		
+		
+		
 		if (isInDislikes(dealId)) {
 			removeFromDislikes(dealId);
+			removalNeeded = true;
 		}
+		
+		DBHandler.addLikeExternally(dealId, removalNeeded);
 	}
 
 

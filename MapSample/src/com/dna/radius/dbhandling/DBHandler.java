@@ -1,9 +1,14 @@
 package com.dna.radius.dbhandling;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import testing_stuff.LoadTopBusinessesRunnable;
 import android.content.Context;
@@ -12,17 +17,24 @@ import android.net.wifi.SupplicantState;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.dna.radius.businessmode.BusinessData;
+import com.dna.radius.businessmode.BusinessOpeningScreenActivity;
 import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.datastructures.Comment;
 import com.dna.radius.datastructures.Deal;
 import com.dna.radius.datastructures.ExternalBusiness;
 import com.dna.radius.datastructures.MapBusinessManager;
+import com.dna.radius.infrastructure.BaseActivity;
 import com.dna.radius.infrastructure.SupportedTypes;
 import com.dna.radius.mapsample.CommentsArrayAdapter;
 import com.dna.radius.mapsample.MapWindowFragment;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 
 /**
@@ -73,6 +85,131 @@ public class DBHandler {
 //	}
 //
 
+	
+	/**
+	 * 
+	 * @param dealId
+	 * @param removalNeeded - true if one needs to decrement this dealId number of dislikes
+	 * 							(This is done so the parseQuery wouldn't run twice)
+	 */
+	public static void addLikeExternally(String dealId, boolean deleteNeeded) {
+		
+		addLikes_N_Dislikes(dealId, ParseClassesNames.BUSINESS_CURRENT_DEAL_LIKES,
+				deleteNeeded, ParseClassesNames.BUSINESS_CURRENT_DEAL_DISLIKES);
+	}
+	
+	
+	
+	/**
+	 * 
+	 * @param dealId
+	 * @param removalNeeded - true if one needs to decrement this dealId number of likes
+	 * 							(This is done so the parseQuery wouldn't run twice)
+	 */
+	public static void addDislikeExternally(String dealId, boolean deleteNeeded) {
+		
+		addLikes_N_Dislikes(dealId, ParseClassesNames.BUSINESS_CURRENT_DEAL_DISLIKES,
+				deleteNeeded, ParseClassesNames.BUSINESS_CURRENT_DEAL_LIKES);
+	}
+	
+	/**
+	 * 
+	 * @param dealId
+	 * @param n1 - Should be - ParseClassesNames.BUSINESS_CURRENT_DEAL_LIKES / _DISLIKES
+	 * @param deleteNeeded - see above
+	 * @param n2 - if deleteNeeded is true, should be in contra to n1 (i.e. likes vs. dislikes etc.)
+	 */
+	private static void addLikes_N_Dislikes(String dealId, final String n1, final boolean deleteNeeded, final String n2) {
+
+		String businessId = dealId.split(BaseActivity.SEPERATOR)[1];
+		ParseQuery<ParseObject> query = ParseQuery.getQuery(ParseClassesNames.BUSINESS_CLASS);
+
+		query.getInBackground(businessId, new GetCallback<ParseObject>() {
+
+			@Override
+			public void done(ParseObject object, ParseException e) {
+
+				if (e == null) {
+
+					JSONObject businessCurrentDealJO = object.getJSONObject(ParseClassesNames.BUSINESS_CURRENT_DEAL);
+					try {
+
+						businessCurrentDealJO.put(n1, businessCurrentDealJO.getInt(n1) + 1);
+						
+						if (deleteNeeded)
+							businessCurrentDealJO.put(n2, businessCurrentDealJO.getInt(n2) -1 );
+						
+						object.put(ParseClassesNames.BUSINESS_CURRENT_DEAL, businessCurrentDealJO);
+						object.saveInBackground();
+					}
+
+					catch (JSONException exc) {
+						Log.e("External - add like to deal", exc.getMessage());
+					}
+				}
+				else {
+					Log.e("External Like", e.getMessage());
+				}
+			}
+		});
+	}
+		
+	
+	
+	
+	//TODO 
+	public static List<ExternalBusiness> temp22() {
+		
+		 ParseQuery<ParseObject> query = ParseQuery.getQuery(ParseClassesNames.BUSINESS_CLASS);
+		 
+		 query.whereLessThanOrEqualTo(ParseClassesNames.BUSINESS_LOCATION + "." +
+				 ParseClassesNames.BUSINESS_LOCATION_LAT, 50);
+		 query.whereLessThanOrEqualTo(ParseClassesNames.BUSINESS_LOCATION + "." +
+				 ParseClassesNames.BUSINESS_LOCATION_LONG, 50);
+
+		 final List<ExternalBusiness> yosi = null;
+		 
+		 query.findInBackground(new FindCallback<ParseObject>() {
+		     public void done(List<ParseObject> objects, ParseException e) {
+		         if (e == null) {
+		        	 
+		        	 for (ParseObject o : objects) {
+		        		 
+		        		 
+		        		 yosi.add(null);
+		        		 
+		        		 Log.d("test", o.getObjectId());
+		        	 }
+		        	 
+		         } else {
+		        	 
+		         }
+		     }
+		 });
+		 
+		 return yosi;
+		 
+	}
+		
+
+		
+		
+			
+		
+		
+		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	/**
 	 * loads all the Business Marker objects which represents businesses
@@ -82,8 +219,9 @@ public class DBHandler {
 	 * 
 	 */
 	public static void loadBusinessListAndMapMarkersAsync(LatLng mapCenter,GoogleMap gMap, MapBusinessManager bManager,double radius,MapWindowFragment fragment){
-		loadBusinessesAndMapTask = new LoadCloseBusinessesToMapTask(fragment, gMap, bManager,radius);
-		loadBusinessesAndMapTask.execute();
+		
+		//		loadBusinessesAndMapTask = new LoadCloseBusinessesToMapTask(fragment, gMap, bManager,radius);
+//		loadBusinessesAndMapTask.execute();
 
 	}
 
