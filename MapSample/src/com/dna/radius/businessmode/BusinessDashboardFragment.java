@@ -59,20 +59,22 @@ public class BusinessDashboardFragment extends Fragment{
 		}
 		/*handles the image of the business*/
 		imageView = (ImageView)view.findViewById(R.id.buisness_image_view);
-		if(0==1){
-			if(BusinessData.hasImage()){ //TODO
-				if(BusinessData.imageFullyLoaded()){
-					imageView.setImageBitmap(BusinessData.businessImage);
-					imageView.setVisibility(View.VISIBLE);
-					//TODO - DROR handle imageview and progress bar visibility
-				}else{
-					BusinessData.loadImage(imageView, new ProgressBar(getActivity()));//TODO
-				}
-			}else{
+		ProgressBar loadImageProgressBar = (ProgressBar)view.findViewById(R.id.load_image_progress_bar);
+		if(BusinessData.hasImage()){ //TODO
+			if(BusinessData.imageFullyLoaded()){
+				imageView.setImageBitmap(BusinessData.businessImage);
 				imageView.setVisibility(View.VISIBLE);
-				imageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.set_business_image));
+				loadImageProgressBar.setVisibility(View.GONE);
+				//TODO - DROR handle imageview and progress bar visibility
+			}else{
+				BusinessData.loadImage(imageView, loadImageProgressBar);
+				loadImageProgressBar.setVisibility(View.GONE);
 			}
-		}	
+		}else{
+			imageView.setVisibility(View.VISIBLE);
+			imageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.set_business_image));
+			loadImageProgressBar.setVisibility(View.GONE);
+		}
 		imageView.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -119,7 +121,7 @@ public class BusinessDashboardFragment extends Fragment{
 		/***
 		 * allows adding a new deal instead of the old one
 		 */
-		
+
 		dealTv.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -207,7 +209,9 @@ public class BusinessDashboardFragment extends Fragment{
 
 		if(newBmap!=null){
 			//BusinessData.setImage(newBmap.compress(CompressFormat.JPEG, )); TODO CANGE
-			imageView.setImageBitmap(newBmap);
+			Bitmap processedImage = BusinessChooseImageFragment.processImage(newBmap);
+			BusinessData.setImage(processedImage);
+			imageView.setImageBitmap(processedImage);
 		}else{
 			Log.e("BusinessDashboardFragment", "ERROR!! The RETURNED BITMAP IS NULL");
 		}

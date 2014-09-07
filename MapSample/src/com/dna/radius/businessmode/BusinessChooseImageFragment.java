@@ -125,7 +125,7 @@ public class BusinessChooseImageFragment extends  Fragment{
 	 * also, performs jpeg comression.
 	 * @return
 	 */
-	Bitmap processImage(Bitmap bitmap){
+	public static Bitmap processImage(Bitmap bitmap){
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		
 		//downsampling
