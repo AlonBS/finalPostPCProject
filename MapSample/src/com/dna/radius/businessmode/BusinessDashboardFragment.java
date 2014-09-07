@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,6 +23,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.dna.radius.R;
@@ -50,7 +50,6 @@ public class BusinessDashboardFragment extends Fragment{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.business_dashboard_fragment,container, false);	
-
 		activityParent = (BusinessOpeningScreenActivity)getActivity();
 
 		final TextView dealTv = (TextView) view.findViewById(R.id.deal_tv);
@@ -60,19 +59,20 @@ public class BusinessDashboardFragment extends Fragment{
 		}
 		/*handles the image of the business*/
 		imageView = (ImageView)view.findViewById(R.id.buisness_image_view);
-		if(BusinessData.hasImage()){
-			if(BusinessData.imageFullyLoaded()){
-				imageView.setImageBitmap(BusinessData.businessImage);
-				imageView.setVisibility(View.VISIBLE);
-				//TODO - DROR handle imageview and progress bar visibility
+		if(0==1){
+			if(BusinessData.hasImage()){ //TODO
+				if(BusinessData.imageFullyLoaded()){
+					imageView.setImageBitmap(BusinessData.businessImage);
+					imageView.setVisibility(View.VISIBLE);
+					//TODO - DROR handle imageview and progress bar visibility
+				}else{
+					BusinessData.loadImage(imageView, new ProgressBar(getActivity()));//TODO
+				}
 			}else{
-				BusinessData.loadImage(imageView, new ProgressBar(getActivity()));//TODO
+				imageView.setVisibility(View.VISIBLE);
+				imageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.set_business_image));
 			}
-		}else{
-			imageView.setVisibility(View.VISIBLE);
-			imageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.set_business_image));
-		}
-
+		}	
 		imageView.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -108,7 +108,7 @@ public class BusinessDashboardFragment extends Fragment{
 			commentsListView.setAdapter(commentsAdapter);
 			DBHandler.loadCommentsListAsync(commentsList, commentsAdapter);
 		}
-		
+
 		/**handles the number of likes and dislikes*/
 		TextView numOfLikesTV = (TextView)view.findViewById(R.id.num_of_likes_tv);
 		TextView numOfDislikesTV = (TextView)view.findViewById(R.id.num_of_dislikes_tv);
@@ -119,8 +119,8 @@ public class BusinessDashboardFragment extends Fragment{
 		/***
 		 * allows adding a new deal instead of the old one
 		 */
-		ImageView addDeal = (ImageView)view.findViewById(R.id.add_deal_iv);
-		addDeal.setOnClickListener(new OnClickListener() {
+		
+		dealTv.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				final EditText input = new EditText(activityParent);
