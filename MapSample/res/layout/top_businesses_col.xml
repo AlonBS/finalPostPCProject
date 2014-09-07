@@ -1,103 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="110dp"
-    android:layout_height="match_parent"
-    android:background="@drawable/top_businesses_background"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:layout_marginLeft="0dp"
-     android:layout_marginRight="0dp"
-     android:paddingLeft="3dp"
-     android:paddingRight="3dp"
-     android:paddingBottom="3dp"
-     android:paddingTop="3dp"
-    android:orientation="vertical" >
-	
+    android:layout_marginRight="0dp"
+    android:background="@drawable/top_businesses_background"
+    android:orientation="vertical"
+    android:paddingBottom="3dp"
+    android:paddingLeft="3dp"
+    android:paddingRight="3dp"
+    android:paddingTop="3dp" >
+
     <LinearLayout
-        android:id="@+id/likes_dislikes_layout"
-        android:layout_width="30dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:background="#FF000000"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:background="#FF222255"
+        android:gravity="center"
         android:orientation="vertical" >
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.5"
-            android:background="#7700FF00"
-            android:gravity="center"
-            android:orientation="horizontal" >
+            android:layout_height="wrap_content"
+            android:background="#44FFFFFF"
+            android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/top_business_num_of_likes"
+                android:id="@+id/top_business_name"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:gravity="center"
-                android:text="12313"
+                android:gravity="center_horizontal"
+                android:text="drogba name"
                 android:textColor="#FFFFFFFF"
-                android:textSize="8sp" />
+                android:textSize="16sp" />
+
+            <RatingBar
+                android:id="@+id/top_business_rating_bar"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:layout_gravity="center_horizontal"
+                android:isIndicator="false"
+                android:numStars="5" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal" >
 
             <ImageView
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:src="@drawable/ic_action_good" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.5"
-            android:background="#77FF0000"
-            android:orientation="horizontal" >
+                android:layout_marginLeft="5dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_action_bad" >
+            </ImageView>
 
             <TextView
                 android:id="@+id/top_business_num_of_dislikes"
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:gravity="center"
-                android:text="12313"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="5dp"
+                android:text="0"
                 android:textColor="#FFFFFFFF"
-                android:textSize="8sp" />
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="fill_parent"
+                android:layout_marginRight="5dp"
+                android:background="#77FFFFFF" />
 
             <ImageView
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:src="@drawable/ic_action_bad" />
-        </RelativeLayout>
+                android:layout_marginRight="5dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_action_good" >
+            </ImageView>
+
+            <TextView
+                android:id="@+id/top_business_num_of_likes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="5dp"
+                android:text="0"
+                android:textColor="#FFFFFFFF"
+                android:textSize="14sp" />
+        </LinearLayout>
     </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_alignParentRight="true"
-        android:layout_toRightOf="@id/likes_dislikes_layout"
-        android:background="#FF000000"
-        android:gravity="center"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:id="@+id/top_business_name"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:background="#77FFFFFF"
-            android:gravity="center"
-            android:text="drogba name"
-            android:textColor="#FFFFFFFF"
-            android:textSize="9sp" />
-
-   
-
-        <ImageView
-            android:id="@+id/business_image_top_businesses"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_below="@id/top_business_name"
-            android:src="@drawable/burger" />
-    </RelativeLayout>
-
-</RelativeLayout>
+</LinearLayout>

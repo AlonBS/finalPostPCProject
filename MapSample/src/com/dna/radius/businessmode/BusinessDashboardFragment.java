@@ -21,10 +21,12 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dna.radius.R;
 import com.dna.radius.datastructures.Comment;
@@ -41,6 +43,7 @@ public class BusinessDashboardFragment extends Fragment{
 	private BusinessOpeningScreenActivity  activityParent = null;
 	private ArrayList<Comment> commentsList;
 	private ImageView imageView;
+	private TextView dealTv;
 
 	/**this variable is used for loading an image from the gallery*/
 	private final static int RESULT_LOAD_IMAGE_GALLERY = 1;
@@ -52,7 +55,7 @@ public class BusinessDashboardFragment extends Fragment{
 		View view = inflater.inflate(R.layout.business_dashboard_fragment,container, false);	
 		activityParent = (BusinessOpeningScreenActivity)getActivity();
 
-		final TextView dealTv = (TextView) view.findViewById(R.id.deal_tv);
+		dealTv = (TextView) view.findViewById(R.id.deal_tv);
 
 		if(BusinessData.hasADealOnDisplay()){
 			dealTv.setText(BusinessData.currentDeal.getDealContent());
@@ -125,29 +128,21 @@ public class BusinessDashboardFragment extends Fragment{
 		dealTv.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				final EditText input = new EditText(activityParent);
-				new AlertDialog.Builder(activityParent)
-				.setTitle("Add A new Deal")
-				.setMessage("please add a new deal to replace the old one")
-				.setView(input)
-				.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) {
-						//TODO implement this method in businessData' saves the current deal into deal history
-						//DBHandler.addDealToHistory(BusinessData.currentUser.getObjectId(),data.currentDeal,data.numberOfLikes,data.numberOfDislikes);
+				createNewDeal();
+			}
+		});
+		ScrollView dealScrollView = (ScrollView)view.findViewById(R.id.your_deal_scroll_view);
+		dealScrollView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				createNewDeal();
+			}
+		});
 
-						//adds the new Deal
-						String newDealStr = input.getText().toString();
-						BusinessData.createNewDeal(newDealStr);
-						dealTv.setText(newDealStr);
-
-
-					}
-				}).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) {
-						// Do nothing.
-					}
-				}).show();
-
+		dealTv.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				createNewDeal();
 			}
 		});
 
@@ -156,6 +151,21 @@ public class BusinessDashboardFragment extends Fragment{
 		for(ExternalBusiness b : activityParent.topBusinesses){
 			topBusinessesScroll.addBusiness(b, null);
 		}
+
+
+		ImageView removeDealBtn = (ImageView)view.findViewById(R.id.remove_deal_image_view);
+		removeDealBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(BusinessData.hasADealOnDisplay()){
+					BusinessData.deleteCurrentDeal();
+					dealTv.setText(getResources().getString(R.string.tap_to_enter_deal));
+					Toast.makeText(getActivity(), getResources().getString(R.string.current_deal_was_deleted), Toast.LENGTH_LONG).show();
+
+				}
+			}
+		});
+
 
 		return view;
 
@@ -173,6 +183,32 @@ public class BusinessDashboardFragment extends Fragment{
 	public void onDestroyView() {
 		super.onDestroyView();
 		DBHandler.close();
+	}
+
+
+	private void createNewDeal(){
+		final EditText input = new EditText(activityParent);
+		new AlertDialog.Builder(activityParent)
+		.setTitle("Add A new Deal")
+		.setMessage("please add a new deal to replace the old one")
+		.setView(input)
+		.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+				//TODO implement this method in businessData' saves the current deal into deal history
+				//DBHandler.addDealToHistory(BusinessData.currentUser.getObjectId(),data.currentDeal,data.numberOfLikes,data.numberOfDislikes);
+
+				//adds the new Deal
+				String newDealStr = input.getText().toString();
+				BusinessData.createNewDeal(newDealStr);
+				dealTv.setText(newDealStr);
+
+
+			}
+		}).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+				// Do nothing.
+			}
+		}).show();
 	}
 
 

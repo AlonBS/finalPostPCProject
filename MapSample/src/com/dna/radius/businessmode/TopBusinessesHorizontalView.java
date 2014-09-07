@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -60,7 +61,7 @@ public class TopBusinessesHorizontalView extends HorizontalScrollView{
 		}
 
 		LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		RelativeLayout newLayout = (RelativeLayout) inflater.inflate(R.layout.top_businesses_col,hostLayout,false);
+		LinearLayout newLayout = (LinearLayout) inflater.inflate(R.layout.top_businesses_col,hostLayout,false);
 		hostLayout.addView(newLayout);
 		topBusinessesList.add(bm);
 		TextView businessNameTv = (TextView)newLayout.findViewById(R.id.top_business_name);
@@ -75,11 +76,11 @@ public class TopBusinessesHorizontalView extends HorizontalScrollView{
 		if(businessLikesTv!=null){
 			businessDislikesTv.setText(Long.toString(bm.numOfDislikes));
 		}
-		ImageView imageView = (ImageView)newLayout.findViewById(R.id.business_image_top_businesses);
-		if(imageView!=null){
-			imageView.setImageBitmap(image);
-		}
 
+		RatingBar topBusinessRatingBar = (RatingBar)findViewById(R.id.top_business_rating_bar);
+		topBusinessRatingBar.setRating(bm.numOfStars);
+		
+		
 		//whenever a business is pressed - opens a ShowDealActivity.
 		newLayout.setOnClickListener(new OnClickListener() {
 			@Override

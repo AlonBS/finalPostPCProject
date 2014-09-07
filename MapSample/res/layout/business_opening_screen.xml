@@ -3,81 +3,96 @@
     android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/aero"
     android:orientation="vertical" >
 
-    <!--
-    <LinearLayout 
-        android:orientation="horizontal"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.2"
-        android:background="@color/blue">
-    </LinearLayout>
-    -->
-
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/deal_title_background"
+        android:layout_gravity="center"
+        android:layout_weight="0.12"
+        android:background="#88000000"
         android:gravity="center"
         android:orientation="horizontal" >
 
-        <LinearLayout
+        <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-             android:layout_centerVertical="true"
-            android:orientation="horizontal" >
-            <ImageView
-                android:id="@+id/refresh_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_action_refresh" >
-            </ImageView>
-            
-            <ImageView
-                android:id="@+id/stats_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_action_view_as_list" >
-            </ImageView>
-
-
-
-            <ImageView
-                android:id="@+id/map_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_action_map" >
-            </ImageView>
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/businessTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:layout_centerInParent="true"
-            android:text="drogba" />
-
-        <RatingBar
-            android:layout_centerVertical="true"
-            android:id="@+id/businessRatingBar"
-            style="?android:attr/ratingBarStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:isIndicator="false"
-            android:numStars="5"
-            android:rating="3.5" />
-    </RelativeLayout>
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:scaleType="centerInside"
+            android:src="@drawable/logo" />
+    </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/business_fragment_layout"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@color/wallet_holo_blue_light"
-        android:orientation="horizontal" >
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="0.88"
+        android:background="#88000000"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/deal_title_background"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:id="@+id/refresh_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_action_refresh" >
+                </ImageView>
+
+                <ImageView
+                    android:id="@+id/stats_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_action_view_as_list" >
+                </ImageView>
+
+                <ImageView
+                    android:id="@+id/map_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_action_map" >
+                </ImageView>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/businessTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="drogba"
+                android:textSize="20sp" />
+
+            <RatingBar
+                android:id="@+id/businessRatingBar"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:isIndicator="false"
+                android:numStars="5"
+                android:rating="3.5" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/business_fragment_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@color/aero"
+            android:orientation="horizontal" >
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>
