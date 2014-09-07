@@ -139,16 +139,28 @@
                     android:layout_height="match_parent"
                     android:background="#FF222222" />
 
-                <ImageView
-                    android:id="@+id/buisness_image_view"
+                <FrameLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
-                    android:layout_marginTop="20dp"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/image_demo" >
-                </ImageView>
-            </LinearLayout>
+                    android:layout_marginTop="20dp" >
+
+                    <ImageView
+                        android:id="@+id/buisness_image_view"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/black_image"
+                        android:visibility="invisible"
+                        android:adjustViewBounds="true" >
+                    </ImageView>
+                    
+                    <ProgressBar 
+                        android:id="@+id/load_image_progress_bar"
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_height="wrap_content"/>
+                </FrameLayout>
+\            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
