@@ -419,6 +419,7 @@ public class BusinessData {
 					temp.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_CONTENT),
 					temp.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_LIKES),
 					temp.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_DISLIKES),
+					//TODO - alon, try to add a deal, log out, log back in, and then open deal history - and youll get an error
 					new SimpleDateFormat(BusinessOpeningScreenActivity.DATE_FORMAT).parse(jo.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE))));
 				
 			}
