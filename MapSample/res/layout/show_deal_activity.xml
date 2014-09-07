@@ -6,7 +6,7 @@
 
     <FrameLayout
         android:layout_width="fill_parent"
-        android:layout_height="35dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/deal_title_background"
         android:gravity="center" >
 
@@ -15,7 +15,7 @@
             android:layout_height="fill_parent"
             android:gravity="center"
             android:orientation="horizontal" >
-"
+
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -27,15 +27,28 @@
                     android:id="@+id/businessTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:textSize="20sp"
                     android:textColor="#FF000000" />
+                
+                <RatingBar
+                android:id="@+id/businessRatingBar"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:isIndicator="false"
+                android:numStars="5"
+                android:rating="3.5" />
 
                 <TextView
+                    android:layout_marginTop="2dp"
                     android:id="@+id/businessDetails"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#EE000000"
-                    android:textSize="10sp"
+                    android:gravity="center_horizontal"
                     android:typeface="sans" />
+                
             </LinearLayout>
         </LinearLayout>
 
@@ -64,14 +77,7 @@
             android:gravity="center"
             android:orientation="horizontal" >
 
-            <RatingBar
-                android:id="@+id/businessRatingBar"
-                style="?android:attr/ratingBarStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:isIndicator="false"
-                android:numStars="5"
-                android:rating="3.5" />
+            
 
             <ImageView
                 android:id="@+id/switchFragmentButton"

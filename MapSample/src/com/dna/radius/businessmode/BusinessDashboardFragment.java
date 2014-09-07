@@ -158,9 +158,21 @@ public class BusinessDashboardFragment extends Fragment{
 			@Override
 			public void onClick(View v) {
 				if(BusinessData.hasADealOnDisplay()){
-					BusinessData.deleteCurrentDeal();
-					dealTv.setText(getResources().getString(R.string.tap_to_enter_deal));
-					Toast.makeText(getActivity(), getResources().getString(R.string.current_deal_was_deleted), Toast.LENGTH_LONG).show();
+					new AlertDialog.Builder(activityParent)
+					.setTitle("Delete Current Deal")
+					.setMessage("Are you sure you want to delete your current deal?")
+					.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int whichButton) {
+							BusinessData.deleteCurrentDeal();
+							dealTv.setText(getResources().getString(R.string.tap_to_enter_deal));
+						}
+					}).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int whichButton) {
+							// Do nothing.
+						}
+					}).show();
+					
+					
 
 				}
 			}
