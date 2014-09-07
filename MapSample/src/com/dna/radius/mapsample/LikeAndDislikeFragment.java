@@ -1,5 +1,6 @@
 package com.dna.radius.mapsample;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -125,13 +126,18 @@ public class LikeAndDislikeFragment extends Fragment{
 			return;
 		}
 		if(dealStatus==DealLikeStatus.LIKE){
+			
 			likeImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_good_blue));
+			likesTextView.setTextColor(Color.BLUE);
 		}else{
 			likeImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_good_black));
+			likesTextView.setTextColor(Color.BLACK);
 		}
 		if(dealStatus==DealLikeStatus.DISLIKE){
+			dislikesTextView.setTextColor(Color.BLUE);
 			dislikeImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_bad_blue));
 		}else{
+			dislikesTextView.setTextColor(Color.BLACK);
 			dislikeImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_bad_black));
 		}
 		
