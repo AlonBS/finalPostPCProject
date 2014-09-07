@@ -20,14 +20,6 @@ public class MapBusinessManager {
 	private HashMap <Marker, ExternalBusiness> markerToBusiness = new HashMap <Marker, ExternalBusiness>();
 	private HashMap <ExternalBusiness, Marker> BusinessToMarker = new HashMap <ExternalBusiness, Marker>();
     
-	/**relevant client data object*/
-	private ClientData clientData;
-	
-	/**c-tor*/
-    public MapBusinessManager(ClientData clientData){
-    	this.clientData = clientData;
-    }
-    
 	
     /**returns list of all the businesses which were download from parse*/
 	public Set<ExternalBusiness> getAllBusinesses(){

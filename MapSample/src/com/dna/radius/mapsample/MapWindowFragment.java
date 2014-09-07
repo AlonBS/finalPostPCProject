@@ -27,6 +27,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.dna.radius.R;
+import com.dna.radius.businessmode.BusinessData;
 import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.datastructures.ExternalBusiness;
 import com.dna.radius.datastructures.MapBusinessManager;
@@ -55,15 +56,13 @@ public class MapWindowFragment extends Fragment {
 	private View view;
 	private Spinner preferencedSpinner;
 	private LatLng latestMapCenter = null;
-	private ClientData clientData;
 
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.map_window_fragment,container, false);
 
-		businessManager = new MapBusinessManager(clientData);
-		isInBusinessMode = BaseActivity.isInBusinessMode;
+		businessManager = new MapBusinessManager();
 
 		//loads the google map objects and set it on the client's home page.
 		FragmentManager manager = getActivity().getSupportFragmentManager();
@@ -71,7 +70,12 @@ public class MapWindowFragment extends Fragment {
 		if (gMap!=null){
 			gMap.setOnMarkerClickListener(markerListener);
 		}
-		latestMapCenter = ClientData.getHome();
+		
+		if(BaseActivity.isInBusinessMode){
+			latestMapCenter = BusinessData.getLocation();
+		}else{
+			latestMapCenter = ClientData.getHome();
+		}
 		gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latestMapCenter, DEFAULT_LATLNG_ZOOM));
 		gMap.animateCamera(CameraUpdateFactory.zoomTo(DEFAULT_ANIMATED_ZOOM), 2000, null);
 
