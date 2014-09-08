@@ -187,7 +187,6 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 		ParseGeoPoint location = new ParseGeoPoint(BusinessData.businessLocation.latitude, BusinessData.businessLocation.longitude);
 		newBusiness.put(ParseClassesNames.BUSINESS_LOCATION, location);
 		
-		BusinessData.loadTopBusiness();
 		
 //TODO remove
 //		JSONObject coordinates = new JSONObject();

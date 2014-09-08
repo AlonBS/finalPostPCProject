@@ -1,12 +1,11 @@
 package com.dna.radius.dbhandling;
 
+import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,8 +15,6 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.dna.radius.R;
-import com.dna.radius.businessmode.BusinessData;
-import com.dna.radius.businessmode.BusinessOpeningScreenActivity;
 import com.dna.radius.businessmode.TopBusinessesHorizontalView;
 import com.dna.radius.datastructures.Comment;
 import com.dna.radius.datastructures.Deal;
@@ -26,8 +23,6 @@ import com.dna.radius.infrastructure.BaseActivity;
 import com.dna.radius.infrastructure.SupportedTypes;
 import com.dna.radius.mapsample.CommentsArrayAdapter;
 import com.dna.radius.mapsample.MapBusinessManager;
-import com.dna.radius.mapsample.MapWindowFragment;
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -374,10 +369,23 @@ public class DBHandler {
 	 * receives a commentArrayAdapter and comments list. updates both of the
 	 * parameter asynchronously, using parse.
 	 */
-	public static void loadCommentsListAsync(CommentsArrayAdapter adapter){
+	public static void loadCommentsListAsync(CommentsArrayAdapter adapter, String dealID){
 
+		WeakReference<CommentsArrayAdapter> adapterRef = new WeakReference<CommentsArrayAdapter>(adapter);
+		
+		
+		
+		//TODO - when the query returns
+		if(adapterRef==null || adapterRef.get()==null){
+			return;
+		}
+		else{
+			CommentsArrayAdapter commentsAdapter = adapterRef.get();
+			commentsAdapter.addAll(new ArrayList<Comment>()); //TODO NOT NULL
+		}
+		
 		//TODO
-		adapter.add(new Comment("yosi", "zevel", new Date()));
+		adapter.add(new Comment("hj", "zevel", new Date()));
 
 		//TODO ALON - add your implementation to the LoadDealCommentsTask.
 		//		loadCommentsTask = new LoadDealCommentsTask(comments, adapter);
@@ -436,12 +444,16 @@ public class DBHandler {
 
 				try {
 					JSONObject j = o.getJSONObject(ParseClassesNames.BUSINESS_CURRENT_DEAL);
+					
+					if (j.isNull(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID)) continue;
+					
 					Deal externBusinessDeal = new Deal(
 							j.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID),
 							j.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_CONTENT),
 							j.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_LIKES),
 							j.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_DISLIKES),
-							new SimpleDateFormat(BaseActivity.DATE_FORMAT).parse(j.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE))); //TODO getDAte()
+							new SimpleDateFormat(BaseActivity.DATE_FORMAT).parse(j.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE)), // TODO add get date
+							null); //TODO getDAte() // TODO - think about comment in external business
 
 					ExternalBusiness newExtern = new ExternalBusiness(
 							o.getObjectId(),

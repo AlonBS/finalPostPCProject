@@ -23,6 +23,7 @@ import com.dna.radius.datastructures.DealHistoryManager;
 import com.dna.radius.datastructures.ExternalBusiness;
 import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.dbhandling.ParseClassesNames;
+import com.dna.radius.infrastructure.BaseActivity;
 import com.dna.radius.infrastructure.SupportedTypes;
 import com.dna.radius.infrastructure.SupportedTypes.BusinessType;
 import com.dna.radius.mapsample.MapWindowFragment;
@@ -59,7 +60,6 @@ public class BusinessData {
 
 
 	static Deal currentDeal;
-
 
 
 	static boolean hasImage; //does the business has an image?
@@ -283,12 +283,29 @@ public class BusinessData {
 			return;
 
 		try { 
+
+			ArrayList<Comment> currentDealComments = new ArrayList<Comment>();
+			JSONArray ja = jo.getJSONArray(ParseClassesNames.BUSINESS_CURRENT_DEAL_COMMENTS);
+
+			for (int i = 0 ; i < ja.length() && i < 50 ; ++i) { // TODO we support 50 comments
+
+				JSONObject commentJO = ja.getJSONObject(i);
+				Comment c = new Comment(
+						commentJO.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_COMMENTS_AUTHOR),
+						commentJO.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_COMMENTS_CONTENT),
+						new SimpleDateFormat(BaseActivity.DATE_FORMAT).parse(commentJO.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_COMMENTS_DATE)));
+
+				currentDealComments.add(c);
+			}
+
+
 			currentDeal = new Deal(jo.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID),
 					jo.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_CONTENT),
 					jo.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_LIKES),
 					jo.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_DISLIKES),
 					new SimpleDateFormat(BusinessOpeningScreenActivity.DATE_FORMAT)
-			.parse(jo.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE)));
+			.parse(jo.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE)),
+			currentDealComments);
 
 		} catch (JSONException e) {
 
@@ -320,12 +337,14 @@ public class BusinessData {
 
 				JSONObject temp = ja.getJSONObject(i);
 
-				oldDeals.add( new Deal(temp.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID),
+				oldDeals.add( new Deal(
+						temp.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID),
 						temp.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_CONTENT),
 						temp.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_LIKES),
 						temp.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_DISLIKES),
 						//TODO - alon, try to add a deal, log out, log back in, and then open deal history - and youll get an error
-						new SimpleDateFormat(BusinessOpeningScreenActivity.DATE_FORMAT).parse(jo.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE))));
+						new SimpleDateFormat(BusinessOpeningScreenActivity.DATE_FORMAT).parse(jo.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE)),
+						null)); //TODO currently - we don't support old deals comments. 
 
 			}
 
@@ -344,7 +363,7 @@ public class BusinessData {
 	}
 
 	// This should be called after(!) registration and load
-	static void loadTopBusiness() {
+	private static void loadTopBusiness() {
 
 		if (businessLocation != null) {
 
@@ -487,7 +506,7 @@ public class BusinessData {
 		Date date = new Date();
 
 		// update locally
-		Deal newDeal = new Deal(id, content, 0, 0, date);
+		Deal newDeal = new Deal(id, content, 0, 0, date, new ArrayList<Comment>());
 
 		//update on Parse.Com
 		JSONObject newDealJO = new JSONObject();
@@ -620,6 +639,22 @@ public class BusinessData {
 
 	public static void removeFromFavorites(String businessID) {
 		// TODO ALON - IMPLEMENT!!!
+
+	}
+
+
+
+
+
+	static void refreshDB() {
+
+		loadCurrentDeal();
+		
+		topBusinesses = DBHandler.LoadTopBusinessesSync(
+				new ParseGeoPoint(businessLocation.latitude,
+				businessLocation.longitude),
+				MapWindowFragment.LOAD_RADIUS);
+
 
 	}
 

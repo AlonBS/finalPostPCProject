@@ -38,9 +38,6 @@ public class CommentsFragment extends Fragment{
 	 * for each comment which the users add, the map holds the time it happened.
 	 */
 	static final HashMap<String,Long > previousComments = new HashMap<>();
-	public CommentsFragment(String dealID){
-		this.dealID = dealID;
-	}
 
 	/**the amount of time (in milliseconds) which the user need to wait before writing another comment
 	 * to a deal. currently set to 5 minutes*/
@@ -49,7 +46,9 @@ public class CommentsFragment extends Fragment{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.comments_fragment,container, false);
 		final ShowDealActivity parentActivity = (ShowDealActivity)getActivity();
-
+		
+		dealID = parentActivity.dealID;
+		
 		//load the comments list
 		ListView commentsListView = (ListView)view.findViewById(R.id.comments_list_view);
 		registerForContextMenu(commentsListView);
@@ -57,7 +56,7 @@ public class CommentsFragment extends Fragment{
 		CommentsArrayAdapter adapter = new CommentsArrayAdapter(parentActivity,android.R.layout.simple_list_item_1, commentsList);
 		commentsListView.setAdapter(adapter);
 		
-		DBHandler.loadCommentsListAsync(adapter);
+		DBHandler.loadCommentsListAsync(adapter,dealID);
 
 		//if the user is in user mode - allows him to comment on a certain deal.
 		if(!BaseActivity.isInBusinessMode){

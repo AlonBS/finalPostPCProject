@@ -57,6 +57,9 @@ public class ShowDealActivity extends FragmentActivity{
 	private boolean isFavourite;
 
 
+	public ExternalBusiness pressedExternal;
+
+
 
 
 
@@ -69,7 +72,7 @@ public class ShowDealActivity extends FragmentActivity{
 
 		Intent intent = getIntent();
 		
-		ExternalBusiness pressedExternal = (ExternalBusiness)intent.getSerializableExtra(EXTERNAL_BUSINESS_KEY);
+		pressedExternal = (ExternalBusiness)intent.getSerializableExtra(EXTERNAL_BUSINESS_KEY);
 		
 		//loads the relevant data
 //		businessName = intent.getStringExtra(BUSINESS_NAME_PARAM);
@@ -191,7 +194,7 @@ public class ShowDealActivity extends FragmentActivity{
 		
 		if (currentFragmentType == CurrentFragmentType.DEAL_FRAGMENT){
 			currentFragmentType = CurrentFragmentType.COMMENTS_FRAGMENT;
-			fragmentToSwitch = new CommentsFragment(dealID);
+			fragmentToSwitch = new CommentsFragment();
 			newIcon= BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_back);
 			
 		}else{

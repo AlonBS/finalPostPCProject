@@ -22,7 +22,8 @@ public class Deal implements Serializable {
 	private ArrayList<Comment> dealComments;
 	
 	public Deal(String id, String content,
-			int numOfLikes, int numOfDislikes, Date date) {
+			int numOfLikes, int numOfDislikes, Date date,
+			ArrayList<Comment> comments) {
 		
 		this.id = id;
 		this.dealContent = content;
@@ -30,7 +31,7 @@ public class Deal implements Serializable {
 		this.numOfDislikes = numOfDislikes;
 		this.date = date;
 		
-		this.dealComments = new ArrayList<Comment>();
+		this.dealComments = comments;
 		
 	}
 	

@@ -108,7 +108,7 @@ public class BusinessDashboardFragment extends Fragment{
 			ListView commentsListView = (ListView)v.findViewById(R.id.comments_list_view);
 			CommentsArrayAdapter commentsAdapter = new CommentsArrayAdapter(parentActivity,android.R.layout.simple_list_item_1 , BusinessData.currentDeal.getComments());
 			commentsListView.setAdapter(commentsAdapter);
-			DBHandler.loadCommentsListAsync(commentsAdapter);
+			DBHandler.loadCommentsListAsync(commentsAdapter,BusinessData.currentDeal.getId());
 		}
 		
 		else {

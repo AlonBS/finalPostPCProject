@@ -4,10 +4,12 @@ package com.dna.radius.businessmode;
 
 
 import android.content.Intent;
+import android.graphics.DashPathEffect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,6 +21,7 @@ import android.widget.TextView;
 import com.dna.radius.R;
 import com.dna.radius.infrastructure.BaseActivity;
 import com.dna.radius.infrastructure.WaitingFragment;
+import com.dna.radius.login.IntroFragment;
 import com.dna.radius.mapsample.MapWindowFragment;
 
 
@@ -51,6 +54,7 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 		fragmentTransaction.replace(R.id.business_fragment_layout, waitingFragment);
 		fragmentTransaction.commit();
 
+		Log.e("AAA,","onCreate");
 		//a thread which loads the ClientData and OwnerData.
 		Thread t = new Thread(new Runnable() {
 
@@ -65,6 +69,8 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
+
+						Log.e("AAA,","onCreate runonuithread");
 
 						loadDashBoard();
 
@@ -164,17 +170,14 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.FragmentActivity#onResume()
 	 */
-	@Override
-	protected void onResume() {
 
-		super.onResume();
+	//@Override
+	//protected void onResume() {
 
-		if (refreshNeeded) {
-//			refresh(); //TODO
-		}
+	//super.onResume();
 
-
-	}
+	//if (refreshNeeded) refresh();
+	//}
 
 
 	private void loadNameAndRating() {
@@ -191,60 +194,66 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 		});
 	}
 
+	@Override
+	protected void onResumeFragments() {
 
+		Log.e("AAA,","onResumeFragments start");
 
-	private void refresh() {
+		super.onResumeFragments();
+		if (refreshNeeded){
+			refresh();
+		}
 		
-		//saves current running fragment
-		final Fragment currentForagment = getSupportFragmentManager().findFragmentById(R.id.business_fragment_layout);
+		Log.e("AAA,","onResumeFragments end");
+	}
+
+	
+	private void refresh() {
+
+		Log.e("AAA,","refresh start");
 
 		//Sets the waiting fragment.
-		FragmentManager fragmentManager = getSupportFragmentManager();
+		final FragmentManager fragmentManager = getSupportFragmentManager();
 		Fragment waitingFragment = new WaitingFragment();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		fragmentTransaction.replace(R.id.business_fragment_layout, waitingFragment);
 		fragmentTransaction.commit();
-
-		new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				
-				
-//				BusinessData.refreshNeededData();
-				refreshNeeded = false;
-				
-				runOnUiThread(new Runnable() {
-					
-					@Override
-					public void run() {
-						loadNameAndRating();
-						
-						//starting current fragment once again
-						FragmentManager fragmentManager = getSupportFragmentManager();
-						FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-						fragmentTransaction.replace(R.id.business_fragment_layout, currentForagment);
-						fragmentTransaction.commit();
-					}
-				});
-				
-				
-				
-				
-
-				
-				
-			}
-		}).run();
+		refreshNeeded = false;
 
 		
 
-		//displaySurroundingTopBusiness
-		final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		//ft.detach(frg);
-		//ft.attach(frg);
-		ft.commit();
+		new Thread(new Runnable() {
 
+			@Override
+			public void run() {
+
+				Log.e("AAA,","refresh thread start");
+				try{
+
+					Thread.sleep(2000);
+				}
+				catch (Exception e) {}
+				BusinessData.refreshDB();
+
+				runOnUiThread(new Runnable() {
+
+
+					@Override
+					public void run() {
+						Log.e("AAA,","refresh ui thread start");
+						loadNameAndRating();
+
+						//starting current fragment once again
+						FragmentManager fragmentManager = getSupportFragmentManager();
+						Fragment currentFragment = new BusinessDashboardFragment();
+						FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+						fragmentTransaction.replace(R.id.business_fragment_layout, currentFragment);
+						fragmentTransaction.commit();
+					}
+				});
+
+			}
+		}).run();
 	}
 
 
