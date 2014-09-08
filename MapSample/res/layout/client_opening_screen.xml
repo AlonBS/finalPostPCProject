@@ -21,7 +21,7 @@
         android:layout_weight="0.12"
         android:layout_gravity="center"
         android:gravity="center"
-        android:background="#88000000"
+        android:background="@color/logo_background_transparent_color"
         android:orientation="horizontal" >
 
         <ImageView

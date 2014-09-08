@@ -11,7 +11,7 @@
         android:layout_height="0dp"
         android:layout_gravity="center"
         android:layout_weight="0.12"
-        android:background="#88000000"
+        android:background="@color/logo_background_transparent_color"
         android:gravity="center"
         android:orientation="horizontal" >
 
