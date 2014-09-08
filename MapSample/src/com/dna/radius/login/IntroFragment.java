@@ -37,8 +37,8 @@ public class IntroFragment extends Fragment {
 
 	private void setOnClickListeners() {
 		
-		final Button customerBtn = (Button) v.findViewById(R.id.customer_mode_button);
-		final Button businessBtn = (Button) v.findViewById(R.id.business_mode_button);
+		final View customerBtn =  v.findViewById(R.id.customer_mode_button);
+		final View businessBtn =  v.findViewById(R.id.business_mode_button);
 		
 		customerBtn.setOnClickListener(new OnClickListener() {
 			
