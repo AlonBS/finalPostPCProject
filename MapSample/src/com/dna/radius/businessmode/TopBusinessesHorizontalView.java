@@ -27,9 +27,14 @@ public class TopBusinessesHorizontalView extends HorizontalScrollView{
 	
 	private Context context;
 	/**maximum number of business which will be shown in the view*/
-	private final int MAX__TOP_BUSINESSES = 10;
+	
+	private int topCounter = 0; 
+	public static final int MAX_TOP_BUSINESSES = 10;
+	
+	
 	/**the list of all the businesses*/
-	private ArrayList<ExternalBusiness> topBusinessesList = new ArrayList<>();
+	//private ArrayList<ExternalBusiness> topBusinessesList = new ArrayList<>();
+	
 	private LinearLayout hostLayout = null;
 
 	/**C-tor*/
@@ -59,7 +64,7 @@ public class TopBusinessesHorizontalView extends HorizontalScrollView{
 			hostLayout = (LinearLayout)this.findViewById(R.id.top_businesses_linear_layout);
 		}
 		
-		if(topBusinessesList.size()>MAX__TOP_BUSINESSES){
+		if (topCounter > MAX_TOP_BUSINESSES) {
 			Log.e("TopBusinessesHorizontalView", "to many businesses were added into top list");
 			return false;
 		}
@@ -68,7 +73,7 @@ public class TopBusinessesHorizontalView extends HorizontalScrollView{
 		LinearLayout newLayout = (LinearLayout) inflater.inflate(R.layout.top_businesses_col,hostLayout,false);
 		
 		hostLayout.addView(newLayout);
-		topBusinessesList.add(eb);
+//		topBusinessesList.add(eb); TODO remove
 		
 		TextView businessNameTextView = (TextView) newLayout.findViewById(R.id.top_business_name);
 		TextView businessLikesTextView = (TextView) newLayout.findViewById(R.id.top_business_num_of_likes);
@@ -116,6 +121,8 @@ public class TopBusinessesHorizontalView extends HorizontalScrollView{
 			}
 		});
 
+		++topCounter;
+		
 		return true;
 	}
 }

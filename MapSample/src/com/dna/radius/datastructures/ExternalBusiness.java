@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.dna.radius.infrastructure.SupportedTypes;
 import com.google.android.gms.maps.model.LatLng;
+import com.parse.ParseGeoPoint;
 
 /**
  * represents a BusinessMarker.
@@ -30,15 +31,15 @@ public class ExternalBusiness implements Serializable {
 	
 	
 	public ExternalBusiness(String id, String name, SupportedTypes.BusinessType type,
-			double rating, LatLng location, String address, String phone, Deal deal) {
+			double rating, ParseGeoPoint location, String address, String phone, Deal deal) {
 		
 		externBusinessId = id;
 		extenBusinessName = name;
 		externBusinessType = type;
 		
 		externBusinessRating = rating;
-		externBuisnessLocationLat = location.latitude;
-		externBuisnessLocationLang = location.longitude;
+		externBuisnessLocationLat = location.getLatitude();
+		externBuisnessLocationLang = location.getLongitude();
 		externBusinessAddress = address;
 		externBusinessPhone = phone;
 

@@ -134,7 +134,7 @@ public class BusinessChooseImageFragment extends  Fragment{
 		int newImageWidth= (int)((double)bitmap.getWidth() / proportion);
 		Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, newImageWidth, newImageHeight, true);
 		
-		//cropps from the center
+		//crops from the center
 		Bitmap croppedBitmap = ThumbnailUtils.extractThumbnail(resizedBitmap, IMAGE_WIDTH, IMAGE_HEIGHT);
 		
 		//jpeg compression

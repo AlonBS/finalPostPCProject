@@ -116,6 +116,8 @@ private void handleLocationSettings() {
 		LatLng newLatLng = currentFragment.getLocation();
 		if(!newLatLng.equals(BusinessData.getLocation())){
 			BusinessData.setLocation(newLatLng);
+			
+			BusinessOpeningScreenActivity.refreshNeeded = true;
 			Toast.makeText(this, getResources().getString(R.string.data_changed_successfully), Toast.LENGTH_SHORT).show();
 		}
 	}
@@ -152,6 +154,7 @@ private void handleLocationSettings() {
 		}
 		
 		if(didDataChanged){
+			BusinessOpeningScreenActivity.refreshNeeded = true;
 			Toast.makeText(this, getResources().getString(R.string.data_changed_successfully), Toast.LENGTH_SHORT).show();
 		}
 	}
@@ -191,6 +194,7 @@ private void handleLocationSettings() {
 		}
 
 		if(didDataChanged){
+			BusinessOpeningScreenActivity.refreshNeeded = true;
 			Toast.makeText(this, getResources().getString(R.string.data_changed_successfully), Toast.LENGTH_SHORT).show();
 		}
 	}

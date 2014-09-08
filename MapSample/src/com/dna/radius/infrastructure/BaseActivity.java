@@ -33,7 +33,7 @@ public abstract class BaseActivity extends FragmentActivity{
 	
 	public static final String SEPERATOR = "###";
 	
-	public static final String DATE_FORMAT = "dd-MM-yyyy";
+	public static final String DATE_FORMAT = "dd.MM.yyyy 'at' HH:mm";
 	
 	//TODO this value should be set when the application starts!!
 	public static boolean isInBusinessMode = true; 

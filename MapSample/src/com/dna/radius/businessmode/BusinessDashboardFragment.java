@@ -4,6 +4,7 @@ package com.dna.radius.businessmode;
 import java.util.ArrayList;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -40,10 +41,19 @@ import com.dna.radius.mapsample.CommentsArrayAdapter;
  *
  */
 public class BusinessDashboardFragment extends Fragment{
-	private BusinessOpeningScreenActivity  activityParent = null;
-	private ArrayList<Comment> commentsList;
-	private ImageView imageView;
-	private TextView dealTv;
+
+	private BusinessOpeningScreenActivity  parentActivity = null;
+	
+	private View v; // This fragment's view
+	
+	//private ArrayList<Comment> commentsList;
+	
+	private TextView dealOnDisplayTextView;
+	private TextView dealOnDisplayLikesTextView;
+	private TextView dealOnDisplayDislikesTextView;
+	private ImageView imageOnDisplayImageView;
+	private ImageView removeDealOnDisplayImageView;
+	private	TopBusinessesHorizontalView topBusinessesHorizontalScrollView;
 
 	/**this variable is used for loading an image from the gallery*/
 	private final static int RESULT_LOAD_IMAGE_GALLERY = 1;
@@ -52,37 +62,111 @@ public class BusinessDashboardFragment extends Fragment{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.business_dashboard_fragment,container, false);	
-		activityParent = (BusinessOpeningScreenActivity)getActivity();
 
-		dealTv = (TextView) view.findViewById(R.id.deal_tv);
+		v = inflater.inflate(R.layout.business_dashboard_fragment,container, false);	
+		parentActivity = (BusinessOpeningScreenActivity)getActivity();
+		
+		initViews();
+		
+		displayDealIfNeeded();
 
-		if(BusinessData.hasADealOnDisplay()){
-			dealTv.setText(BusinessData.currentDeal.getDealContent());
+		displayImageIfNeeded();
+		
+		displaySurroundingTopBusiness();
+		
+		setChangeImageOnClickListener();
+		
+		setChangeDealOnClickListener();
+		
+		setRemoveDealOnClickListener();
+
+		return v;
+	}
+	
+	
+	private void initViews() {
+		
+		dealOnDisplayTextView = (TextView) v.findViewById(R.id.deal_tv);
+		imageOnDisplayImageView = (ImageView) v.findViewById(R.id.buisness_image_view);
+		dealOnDisplayLikesTextView = (TextView) v.findViewById(R.id.num_of_likes_tv);
+		dealOnDisplayDislikesTextView = (TextView) v.findViewById(R.id.num_of_dislikes_tv);
+		removeDealOnDisplayImageView = (ImageView)v.findViewById(R.id.remove_deal_image_view);
+		topBusinessesHorizontalScrollView = (TopBusinessesHorizontalView)v.findViewById(R.id.top_businesses_list_view);
+		
+	}
+	
+	private void displayDealIfNeeded() {
+
+		if (BusinessData.hasADealOnDisplay()) {
+			
+			dealOnDisplayTextView.setText(BusinessData.currentDeal.getDealContent());
+			dealOnDisplayLikesTextView.setText(Integer.toString(BusinessData.currentDeal.getNumOfLikes()));
+			dealOnDisplayDislikesTextView.setText(Integer.toString(BusinessData.currentDeal.getNumOfDislikes()));
+		
+			/**handles the comments segment*/
+			//commentsList = new ArrayList<>();
+			ListView commentsListView = (ListView)v.findViewById(R.id.comments_list_view);
+			CommentsArrayAdapter commentsAdapter = new CommentsArrayAdapter(parentActivity,android.R.layout.simple_list_item_1 , BusinessData.currentDeal.getComments());
+			commentsListView.setAdapter(commentsAdapter);
+			DBHandler.loadCommentsListAsync(commentsAdapter);
 		}
-		/*handles the image of the business*/
-		imageView = (ImageView)view.findViewById(R.id.buisness_image_view);
-		ProgressBar loadImageProgressBar = (ProgressBar)view.findViewById(R.id.load_image_progress_bar);
-		if(BusinessData.hasImage()){ //TODO
-			if(BusinessData.imageFullyLoaded()){
-				imageView.setImageBitmap(BusinessData.businessImage);
-				imageView.setVisibility(View.VISIBLE);
+		
+		else {
+			
+			dealOnDisplayTextView.setText(R.string.tap_to_enter_deal);
+			dealOnDisplayLikesTextView.setText("0");
+			dealOnDisplayDislikesTextView.setText("0");
+		}
+	}
+	
+	
+	private void displayImageIfNeeded() {
+		
+		ProgressBar loadImageProgressBar = (ProgressBar)v.findViewById(R.id.load_image_progress_bar);
+		
+		//TODO alon-to-dror: this is not right
+		if (BusinessData.hasImage()) { //TODO
+			
+			if (BusinessData.imageFullyLoaded()) {
+				imageOnDisplayImageView.setImageBitmap(BusinessData.businessImage);
+				imageOnDisplayImageView.setVisibility(View.VISIBLE);
 				loadImageProgressBar.setVisibility(View.GONE);
+
 				//TODO - DROR handle imageview and progress bar visibility
-			}else{
-				BusinessData.loadImage(imageView, loadImageProgressBar);
-				loadImageProgressBar.setVisibility(View.GONE);
+
+			}else {
+				BusinessData.loadImage(imageOnDisplayImageView, loadImageProgressBar);
+				
 			}
-		}else{
-			imageView.setVisibility(View.VISIBLE);
-			imageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.set_business_image));
+
+		}else {
+			imageOnDisplayImageView.setVisibility(View.VISIBLE);
+			imageOnDisplayImageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.set_business_image));
 			loadImageProgressBar.setVisibility(View.GONE);
 		}
-		imageView.setOnClickListener(new OnClickListener() {
+	}
+	
+	
+	private void displaySurroundingTopBusiness() {
+		
+		if (BusinessData.topBusinesses != null) {
+			
+			for(ExternalBusiness b : BusinessData.topBusinesses){
+				topBusinessesHorizontalScrollView.addBusiness(b);
+			}
+		}
+	}
+	
+	
+	private void setChangeImageOnClickListener() {
+		
+		/*handles the image of the business*/
+		imageOnDisplayImageView.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
-				new AlertDialog.Builder(activityParent)
+				
+				new AlertDialog.Builder(parentActivity)
 				.setTitle("Choose an image for your business")
 				.setMessage("please choose an image source")
 				.setPositiveButton("Camera", new DialogInterface.OnClickListener() {
@@ -99,92 +183,42 @@ public class BusinessDashboardFragment extends Fragment{
 						startActivityForResult(i, RESULT_LOAD_IMAGE_GALLERY);
 					}
 				}).show();
-
-
 			}
 		});
-
-
-		if(BusinessData.hasADealOnDisplay()){
-			/**handles the comments segment*/
-			commentsList = new ArrayList<>();
-			ListView commentsListView = (ListView)view.findViewById(R.id.comments_list_view);
-			CommentsArrayAdapter commentsAdapter = new CommentsArrayAdapter(activityParent,android.R.layout.simple_list_item_1 , commentsList);
-			commentsListView.setAdapter(commentsAdapter);
-			DBHandler.loadCommentsListAsync(commentsAdapter);
-		}
-
-		/**handles the number of likes and dislikes*/
-		TextView numOfLikesTV = (TextView)view.findViewById(R.id.num_of_likes_tv);
-		TextView numOfDislikesTV = (TextView)view.findViewById(R.id.num_of_dislikes_tv);
-		if(BusinessData.hasADealOnDisplay()){
-			numOfLikesTV.setText(Long.toString(BusinessData.currentDeal.getNumOfLikes()));
-			numOfDislikesTV.setText(Long.toString(BusinessData.currentDeal.getNumOfDislikes()));
-		}
+	}
+	
+	
+	private void setChangeDealOnClickListener() {
+		
 		/***
 		 * allows adding a new deal instead of the old one
 		 */
 
-		dealTv.setOnClickListener(new OnClickListener() {
+		dealOnDisplayTextView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				createNewDeal();
+				displayNewDeal();
 			}
 		});
-		ScrollView dealScrollView = (ScrollView)view.findViewById(R.id.your_deal_scroll_view);
-		dealScrollView.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				createNewDeal();
-			}
-		});
-
-		dealTv.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				createNewDeal();
-			}
-		});
-
-		/**sets the top businesses segment*/
-		TopBusinessesHorizontalView topBusinessesScroll = (TopBusinessesHorizontalView)view.findViewById(R.id.top_businesses_list_view);
-		for(ExternalBusiness b : BusinessData.topBusinesses){
-			topBusinessesScroll.addBusiness(b);
-		}
-
-
-		ImageView removeDealBtn = (ImageView)view.findViewById(R.id.remove_deal_image_view);
-		removeDealBtn.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if(BusinessData.hasADealOnDisplay()){
-					new AlertDialog.Builder(activityParent)
-					.setTitle("Delete Current Deal")
-					.setMessage("Are you sure you want to delete your current deal?")
-					.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int whichButton) {
-							BusinessData.deleteCurrentDeal();
-							dealTv.setText(getResources().getString(R.string.tap_to_enter_deal));
-						}
-					}).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int whichButton) {
-							// Do nothing.
-						}
-					}).show();
-					
-					
-
-				}
-			}
-		});
-
-
-		return view;
-
-
-
 
 	}
+
+
+	private void setRemoveDealOnClickListener() {
+		
+		
+		removeDealOnDisplayImageView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				
+				deleteDisplayedDeal();
+			}
+		});
+	}
+	
+	
+	
+	
 
 	@Override
 	public void onPause() {
@@ -194,13 +228,13 @@ public class BusinessDashboardFragment extends Fragment{
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
-		DBHandler.close();
+		DBHandler.close(); //TODO removes
 	}
 
-
-	private void createNewDeal(){
-		final EditText input = new EditText(activityParent);
-		new AlertDialog.Builder(activityParent)
+	//TODO change this method so the displayed diaglog is better, including current deal
+	private void displayNewDeal(){
+		final EditText input = new EditText(parentActivity);
+		new AlertDialog.Builder(parentActivity)
 		.setTitle("Add A new Deal")
 		.setMessage("please add a new deal to replace the old one")
 		.setView(input)
@@ -212,7 +246,7 @@ public class BusinessDashboardFragment extends Fragment{
 				//adds the new Deal
 				String newDealStr = input.getText().toString();
 				BusinessData.createNewDeal(newDealStr);
-				dealTv.setText(newDealStr);
+				dealOnDisplayTextView.setText(newDealStr);
 
 
 			}
@@ -222,6 +256,33 @@ public class BusinessDashboardFragment extends Fragment{
 			}
 		}).show();
 	}
+	
+	
+	private void deleteDisplayedDeal() {
+		
+		if (BusinessData.hasADealOnDisplay()) {
+			
+			new AlertDialog.Builder(parentActivity)
+			.setTitle("Delete Current Deal")
+			.setMessage("Are you sure you want to delete your current deal?")
+			.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+				
+				public void onClick(DialogInterface dialog, int whichButton) {
+					
+					dealOnDisplayTextView.setText(R.string.tap_to_enter_deal);
+					dealOnDisplayLikesTextView.setText("0");
+					dealOnDisplayDislikesTextView.setText("0");
+					
+					BusinessData.deleteCurrentDeal();
+				}
+			}).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+				
+				public void onClick(DialogInterface dialog, int whichButton) {/* Do nothing */ }
+				
+			}).show();
+		}
+	}
+		
 
 
 	/**
@@ -230,6 +291,7 @@ public class BusinessDashboardFragment extends Fragment{
 	 */
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		
 		super.onActivityResult(requestCode, resultCode, data);
 		Bitmap newBmap = null;
 		/**receives an image from the gallery, and change the image of the business*/
@@ -255,14 +317,14 @@ public class BusinessDashboardFragment extends Fragment{
 			return;
 		}
 
-		if(newBmap!=null){
-			//BusinessData.setImage(newBmap.compress(CompressFormat.JPEG, )); TODO CANGE
+		if (newBmap != null) {
+			
 			Bitmap processedImage = BusinessChooseImageFragment.processImage(newBmap);
 			BusinessData.setImage(processedImage);
-			imageView.setImageBitmap(processedImage);
-		}else{
+			imageOnDisplayImageView.setImageBitmap(processedImage);
+			
+		}else {
 			Log.e("BusinessDashboardFragment", "ERROR!! The RETURNED BITMAP IS NULL");
 		}
 	}
-
 }

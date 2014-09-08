@@ -2,6 +2,7 @@ package com.dna.radius.dbhandling;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import com.dna.radius.R;
 import com.dna.radius.businessmode.BusinessData;
 import com.dna.radius.businessmode.BusinessOpeningScreenActivity;
+import com.dna.radius.businessmode.TopBusinessesHorizontalView;
 import com.dna.radius.datastructures.Comment;
 import com.dna.radius.datastructures.Deal;
 import com.dna.radius.datastructures.ExternalBusiness;
@@ -43,8 +45,8 @@ import com.parse.ParseQuery;
 public class DBHandler {
 
 	private static LoadDealCommentsTask loadCommentsTask = null;
-//	private static LoadCloseBusinessesToMapTask loadBusinessesAndMapTask = null;
-//	private static LoadTopBusinessesRunnable loadTopBusinesses = null; TODO REMOVE
+	//	private static LoadCloseBusinessesToMapTask loadBusinessesAndMapTask = null;
+	//	private static LoadTopBusinessesRunnable loadTopBusinesses = null; TODO REMOVE
 
 	/**
 	 * closes the DBHandler.
@@ -56,14 +58,14 @@ public class DBHandler {
 			loadCommentsTask.stopTask();
 			loadCommentsTask = null;
 		}
-//		if(loadBusinessesAndMapTask!=null){
-//			loadBusinessesAndMapTask.stopTask();
-//			loadBusinessesAndMapTask = null;
-//		}
-//		if(loadTopBusinesses!=null){
-//			loadTopBusinesses.stopTask();
-//			loadTopBusinesses = null;
-//		}
+		//		if(loadBusinessesAndMapTask!=null){
+		//			loadBusinessesAndMapTask.stopTask();
+		//			loadBusinessesAndMapTask = null;
+		//		}
+		//		if(loadTopBusinesses!=null){
+		//			loadTopBusinesses.stopTask();
+		//			loadTopBusinesses = null;
+		//		}
 	}
 	//
 	//	/**
@@ -158,42 +160,42 @@ public class DBHandler {
 	//TODO 
 	public static void getExternalBusinessAtRadius(LatLng location, double radius) {
 
-		
-//TODO remove
-//		double top, buttom, left, right;
-//		top = location.latitude + radius;
-//		buttom = location.latitude - radius;
-//		right = location.longitude + radius;
-//		left = location.longitude - radius;
 
-		
+		//TODO remove
+		//		double top, buttom, left, right;
+		//		top = location.latitude + radius;
+		//		buttom = location.latitude - radius;
+		//		right = location.longitude + radius;
+		//		left = location.longitude - radius;
+
+
 		ParseQuery<ParseObject> query = ParseQuery.getQuery(ParseClassesNames.BUSINESS_CLASS);
 
-//TODO remove
-//		query.whereWithinRadians(ParseClassesNames.BUSINESS_LOCATION, new ParseGeoPoint(location.latitude, location.longitude), radius);
-//
-//		query.whereLessThanOrEqualTo(ParseClassesNames.BUSINESS_LOCATION + "." +
-//				ParseClassesNames.BUSINESS_LOCATION_LAT, top);
-//		query.whereGreaterThanOrEqualTo(ParseClassesNames.BUSINESS_LOCATION + "." +
-//				ParseClassesNames.BUSINESS_LOCATION_LAT, buttom);
-//		query.whereLessThanOrEqualTo(ParseClassesNames.BUSINESS_LOCATION + "." +
-//				ParseClassesNames.BUSINESS_LOCATION_LONG, right);
-//		query.whereGreaterThanOrEqualTo(ParseClassesNames.BUSINESS_LOCATION + "." +
-//				ParseClassesNames.BUSINESS_LOCATION_LONG, left);
-		
+		//TODO remove
+		//		query.whereWithinRadians(ParseClassesNames.BUSINESS_LOCATION, new ParseGeoPoint(location.latitude, location.longitude), radius);
+		//
+		//		query.whereLessThanOrEqualTo(ParseClassesNames.BUSINESS_LOCATION + "." +
+		//				ParseClassesNames.BUSINESS_LOCATION_LAT, top);
+		//		query.whereGreaterThanOrEqualTo(ParseClassesNames.BUSINESS_LOCATION + "." +
+		//				ParseClassesNames.BUSINESS_LOCATION_LAT, buttom);
+		//		query.whereLessThanOrEqualTo(ParseClassesNames.BUSINESS_LOCATION + "." +
+		//				ParseClassesNames.BUSINESS_LOCATION_LONG, right);
+		//		query.whereGreaterThanOrEqualTo(ParseClassesNames.BUSINESS_LOCATION + "." +
+		//				ParseClassesNames.BUSINESS_LOCATION_LONG, left);
+
 
 
 		query.findInBackground(new FindCallback<ParseObject>() {
 			public void done(List<ParseObject> objects, ParseException e) {
 				if (e == null) {
-					
+
 					List<ExternalBusiness>result = new ArrayList<ExternalBusiness>();
-//					boolean result = new ArrayList<ExternalBusiness>();
+					//					boolean result = new ArrayList<ExternalBusiness>();
 
 					for (ParseObject o : objects) {
-						
-						
-						
+
+
+
 						ExternalBusiness newExtern;
 						boolean isRelevant = MapBusinessManager.addExternalBusiness(null);
 						if(!isRelevant){
@@ -229,29 +231,29 @@ public class DBHandler {
 
 
 
-//
-//
-//
-//	/**
-//	 * loads all the Business Marker objects which represents businesses
-//	 * which are close to the current map center.
-//	 * A business is considered close to the center if it's distance from it
-//	 * is less than radius.
-//	 * 
-//	 */
-//	public static void loadBusinessListAndMapMarkersAsync(LatLng mapCenter,GoogleMap gMap, MapBusinessManager bManager,double radius,MapWindowFragment fragment){
-//
-////		loadBusinessesAndMapTask = new LoadCloseBusinessesToMapTask(fragment, gMap, bManager,radius);
-//		//		loadBusinessesAndMapTask.execute();
-//
-//	}
-//
-//	public static void stopLoadBusinessListAndMapMsarkersAsync(){
-////		if(loadBusinessesAndMapTask!=null){
-////			loadBusinessesAndMapTask.stopTask();
-////		}
-//
-//	}
+	//
+	//
+	//
+	//	/**
+	//	 * loads all the Business Marker objects which represents businesses
+	//	 * which are close to the current map center.
+	//	 * A business is considered close to the center if it's distance from it
+	//	 * is less than radius.
+	//	 * 
+	//	 */
+	//	public static void loadBusinessListAndMapMarkersAsync(LatLng mapCenter,GoogleMap gMap, MapBusinessManager bManager,double radius,MapWindowFragment fragment){
+	//
+	////		loadBusinessesAndMapTask = new LoadCloseBusinessesToMapTask(fragment, gMap, bManager,radius);
+	//		//		loadBusinessesAndMapTask.execute();
+	//
+	//	}
+	//
+	//	public static void stopLoadBusinessListAndMapMsarkersAsync(){
+	////		if(loadBusinessesAndMapTask!=null){
+	////			loadBusinessesAndMapTask.stopTask();
+	////		}
+	//
+	//	}
 
 	/**
 	 * if the business has a bitmap on parse server, loads it asynchronously and
@@ -261,9 +263,9 @@ public class DBHandler {
 	 * 
 	 */
 	public static void loadBusinessImageViewAsync(String businessID ,ImageView imageView, Context context){
-//		LoadDealBitmapTask loadTask = new LoadDealBitmapTask(imageView, businessID,context);
-//		context.getClass();
-//		loadTask.execute();
+		//		LoadDealBitmapTask loadTask = new LoadDealBitmapTask(imageView, businessID,context);
+		//		context.getClass();
+		//		loadTask.execute();
 		imageView.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.image_demo));
 	}
 
@@ -373,9 +375,13 @@ public class DBHandler {
 	 * parameter asynchronously, using parse.
 	 */
 	public static void loadCommentsListAsync(CommentsArrayAdapter adapter){
+
+		//TODO
+		adapter.add(new Comment("yosi", "zevel", new Date()));
+
 		//TODO ALON - add your implementation to the LoadDealCommentsTask.
-//		loadCommentsTask = new LoadDealCommentsTask(comments, adapter);
-//		loadCommentsTask.execute();
+		//		loadCommentsTask = new LoadDealCommentsTask(comments, adapter);
+		//		loadCommentsTask.execute();
 	}
 
 
@@ -398,14 +404,129 @@ public class DBHandler {
 	//		new Thread(loadTopBusinesses){}.start();
 	//	}
 
-	public static List<ExternalBusiness> LoadTopBusinessesSync() {
-		
-		
-		//TODO ALON
-		//return markersDB;
-		return null;
-		
+	public static List<ExternalBusiness> LoadTopBusinessesSync(ParseGeoPoint gp, double radius) {
+
+		//TODO simulate asynchronous way
+
+		final List<ExternalBusiness> result = new ArrayList<ExternalBusiness>();
+
+		ParseQuery<ParseObject> query = ParseQuery.getQuery(ParseClassesNames.BUSINESS_CLASS);
+		query.whereWithinRadians(ParseClassesNames.BUSINESS_LOCATION, gp, radius );
+
+		try {
+
+			if (query.count() < TopBusinessesHorizontalView.MAX_TOP_BUSINESSES) {
+
+				radius += 0.1; //TODO change ammount
+				if (query.count() < TopBusinessesHorizontalView.MAX_TOP_BUSINESSES) {
+					radius += 0.1;
+				}
+
+			}
+		} catch (ParseException e1) {
+			Log.e("DBHandler - LoadTopBusinessesSync", e1.getMessage());
+		}
+
+		query.addDescendingOrder(ParseClassesNames.BUSINESS_RATING);
+
+		try {
+			List<ParseObject> objects = query.find();
+
+			for (ParseObject o : objects) {
+
+				try {
+					JSONObject j = o.getJSONObject(ParseClassesNames.BUSINESS_CURRENT_DEAL);
+					Deal externBusinessDeal = new Deal(
+							j.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID),
+							j.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_CONTENT),
+							j.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_LIKES),
+							j.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_DISLIKES),
+							new SimpleDateFormat(BaseActivity.DATE_FORMAT).parse(j.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE))); //TODO getDAte()
+
+					ExternalBusiness newExtern = new ExternalBusiness(
+							o.getObjectId(),
+							o.getString(ParseClassesNames.BUSINESS_NAME),
+							SupportedTypes.BusinessType.stringToType(o.getString(ParseClassesNames.BUSINESS_TYPE)),
+							o.getDouble(ParseClassesNames.BUSINESS_RATING),
+							o.getParseGeoPoint(ParseClassesNames.BUSINESS_RATING),
+							o.getString(ParseClassesNames.BUSINESS_ADDRESS),
+							o.getString(ParseClassesNames.BUSINESS_PHONE),
+							externBusinessDeal); 
+
+
+					result.add(newExtern);
+					if (result.size() >= TopBusinessesHorizontalView.MAX_TOP_BUSINESSES) break;
+
+
+				} catch (JSONException | java.text.ParseException e1) {
+
+					Log.e("DBHandler - LoadTopBusinessesSync", e1.getMessage());
+				} 
+			}
+		} catch (ParseException e) {
+			Log.e("DBHandler - LoadTopBusinessesSync", e.getMessage());
+		}
+
+		//THIS is the correct version
+		//		query.findInBackground(new FindCallback<ParseObject>() {
+		//			public void done(List<ParseObject> objects, ParseException e) {
+		//
+		//				if (e == null) {
+		//
+		//					for (ParseObject o : objects) {
+		//
+		//						try {
+		//							JSONObject j = o.getJSONObject(ParseClassesNames.BUSINESS_CURRENT_DEAL);
+		//							Deal externBusinessDeal = new Deal(
+		//									j.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID),
+		//									j.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_CONTENT),
+		//									j.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_LIKES),
+		//									j.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_DISLIKES),
+		//									new SimpleDateFormat(BaseActivity.DATE_FORMAT).parse(j.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE))); //TODO getDAte()
+		//
+		//
+		//							ExternalBusiness newExtern = new ExternalBusiness(
+		//									o.getObjectId(),
+		//									o.getString(ParseClassesNames.BUSINESS_NAME),
+		//									SupportedTypes.BusinessType.stringToType(o.getString(ParseClassesNames.BUSINESS_TYPE)),
+		//									o.getDouble(ParseClassesNames.BUSINESS_RATING),
+		//									o.getParseGeoPoint(ParseClassesNames.BUSINESS_RATING),
+		//									o.getString(ParseClassesNames.BUSINESS_ADDRESS),
+		//									o.getString(ParseClassesNames.BUSINESS_PHONE),
+		//									externBusinessDeal); 
+		//							
+		//							
+		//							result.add(newExtern);
+		//							if (result.size() >= TopBusinessesHorizontalView.MAX_TOP_BUSINESSES) break;
+		//							
+		//
+		//						} catch (JSONException | java.text.ParseException e1) {
+		//							
+		//							Log.e("DBHandler - LoadTopBusinessesSync", e1.getMessage());
+		//						} 
+		//
+		//
+		//						//TODO not needed - but add simulation mechanism
+		//						boolean isRelevant = MapBusinessManager.addExternalBusiness(null);
+		//						if(!isRelevant){
+		//							break;
+		//						}
+		//
+		//						Log.d("test", o.getObjectId());
+		//					}
+		//
+		//				} else {
+		//					
+		//					Log.e("DBHandler - LoadTopBusinessesSync", e.getMessage());
+		//				}
+		//			}
+		//		});
+
+		return result;
 	}
+
+
+
 
 	//	public static void setImage(String businessID, Bitmap image) {
 	//		// TODO ALON
@@ -456,33 +577,33 @@ public class DBHandler {
 
 	}
 
-//	static{
-//		setDBs_debug();
-//	}
-//
-//	//TODO - the markersDB object and the  loadDBs_debug are only for debug, delete them!
-//	public static List<ExternalBusiness> markersDB; //TODO: delete
-//	public static void setDBs_debug()
-//	{
-//		int id = 0;
-//		markersDB = new ArrayList<ExternalBusiness>();
-//		Random r = new Random();
-//		String currentDeal = "ONLY TODAY AND DURING THE REST OF THE YEAR!!! BUY A COOOOL SHIRT AND GET A PLASTIC BUG TO PUT IT IN FOR 10 AGOROT ONLY!!! wow!!";
-//		markersDB.add(new ExternalBusiness("MCdonalds", SupportedTypes.BusinessType.RESTAURANT, new LatLng(31.781099, 35.217668),Integer.toString(1),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-//		markersDB.add(new ExternalBusiness("Ivo", SupportedTypes.BusinessType.RESTAURANT, new LatLng(31.779949, 35.218948),Integer.toString(2),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-//		markersDB.add(new ExternalBusiness("Dolfin Yam", SupportedTypes.BusinessType.RESTAURANT, new LatLng(31.779968, 35.221209),Integer.toString(3),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-//		markersDB.add(new ExternalBusiness("Birman", SupportedTypes.BusinessType.PUB, new LatLng(31.781855, 35.218086),Integer.toString(4),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-//		markersDB.add(new ExternalBusiness("Bullinat", SupportedTypes.BusinessType.PUB, new LatLng(31.781984, 35.218221),Integer.toString(5),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-//		markersDB.add(new ExternalBusiness("Hamarush", SupportedTypes.BusinessType.RESTAURANT, new LatLng(31.781823, 35.219065),Integer.toString(6),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-//		markersDB.add(new ExternalBusiness("Adom", SupportedTypes.BusinessType.RESTAURANT, new LatLng(31.781334, 35.220703),Integer.toString(7),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-//		markersDB.add(new ExternalBusiness("Tel Aviv Bar", SupportedTypes.BusinessType.PUB, new LatLng(31.781455, 35.220525),Integer.toString(8),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-//		markersDB.add(new ExternalBusiness("Jabutinski Bar", SupportedTypes.BusinessType.PUB, new LatLng(31.779654, 35.221654),Integer.toString(9),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-//		markersDB.add(new ExternalBusiness("Reva Sheva", SupportedTypes.BusinessType.GROCERIES, new LatLng(31.779793, 35.219728),Integer.toString(10),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-//		markersDB.add(new ExternalBusiness("The one with the shirts", SupportedTypes.BusinessType.GROCERIES, new LatLng(31.779293, 35.221624),Integer.toString(11),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-//		markersDB.add(new ExternalBusiness("Hamashbir Latsarchan", SupportedTypes.BusinessType.GROCERIES, new LatLng(31.781824, 35.219959),Integer.toString(12),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-//		markersDB.add(new ExternalBusiness("Hataklit", SupportedTypes.BusinessType.PUB, new LatLng(31.781905, 35.221372),Integer.toString(13),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-//		markersDB.add(new ExternalBusiness("Hatav Hashmini", SupportedTypes.BusinessType.GROCERIES, new LatLng(31.781191, 35.219621),Integer.toString(14),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-//		markersDB.add(new ExternalBusiness("Katsefet", SupportedTypes.BusinessType.RESTAURANT, new LatLng(31.779921, 35.187777),Integer.toString(15),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-//	}
+	//	static{
+	//		setDBs_debug();
+	//	}
+	//
+	//	//TODO - the markersDB object and the  loadDBs_debug are only for debug, delete them!
+	//	public static List<ExternalBusiness> markersDB; //TODO: delete
+	//	public static void setDBs_debug()
+	//	{
+	//		int id = 0;
+	//		markersDB = new ArrayList<ExternalBusiness>();
+	//		Random r = new Random();
+	//		String currentDeal = "ONLY TODAY AND DURING THE REST OF THE YEAR!!! BUY A COOOOL SHIRT AND GET A PLASTIC BUG TO PUT IT IN FOR 10 AGOROT ONLY!!! wow!!";
+	//		markersDB.add(new ExternalBusiness("MCdonalds", SupportedTypes.BusinessType.RESTAURANT, new LatLng(31.781099, 35.217668),Integer.toString(1),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
+	//		markersDB.add(new ExternalBusiness("Ivo", SupportedTypes.BusinessType.RESTAURANT, new LatLng(31.779949, 35.218948),Integer.toString(2),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
+	//		markersDB.add(new ExternalBusiness("Dolfin Yam", SupportedTypes.BusinessType.RESTAURANT, new LatLng(31.779968, 35.221209),Integer.toString(3),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
+	//		markersDB.add(new ExternalBusiness("Birman", SupportedTypes.BusinessType.PUB, new LatLng(31.781855, 35.218086),Integer.toString(4),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
+	//		markersDB.add(new ExternalBusiness("Bullinat", SupportedTypes.BusinessType.PUB, new LatLng(31.781984, 35.218221),Integer.toString(5),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
+	//		markersDB.add(new ExternalBusiness("Hamarush", SupportedTypes.BusinessType.RESTAURANT, new LatLng(31.781823, 35.219065),Integer.toString(6),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
+	//		markersDB.add(new ExternalBusiness("Adom", SupportedTypes.BusinessType.RESTAURANT, new LatLng(31.781334, 35.220703),Integer.toString(7),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
+	//		markersDB.add(new ExternalBusiness("Tel Aviv Bar", SupportedTypes.BusinessType.PUB, new LatLng(31.781455, 35.220525),Integer.toString(8),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
+	//		markersDB.add(new ExternalBusiness("Jabutinski Bar", SupportedTypes.BusinessType.PUB, new LatLng(31.779654, 35.221654),Integer.toString(9),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
+	//		markersDB.add(new ExternalBusiness("Reva Sheva", SupportedTypes.BusinessType.GROCERIES, new LatLng(31.779793, 35.219728),Integer.toString(10),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
+	//		markersDB.add(new ExternalBusiness("The one with the shirts", SupportedTypes.BusinessType.GROCERIES, new LatLng(31.779293, 35.221624),Integer.toString(11),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
+	//		markersDB.add(new ExternalBusiness("Hamashbir Latsarchan", SupportedTypes.BusinessType.GROCERIES, new LatLng(31.781824, 35.219959),Integer.toString(12),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
+	//		markersDB.add(new ExternalBusiness("Hataklit", SupportedTypes.BusinessType.PUB, new LatLng(31.781905, 35.221372),Integer.toString(13),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
+	//		markersDB.add(new ExternalBusiness("Hatav Hashmini", SupportedTypes.BusinessType.GROCERIES, new LatLng(31.781191, 35.219621),Integer.toString(14),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
+	//		markersDB.add(new ExternalBusiness("Katsefet", SupportedTypes.BusinessType.RESTAURANT, new LatLng(31.779921, 35.187777),Integer.toString(15),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
+	//	}
 
 }

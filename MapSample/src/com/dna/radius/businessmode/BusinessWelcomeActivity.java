@@ -30,6 +30,7 @@ import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.parse.RefreshCallback;
 
 public class BusinessWelcomeActivity extends FragmentActivity {
 
@@ -186,6 +187,8 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 		ParseGeoPoint location = new ParseGeoPoint(BusinessData.businessLocation.latitude, BusinessData.businessLocation.longitude);
 		newBusiness.put(ParseClassesNames.BUSINESS_LOCATION, location);
 		
+		BusinessData.loadTopBusiness();
+		
 //TODO remove
 //		JSONObject coordinates = new JSONObject();
 //		try {
@@ -238,6 +241,8 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 
 			BusinessData.currentUser.fetchIfNeeded();
 			BusinessData.businessInfo.fetchIfNeeded();
+			
+			BusinessOpeningScreenActivity.refreshNeeded = true;
 			
 
 		} catch (ParseException e) {
