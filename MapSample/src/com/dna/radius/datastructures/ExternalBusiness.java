@@ -41,6 +41,7 @@ public class ExternalBusiness implements Serializable {
 
 		externBusinessRating = rating;
 
+		//TODO remove the null testing?
 		if(location!=null){
 			externBuisnessLocationLat = location.getLatitude();
 			externBuisnessLocationLang = location.getLongitude();
