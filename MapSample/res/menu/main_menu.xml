@@ -2,24 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/log_out_action"
+        android:id="@+id/settings_action"
         android:orderInCategory="100"
         android:showAsAction="never"
-        android:title="@string/log_out"/>
+        android:title="@string/Settings_title"/>
     <item
         android:id="@+id/switch_mode_action"
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="@string/switch_mode"/>
     <item
-        android:id="@+id/user_settings_action"
+        android:id="@+id/log_out_action"
         android:orderInCategory="100"
         android:showAsAction="never"
-        android:title="@string/user_settings"/>
-    <item
-        android:id="@+id/business_settings_action"
-        android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="@string/business_settings"/>
+        android:title="@string/log_out"/>
 
 </menu>
