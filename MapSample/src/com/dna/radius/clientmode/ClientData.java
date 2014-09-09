@@ -262,6 +262,8 @@ public class ClientData{
 	 */
 	public static void addToDislikes(String dealId){
 
+		boolean removalNeeded = false;
+		
 		addToStorage(dislikes, dealId,
 				ParseClassesNames.CLIENT_PREFERRING,
 				ParseClassesNames.CLIENT_DISLIKES,
@@ -270,7 +272,10 @@ public class ClientData{
 		
 		if (isInLikes(dealId)) {
 			removeFromLikes(dealId);
+			removalNeeded = true;
 		}
+		
+		DBHandler.addDislikeExternally(dealId, removalNeeded);
 	}
 
 

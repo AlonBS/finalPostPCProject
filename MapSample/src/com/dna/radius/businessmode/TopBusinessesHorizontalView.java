@@ -1,12 +1,7 @@
 package com.dna.radius.businessmode;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.support.v7.appcompat.R.integer;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
@@ -42,7 +37,7 @@ public class TopBusinessesHorizontalView extends HorizontalScrollView{
 	
 	private LinearLayout hostLayout = null;
 
-	
+	//TODO remove
 //	/**C-tor*/
 //	public TopBusinessesHorizontalView(Context context) {
 //		super(context);
@@ -61,6 +56,7 @@ public class TopBusinessesHorizontalView extends HorizontalScrollView{
 		intToExterns = new SparseArray<ExternalBusiness>();
 	}
 	
+	//TODO remove
 //	/**C-tor*/
 //	public TopBusinessesHorizontalView(Context context, AttributeSet attrs, int defStyle) {
 //		super(context, attrs, defStyle); 	

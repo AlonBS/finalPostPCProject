@@ -31,7 +31,7 @@ import com.dna.radius.datastructures.ExternalBusiness;
 import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.infrastructure.BaseActivity;
 import com.dna.radius.infrastructure.SupportedTypes;
-import com.dna.radius.mapsample.MapBusinessManager.Property;
+import com.dna.radius.mapsample.MapManager.Property;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
@@ -65,7 +65,7 @@ public class MapWindowFragment extends Fragment {
 			gMap.setOnMarkerClickListener(markerListener);
 		}
 			
-		MapBusinessManager.init(gMap);
+		MapManager.init(gMap);
 		
 		if(BaseActivity.isInBusinessMode){
 			latestMapCenter = BusinessData.getLocation();
@@ -80,7 +80,7 @@ public class MapWindowFragment extends Fragment {
 
 		//loads businesses to map
 //		DBHandler.loadBusinessListAndMapMarkersAsync(gMap.getCameraPosition().target, gMap, businessManager,LOAD_RADIUS,this);
-		MapBusinessManager.loadExternalBusinesses();
+		MapManager.loadExternalBusinesses();
 		
 		final MapWindowFragment thisFragment = this;
 		//if the the map center was changed significantly (more then a Radius),
@@ -91,9 +91,7 @@ public class MapWindowFragment extends Fragment {
 				if (Math.abs(position.target.latitude-latestMapCenter.latitude)>LOAD_RADIUS ||
 						Math.abs(position.target.longitude-latestMapCenter.longitude)>LOAD_RADIUS){
 					latestMapCenter = position.target;
-//					DBHandler.stopLoadBusinessListAndMapMsarkersAsync();
-
-//					DBHandler.loadBusinessListAndMapMarkersAsync(position.target, gMap, businessManager, LOAD_RADIUS,thisFragment);
+					MapManager.refreshDataBases();
 					Log.d("MapWindowFragment","map center was changed significantly. loading businesses again.");
 				}
 
@@ -164,6 +162,7 @@ public class MapWindowFragment extends Fragment {
 
 		//handles the set/get home location feature
 		final ImageView homeButton = (ImageView)view.findViewById(R.id.map_home_btn);
+		
 		if(BaseActivity.isInBusinessMode){
 			homeButton.setVisibility(View.GONE);
 		}else{
@@ -186,6 +185,18 @@ public class MapWindowFragment extends Fragment {
 				}
 			});	
 		}
+		
+		final ImageView refreshButton = (ImageView)view.findViewById(R.id.map);
+		refreshButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				MapManager.refreshDataBases();
+			}
+		});
+		
+		
+		
 		//handles the spinner preferences (top deals/favourites/etc)
 		preferencedSpinner = (Spinner)view.findViewById(R.id.filter_spinner);
 		preferencedSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -261,9 +272,9 @@ public class MapWindowFragment extends Fragment {
 			p = Property.ALL;
 		}
 
-		for(ExternalBusiness bm :  MapBusinessManager.getAllBusinesses()){
+		for(ExternalBusiness bm :  MapManager.getAllBusinesses()){
 			
-			Marker m = MapBusinessManager.getMarker(bm);
+			Marker m = MapManager.getMarker(bm);
 			if(m==null){
 				Log.d("filterBtnClickListener","didn't find corresponding marker for a business");
 				continue;
@@ -272,7 +283,7 @@ public class MapWindowFragment extends Fragment {
 			if(button.isSelected()){
 				m.setVisible(false);
 			}else{
-				boolean visibilityState = MapBusinessManager.hasProperty(bm, p);
+				boolean visibilityState = MapManager.hasProperty(bm, p);
 				m.setVisible(visibilityState);
 			}
 		}
@@ -285,8 +296,10 @@ public class MapWindowFragment extends Fragment {
 	private OnMarkerClickListener markerListener = new OnMarkerClickListener() {
 		@Override
 		public boolean onMarkerClick(Marker marker) {
-			ExternalBusiness pressedExternalBusiness = MapBusinessManager.getBusiness(marker);
+			
+			ExternalBusiness pressedExternalBusiness = MapManager.getBusiness(marker);
 			if (pressedExternalBusiness != null) {
+				
 				
 				Intent myIntent = new Intent(getActivity(), ShowDealActivity.class);
 				myIntent.putExtra(ShowDealActivity.EXTERNAL_BUSINESS_KEY, pressedExternalBusiness);

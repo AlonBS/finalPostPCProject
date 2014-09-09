@@ -118,5 +118,16 @@ public class ExternalBusiness implements Serializable {
 	 * @return the externBusinessDealId
 	 */
 	public Deal getExternBusinessDeal() { return externBusinessDeal; }
+
+
+	public void setExternalBusinessLikes(int numOfLikes) {
+		this.externBusinessTotalLikes = numOfLikes;
+		
+	}
+	
+	public void setExternalBusinessDislikes(int numOfDislikes) {
+		this.externBusinessTotalDislikes = numOfDislikes;
+		
+	}
 }
 

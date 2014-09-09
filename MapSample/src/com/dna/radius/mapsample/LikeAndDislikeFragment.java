@@ -38,6 +38,8 @@ public class LikeAndDislikeFragment extends Fragment{
 	private ImageView dislikeImageView;
 	
 	private ExternalBusiness pressedExtern;
+	private int numOfLikesAddition;
+	private int numOfDislikesAddition;
 	
 	public enum DealLikeStatus{LIKE,DISLIKE,DONT_CARE};
 	
@@ -50,6 +52,8 @@ public class LikeAndDislikeFragment extends Fragment{
 		parentActivity = (ShowDealActivity)getActivity();
 		pressedExtern = parentActivity.getExternalBusiness();
 		
+		numOfLikesAddition = 0;
+		numOfDislikesAddition = 0;
 
 		//loads the business image
 		DBHandler.loadBusinessImageViewAsync(pressedExtern.getExternBusinessId(), imageView, parentActivity);
@@ -90,15 +94,17 @@ public class LikeAndDislikeFragment extends Fragment{
 				}
 				if(updatedDealStatus==DealLikeStatus.LIKE){
 					updatedDealStatus = DealLikeStatus.DONT_CARE;
-
+					numOfLikesAddition--;
 					String newStr = Long.toString(Long.parseLong(likesTextView.getText().toString())-1);
 					likesTextView.setText(newStr);
 				}else{
 					if(updatedDealStatus==DealLikeStatus.DISLIKE){
 						String newStr = Long.toString(Long.parseLong(dislikesTextView.getText().toString())-1);
 						dislikesTextView.setText(newStr);
+						numOfDislikesAddition--;
 					}
-
+					
+					numOfLikesAddition++;
 					updatedDealStatus = DealLikeStatus.LIKE;
 					String oldText =likesTextView.getText().toString();
 					String newStr = Long.toString(Long.parseLong(oldText)+1);
@@ -120,11 +126,14 @@ public class LikeAndDislikeFragment extends Fragment{
 					updatedDealStatus = DealLikeStatus.DONT_CARE;
 					String newStr = Long.toString(Long.parseLong(dislikesTextView.getText().toString())-1);
 					dislikesTextView.setText(newStr);
+					numOfDislikesAddition--;
 				}else{
 					if(updatedDealStatus==DealLikeStatus.LIKE){
 						String newStr = Long.toString(Long.parseLong(likesTextView.getText().toString())-1);
 						likesTextView.setText(newStr);
+						numOfLikesAddition--;
 					}
+					numOfDislikesAddition++;
 					updatedDealStatus = DealLikeStatus.DISLIKE;
 					String newStr = Long.toString(Long.parseLong(dislikesTextView.getText().toString())+1);
 					dislikesTextView.setText(newStr);
@@ -146,11 +155,15 @@ public class LikeAndDislikeFragment extends Fragment{
 			return;
 		}
 		
+		if(originalDealStatus == updatedDealStatus){
+			return;
+		}
 		
 		Log.d("LikeAndDislikeFragment.saveUserActions","previus preferences: " + originalDealStatus.name() + ", new preferenced: " + updatedDealStatus.name());
 
 		if(updatedDealStatus==DealLikeStatus.LIKE){
 			ClientData.addToLikes(pressedExtern.getExternBusinessDeal().getId());
+			//pressedExtern
 		}else if(updatedDealStatus==DealLikeStatus.DISLIKE){
 			ClientData.addToDislikes(pressedExtern.getExternBusinessDeal().getId());
 		}else if(updatedDealStatus==DealLikeStatus.DONT_CARE){
@@ -160,6 +173,8 @@ public class LikeAndDislikeFragment extends Fragment{
 				ClientData.removeFromDislikes(pressedExtern.getExternBusinessDeal().getId());
 			}
 		}
+		
+		MapManager.updateExternalBusinessLikesAndDislikes(pressedExtern.getExternBusinessId(), numOfLikesAddition, numOfDislikesAddition);
 	}
 
 
@@ -167,7 +182,6 @@ public class LikeAndDislikeFragment extends Fragment{
 	 * this function changes the backroung of the dislike and like buttons
 	 * according to the user preferenced. 
 	 */
-	@SuppressWarnings("deprecation")
 	private void setDislikeAndLikeBG(){
 		if(BaseActivity.isInBusinessMode){
 			return;

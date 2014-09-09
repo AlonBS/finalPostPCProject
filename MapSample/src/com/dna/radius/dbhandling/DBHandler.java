@@ -23,7 +23,7 @@ import com.dna.radius.datastructures.ExternalBusiness;
 import com.dna.radius.infrastructure.BaseActivity;
 import com.dna.radius.infrastructure.SupportedTypes;
 import com.dna.radius.mapsample.CommentsArrayAdapter;
-import com.dna.radius.mapsample.MapBusinessManager;
+import com.dna.radius.mapsample.MapManager;
 import com.google.android.gms.maps.model.LatLng;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -64,7 +64,7 @@ public class DBHandler {
 				deleteNeeded, ParseClassesNames.BUSINESS_CURRENT_DEAL_LIKES);
 	}
 
-	
+
 	/**
 	 * 
 	 * @param dealId
@@ -76,41 +76,15 @@ public class DBHandler {
 
 		String businessId = dealId.split(BaseActivity.SEPERATOR)[0];
 		ParseQuery<ParseObject> query = ParseQuery.getQuery(ParseClassesNames.BUSINESS_CLASS);
+		
+		query.getInBackground(businessId, new AddRemoveLikesDislikesCallBack(n1, deleteNeeded, n2, dealId));
 
-		query.getInBackground(businessId, new GetCallback<ParseObject>() {
-
-			@Override
-			public void done(ParseObject object, ParseException e) {
-
-				if (e == null) {
-
-					JSONObject businessCurrentDealJO = object.getJSONObject(ParseClassesNames.BUSINESS_CURRENT_DEAL);
-					try {
-
-						businessCurrentDealJO.put(n1, businessCurrentDealJO.getInt(n1) + 1);
-
-						if (deleteNeeded)
-							businessCurrentDealJO.put(n2, businessCurrentDealJO.getInt(n2) -1 );
-
-						object.put(ParseClassesNames.BUSINESS_CURRENT_DEAL, businessCurrentDealJO);
-						object.saveInBackground();
-					}
-
-					catch (JSONException exc) {
-						Log.e("External - add like to deal", exc.getMessage());
-					}
-				}
-				else {
-					Log.e("External Like", e.getMessage());
-				}
-			}
-		});
 	}
 
 
 
 	//TODO check radius - and check radius vs. google's radius 
-//	
+	//	
 	//
 	//		query.whereLessThanOrEqualTo(ParseClassesNames.BUSINESS_LOCATION + "." +
 	//				ParseClassesNames.BUSINESS_LOCATION_LAT, top);
@@ -123,7 +97,7 @@ public class DBHandler {
 	public static void getExternalBusinessAtRadius(LatLng location, double radius) {
 
 		ParseQuery<ParseObject> query = ParseQuery.getQuery(ParseClassesNames.BUSINESS_CLASS);
-		query.whereWithinRadians(ParseClassesNames.BUSINESS_LOCATION,
+		query.whereWithinRadians(ParseClassesNames.BUSINESS_LOCATION, //TODO check radians indeed work
 				new ParseGeoPoint(location.latitude, location.longitude), radius);
 
 		query.findInBackground(new FindCallback<ParseObject>() {
@@ -164,7 +138,7 @@ public class DBHandler {
 							result.add(newExtern);
 
 							if (++count == 5) {
-								boolean isRelevant = MapBusinessManager.addExternalBusiness(result);
+								boolean isRelevant = MapManager.addExternalBusiness(result);
 								result.clear();
 
 								if(!isRelevant) break;
@@ -175,8 +149,8 @@ public class DBHandler {
 							Log.e("DBHandler getExternalBusinessAtRadius", e1.getMessage());
 						} 
 					}
-					
-					MapBusinessManager.addExternalBusiness(result);
+
+					MapManager.addExternalBusiness(result);
 
 				} else {
 
@@ -196,10 +170,9 @@ public class DBHandler {
 	 */
 	//TODO 
 	public static void loadBusinessImageViewAsync(String businessID ,ImageView imageView, Context context){
-				LoadDealBitmapTask loadTask = new LoadDealBitmapTask(imageView, businessID,context);
-				context.getClass();
-				loadTask.execute();
-		imageView.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.image_demo));
+		LoadDealBitmapTask loadTask = new LoadDealBitmapTask(imageView, businessID,context);
+		context.getClass();
+		loadTask.execute();
 	}
 
 
@@ -255,9 +228,9 @@ public class DBHandler {
 						Log.e("DBHandler - loadCommentsListAsync", e1.getMessage());
 					}
 				}
-				
+
 				else{
-					
+
 					Log.e("DBHandler - loadCommentsListAsync", e.getMessage());
 				}
 			}
@@ -271,7 +244,7 @@ public class DBHandler {
 	 * @param newComment
 	 */
 	public static void addCommentToDealExternally(String businessId, final Comment newComment) {
-		
+
 		ParseQuery<ParseObject> query = ParseQuery.getQuery(ParseClassesNames.BUSINESS_CLASS);
 		query.getInBackground(businessId, new GetCallback<ParseObject>() {
 
@@ -281,9 +254,9 @@ public class DBHandler {
 				if (e == null) {
 
 					try {
-						
+
 						JSONObject newCommentJO = new JSONObject();
-						
+
 						newCommentJO.put(ParseClassesNames.BUSINESS_CURRENT_DEAL_COMMENTS_AUTHOR, newComment.getAuthorName());
 						newCommentJO.put(ParseClassesNames.BUSINESS_CURRENT_DEAL_COMMENTS_CONTENT, newComment.getCommentContent());
 						newCommentJO.put(ParseClassesNames.BUSINESS_CURRENT_DEAL_COMMENTS_DATE, newComment.getCommentDate());
@@ -291,7 +264,7 @@ public class DBHandler {
 						JSONObject currentDealJO = o.getJSONObject(ParseClassesNames.BUSINESS_CURRENT_DEAL);
 						currentDealJO.getJSONArray(ParseClassesNames.BUSINESS_CURRENT_DEAL_COMMENTS).put(newCommentJO);
 						o.put(ParseClassesNames.BUSINESS_CURRENT_DEAL, currentDealJO);
-						
+
 						o.saveInBackground();	// TODO should be eventually 
 
 
@@ -300,17 +273,17 @@ public class DBHandler {
 						Log.e("DBHandler - loadCommentsListAsync", e1.getMessage());
 					}
 				}
-				
+
 				else{
-					
+
 					Log.e("DBHandler - loadCommentsListAsync", e.getMessage());
 				}
 			}
 		});
-		
+
 	}
-		
-		
+
+
 
 	public static List<ExternalBusiness> LoadTopBusinessesSync(ParseGeoPoint gp, double radius) {
 
@@ -452,6 +425,54 @@ public class DBHandler {
 		//		});
 
 		return result;
+	}
+
+
+	private static class AddRemoveLikesDislikesCallBack extends GetCallback<ParseObject> {
+
+		private  String n1, n2;
+		private  boolean deleteNeeded;
+		private String dealId;
+
+		public AddRemoveLikesDislikesCallBack(String n1, boolean deleteNeeded, String n2, String dealId) {
+
+			this.n1 = n1;
+			this.n2 = n2;
+			this.deleteNeeded = deleteNeeded;
+			this.dealId = dealId;
+			
+		}
+
+		@Override
+		public void done(ParseObject object, ParseException e) {
+
+			if (e == null) {
+
+				try {
+
+					JSONObject curDealJO = object.getJSONObject(ParseClassesNames.BUSINESS_CURRENT_DEAL);
+
+					if (curDealJO.isNull(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID)) return;
+					if (curDealJO.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID).compareTo(dealId) != 0) return;
+
+					curDealJO.put(n1, curDealJO.getInt(n1) + 1);
+
+					if (deleteNeeded)
+						curDealJO.put(n2, curDealJO.getInt(n2) -1 );
+
+					object.put(ParseClassesNames.BUSINESS_CURRENT_DEAL, curDealJO);
+					object.saveInBackground();
+				}
+			
+
+				catch (JSONException exc) {
+					Log.e("External - add like to deal", exc.getMessage());
+				}
+			}
+			else {
+				Log.e("External Like", e.getMessage());
+			}
+		}
 	}
 
 }

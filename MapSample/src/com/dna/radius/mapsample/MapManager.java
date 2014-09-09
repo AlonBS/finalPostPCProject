@@ -22,18 +22,35 @@ import com.google.android.gms.maps.model.MarkerOptions;
  * @author dror
  *
  */
-public class MapBusinessManager {
+public class MapManager {
 	
 	/**maps from map markers to businesses and from businesses to markers*/
-	private static HashMap <Marker, ExternalBusiness> markerToBusiness = new HashMap <Marker, ExternalBusiness>();
-	private static HashMap <ExternalBusiness, Marker> BusinessToMarker = new HashMap <ExternalBusiness, Marker>();
-   
+	private static HashMap <Marker, ExternalBusiness> markerToBusiness;
+	private static HashMap <ExternalBusiness, Marker> BusinessToMarker;
+	private static HashMap <String, ExternalBusiness> businessIDToExternalBusiness;
+	   
 	private static WeakReference<GoogleMap> gMapRef = null;
 	
 	public static void init(GoogleMap gMap){
 		gMapRef = new WeakReference<GoogleMap>(gMap);
 		markerToBusiness = new HashMap <Marker, ExternalBusiness>();
 		BusinessToMarker = new HashMap <ExternalBusiness, Marker>();
+		businessIDToExternalBusiness = new HashMap <String, ExternalBusiness>();
+		
+	}
+	
+	public static void refreshDataBases(){
+		
+		if(gMapRef==null || gMapRef.get()==null){
+			Log.d("MapBusinessManager.refreshDataBases", "the map doesnt exist anymore");
+			return;
+		}
+		
+		gMapRef.get().clear();
+		markerToBusiness = new HashMap <Marker, ExternalBusiness>();
+		BusinessToMarker = new HashMap <ExternalBusiness, Marker>();
+		businessIDToExternalBusiness = new HashMap <String, ExternalBusiness>();
+		loadExternalBusinesses();
 	}
 	
 	public static boolean addExternalBusiness(ArrayList<ExternalBusiness> businesses){
@@ -50,6 +67,7 @@ public class MapBusinessManager {
 				.icon(BitmapDescriptorFactory.fromResource(b.getExternBusinessType().getIconID())));
 			BusinessToMarker.put(b,m);
 			markerToBusiness.put(m,b);
+			businessIDToExternalBusiness.put(b.getExternBusinessId(), b);
 		}
 		return true;
 	}
@@ -63,6 +81,17 @@ public class MapBusinessManager {
     	LatLng location = gMap.getCameraPosition().target;
     	DBHandler.getExternalBusinessAtRadius(location, MapWindowFragment.LOAD_RADIUS);
     }
+    
+    public static void updateExternalBusinessLikesAndDislikes(String businessID, int numOfLikes, int numOfDislikes){
+    	if(!businessIDToExternalBusiness.containsKey(businessID)){
+    		Log.e("MapManager", "Business is not recognized by the map manager");
+    		return;
+    	}
+    	ExternalBusiness b = businessIDToExternalBusiness.get(businessID);
+    	b.setExternalBusinessLikes(b.getExternBusinessDeal().getNumOfLikes() + numOfLikes);
+    	b.setExternalBusinessDislikes(b.getExternBusinessDeal().getNumOfDislikes() + numOfDislikes);
+    }
+    
     
     
     /**returns list of all the businesses which were download from parse*/
