@@ -36,7 +36,7 @@
     <string name="copyright">Copyright © 2014 </string>
 
      <!-- add a new deal dialog -->
-    <string name="add_a_new_deal_dialog_title"></string>
+    <string name="add_a_new_deal_dialog_title">Create a new Deal</string>
     <string name="add_a_new_deal_deal_is_empty">the new deal is empty</string>
     <string name="add_a_new_deal_deal_identical_to_previous">the new deal is equal to the previous one</string>
     

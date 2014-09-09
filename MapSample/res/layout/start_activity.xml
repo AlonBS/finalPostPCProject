@@ -1,20 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" 
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_blue_background"
     android:orientation="vertical"
-    android:padding="10dip" >
-    
-    <FrameLayout
-        android:id="@+id/loaded_fragment"
+    android:layout_margin="10dip" >
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="fill_parent"
+        android:layout_above="@id/copyright_textView"
+        android:orientation="vertical" >
 
-    </FrameLayout>
-    
-    
-        
-    
-</RelativeLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.12" >
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/logo_background_transparent_color"
+                android:scaleType="centerInside"
+                android:src="@drawable/logo" />
+        </LinearLayout>
 
+        <FrameLayout
+            android:id="@+id/loaded_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.88" >
+        </FrameLayout>
+    </LinearLayout>
+
+</LinearLayout>

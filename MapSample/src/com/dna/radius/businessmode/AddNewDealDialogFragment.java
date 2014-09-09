@@ -1,6 +1,5 @@
 package com.dna.radius.businessmode;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -11,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.dna.radius.R;
-import com.google.ads.AdRequest.ErrorCode;
 
 public class AddNewDealDialogFragment extends DialogFragment implements View.OnClickListener{
 	private AddNewDealCommunicator communitor;

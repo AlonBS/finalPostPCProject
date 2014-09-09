@@ -1,25 +1,27 @@
 package com.dna.radius.login;
 
-import com.dna.radius.R;
-import com.dna.radius.businessmode.BusinessOpeningScreenActivity;
-import com.dna.radius.clientmode.ClientOpeningScreenActivity;
-import com.dna.radius.dbhandling.ParseClassesNames;
-
-import com.parse.ParseException;
-import com.parse.ParseUser;
-import com.parse.SignUpCallback;
-
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.dna.radius.R;
+import com.dna.radius.businessmode.BusinessOpeningScreenActivity;
+import com.dna.radius.clientmode.ClientOpeningScreenActivity;
+import com.dna.radius.dbhandling.ParseClassesNames;
+import com.parse.ParseException;
+import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 
 
 
@@ -184,6 +186,8 @@ public class SignUpFragment extends Fragment {
 
 		return false;
 	}
+	
+
 }
 
 	

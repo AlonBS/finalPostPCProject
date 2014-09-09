@@ -125,12 +125,13 @@ public class BusinessDashboardFragment extends Fragment implements AddNewDealCom
 				imageOnDisplayImageView.setVisibility(View.VISIBLE);
 				loadImageProgressBar.setVisibility(View.GONE);
 			}else {
+				
 				BusinessData.loadImage(imageOnDisplayImageView, loadImageProgressBar);
 			}
 
 		}else {
 			imageOnDisplayImageView.setVisibility(View.VISIBLE);
-			imageOnDisplayImageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.set_business_image));
+			imageOnDisplayImageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.add_image_icon_transparent));
 			loadImageProgressBar.setVisibility(View.GONE);
 		}
 	}
