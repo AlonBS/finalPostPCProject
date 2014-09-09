@@ -1,12 +1,15 @@
 package com.dna.radius.businessmode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.support.v7.appcompat.R.integer;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.HorizontalScrollView;
@@ -33,28 +36,36 @@ public class TopBusinessesHorizontalView extends HorizontalScrollView{
 	
 	
 	/**the list of all the businesses*/
+	
+	private SparseArray<ExternalBusiness> intToExterns;
 	//private ArrayList<ExternalBusiness> topBusinessesList = new ArrayList<>();
 	
 	private LinearLayout hostLayout = null;
 
-	/**C-tor*/
-	public TopBusinessesHorizontalView(Context context) {
-		super(context);
-		this.context = context;
-	}
+	
+//	/**C-tor*/
+//	public TopBusinessesHorizontalView(Context context) {
+//		super(context);
+//		this.context = context;
+//		
+//		//intToExterns = new SparseArray<ExternalBusiness>();
+//	}
+	
 	
 	/**C-tor*/
 	public TopBusinessesHorizontalView(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
 		this.context = context;
+		
+		intToExterns = new SparseArray<ExternalBusiness>();
 	}
 	
-	/**C-tor*/
-	public TopBusinessesHorizontalView(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle); 	
-		this.context = context;
-	}
+//	/**C-tor*/
+//	public TopBusinessesHorizontalView(Context context, AttributeSet attrs, int defStyle) {
+//		super(context, attrs, defStyle); 	
+//		this.context = context;
+//	}
 	
 
 	/**Add a business into the top list*/
@@ -72,24 +83,30 @@ public class TopBusinessesHorizontalView extends HorizontalScrollView{
 		LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		LinearLayout newLayout = (LinearLayout) inflater.inflate(R.layout.top_businesses_col,hostLayout,false);
 		
+		intToExterns.append(newLayout.hashCode(), eb);
 		hostLayout.addView(newLayout);
-//		topBusinessesList.add(eb); TODO remove
 		
 		TextView businessNameTextView = (TextView) newLayout.findViewById(R.id.top_business_name);
-		TextView businessLikesTextView = (TextView) newLayout.findViewById(R.id.top_business_num_of_likes);
-		TextView businessDislikesTextView = (TextView) newLayout.findViewById(R.id.top_business_num_of_dislikes);
+		TextView businessTotalLikesTextView = (TextView) newLayout.findViewById(R.id.top_business_num_of_likes);
+		TextView businessTotalDislikesTextView = (TextView) newLayout.findViewById(R.id.top_business_num_of_dislikes);
+		//TextView businessTotalDealsTextView = (TextView) newLayout.findViewById(R.id.blabla); TODO support if needed
 		RatingBar businessRatingBar = (RatingBar) newLayout.findViewById(R.id.top_business_rating_bar);
 		
 		if (businessNameTextView != null) {
 			businessNameTextView.setText(eb.getExtenBusinessName());
 		}
-		if (businessLikesTextView != null) {
-			businessLikesTextView.setText(Integer.toString(eb.getExternBusinessDeal().getNumOfLikes()));
+		if (businessTotalLikesTextView != null) {
+			businessTotalLikesTextView.setText(Integer.toString(eb.getExternBusinessTotalLikes()));
 			
 		}
-		if (businessLikesTextView != null) {
-			businessDislikesTextView.setText(Integer.toString(eb.getExternBusinessDeal().getNumOfDislikes()));
+		if (businessTotalDislikesTextView != null) {
+			businessTotalDislikesTextView.setText(Integer.toString(eb.getExternBusinessTotalDislikes()));
 		}
+//TODO support if needed
+//		if (businessTotalDeals != null {
+//			businessTotalDealsTextView.setText(Integer.toString(eb.getTotalNumberOfDeal()));
+//			
+//		}
 		if (businessRatingBar != null) {
 			businessRatingBar.setRating((float)eb.getExternBusinessRating());
 		}
@@ -102,9 +119,13 @@ public class TopBusinessesHorizontalView extends HorizontalScrollView{
 		newLayout.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				
+				ExternalBusiness eb = intToExterns.get(v.hashCode());
+				
 				Intent myIntent = new Intent(context, ShowDealActivity.class);
 				myIntent.putExtra(ShowDealActivity.EXTERNAL_BUSINESS_KEY, eb);
 				context.startActivity(myIntent);
+				
 				
 //				myIntent.putExtra(ShowDealActivity.BUSINESS_NAME_PARAM, eb.businessName); //Optional parameters
 //				myIntent.putExtra(ShowDealActivity.BUSINESS_ID_PARAM, eb.externBusinessId); //Optional parameters

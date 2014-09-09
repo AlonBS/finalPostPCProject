@@ -212,7 +212,6 @@ public class MapWindowFragment extends Fragment {
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
-		DBHandler.close();
 
 		//kills the old map
 		SupportMapFragment mapFragment = ((SupportMapFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.map));

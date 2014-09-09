@@ -9,15 +9,15 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
+import com.dna.radius.datastructures.Comment;
 import com.dna.radius.dbhandling.DBHandler;
-import com.dna.radius.dbhandling.DBHandler.DealLikeStatus;
 import com.dna.radius.dbhandling.ParseClassesNames;
+import com.dna.radius.infrastructure.BaseActivity;
+import com.dna.radius.mapsample.LikeAndDislikeFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 /***
@@ -425,15 +425,26 @@ public class ClientData{
 	 * to the current business deal.
 	 * @return
 	 */
-	public static DealLikeStatus getDealLikeStatus(String businessId){
+	public static LikeAndDislikeFragment.DealLikeStatus getDealLikeStatus(String businessId){
 
 		if (likes.contains(businessId))
-			return DealLikeStatus.LIKE;
+			return LikeAndDislikeFragment.DealLikeStatus.LIKE;
 
 		else if(dislikes.contains(businessId))
-			return DealLikeStatus.DISLIKE;
+			return LikeAndDislikeFragment.DealLikeStatus.DISLIKE;
 
-		return DealLikeStatus.DONT_CARE;
+		return LikeAndDislikeFragment.DealLikeStatus.DONT_CARE;
+	}
+
+	
+	public static void commentOnADeal(String dealId, String commentContent) {
+		
+		DBHandler.addCommentToDealExternally(
+				dealId.split(BaseActivity.SEPERATOR)[0],
+				new Comment(currentUser.getUsername(),
+						commentContent,
+						new Date()));
+		
 	}
 
 //	public static void setDontCareToDeal(String dealId){

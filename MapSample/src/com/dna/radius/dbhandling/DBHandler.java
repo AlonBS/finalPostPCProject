@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,51 +35,8 @@ import com.parse.ParseQuery;
 
 /**
  * The DBHandler is used for accessing Parse server, as well as local DB (using sqlite).
- * @author dror
- *
  */
 public class DBHandler {
-
-	private static LoadDealCommentsTask loadCommentsTask = null;
-	//	private static LoadCloseBusinessesToMapTask loadBusinessesAndMapTask = null;
-	//	private static LoadTopBusinessesRunnable loadTopBusinesses = null; TODO REMOVE
-
-	/**
-	 * closes the DBHandler.
-	 * don't forget to call this method whenever the activity which created
-	 * the dbHandler object gets destroyed.
-	 */
-	public static void close(){
-		if(loadCommentsTask!=null){
-			loadCommentsTask.stopTask();
-			loadCommentsTask = null;
-		}
-		//		if(loadBusinessesAndMapTask!=null){
-		//			loadBusinessesAndMapTask.stopTask();
-		//			loadBusinessesAndMapTask = null;
-		//		}
-		//		if(loadTopBusinesses!=null){
-		//			loadTopBusinesses.stopTask();
-		//			loadTopBusinesses = null;
-		//		}
-	}
-	//
-	//	/**
-	//	 * set a new home location for the user.
-	//	 */
-	//	public static void setHome(int id, double lat, double lng){
-	//		//TODO - ALON - implement
-	//	}
-	//
-
-	//	/**
-	//	 * adds a business id to the user favorites table.
-	//	 * @param id
-	//	 */
-	//	public static void updateFavourites(int userId, ArrayList<Integer> favouritesList){
-	//		//TODO - alon, implement
-	//	}
-	//
 
 
 	/**
@@ -94,7 +52,6 @@ public class DBHandler {
 	}
 
 
-
 	/**
 	 * 
 	 * @param dealId
@@ -107,6 +64,7 @@ public class DBHandler {
 				deleteNeeded, ParseClassesNames.BUSINESS_CURRENT_DEAL_LIKES);
 	}
 
+	
 	/**
 	 * 
 	 * @param dealId
@@ -116,7 +74,7 @@ public class DBHandler {
 	 */
 	private static void addLikes_N_Dislikes(String dealId, final String n1, final boolean deleteNeeded, final String n2) {
 
-		String businessId = dealId.split(BaseActivity.SEPERATOR)[1];
+		String businessId = dealId.split(BaseActivity.SEPERATOR)[0];
 		ParseQuery<ParseObject> query = ParseQuery.getQuery(ParseClassesNames.BUSINESS_CLASS);
 
 		query.getInBackground(businessId, new GetCallback<ParseObject>() {
@@ -151,34 +109,20 @@ public class DBHandler {
 
 
 
-
-	//TODO 
+	//TODO check radius - and check radius vs. google's radius 
+//	query.whereWithinRadians(ParseClassesNames.BUSINESS_LOCATION, new ParseGeoPoint(location.latitude, location.longitude), radius);
+	//
+	//		query.whereLessThanOrEqualTo(ParseClassesNames.BUSINESS_LOCATION + "." +
+	//				ParseClassesNames.BUSINESS_LOCATION_LAT, top);
+	//		query.whereGreaterThanOrEqualTo(ParseClassesNames.BUSINESS_LOCATION + "." +
+	//				ParseClassesNames.BUSINESS_LOCATION_LAT, buttom);
+	//		query.whereLessThanOrEqualTo(ParseClassesNames.BUSINESS_LOCATION + "." +
+	//				ParseClassesNames.BUSINESS_LOCATION_LONG, right);
+	//		query.whereGreaterThanOrEqualTo(ParseClassesNames.BUSINESS_LOCATION + "." +
+	//				ParseClassesNames.BUSINESS_LOCATION_LONG, left);
 	public static void getExternalBusinessAtRadius(LatLng location, double radius) {
 
-
-		//TODO remove
-		//		double top, buttom, left, right;
-		//		top = location.latitude + radius;
-		//		buttom = location.latitude - radius;
-		//		right = location.longitude + radius;
-		//		left = location.longitude - radius;
-
-
 		ParseQuery<ParseObject> query = ParseQuery.getQuery(ParseClassesNames.BUSINESS_CLASS);
-
-		//TODO remove
-		//		query.whereWithinRadians(ParseClassesNames.BUSINESS_LOCATION, new ParseGeoPoint(location.latitude, location.longitude), radius);
-		//
-		//		query.whereLessThanOrEqualTo(ParseClassesNames.BUSINESS_LOCATION + "." +
-		//				ParseClassesNames.BUSINESS_LOCATION_LAT, top);
-		//		query.whereGreaterThanOrEqualTo(ParseClassesNames.BUSINESS_LOCATION + "." +
-		//				ParseClassesNames.BUSINESS_LOCATION_LAT, buttom);
-		//		query.whereLessThanOrEqualTo(ParseClassesNames.BUSINESS_LOCATION + "." +
-		//				ParseClassesNames.BUSINESS_LOCATION_LONG, right);
-		//		query.whereGreaterThanOrEqualTo(ParseClassesNames.BUSINESS_LOCATION + "." +
-		//				ParseClassesNames.BUSINESS_LOCATION_LONG, left);
-
-
 
 		query.findInBackground(new FindCallback<ParseObject>() {
 			public void done(List<ParseObject> objects, ParseException e) {
@@ -188,9 +132,9 @@ public class DBHandler {
 					ArrayList<ExternalBusiness>result = new ArrayList<ExternalBusiness>();
 
 					for (ParseObject o : objects ) {
-						
+
 						JSONObject j = o.getJSONObject(ParseClassesNames.BUSINESS_CURRENT_DEAL);
-						
+
 						if (j.isNull(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID)) continue; //we don't show business who currently don't have a deal						
 
 						Deal externBusinessDeal;
@@ -201,7 +145,7 @@ public class DBHandler {
 									j.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_LIKES),
 									j.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_DISLIKES),
 									new SimpleDateFormat(BaseActivity.DATE_FORMAT).parse(j.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE)), // TODO add get date
-									null);
+									null); //TODO getDAte() // TODO - think about comment in external business
 
 							ExternalBusiness newExtern = new ExternalBusiness(
 									o.getObjectId(),
@@ -216,78 +160,28 @@ public class DBHandler {
 									externBusinessDeal); 
 
 							result.add(newExtern);
-							
+
 							if (++count == 5) {
 								boolean isRelevant = MapBusinessManager.addExternalBusiness(result);
 								result.clear();
-								
+
 								if(!isRelevant) break;
 							}
 
+						} catch (JSONException | java.text.ParseException e1) {
 
-						} catch (JSONException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						} catch (java.text.ParseException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						} //TODO getDAte() // TODO - think about comment in external business
-
-
-
-
-						Log.d("test", o.getObjectId());
+							Log.e("DBHandler getExternalBusinessAtRadius", e1.getMessage());
+						} 
 					}
 
 				} else {
 
+					Log.e("DBHandler getExternalBusinessAtRadius", e.getMessage());
 				}
 			}
 		});
-
-
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	//
-	//
-	//
-	//	/**
-	//	 * loads all the Business Marker objects which represents businesses
-	//	 * which are close to the current map center.
-	//	 * A business is considered close to the center if it's distance from it
-	//	 * is less than radius.
-	//	 * 
-	//	 */
-	//	public static void loadBusinessListAndMapMarkersAsync(LatLng mapCenter,GoogleMap gMap, MapBusinessManager bManager,double radius,MapWindowFragment fragment){
-	//
-	////		loadBusinessesAndMapTask = new LoadCloseBusinessesToMapTask(fragment, gMap, bManager,radius);
-	//		//		loadBusinessesAndMapTask.execute();
-	//
-	//	}
-	//
-	//	public static void stopLoadBusinessListAndMapMsarkersAsync(){
-	////		if(loadBusinessesAndMapTask!=null){
-	////			loadBusinessesAndMapTask.stopTask();
-	////		}
-	//
-	//	}
 
 	/**
 	 * if the business has a bitmap on parse server, loads it asynchronously and
@@ -296,110 +190,13 @@ public class DBHandler {
 	 * otherwise - does nothing at all :(
 	 * 
 	 */
+	//TODO 
 	public static void loadBusinessImageViewAsync(String businessID ,ImageView imageView, Context context){
-		//		LoadDealBitmapTask loadTask = new LoadDealBitmapTask(imageView, businessID,context);
-		//		context.getClass();
-		//		loadTask.execute();
+				LoadDealBitmapTask loadTask = new LoadDealBitmapTask(imageView, businessID,context);
+				context.getClass();
+				loadTask.execute();
 		imageView.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.image_demo));
 	}
-
-
-
-	public enum DealLikeStatus{LIKE,DISLIKE,DONT_CARE};
-	/**
-	 * updates the parse servers that the user like the 
-	 * current business deal.
-	 * this method should do 2 things:
-	 * 	add the dealID from the user likes table
-	 * 	add a like to the current business deal Table.
-	 */
-
-	public static void setLikeToDeal(int userId, int businessId, DealLikeStatus oldStatus){
-		if(oldStatus==DealLikeStatus.LIKE){
-			return;
-		}
-		if(oldStatus==DealLikeStatus.DISLIKE){
-			//TODO - remove from the dislike list at the parse DB
-		}
-
-		//TODO - ALON add a like to the parse
-	}
-
-	/**
-	 * updates the parse servers that the user doesnt like the 
-	 * current business deal.
-	 * this method shuold do 2 things:
-	 * 	add the dealID from the user dislikes table
-	 * 	add a dislike to the current business deal Table.
-	 */
-	public static void setDislikeToDeal(int userID, int businessId, DealLikeStatus oldStatus){
-		if(oldStatus==DealLikeStatus.DISLIKE){
-			return;
-		}
-		if(oldStatus==DealLikeStatus.LIKE){
-			//TODO - remove from the business like list at the parse DB
-		}
-
-		//TODO - ALON add a like option to the parse
-
-	}
-
-	/**
-	 * updates the parse servers that the user doesn't like/dislike the 
-	 * current business deal anymore.
-	 * this method shuold do 2 things:
-	 * 	erase the dealID from the user likes table
-	 * 	delete a like from the current business deal Table.
-	 */
-	public static void setDontCareToDeal(int userID, int businessId, DealLikeStatus oldStatus){
-		if(oldStatus==DealLikeStatus.LIKE){
-			//TODO - remove from the like list at the parse DB
-		}else if(oldStatus==DealLikeStatus.DISLIKE){
-			//TODO - remove from the dislike list at the parse DB
-		}else{
-			Log.d("DBHandler", "Business " + Long.toString(businessId) + " error: the user didnt like it nor dislike it");
-		}
-
-	}
-
-
-
-	//	/**
-	//	 * updates the user's like list, dislike list and favorites list
-	//	 */
-	//	public static void loadClientInfoSync(ParseObject base, ClientData instance){
-	//		//TODO - alon - implement
-	//
-	//		//TODO - remove me!!!
-	//		//******************
-	//		try {
-	//			Thread.sleep(1000);
-	//		} catch (InterruptedException e) {
-	//			// TODO Auto-generated catch block
-	//			e.printStackTrace();
-	//		}
-	//		//*******************
-	//		
-	//		//instance.setHome(base.getLocation, updateServers);
-	//		
-	//		//base.getJSONObject(arg0)
-	//		
-	//		
-	//
-	//		//TODO These strings should be returned from parse
-	//		String favouritesStr = "";
-	//		String likesStr = "";
-	//		String dislikesStr = "";
-	//		List<String> favoritesList = Arrays.asList(favouritesStr.split("\\s*,\\s*"));
-	//		List<String> likesList = Arrays.asList(likesStr.split("\\s*,\\s*"));
-	//		List<String> dislikesList = Arrays.asList(dislikesStr.split("\\s*,\\s*"));
-	//
-	//		//TODO These values should be returned from parse
-	//		double homeLatitude = 31.78507 ; 
-	//		double homeLongitude = 35.214328;
-	//		//instance.setHome(new LatLng(homeLatitude, homeLongitude), false);
-	//
-	//	}
 
 
 
@@ -410,46 +207,106 @@ public class DBHandler {
 	 */
 	public static void loadCommentsListAsync(CommentsArrayAdapter adapter, String dealID){
 
-		WeakReference<CommentsArrayAdapter> adapterRef = new WeakReference<CommentsArrayAdapter>(adapter);
-		
-		
-		
-		//TODO - when the query returns
-		if(adapterRef==null || adapterRef.get()==null){
-			return;
-		}
-		else{
-			CommentsArrayAdapter commentsAdapter = adapterRef.get();
-			commentsAdapter.addAll(new ArrayList<Comment>()); //TODO NOT NULL
-		}
-		
-		//TODO
-		adapter.add(new Comment("hj", "zevel", new Date()));
+		final WeakReference<CommentsArrayAdapter> adapterRef = new WeakReference<CommentsArrayAdapter>(adapter);
+		String businessId = dealID.split(BaseActivity.SEPERATOR)[0];
 
-		//TODO ALON - add your implementation to the LoadDealCommentsTask.
-		//		loadCommentsTask = new LoadDealCommentsTask(comments, adapter);
-		//		loadCommentsTask.execute();
+		ParseQuery<ParseObject> query = ParseQuery.getQuery(ParseClassesNames.BUSINESS_CLASS);
+
+		query.getInBackground(businessId, new GetCallback<ParseObject>() {
+
+			@Override
+			public void done(ParseObject object, ParseException e) {
+
+				if (e == null) {
+
+					try {
+
+						JSONObject curDealJO = object.getJSONObject(ParseClassesNames.BUSINESS_CURRENT_DEAL);
+						if (curDealJO.isNull(ParseClassesNames.BUSINESS_CURRENT_DEAL_COMMENTS)) return;
+
+						ArrayList<Comment> currentDealComments = new ArrayList<Comment>();
+						JSONArray ja;
+
+						ja = curDealJO.getJSONArray(ParseClassesNames.BUSINESS_CURRENT_DEAL_COMMENTS);
+
+						for (int i = 0 ; i < ja.length() && i < 2 ; ++i) { // TODO we support 50 comments
+
+							JSONObject commentJO = ja.getJSONObject(i);
+							Comment c = new Comment(
+									commentJO.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_COMMENTS_AUTHOR),
+									commentJO.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_COMMENTS_CONTENT),
+									new SimpleDateFormat(BaseActivity.DATE_FORMAT).parse(commentJO.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_COMMENTS_DATE)));
+
+							currentDealComments.add(c);
+						}
+
+						if (adapterRef!=null && adapterRef.get()!=null) {
+
+							CommentsArrayAdapter commentsAdapter = adapterRef.get();
+							commentsAdapter.addAll(currentDealComments);
+						}
+
+					} catch (JSONException | java.text.ParseException e1) {
+
+						Log.e("DBHandler - loadCommentsListAsync", e1.getMessage());
+					}
+				}
+				
+				else{
+					
+					Log.e("DBHandler - loadCommentsListAsync", e.getMessage());
+				}
+			}
+		});
 	}
 
-
+	//TODO add comment to deal in business mode
 	/**
-	 * adds the user comment for the given business deal.
-	 * this method should check if the user already commented on this deal before.
-	 * if he did - the new comment should replace the previous one.
+	 * This is called from ClientMode only
+	 * @param dealId
+	 * @param newComment
 	 */
-	//public static void addComment(String dealID, Comment comment){
-	//TODO - alon, dbhandling
-	//}
+	public static void addCommentToDealExternally(String businessId, final Comment newComment) {
+		
+		ParseQuery<ParseObject> query = ParseQuery.getQuery(ParseClassesNames.BUSINESS_CLASS);
+		query.getInBackground(businessId, new GetCallback<ParseObject>() {
+
+			@Override
+			public void done(ParseObject o, ParseException e) {
+
+				if (e == null) {
+
+					try {
+						
+						JSONObject newCommentJO = new JSONObject();
+						
+						newCommentJO.put(ParseClassesNames.BUSINESS_CURRENT_DEAL_COMMENTS_AUTHOR, newComment.getAuthorName());
+						newCommentJO.put(ParseClassesNames.BUSINESS_CURRENT_DEAL_COMMENTS_CONTENT, newComment.getCommentContent());
+						newCommentJO.put(ParseClassesNames.BUSINESS_CURRENT_DEAL_COMMENTS_DATE, newComment.getCommentDate());
+
+						JSONObject currentDealJO = o.getJSONObject(ParseClassesNames.BUSINESS_CURRENT_DEAL);
+						currentDealJO.getJSONArray(ParseClassesNames.BUSINESS_CURRENT_DEAL_COMMENTS).put(newCommentJO);
+						o.put(ParseClassesNames.BUSINESS_CURRENT_DEAL, currentDealJO);
+						
+						o.saveInBackground();	// TODO should be eventually 
 
 
-	//	/***
-	//	 * loads the top businesses data into a given TopBusinessesHorizontalView.
-	//	 * @param view
-	//	 */
-	//	public static void LoadTopBusinessesAsync(TopBusinessesHorizontalView view, Context context){
-	//		loadTopBusinesses = new LoadTopBusinessesRunnable(view, context);
-	//		new Thread(loadTopBusinesses){}.start();
-	//	}
+					} catch (JSONException e1) {
+
+						Log.e("DBHandler - loadCommentsListAsync", e1.getMessage());
+					}
+				}
+				
+				else{
+					
+					Log.e("DBHandler - loadCommentsListAsync", e.getMessage());
+				}
+			}
+		});
+		
+	}
+		
+		
 
 	public static List<ExternalBusiness> LoadTopBusinessesSync(ParseGeoPoint gp, double radius) {
 
@@ -483,11 +340,11 @@ public class DBHandler {
 
 				try {
 					JSONObject j = o.getJSONObject(ParseClassesNames.BUSINESS_CURRENT_DEAL);
-					
+
 					Deal externBusinessDeal = null;
-					
+
 					if (!j.isNull(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID)) {
-						
+
 						externBusinessDeal = new Deal(
 								j.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID),
 								j.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_CONTENT),
@@ -496,18 +353,18 @@ public class DBHandler {
 								new SimpleDateFormat(BaseActivity.DATE_FORMAT).parse(j.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE)), // TODO add get date
 								null); //TODO getDAte() // TODO - think about comment in external business
 					}
-					
+
 					int totalLikes = 0, totalDislikes = 0, totalDeals = 0; //TODO totalDeals is currently not used
 					j = o.getJSONObject(ParseClassesNames.BUSINESS_HISTORY);
-					
+
 					if (!j.isNull(ParseClassesNames.BUSINESS_HISTORY_TOTAL_NUM_OF_DEALS)) {
-						
+
 						totalLikes = j.getInt(ParseClassesNames.BUSINESS_HISTORY_TOTAL_LIKES);						
 						totalDislikes = j.getInt(ParseClassesNames.BUSINESS_HISTORY_TOTAL_DISLIKES);
 						//TODO (dror - we want this?
 						//totalDeals = j.getInt(ParseClassesNames.BUSINESS_HISTORY_TOTAL_NUM_OF_DEALS);
 					}
-					
+
 
 					ExternalBusiness newExtern = new ExternalBusiness(
 							o.getObjectId(),
@@ -593,85 +450,6 @@ public class DBHandler {
 		return result;
 	}
 
-
-
-
-	//	public static void setImage(String businessID, Bitmap image) {
-	//		// TODO ALON
-	//
-	//	}
-
-	//	/**
-	//	 * changes the business current deal according to the given parameters.
-	//	 * set the numbers of likes correspondly. 
-	//	 */
-	//	public static void setDeal(String businessID, String deal, int numOfLikes, int numOfDislikes) {
-	//		// TODO ALON
-	//
-	//	}
-	//	public static void setBusinessName(String businessID, String name) {
-	//		// TODO ALON
-	//
-	//	}
-
-	//	public static void setBusinessPhone(String businessID, String phone) {
-	//		// TODO ALON
-	//
-	//	}
-	//
-	//	public static void setBusinessAddress(String businessID, String address) {
-	//		// TODO ALON
-	//
-	//	}
-	//
-	//	public static void setBusinessLocation(String businessID, LatLng location) {
-	//		// TODO ALON
-	//		double latitude = location.latitude;
-	//		double longitude = location.longitude;
-	//
-	//	}
-
-	/***
-	 * receives a business id and a deal, deletes the deal from the business's history list.
-	 */
-	public static void deletedDealFromHistory(String businessID,Deal deal){
-
-	}
-
-	/***
-	 * receives a business id and a deal, adds the deal to the business's history list.
-	 */
-	public static void addDealToHistory(String businessID,String deal,int numOfLikes,int numOfDislikes){
-
-	}
-
-	//	static{
-	//		setDBs_debug();
-	//	}
-	//
-	//	//TODO - the markersDB object and the  loadDBs_debug are only for debug, delete them!
-	//	public static List<ExternalBusiness> markersDB; //TODO: delete
-	//	public static void setDBs_debug()
-	//	{
-	//		int id = 0;
-	//		markersDB = new ArrayList<ExternalBusiness>();
-	//		Random r = new Random();
-	//		String currentDeal = "ONLY TODAY AND DURING THE REST OF THE YEAR!!! BUY A COOOOL SHIRT AND GET A PLASTIC BUG TO PUT IT IN FOR 10 AGOROT ONLY!!! wow!!";
-	//		markersDB.add(new ExternalBusiness("MCdonalds", SupportedTypes.BusinessType.RESTAURANT, new LatLng(31.781099, 35.217668),Integer.toString(1),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-	//		markersDB.add(new ExternalBusiness("Ivo", SupportedTypes.BusinessType.RESTAURANT, new LatLng(31.779949, 35.218948),Integer.toString(2),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-	//		markersDB.add(new ExternalBusiness("Dolfin Yam", SupportedTypes.BusinessType.RESTAURANT, new LatLng(31.779968, 35.221209),Integer.toString(3),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-	//		markersDB.add(new ExternalBusiness("Birman", SupportedTypes.BusinessType.PUB, new LatLng(31.781855, 35.218086),Integer.toString(4),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-	//		markersDB.add(new ExternalBusiness("Bullinat", SupportedTypes.BusinessType.PUB, new LatLng(31.781984, 35.218221),Integer.toString(5),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-	//		markersDB.add(new ExternalBusiness("Hamarush", SupportedTypes.BusinessType.RESTAURANT, new LatLng(31.781823, 35.219065),Integer.toString(6),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-	//		markersDB.add(new ExternalBusiness("Adom", SupportedTypes.BusinessType.RESTAURANT, new LatLng(31.781334, 35.220703),Integer.toString(7),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-	//		markersDB.add(new ExternalBusiness("Tel Aviv Bar", SupportedTypes.BusinessType.PUB, new LatLng(31.781455, 35.220525),Integer.toString(8),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-	//		markersDB.add(new ExternalBusiness("Jabutinski Bar", SupportedTypes.BusinessType.PUB, new LatLng(31.779654, 35.221654),Integer.toString(9),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-	//		markersDB.add(new ExternalBusiness("Reva Sheva", SupportedTypes.BusinessType.GROCERIES, new LatLng(31.779793, 35.219728),Integer.toString(10),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-	//		markersDB.add(new ExternalBusiness("The one with the shirts", SupportedTypes.BusinessType.GROCERIES, new LatLng(31.779293, 35.221624),Integer.toString(11),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-	//		markersDB.add(new ExternalBusiness("Hamashbir Latsarchan", SupportedTypes.BusinessType.GROCERIES, new LatLng(31.781824, 35.219959),Integer.toString(12),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-	//		markersDB.add(new ExternalBusiness("Hataklit", SupportedTypes.BusinessType.PUB, new LatLng(31.781905, 35.221372),Integer.toString(13),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-	//		markersDB.add(new ExternalBusiness("Hatav Hashmini", SupportedTypes.BusinessType.GROCERIES, new LatLng(31.781191, 35.219621),Integer.toString(14),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-	//		markersDB.add(new ExternalBusiness("Katsefet", SupportedTypes.BusinessType.RESTAURANT, new LatLng(31.779921, 35.187777),Integer.toString(15),new Random().nextInt(99999),new Random().nextInt(99999), Integer.toString(new Random().nextInt(99999)),"052525621","Jaffa street, Jerusalem", currentDeal));id++;
-	//	}
-
 }
+
+

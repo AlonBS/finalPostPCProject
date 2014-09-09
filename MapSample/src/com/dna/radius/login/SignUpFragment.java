@@ -89,7 +89,7 @@ public class SignUpFragment extends Fragment {
 				ParseUser user = new ParseUser();
 				user.setUsername(userNameText);
 				user.setPassword(passwordText);
-				user.setEmail(emailText);
+				//user.setEmail(emailText); TODO retrive
 				user.put(ParseClassesNames.LAST_MODE, app_mode);
 				
 				

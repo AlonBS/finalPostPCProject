@@ -217,7 +217,6 @@ public class BusinessDashboardFragment extends Fragment{
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
-		DBHandler.close(); //TODO removes
 	}
 
 	private void displayAddNewDealDialog(){

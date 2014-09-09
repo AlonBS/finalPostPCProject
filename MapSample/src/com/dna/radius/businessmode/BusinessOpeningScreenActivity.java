@@ -60,21 +60,19 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 			@Override
 			public void run() {
 
-				//String tempBusinessId = ""; //TODO how to we get the business id?
-				//ownerData = new BusinessData(tempBusinessId,getApplicationContext());
-
+				Log.e("as", "asd"); //TODO REMOVE
 				BusinessData.loadBusinessInfo();
 
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
 
-						loadDashBoard();
-
 						loadNameAndRating();
 
 						setOnClickListeners();
 
+						loadDashBoard();
+						
 						displayWelcomeIfNeeded();
 					}
 
@@ -88,7 +86,6 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 						fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 						fragmentTransaction.commit();
 					}
-
 
 
 

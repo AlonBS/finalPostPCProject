@@ -590,37 +590,13 @@ public class BusinessData {
 		businessInfo.saveInBackground(null);
 	}
 
-
-
-
-
-
-
-	public static void addCommentToCurrentDeal(Comment newComment) {
-
-		currentDeal.addComment(newComment);
-
-		JSONObject newCommentJO = new JSONObject();
-
-		try {
-			newCommentJO.put(ParseClassesNames.BUSINESS_CURRENT_DEAL_COMMENTS_AUTHOR, newComment.getAuthorName());
-			newCommentJO.put(ParseClassesNames.BUSINESS_CURRENT_DEAL_COMMENTS_CONTENT, newComment.getCommentContent());
-			newCommentJO.put(ParseClassesNames.BUSINESS_CURRENT_DEAL_COMMENTS_DATE, newComment.getCommentDate());
-
-
-			JSONObject currentDealJO = businessInfo.getJSONObject(ParseClassesNames.BUSINESS_CURRENT_DEAL);
-			currentDealJO.getJSONArray(ParseClassesNames.BUSINESS_CURRENT_DEAL_COMMENTS).put(newCommentJO);
-			businessInfo.put(ParseClassesNames.BUSINESS_CURRENT_DEAL, currentDealJO);
-
-			// TODO should be eventually
-			businessInfo.saveInBackground();			
-
-
-		} catch (JSONException e) {
-			Log.e("Business - add comment to deal", e.getMessage());
-		}
+	
+	/***
+	 * receives a business id and a deal, deletes the deal from the business's history list.
+	 */
+	public static void deletedDealFromHistory(String businessID,Deal deal){
+		//TODO alon
 	}
-
 
 
 	public static boolean isInFavourites(String businessID) {
@@ -635,13 +611,11 @@ public class BusinessData {
 
 	}
 
-
-
+	
 	public static void removeFromFavorites(String businessID) {
 		// TODO ALON - IMPLEMENT!!!
 
 	}
-
 
 
 
@@ -654,7 +628,6 @@ public class BusinessData {
 				new ParseGeoPoint(businessLocation.latitude,
 				businessLocation.longitude),
 				MapWindowFragment.LOAD_RADIUS);
-
 
 	}
 

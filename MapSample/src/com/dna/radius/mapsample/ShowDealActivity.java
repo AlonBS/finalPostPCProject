@@ -29,20 +29,20 @@ import com.dna.radius.infrastructure.SupportedTypes;
 
 public class ShowDealActivity extends FragmentActivity{
 	//needed parameters for the activity
-	
+
 	public static final String EXTERNAL_BUSINESS_KEY = "externBusiness";
-//TODO remove
-//	public final static String BUSINESS_NAME_PARAM = "BusinessName";
-//	public final static String BUSINESS_ID_PARAM = "BusinessID";
-//	public final static String DEAL_ID_PARAM = "BusinessID";
-//	public final static String BUSINESS_TYPE_PARAM = "BusinessType";
-//	public final static String DEAL_RATING_PARAM = "DealRating";
-//	public final static String USER_MODE_PARAM = "IsInUserMode";	
-//	public final static String NUM_OF_LIKES_PARAM = "likesParam";
-//	public final static String NUM_OF_DISLIKES_PARAM = "dislikesParam";	
-//	public final static String CURRENT_DEAL_STR_PARAM = "currentDealParam";	
-//	public final static String PHONE_STR_PARAM = "phone";
-//	public final static String ADDRESS_STR_PARAM = "address";	
+	//TODO remove
+	//	public final static String BUSINESS_NAME_PARAM = "BusinessName";
+	//	public final static String BUSINESS_ID_PARAM = "BusinessID";
+	//	public final static String DEAL_ID_PARAM = "BusinessID";
+	//	public final static String BUSINESS_TYPE_PARAM = "BusinessType";
+	//	public final static String DEAL_RATING_PARAM = "DealRating";
+	//	public final static String USER_MODE_PARAM = "IsInUserMode";	
+	//	public final static String NUM_OF_LIKES_PARAM = "likesParam";
+	//	public final static String NUM_OF_DISLIKES_PARAM = "dislikesParam";	
+	//	public final static String CURRENT_DEAL_STR_PARAM = "currentDealParam";	
+	//	public final static String PHONE_STR_PARAM = "phone";
+	//	public final static String ADDRESS_STR_PARAM = "address";	
 
 
 	//a button which allows switching between the like fragment and the comments fragment.
@@ -51,17 +51,16 @@ public class ShowDealActivity extends FragmentActivity{
 	private enum CurrentFragmentType{DEAL_FRAGMENT,COMMENTS_FRAGMENT};
 	private CurrentFragmentType currentFragmentType = CurrentFragmentType.DEAL_FRAGMENT;
 
-	public String businessID, dealID,phoneStr,addressStr,dealStr;
-	public int numOfLikes,numOfDislikes;
-	public SupportedTypes.BusinessType bType;
+	//	public String businessID, dealID,phoneStr,addressStr,dealStr;
+	//	public int numOfLikes,numOfDislikes;
+	//	public SupportedTypes.BusinessType bType;
 	private boolean isFavourite;
 
 
-	public ExternalBusiness pressedExternal;
+	private ExternalBusiness pressedExternal;
 
 
-
-
+	private static final String WHITE_SPACES = "    ";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -71,33 +70,48 @@ public class ShowDealActivity extends FragmentActivity{
 
 
 		Intent intent = getIntent();
-		
+
 		pressedExternal = (ExternalBusiness)intent.getSerializableExtra(EXTERNAL_BUSINESS_KEY);
-		
+		final String externBusId = pressedExternal.getExternBusinessId();
+
 		//loads the relevant data
-//		businessName = intent.getStringExtra(BUSINESS_NAME_PARAM);
-//		businessID = intent.getStringExtra(BUSINESS_ID_PARAM);
-//		dealID = intent.getStringExtra(DEAL_ID_PARAM);
-//		bType = (SupportedTypes.BusinessType)intent.getSerializableExtra(BUSINESS_TYPE_PARAM);
-//		int rating = intent.getIntExtra(DEAL_RATING_PARAM, 0);
-//		numOfLikes = intent.getIntExtra(NUM_OF_LIKES_PARAM,0);
-//		numOfDislikes = intent.getIntExtra(NUM_OF_DISLIKES_PARAM,0);
-//		phoneStr = intent.getStringExtra(PHONE_STR_PARAM);
-//		addressStr = intent.getStringExtra(ADDRESS_STR_PARAM);
-//		dealStr = intent.getStringExtra(CURRENT_DEAL_STR_PARAM);
+		//		businessName = intent.getStringExtra(BUSINESS_NAME_PARAM);
+		//		businessID = intent.getStringExtra(BUSINESS_ID_PARAM);
+		//		dealID = intent.getStringExtra(DEAL_ID_PARAM);
+		//		bType = (SupportedTypes.BusinessType)intent.getSerializableExtra(BUSINESS_TYPE_PARAM);
+		//		int rating = intent.getIntExtra(DEAL_RATING_PARAM, 0);
+		//		numOfLikes = intent.getIntExtra(NUM_OF_LIKES_PARAM,0);
+		//		numOfDislikes = intent.getIntExtra(NUM_OF_DISLIKES_PARAM,0);
+		//		phoneStr = intent.getStringExtra(PHONE_STR_PARAM);
+		//		addressStr = intent.getStringExtra(ADDRESS_STR_PARAM);
+		//		dealStr = intent.getStringExtra(CURRENT_DEAL_STR_PARAM);
 
 		//sets the views
 		TextView businessNameTV = (TextView)findViewById(R.id.businessTitle);
 		TextView dealTextView = (TextView)findViewById(R.id.dealTextView);
 		TextView detailsTV = (TextView)findViewById(R.id.businessDetails);
 		RatingBar ratingBar = (RatingBar)findViewById(R.id.businessRatingBar);
-		
+
 		businessNameTV.setText(pressedExternal.getExtenBusinessName());
-		dealTextView.setText(pressedExternal.getExternBusinessDeal().getDealContent());
-		detailsTV.setText(pressedExternal.getExternBusinessAddress() + "    " + pressedExternal.getExternBusinessPhone());
+
+		if (pressedExternal.getExternBusinessDeal() != null) {
+
+			dealTextView.setText(pressedExternal.getExternBusinessDeal().getDealContent());
+		}
+
+		else {
+
+			dealTextView.setText("This business currently has no deal on display"); // TODO R.STRING
+		}
+
+		if ( (!pressedExternal.getExternBusinessAddress().isEmpty()) && 
+				(!pressedExternal.getExternBusinessPhone().isEmpty()) )  {
+
+			detailsTV.setText(pressedExternal.getExternBusinessAddress() + WHITE_SPACES + pressedExternal.getExternBusinessPhone());
+		}
+
 		ratingBar.setRating((float)pressedExternal.getExternBusinessRating()); //TODO chage to float??
 
-		Log.d("ShowDealActivity", "businessId:" + businessID + ", dealID:" + dealID); //TODO remove
 
 
 		/**overrides rating bar's on touch method so it won't do anything*/
@@ -107,25 +121,30 @@ public class ShowDealActivity extends FragmentActivity{
 			}
 		});
 
-		//handles the switch fragment button
 		switchFragmentsButton = (ImageView)findViewById(R.id.switchFragmentButton);
-		Bitmap commentsIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_chat);
-		switchFragmentsButton.setImageBitmap(commentsIcon);
-		//until the Extra data will be loaded fully - this button is unusable.
-		switchFragmentsButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				onFragmentSwitchBtnClick();
-			}
-		});
+		if(pressedExternal.getExternBusinessDeal() != null){
 
-		
+			//handles the switch fragment button
+			Bitmap commentsIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_chat);
+			switchFragmentsButton.setImageBitmap(commentsIcon);
+			//until the Extra data will be loaded fully - this button is unusable.
+			switchFragmentsButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					onFragmentSwitchBtnClick();
+				}
+			});
+		}else{
+			switchFragmentsButton.setVisibility(View.GONE);
+		}
+
+
 		//handles the favourites button
 		final ImageView favouritesBtn = (ImageView)findViewById(R.id.favourites_flag);
 		if(BaseActivity.isInBusinessMode){
-			isFavourite = BusinessData.isInFavourites(businessID);
+			isFavourite = BusinessData.isInFavourites(externBusId);
 		}else{
-			isFavourite = ClientData.isInFavourites(businessID);
+			isFavourite = ClientData.isInFavourites(externBusId);
 
 		}
 		if(isFavourite){
@@ -140,16 +159,16 @@ public class ShowDealActivity extends FragmentActivity{
 				if(isFavourite){
 					favouriteBmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_important);
 					if(BaseActivity.isInBusinessMode){
-						BusinessData.addToFavourites(businessID);
+						BusinessData	.addToFavourites(externBusId);
 					}else{
-						ClientData.addToFavourites(businessID);
+						ClientData.addToFavourites(externBusId);
 					}
 				}else{
 					favouriteBmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_not_important);
 					if(BaseActivity.isInBusinessMode){
-						BusinessData.removeFromFavorites(businessID);
+						BusinessData.removeFromFavorites(externBusId);
 					}else{
-						ClientData.removeFromFavorites(businessID);
+						ClientData.removeFromFavorites(externBusId);
 					}
 				}
 				favouritesBtn.setImageBitmap(favouriteBmap);
@@ -175,39 +194,37 @@ public class ShowDealActivity extends FragmentActivity{
 	}
 
 
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		DBHandler.close();
-	}
 
 	/**
 	 * this function is called whenever the comment button / the back arrow button is pressed.
 	 * in this case - a new fragment should be loaded to the screen.
 	 */
 	private void onFragmentSwitchBtnClick(){
-		
+
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		Fragment fragmentToSwitch;
 		Bitmap newIcon;
-		
+
 		if (currentFragmentType == CurrentFragmentType.DEAL_FRAGMENT){
 			currentFragmentType = CurrentFragmentType.COMMENTS_FRAGMENT;
 			fragmentToSwitch = new CommentsFragment();
 			newIcon= BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_back);
-			
+
 		}else{
-			
+
 			currentFragmentType = CurrentFragmentType.DEAL_FRAGMENT;
 			fragmentToSwitch = new LikeAndDislikeFragment();
 			newIcon= BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_chat);
 		}
-		
+
 		fragmentTransaction.replace(R.id.deal_or_comments_fragment, fragmentToSwitch);
 		fragmentTransaction.commit();
 
 		switchFragmentsButton.setImageBitmap(newIcon);
 	}
+
+
+	public ExternalBusiness getExternalBusiness() { return pressedExternal; }
 
 }

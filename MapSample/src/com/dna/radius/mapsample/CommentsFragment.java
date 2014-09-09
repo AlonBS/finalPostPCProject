@@ -1,7 +1,6 @@
 package com.dna.radius.mapsample;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 
 import android.os.Bundle;
@@ -18,9 +17,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.dna.radius.R;
-import com.dna.radius.businessmode.BusinessData;
 import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.datastructures.Comment;
+import com.dna.radius.datastructures.ExternalBusiness;
 import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.infrastructure.BaseActivity;
 
@@ -45,9 +44,17 @@ public class CommentsFragment extends Fragment{
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.comments_fragment,container, false);
-		final ShowDealActivity parentActivity = (ShowDealActivity)getActivity();
 		
-		dealID = parentActivity.dealID;
+		final ShowDealActivity parentActivity = (ShowDealActivity)getActivity();
+		ExternalBusiness externBusiness = parentActivity.getExternalBusiness();
+		
+		if(externBusiness.getExternBusinessDeal() == null){
+			Log.e("CommentsFragment", "the given deal was null");
+			return view;
+		}
+		
+		dealID = externBusiness.getExternBusinessDeal().getId();
+		
 		
 		//load the comments list
 		ListView commentsListView = (ListView)view.findViewById(R.id.comments_list_view);
@@ -95,12 +102,13 @@ public class CommentsFragment extends Fragment{
 						return;
 					}
 
-					// TODO (alon) - change. maybe remove
+					// TODO (alon) - change toast, maybe remove
 					Toast.makeText(getActivity(), "Thank you for your comment!", Toast.LENGTH_SHORT).show();				
 					previousComments.put(dealID,System.currentTimeMillis());
-					String authorName = ClientData.getUserName();
 					String commentContent = newCommentEditText.getText().toString();
-					BusinessData.addCommentToCurrentDeal( new Comment(authorName, commentContent, new Date()) );
+					
+					//TODO put in ClientData ALON 
+					ClientData.commentOnADeal(dealID, commentContent);
 					newCommentEditText.setText(getResources().getString(R.string.type_comment_here));
 				}
 			});
@@ -114,7 +122,6 @@ public class CommentsFragment extends Fragment{
 	public void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		DBHandler.close();
 	}
 
 
