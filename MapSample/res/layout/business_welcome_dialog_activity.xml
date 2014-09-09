@@ -25,13 +25,25 @@
             android:paddingRight="5dp"
             android:paddingTop="1dp" >
 
-            <Button
-                android:id="@+id/progress_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:drawableRight="@drawable/ic_action_next_item"
-                android:text="@string/button_next" />
+            <FrameLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+
+                <Button
+                    android:id="@+id/progress_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:drawableRight="@drawable/ic_action_next_item"
+                    android:text="@string/button_next" />
+
+                <ProgressBar
+                    android:id="@+id/registration_progress_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="invisible" />
+            </FrameLayout>
         </RelativeLayout>
     </LinearLayout>
 

@@ -3,6 +3,8 @@ package com.dna.radius.datastructures;
 import java.io.Serializable;
 import java.util.Random;
 
+import android.util.Log;
+
 import com.dna.radius.infrastructure.SupportedTypes;
 import com.google.android.gms.maps.model.LatLng;
 import com.parse.ParseGeoPoint;
@@ -16,12 +18,12 @@ import com.parse.ParseGeoPoint;
 public class ExternalBusiness implements Serializable {
 
 	private static final long serialVersionUID = -8217685657519928663L;
-	
-	
+
+
 	private String externBusinessId;
 	private String extenBusinessName;
 	private SupportedTypes.BusinessType externBusinessType;
-	
+
 	private double externBusinessRating;
 	private double externBuisnessLocationLat, externBuisnessLocationLang;
 	private String externBusinessAddress;
@@ -31,19 +33,26 @@ public class ExternalBusiness implements Serializable {
 	private int externBusinessTotalDislikes;
 
 	private Deal externBusinessDeal;
-	
-	
+
+
 	public ExternalBusiness(String id, String name, SupportedTypes.BusinessType type,
 			double rating, ParseGeoPoint location, String address, String phone,
 			int totalLikes, int totalDislikes, Deal deal) {
-		
+
 		externBusinessId = id;
 		extenBusinessName = name;
 		externBusinessType = type;
-		
+
 		externBusinessRating = rating;
-		externBuisnessLocationLat = location.getLatitude();
-		externBuisnessLocationLang = location.getLongitude();
+
+		//TODO remove the null testing?
+		if(location!=null){
+			externBuisnessLocationLat = location.getLatitude();
+			externBuisnessLocationLang = location.getLongitude();
+		}else{
+			Log.e("ExternalBusiness C-tor", "Error - external business location is null");
+		}
+		
 		externBusinessAddress = address;
 		externBusinessPhone = phone;
 		
@@ -115,4 +124,4 @@ public class ExternalBusiness implements Serializable {
 	 */
 	public Deal getExternBusinessDeal() { return externBusinessDeal; }
 }
-	
+

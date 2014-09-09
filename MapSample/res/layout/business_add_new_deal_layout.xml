@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FF111111"
+    android:orientation="vertical" >
+    
+    <EditText 
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        android:background="@drawable/deal_body_background"
+        android:hint="@string/tap_to_enter_deal"
+        android:id="@+id/add_new_deal_edit_text"
+        android:textColor="#FFFFFFFF"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"/>
+    
+
+</LinearLayout>

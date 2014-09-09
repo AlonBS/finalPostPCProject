@@ -5,6 +5,7 @@ package com.dna.radius.businessmode;
 
 import android.content.Intent;
 import android.graphics.DashPathEffect;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -43,7 +44,6 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.business_opening_screen);
 
@@ -54,7 +54,6 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 		fragmentTransaction.replace(R.id.business_fragment_layout, waitingFragment);
 		fragmentTransaction.commit();
 
-		Log.e("AAA,","onCreate");
 		//a thread which loads the ClientData and OwnerData.
 		Thread t = new Thread(new Runnable() {
 
@@ -69,8 +68,6 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 				runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
-
-						Log.e("AAA,","onCreate runonuithread");
 
 						loadDashBoard();
 
@@ -167,19 +164,6 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 	}
 
 
-	/* (non-Javadoc)
-	 * @see android.support.v4.app.FragmentActivity#onResume()
-	 */
-
-	//@Override
-	//protected void onResume() {
-
-	//super.onResume();
-
-	//if (refreshNeeded) refresh();
-	//}
-
-
 	private void loadNameAndRating() {
 
 		TextView businessNameTv = (TextView) findViewById(R.id.businessTitle);
@@ -196,21 +180,14 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 
 	@Override
 	protected void onResumeFragments() {
-
-		Log.e("AAA,","onResumeFragments start");
-
 		super.onResumeFragments();
 		if (refreshNeeded){
 			refresh();
 		}
-		
-		Log.e("AAA,","onResumeFragments end");
 	}
 
-	
-	private void refresh() {
 
-		Log.e("AAA,","refresh start");
+	private void refresh() {
 
 		//Sets the waiting fragment.
 		final FragmentManager fragmentManager = getSupportFragmentManager();
@@ -220,40 +197,26 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 		fragmentTransaction.commit();
 		refreshNeeded = false;
 
-		
-
-		new Thread(new Runnable() {
+		new AsyncTask<Void, Void, Void>(){
 
 			@Override
-			public void run() {
-
-				Log.e("AAA,","refresh thread start");
-				try{
-
-					Thread.sleep(2000);
-				}
-				catch (Exception e) {}
+			protected Void doInBackground(Void... params) {
 				BusinessData.refreshDB();
-
-				runOnUiThread(new Runnable() {
-
-
-					@Override
-					public void run() {
-						Log.e("AAA,","refresh ui thread start");
-						loadNameAndRating();
-
-						//starting current fragment once again
-						FragmentManager fragmentManager = getSupportFragmentManager();
-						Fragment currentFragment = new BusinessDashboardFragment();
-						FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-						fragmentTransaction.replace(R.id.business_fragment_layout, currentFragment);
-						fragmentTransaction.commit();
-					}
-				});
-
+				return null;
 			}
-		}).run();
+
+			protected void onPostExecute(Void result) {
+				loadNameAndRating();
+
+				//starting current fragment once again
+				FragmentManager fragmentManager = getSupportFragmentManager();
+				Fragment currentFragment = new BusinessDashboardFragment();
+				FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+				fragmentTransaction.replace(R.id.business_fragment_layout, currentFragment);
+				fragmentTransaction.commit();
+			}
+		}.execute();
+
 	}
 
 

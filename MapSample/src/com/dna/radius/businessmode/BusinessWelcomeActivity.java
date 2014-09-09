@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -17,20 +18,17 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.dna.radius.R;
-import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.datastructures.Deal;
 import com.dna.radius.datastructures.DealHistoryManager;
 import com.dna.radius.dbhandling.ParseClassesNames;
 import com.dna.radius.infrastructure.LocationFinderFragment;
-import com.dna.radius.login.MainActivity;
-import com.google.android.gms.maps.model.LatLng;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
-import com.parse.RefreshCallback;
 
 public class BusinessWelcomeActivity extends FragmentActivity {
 
@@ -146,11 +144,25 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 						BusinessData.businessImage = currentFragment.getImageBitmap();
 					}
 					
-					finishRegistration();
-					finish(); // activity
+					
+					progressButton.setVisibility(View.INVISIBLE);
+					ProgressBar progressBar = (ProgressBar)findViewById(R.id.registration_progress_bar);
+					progressBar.setVisibility(View.VISIBLE);
+					new AsyncTask<Void, Void, Void>() {
+
+						@Override
+						protected Void doInBackground(Void... params) {
+							finishRegistration();
+							return null;
+						}
+						protected void onPostExecute(Void result) {
+							finish();  // activity
+						};
+					}.execute();
+					
+					
 
 				}else{
-
 					Log.e("BusinessWelcomeActivity", "error with the next button. numberOfTimesNextWasPressed:" + numberOfTimesNextWasPressed);
 				}
 			}
@@ -188,7 +200,7 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 		newBusiness.put(ParseClassesNames.BUSINESS_LOCATION, location);
 		
 		
-//TODO remove
+//TODO alon remove
 //		JSONObject coordinates = new JSONObject();
 //		try {
 //			coordinates.put(ParseClassesNames.BUSINESS_LOCATION_LAT ,BusinessData.businessLocation.latitude);
