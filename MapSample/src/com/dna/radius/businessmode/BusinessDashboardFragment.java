@@ -224,10 +224,10 @@ public class BusinessDashboardFragment extends Fragment{
 		final EditText inputEditText = new EditText(parentActivity);
 		inputEditText.setBackgroundColor(Color.BLACK);
 		
-		View dialoglayout = getActivity().getLayoutInflater().inflate(R.layout.business_add_new_deal_layout, (ViewGroup) getActivity().getCurrentFocus());
+		View dialoglayout = getActivity().getLayoutInflater().inflate(R.layout.business_add_new_deal_layout, null);
 		new AlertDialog.Builder(parentActivity)
 		.setTitle("Add A new Deal")
-		.setMessage("please add a new deal to replace the old one")
+		//.setMessage("please add a new deal to replace the old one")
 		.setView(dialoglayout)
 		.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
