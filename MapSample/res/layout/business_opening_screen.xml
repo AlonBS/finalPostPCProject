@@ -3,7 +3,7 @@
     android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/aero"
+    android:background="@drawable/gradient_blue_background"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -28,7 +28,6 @@
         android:layout_height="0dp"
         android:layout_gravity="center"
         android:layout_weight="0.88"
-        android:background="#88000000"
         android:orientation="vertical" >
 
         <RelativeLayout
@@ -90,7 +89,6 @@
             android:id="@+id/business_fragment_layout"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="@color/aero"
             android:orientation="horizontal" >
         </LinearLayout>
     </LinearLayout>
