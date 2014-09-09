@@ -66,7 +66,7 @@ public class CommentsFragment extends Fragment{
 		DBHandler.loadCommentsListAsync(adapter,dealID);
 
 		//if the user is in user mode - allows him to comment on a certain deal.
-		if(!BaseActivity.isInBusinessMode){
+		if(BaseActivity.isInBusinessMode){
 			LinearLayout linearLayout = (LinearLayout)view.findViewById(R.id.add_comment_layout);
 			linearLayout.setVisibility(View.GONE);
 		}else{

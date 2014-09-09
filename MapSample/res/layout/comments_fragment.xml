@@ -29,7 +29,7 @@
     android:layout_height="100dp"
     android:gravity="top"
     android:inputType="textMultiLine"
-    android:text="@string/type_comment_here"/>
+    android:hint="@string/type_comment_here"/>
 	
 	<ImageView 
 	    android:id="@+id/comment_send"
