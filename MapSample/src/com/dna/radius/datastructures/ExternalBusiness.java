@@ -38,6 +38,7 @@ public class ExternalBusiness implements Serializable {
 		externBusinessType = type;
 		
 		externBusinessRating = rating;
+		
 		externBuisnessLocationLat = location.getLatitude();
 		externBuisnessLocationLang = location.getLongitude();
 		externBusinessAddress = address;

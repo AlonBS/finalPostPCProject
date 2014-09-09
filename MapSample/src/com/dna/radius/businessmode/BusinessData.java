@@ -650,10 +650,11 @@ public class BusinessData {
 
 		loadCurrentDeal();
 		
-		topBusinesses = DBHandler.LoadTopBusinessesSync(
-				new ParseGeoPoint(businessLocation.latitude,
-				businessLocation.longitude),
-				MapWindowFragment.LOAD_RADIUS);
+		//TODO - uncomment me!!!
+//		topBusinesses = DBHandler.LoadTopBusinessesSync(
+//				new ParseGeoPoint(businessLocation.latitude,
+//				businessLocation.longitude),
+//				MapWindowFragment.LOAD_RADIUS);
 
 
 	}

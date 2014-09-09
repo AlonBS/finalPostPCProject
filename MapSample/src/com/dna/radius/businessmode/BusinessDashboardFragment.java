@@ -1,15 +1,13 @@
 package com.dna.radius.businessmode;
 
 
-import java.util.ArrayList;
-
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -22,15 +20,11 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dna.radius.R;
-import com.dna.radius.datastructures.Comment;
 import com.dna.radius.datastructures.ExternalBusiness;
 import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.mapsample.CommentsArrayAdapter;
@@ -124,19 +118,14 @@ public class BusinessDashboardFragment extends Fragment{
 		
 		ProgressBar loadImageProgressBar = (ProgressBar)v.findViewById(R.id.load_image_progress_bar);
 		
-		//TODO alon-to-dror: this is not right
 		if (BusinessData.hasImage()) { //TODO
 			
 			if (BusinessData.imageFullyLoaded()) {
 				imageOnDisplayImageView.setImageBitmap(BusinessData.businessImage);
 				imageOnDisplayImageView.setVisibility(View.VISIBLE);
 				loadImageProgressBar.setVisibility(View.GONE);
-
-				//TODO - DROR handle imageview and progress bar visibility
-
 			}else {
 				BusinessData.loadImage(imageOnDisplayImageView, loadImageProgressBar);
-				
 			}
 
 		}else {
@@ -197,7 +186,7 @@ public class BusinessDashboardFragment extends Fragment{
 		dealOnDisplayTextView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				displayNewDeal();
+				displayAddNewDealDialog();
 			}
 		});
 
@@ -231,20 +220,22 @@ public class BusinessDashboardFragment extends Fragment{
 		DBHandler.close(); //TODO removes
 	}
 
-	//TODO change this method so the displayed diaglog is better, including current deal
-	private void displayNewDeal(){
-		final EditText input = new EditText(parentActivity);
+	private void displayAddNewDealDialog(){
+		final EditText inputEditText = new EditText(parentActivity);
+		inputEditText.setBackgroundColor(Color.BLACK);
+		
+		View dialoglayout = getActivity().getLayoutInflater().inflate(R.layout.business_add_new_deal_layout, (ViewGroup) getActivity().getCurrentFocus());
 		new AlertDialog.Builder(parentActivity)
 		.setTitle("Add A new Deal")
 		.setMessage("please add a new deal to replace the old one")
-		.setView(input)
+		.setView(dialoglayout)
 		.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				//TODO implement this method in businessData' saves the current deal into deal history
 				//DBHandler.addDealToHistory(BusinessData.currentUser.getObjectId(),data.currentDeal,data.numberOfLikes,data.numberOfDislikes);
 
 				//adds the new Deal
-				String newDealStr = input.getText().toString();
+				String newDealStr = inputEditText.getText().toString();
 				BusinessData.createNewDeal(newDealStr);
 				dealOnDisplayTextView.setText(newDealStr);
 
