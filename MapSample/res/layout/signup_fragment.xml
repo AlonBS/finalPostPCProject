@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/aero"
     android:orientation="vertical"
     android:padding="10dp" >
 
@@ -13,7 +12,7 @@
         android:layout_centerHorizontal="true"
         android:layout_margin="@dimen/signup_margin"
         android:layout_marginTop="19dp"
-        android:background="@color/background_signup_textView_aliceBlue"
+        android:textSize="18sp"
         android:text="@string/instructions" />
 
     <EditText
@@ -23,7 +22,6 @@
         android:layout_below="@+id/instructions_textView"
         android:layout_centerHorizontal="true"
         android:layout_margin="@dimen/signup_margin"
-        android:background="@color/background_signup_textView_aliceBlue"
         android:ems="10"
         android:hint="@string/user_name" >
 
@@ -37,7 +35,6 @@
         android:layout_below="@+id/user_name_textView"
         android:layout_centerHorizontal="true"
         android:layout_margin="@dimen/signup_margin"
-        android:background="@color/background_signup_textView_aliceBlue"
         android:ems="10"
         android:hint="@string/password"
         android:inputType="textPassword" />
@@ -49,7 +46,6 @@
         android:layout_below="@+id/password_textView"
         android:layout_centerHorizontal="true"
         android:layout_margin="@dimen/signup_margin"
-        android:background="@color/background_signup_textView_aliceBlue"
         android:ems="10"
         android:hint="@string/password_confirmation"
         android:inputType="textPassword" />
@@ -62,19 +58,20 @@
         android:layout_below="@+id/password_confirmation_textView"
         android:layout_centerHorizontal="true"
         android:layout_margin="@dimen/signup_margin"
-        android:background="@color/background_signup_textView_aliceBlue"
         android:ems="10"
         android:hint="@string/email_address"
         android:inputType="textEmailAddress" />
 
 
     <Button
+        android:background="@drawable/green_button_background"
+        style="@style/ButtonText"
         android:id="@+id/sign_up_button"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/email_address_textView"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
+        android:layout_margin="20dp"
         android:text="@string/sign_up" />
 
 </RelativeLayout>

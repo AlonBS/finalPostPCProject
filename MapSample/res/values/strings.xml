@@ -35,6 +35,11 @@
     <string name="business_mode">Business Mode</string>
     <string name="copyright">Copyright © 2014 </string>
 
+     <!-- add a new deal dialog -->
+    <string name="add_a_new_deal_dialog_title">Create a new Deal</string>
+    <string name="add_a_new_deal_deal_is_empty">the new deal is empty</string>
+    <string name="add_a_new_deal_deal_identical_to_previous">the new deal is equal to the previous one</string>
+    
     <!-- signup_activity strings -->
     <string name="instructions">Please fill in the details</string>
     <string name="password_confirmation">Password Confirmation</string>

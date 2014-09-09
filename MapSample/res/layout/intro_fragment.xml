@@ -2,7 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/aero"
     android:baselineAligned="false"
     tools:context=".IntroFragment" >
 
@@ -16,31 +15,17 @@
         android:text="@string/copyright"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
-    <LinearLayout
+   <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:layout_above="@id/copyright_textView"
         android:orientation="vertical" >
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.12" >
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_gravity="center_horizontal"
-                android:background="@color/logo_background_transparent_color"
-                android:scaleType="centerInside"
-                android:src="@drawable/logo" />
-        </LinearLayout>
-
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="10dp"
-            android:layout_weight="0.44" >
+            android:layout_weight="0.5" >
 
             <ImageView
                 android:id="@+id/customer_mode_button"
@@ -69,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="10dp"
-            android:layout_weight="0.44" >
+            android:layout_weight="0.5" >
 
             <ImageView
                 android:id="@+id/business_mode_button"

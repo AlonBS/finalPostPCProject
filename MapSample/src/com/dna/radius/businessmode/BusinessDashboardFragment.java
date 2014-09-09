@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -18,13 +17,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.dna.radius.R;
+import com.dna.radius.businessmode.AddNewDealDialogFragment.AddDealDialogResult;
+import com.dna.radius.businessmode.AddNewDealDialogFragment.AddNewDealCommunicator;
 import com.dna.radius.datastructures.ExternalBusiness;
 import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.mapsample.CommentsArrayAdapter;
@@ -34,7 +34,7 @@ import com.dna.radius.mapsample.CommentsArrayAdapter;
  * contains data about his deal, an image, comments and top deals segment.
  *
  */
-public class BusinessDashboardFragment extends Fragment{
+public class BusinessDashboardFragment extends Fragment implements AddNewDealCommunicator{
 
 	private BusinessOpeningScreenActivity  parentActivity = null;
 	
@@ -125,12 +125,13 @@ public class BusinessDashboardFragment extends Fragment{
 				imageOnDisplayImageView.setVisibility(View.VISIBLE);
 				loadImageProgressBar.setVisibility(View.GONE);
 			}else {
+				
 				BusinessData.loadImage(imageOnDisplayImageView, loadImageProgressBar);
 			}
 
 		}else {
 			imageOnDisplayImageView.setVisibility(View.VISIBLE);
-			imageOnDisplayImageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.set_business_image));
+			imageOnDisplayImageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.add_image_icon_transparent));
 			loadImageProgressBar.setVisibility(View.GONE);
 		}
 	}
@@ -220,31 +221,13 @@ public class BusinessDashboardFragment extends Fragment{
 	}
 
 	private void displayAddNewDealDialog(){
-		final EditText inputEditText = new EditText(parentActivity);
-		inputEditText.setBackgroundColor(Color.BLACK);
-		
-		View dialoglayout = getActivity().getLayoutInflater().inflate(R.layout.business_add_new_deal_layout, null);
-		new AlertDialog.Builder(parentActivity)
-		.setTitle("Add A new Deal")
-		//.setMessage("please add a new deal to replace the old one")
-		.setView(dialoglayout)
-		.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int whichButton) {
-				//TODO implement this method in businessData' saves the current deal into deal history
-				//DBHandler.addDealToHistory(BusinessData.currentUser.getObjectId(),data.currentDeal,data.numberOfLikes,data.numberOfDislikes);
-
-				//adds the new Deal
-				String newDealStr = inputEditText.getText().toString();
-				BusinessData.createNewDeal(newDealStr);
-				dealOnDisplayTextView.setText(newDealStr);
-
-
-			}
-		}).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int whichButton) {
-				// Do nothing.
-			}
-		}).show();
+		AddNewDealDialogFragment dialog;
+		if(BusinessData.hasADealOnDisplay()){
+			dialog = new AddNewDealDialogFragment(BusinessData.currentDeal.getDealContent(),this);
+		}else{
+			dialog = new AddNewDealDialogFragment(this);
+		}
+		dialog.show( getActivity().getSupportFragmentManager(),"");
 	}
 	
 	
@@ -317,4 +300,15 @@ public class BusinessDashboardFragment extends Fragment{
 			Log.e("BusinessDashboardFragment", "ERROR!! The RETURNED BITMAP IS NULL");
 		}
 	}
+
+
+	@Override
+	public void onAddNewDealDialogResult(AddDealDialogResult result,String newDealStr) {
+		if(result==AddDealDialogResult.USER_APPROVED){
+			BusinessData.createNewDeal(newDealStr);
+			dealOnDisplayTextView.setText(newDealStr);
+		}
+	}
+	
+	
 }
