@@ -22,6 +22,8 @@ public class ClientOpeningScreenActivity extends BaseActivity{
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.client_opening_screen);
+		
+		isInBusinessMode = false;
 
 		final FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

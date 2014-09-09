@@ -110,7 +110,7 @@ public class DBHandler {
 
 
 	//TODO check radius - and check radius vs. google's radius 
-//	query.whereWithinRadians(ParseClassesNames.BUSINESS_LOCATION, new ParseGeoPoint(location.latitude, location.longitude), radius);
+//	
 	//
 	//		query.whereLessThanOrEqualTo(ParseClassesNames.BUSINESS_LOCATION + "." +
 	//				ParseClassesNames.BUSINESS_LOCATION_LAT, top);
@@ -123,6 +123,8 @@ public class DBHandler {
 	public static void getExternalBusinessAtRadius(LatLng location, double radius) {
 
 		ParseQuery<ParseObject> query = ParseQuery.getQuery(ParseClassesNames.BUSINESS_CLASS);
+		query.whereWithinRadians(ParseClassesNames.BUSINESS_LOCATION,
+				new ParseGeoPoint(location.latitude, location.longitude), radius);
 
 		query.findInBackground(new FindCallback<ParseObject>() {
 			public void done(List<ParseObject> objects, ParseException e) {
@@ -152,7 +154,7 @@ public class DBHandler {
 									o.getString(ParseClassesNames.BUSINESS_NAME),
 									SupportedTypes.BusinessType.stringToType(o.getString(ParseClassesNames.BUSINESS_TYPE)),
 									o.getDouble(ParseClassesNames.BUSINESS_RATING),
-									o.getParseGeoPoint(ParseClassesNames.BUSINESS_RATING),
+									o.getParseGeoPoint(ParseClassesNames.BUSINESS_LOCATION),
 									o.getString(ParseClassesNames.BUSINESS_ADDRESS),
 									o.getString(ParseClassesNames.BUSINESS_PHONE),
 									0,
@@ -173,6 +175,8 @@ public class DBHandler {
 							Log.e("DBHandler getExternalBusinessAtRadius", e1.getMessage());
 						} 
 					}
+					
+					MapBusinessManager.addExternalBusiness(result);
 
 				} else {
 

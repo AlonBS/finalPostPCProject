@@ -65,8 +65,8 @@ public class LikeAndDislikeFragment extends Fragment{
 		}
 		else {
 			
-			likesTextView.setText("---");
-			dislikesTextView.setText("---");
+			likesTextView.setText(ShowDealActivity.EMPTY_DEAL);
+			dislikesTextView.setText(ShowDealActivity.EMPTY_DEAL);
 			return view;
 		}
 		

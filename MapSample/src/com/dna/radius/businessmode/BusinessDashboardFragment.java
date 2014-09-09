@@ -28,6 +28,7 @@ import com.dna.radius.businessmode.AddNewDealDialogFragment.AddNewDealCommunicat
 import com.dna.radius.datastructures.ExternalBusiness;
 import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.mapsample.CommentsArrayAdapter;
+import com.dna.radius.mapsample.ShowDealActivity;
 
 /**
  * represents the first screen which the business owner sees when he is logging in.
@@ -108,8 +109,8 @@ public class BusinessDashboardFragment extends Fragment implements AddNewDealCom
 		else {
 			
 			dealOnDisplayTextView.setText(R.string.tap_to_enter_deal);
-			dealOnDisplayLikesTextView.setText("0");
-			dealOnDisplayDislikesTextView.setText("0");
+			dealOnDisplayLikesTextView.setText(ShowDealActivity.EMPTY_DEAL);
+			dealOnDisplayDislikesTextView.setText(ShowDealActivity.EMPTY_DEAL);
 		}
 	}
 	

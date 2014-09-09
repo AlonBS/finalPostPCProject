@@ -46,6 +46,8 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.business_opening_screen);
+		
+		isInBusinessMode = true;
 
 		//Sets the waiting fragment.
 		FragmentManager fragmentManager = getSupportFragmentManager();

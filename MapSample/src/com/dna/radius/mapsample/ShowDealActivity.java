@@ -59,6 +59,7 @@ public class ShowDealActivity extends FragmentActivity{
 
 	private ExternalBusiness pressedExternal;
 
+	public static final String EMPTY_DEAL = "---";
 
 	private static final String WHITE_SPACES = "    ";
 

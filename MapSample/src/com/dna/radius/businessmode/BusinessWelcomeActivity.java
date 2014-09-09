@@ -32,7 +32,7 @@ import com.parse.ParseUser;
 
 public class BusinessWelcomeActivity extends FragmentActivity {
 
-	private Bitmap businessBitmap;
+	//private Bitmap businessBitmap;
 
 
 
@@ -51,7 +51,7 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.business_welcome_dialog_activity);
-
+		
 		setScreenSize();
 
 		setProgressBtn();

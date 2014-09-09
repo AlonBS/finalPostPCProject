@@ -213,19 +213,6 @@ public class ClientData{
 		clientInfo.put(ParseClassesNames.CLIENT_LOCATION, location);
 		clientInfo.saveInBackground(); //TODO SHOULD BE saveEvantually()
 		
-		
-//		JSONObject coordinates = new JSONObject();
-//		try {
-//			coordinates.put(ParseClassesNames.CLIENT_LOCATION_LAT ,ClientData.homeLocation.latitude);
-//			coordinates.put(ParseClassesNames.CLIENT_LOCATION_LONG ,ClientData.homeLocation.longitude);
-//			
-//		} catch (JSONException e) {
-//			
-//			Log.e("Client - setHome()", e.getMessage());
-//			
-//		}
-		
-		// TODO - maybe concentrate more than one call
 	}
 
 

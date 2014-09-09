@@ -29,6 +29,9 @@ public class MainActivity extends FragmentActivity {
 
 	public static final String SP_NAME = "com.dna.radius.SHARED_PREFERENCES";
 	public static final String SHOW_WELCOME = "showWelcomeScreen";
+	
+	
+	
 
 
 	//static FragmentManager fragmentManager;
