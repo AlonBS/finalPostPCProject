@@ -184,18 +184,57 @@ public class DBHandler {
 			public void done(List<ParseObject> objects, ParseException e) {
 				if (e == null) {
 
-					List<ExternalBusiness>result = new ArrayList<ExternalBusiness>();
-					//					boolean result = new ArrayList<ExternalBusiness>();
+					int count = 0;
+					ArrayList<ExternalBusiness>result = new ArrayList<ExternalBusiness>();
 
-					for (ParseObject o : objects) {
+					for (ParseObject o : objects ) {
+						
+						JSONObject j = o.getJSONObject(ParseClassesNames.BUSINESS_CURRENT_DEAL);
+						
+						if (j.isNull(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID)) continue; //we don't show business who currently don't have a deal						
+
+						Deal externBusinessDeal;
+						try {
+							externBusinessDeal = new Deal(
+									j.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID),
+									j.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_CONTENT),
+									j.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_LIKES),
+									j.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_DISLIKES),
+									new SimpleDateFormat(BaseActivity.DATE_FORMAT).parse(j.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE)), // TODO add get date
+									null);
+
+							ExternalBusiness newExtern = new ExternalBusiness(
+									o.getObjectId(),
+									o.getString(ParseClassesNames.BUSINESS_NAME),
+									SupportedTypes.BusinessType.stringToType(o.getString(ParseClassesNames.BUSINESS_TYPE)),
+									o.getDouble(ParseClassesNames.BUSINESS_RATING),
+									o.getParseGeoPoint(ParseClassesNames.BUSINESS_RATING),
+									o.getString(ParseClassesNames.BUSINESS_ADDRESS),
+									o.getString(ParseClassesNames.BUSINESS_PHONE),
+									0,
+									0,
+									externBusinessDeal); 
+
+							result.add(newExtern);
+							
+							if (++count == 5) {
+								boolean isRelevant = MapBusinessManager.addExternalBusiness(result);
+								result.clear();
+								
+								if(!isRelevant) break;
+							}
+
+
+						} catch (JSONException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (java.text.ParseException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} //TODO getDAte() // TODO - think about comment in external business
 
 
 
-						ExternalBusiness newExtern;
-						boolean isRelevant = MapBusinessManager.addExternalBusiness(null);
-						if(!isRelevant){
-							break;
-						}
 
 						Log.d("test", o.getObjectId());
 					}
@@ -445,15 +484,30 @@ public class DBHandler {
 				try {
 					JSONObject j = o.getJSONObject(ParseClassesNames.BUSINESS_CURRENT_DEAL);
 					
-					if (j.isNull(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID)) continue;
+					Deal externBusinessDeal = null;
 					
-					Deal externBusinessDeal = new Deal(
-							j.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID),
-							j.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_CONTENT),
-							j.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_LIKES),
-							j.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_DISLIKES),
-							new SimpleDateFormat(BaseActivity.DATE_FORMAT).parse(j.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE)), // TODO add get date
-							null); //TODO getDAte() // TODO - think about comment in external business
+					if (!j.isNull(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID)) {
+						
+						externBusinessDeal = new Deal(
+								j.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID),
+								j.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_CONTENT),
+								j.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_LIKES),
+								j.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_DISLIKES),
+								new SimpleDateFormat(BaseActivity.DATE_FORMAT).parse(j.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE)), // TODO add get date
+								null); //TODO getDAte() // TODO - think about comment in external business
+					}
+					
+					int totalLikes = 0, totalDislikes = 0, totalDeals = 0; //TODO totalDeals is currently not used
+					j = o.getJSONObject(ParseClassesNames.BUSINESS_HISTORY);
+					
+					if (!j.isNull(ParseClassesNames.BUSINESS_HISTORY_TOTAL_NUM_OF_DEALS)) {
+						
+						totalLikes = j.getInt(ParseClassesNames.BUSINESS_HISTORY_TOTAL_LIKES);						
+						totalDislikes = j.getInt(ParseClassesNames.BUSINESS_HISTORY_TOTAL_DISLIKES);
+						//TODO (dror - we want this?
+						//totalDeals = j.getInt(ParseClassesNames.BUSINESS_HISTORY_TOTAL_NUM_OF_DEALS);
+					}
+					
 
 					ExternalBusiness newExtern = new ExternalBusiness(
 							o.getObjectId(),
@@ -463,6 +517,8 @@ public class DBHandler {
 							o.getParseGeoPoint(ParseClassesNames.BUSINESS_RATING),
 							o.getString(ParseClassesNames.BUSINESS_ADDRESS),
 							o.getString(ParseClassesNames.BUSINESS_PHONE),
+							totalLikes,
+							totalDislikes,
 							externBusinessDeal); 
 
 

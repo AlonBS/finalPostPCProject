@@ -26,12 +26,16 @@ public class ExternalBusiness implements Serializable {
 	private double externBuisnessLocationLat, externBuisnessLocationLang;
 	private String externBusinessAddress;
 	private String externBusinessPhone;
+	
+	private int externBusinessTotalLikes;
+	private int externBusinessTotalDislikes;
 
 	private Deal externBusinessDeal;
 	
 	
 	public ExternalBusiness(String id, String name, SupportedTypes.BusinessType type,
-			double rating, ParseGeoPoint location, String address, String phone, Deal deal) {
+			double rating, ParseGeoPoint location, String address, String phone,
+			int totalLikes, int totalDislikes, Deal deal) {
 		
 		externBusinessId = id;
 		extenBusinessName = name;
@@ -42,6 +46,9 @@ public class ExternalBusiness implements Serializable {
 		externBuisnessLocationLang = location.getLongitude();
 		externBusinessAddress = address;
 		externBusinessPhone = phone;
+		
+		externBusinessTotalLikes = totalLikes;
+		externBusinessTotalDislikes = totalDislikes;
 
 		externBusinessDeal = deal;
 	}
@@ -87,6 +94,20 @@ public class ExternalBusiness implements Serializable {
 	 * @return the externBusinessPhone
 	 */
 	public String getExternBusinessPhone() { return externBusinessPhone; }
+	
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public int getExternBusinessTotalLikes() { return externBusinessTotalLikes; }
+	
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public int getExternBusinessTotalDislikes() { return externBusinessTotalDislikes; }
 
 
 	/**
