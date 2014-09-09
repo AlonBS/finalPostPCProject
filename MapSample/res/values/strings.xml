@@ -45,7 +45,8 @@
     <string name="password_confirmation">Password Confirmation</string>
     <string name="email_address">Email Address</string>
     <string name="business_name">Business Name</string>
-
+    <string name="business_type">Business type</string>
+    
     <string-array name="business_type_spinner">
         <item>Business type</item>
         <item>Restaurant</item>
