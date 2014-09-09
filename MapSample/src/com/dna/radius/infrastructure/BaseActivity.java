@@ -50,7 +50,6 @@ public abstract class BaseActivity extends FragmentActivity{
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.main_menu, menu);
-		menu.findItem(R.id.business_settings_action).setVisible(isInBusinessMode);
 		return true;
 	}
 
@@ -63,13 +62,10 @@ public abstract class BaseActivity extends FragmentActivity{
 			handleLogOut();
 			break;
 
-		case R.id.user_settings_action:
+		case R.id.settings_action:
 			handleSettings();
 			break;
 
-		case R.id.business_settings_action:
-			//TODO - implement me
-			break;
 
 		case R.id.switch_mode_action:
 

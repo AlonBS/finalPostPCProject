@@ -28,7 +28,7 @@ public class ExternalBusiness implements Serializable {
 	private double externBuisnessLocationLat, externBuisnessLocationLang;
 	private String externBusinessAddress;
 	private String externBusinessPhone;
-	
+
 	private int externBusinessTotalLikes;
 	private int externBusinessTotalDislikes;
 
@@ -45,12 +45,13 @@ public class ExternalBusiness implements Serializable {
 
 		externBusinessRating = rating;
 
-		externBuisnessLocationLat = location.getLatitude();
-		externBuisnessLocationLang = location.getLongitude();
-		
+		if(location!=null){
+			externBuisnessLocationLat = location.getLatitude();
+			externBuisnessLocationLang = location.getLongitude();
+		}
 		externBusinessAddress = address;
 		externBusinessPhone = phone;
-		
+
 		externBusinessTotalLikes = totalLikes;
 		externBusinessTotalDislikes = totalDislikes;
 
@@ -98,15 +99,15 @@ public class ExternalBusiness implements Serializable {
 	 * @return the externBusinessPhone
 	 */
 	public String getExternBusinessPhone() { return externBusinessPhone; }
-	
-	
+
+
 	/**
 	 * 
 	 * @return
 	 */
 	public int getExternBusinessTotalLikes() { return externBusinessTotalLikes; }
-	
-	
+
+
 	/**
 	 * 
 	 * @return
