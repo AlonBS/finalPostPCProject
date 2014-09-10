@@ -70,6 +70,9 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 				BusinessData.loadBusinessInfo();
 
 				runOnUiThread(new Runnable() {
+					private ImageView refreshScreenBtn;
+
+
 					@Override
 					public void run() {
 
@@ -96,13 +99,20 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 
 
 					private void setOnClickListeners() {
-
-						homeFragmentBtn = (ImageView)findViewById(R.id.refresh_btn);
+						refreshScreenBtn = (ImageView)findViewById(R.id.refresh_btn);
+						homeFragmentBtn = (ImageView)findViewById(R.id.home_btn);
 						mapFragmentBtn = (ImageView)findViewById(R.id.map_btn);
 						businessHistoryFragment = (ImageView)findViewById(R.id.stats_btn);
 
 						FragmentChangerBtnOnClickListener f = new FragmentChangerBtnOnClickListener();
 
+						refreshScreenBtn.setOnClickListener(new OnClickListener() {
+							
+							@Override
+							public void onClick(View arg0) {
+								refresh();
+							}
+						});
 						homeFragmentBtn.setOnClickListener(f);
 						mapFragmentBtn.setOnClickListener(f);
 						businessHistoryFragment.setOnClickListener(f);

@@ -46,6 +46,9 @@ public class BusinessHistoryFragment extends Fragment{
 		//load the comments list
 		ListView dealHistoryListView = (ListView)view.findViewById(R.id.deal_history_list_view);
 		registerForContextMenu(dealHistoryListView);
+		if(BusinessData.dealsHistory==null){
+			return view;
+		}
 		ArrayList<Deal> dealHistoryList = BusinessData.dealsHistory.getOldDeals();
 		adapter = new DealHistoryArrayAdapter(getActivity(),android.R.layout.simple_list_item_1, dealHistoryList);
 		dealHistoryListView.setAdapter(adapter);
