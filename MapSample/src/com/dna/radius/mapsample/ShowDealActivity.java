@@ -65,10 +65,10 @@ public class ShowDealActivity extends FragmentActivity{
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.show_deal_activity);
-
 
 		Intent intent = getIntent();
 
@@ -111,7 +111,7 @@ public class ShowDealActivity extends FragmentActivity{
 			detailsTV.setText(pressedExternal.getExternBusinessAddress() + WHITE_SPACES + pressedExternal.getExternBusinessPhone());
 		}
 
-		ratingBar.setRating((float)pressedExternal.getExternBusinessRating()); //TODO chage to float??
+		ratingBar.setRating((float)pressedExternal.getExternBusinessRating()); 
 
 
 //TODO not needed

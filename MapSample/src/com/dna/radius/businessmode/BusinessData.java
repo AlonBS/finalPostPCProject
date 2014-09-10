@@ -1,6 +1,7 @@
 package com.dna.radius.businessmode;
 
 import java.io.ByteArrayOutputStream;
+import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -107,7 +108,7 @@ public class BusinessData {
 
 	public static boolean hasADealOnDisplay() { return currentDeal != null; }
 
-	
+
 
 	public static boolean imageFullyLoaded() { return businessImage != null; }
 
@@ -290,7 +291,7 @@ public class BusinessData {
 			for (int i = 0 ; i < ja.length() && i < 50 ; ++i) { // TODO we support 50 comments
 
 				JSONObject commentJO = ja.getJSONObject(i);
-				
+
 				Comment c = new Comment(
 						commentJO.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_COMMENTS_AUTHOR),
 						commentJO.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_COMMENTS_CONTENT),
@@ -383,52 +384,57 @@ public class BusinessData {
 
 
 	public static boolean hasImage() {
-		
+
 		if (businessInfo == null) return false;
-		
+
 		ParseFile file = businessInfo.getParseFile(ParseClassesNames.BUSINESS_IMAGE);
 
 		if (file == null) return false;
 
 		return true;
 	}
-	
 
-	static void loadImage(final ImageView im, final ProgressBar pb) {
 
+	static void loadImage(final ImageView imageView) {
+
+		if (businessInfo == null){
+			Log.e("Business - loadImage", "businessInfo was null");
+			return;
+		}
 
 		ParseFile file = businessInfo.getParseFile(ParseClassesNames.BUSINESS_IMAGE);
 
 		if (file == null) {
-
 			hasImage = false;
 			return;
 		}
-		
+
 		hasImage = true;
 
-		file.getDataInBackground(
-				new GetDataCallback() {
+		final WeakReference<ImageView> imageViewWR = new WeakReference<ImageView>(imageView);
 
-					public void done(byte[] data, ParseException e) {
+		file.getDataInBackground( new GetDataCallback() {
 
-						if (e == null) {
+			public void done(byte[] data, ParseException e) {
 
-							businessImage = BitmapFactory.decodeByteArray(data, 0 ,data.length);
+				if (e == null) {
 
-							if (im == null) return;
+					businessImage = BitmapFactory.decodeByteArray(data, 0 ,data.length);
 
-							pb.setVisibility(View.GONE);
-							im.setImageBitmap(businessImage);
-							im.setVisibility(View.VISIBLE);
-							
-						}
-						else {
-							Log.e("Business - Load image", e.getMessage());
-						}
-					}
-				});
+					if (imageViewWR == null ||imageViewWR.get() == null) return;
+
+					ImageView im = imageViewWR.get();
+					im.setImageBitmap(businessImage);
+					im.setVisibility(View.VISIBLE);
+
+				}
+				else {
+					Log.e("DB - loadImageBusinessIdentified", e.getMessage());
+				}
+			}
+		});		
 	}
+
 
 
 	static void setImage(Bitmap newImage) {
@@ -606,7 +612,7 @@ public class BusinessData {
 		businessInfo.saveInBackground(null);
 	}
 
-	
+
 	/***
 	 * receives a business id and a deal, deletes the deal from the business's history list.
 	 */
@@ -627,7 +633,7 @@ public class BusinessData {
 
 	}
 
-	
+
 	public static void removeFromFavorites(String businessID) {
 		// TODO ALON - IMPLEMENT!!!
 
@@ -639,11 +645,11 @@ public class BusinessData {
 	static void refreshDB() {
 
 		loadCurrentDeal();
-		
+
 		topBusinesses = DBHandler.LoadTopBusinessesSync(
 				new ParseGeoPoint(businessLocation.latitude,
-				businessLocation.longitude),
-				MapWindowFragment.LOAD_RADIUS);
+						businessLocation.longitude),
+						MapWindowFragment.LOAD_RADIUS);
 
 	}
 

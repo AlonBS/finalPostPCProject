@@ -11,9 +11,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.dna.radius.R;
 import com.dna.radius.businessmode.TopBusinessesHorizontalView;
@@ -27,7 +30,9 @@ import com.dna.radius.mapsample.MapManager;
 import com.google.android.gms.maps.model.LatLng;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
+import com.parse.GetDataCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -76,7 +81,7 @@ public class DBHandler {
 
 		String businessId = dealId.split(BaseActivity.SEPERATOR)[0];
 		ParseQuery<ParseObject> query = ParseQuery.getQuery(ParseClassesNames.BUSINESS_CLASS);
-		
+
 		query.getInBackground(businessId, new AddRemoveLikesDislikesCallBack(n1, deleteNeeded, n2, dealId));
 
 	}
@@ -169,11 +174,60 @@ public class DBHandler {
 	 * 
 	 */
 	//TODO 
-	public static void loadBusinessImageViewAsync(String businessID ,ImageView imageView, Context context){
-		LoadDealBitmapTask loadTask = new LoadDealBitmapTask(imageView, businessID,context);
-		context.getClass();
-		loadTask.execute();
+	public static void loadBusinessImageViewAsync(String businessId ,final ImageView imageView) {
+
+
+		ParseQuery<ParseObject> query = ParseQuery.getQuery(ParseClassesNames.BUSINESS_CLASS);
+		query.getInBackground(businessId, new GetCallback<ParseObject>() {
+
+			@Override
+			public void done(ParseObject object, ParseException e) {
+
+				if (e == null) {
+
+					ParseFile file = object.getParseFile(ParseClassesNames.BUSINESS_IMAGE);
+
+					loadImageBusinessIdentified(file, imageView);
+
+				}
+			}
+
+			private void loadImageBusinessIdentified(ParseFile imageFile, ImageView imageView) {
+
+				final WeakReference<ImageView> imageViewWR = new WeakReference<ImageView>(imageView);
+
+				if (imageFile == null) return;
+
+				imageFile.getDataInBackground( new GetDataCallback() {
+
+					public void done(byte[] data, ParseException e) {
+
+						if (e == null) {
+
+							Bitmap businessImage = BitmapFactory.decodeByteArray(data, 0 ,data.length);
+
+							if (imageViewWR == null ||imageViewWR.get() == null) return;
+
+							ImageView im = imageViewWR.get();
+							im.setImageBitmap(businessImage);
+							im.setVisibility(View.VISIBLE);
+
+						}
+						else {
+							Log.e("DB - loadImageBusinessIdentified", e.getMessage());
+						}
+					}
+				});		
+			}
+		});
+
 	}
+
+
+
+
+
+
 
 
 
@@ -440,7 +494,7 @@ public class DBHandler {
 			this.n2 = n2;
 			this.deleteNeeded = deleteNeeded;
 			this.dealId = dealId;
-			
+
 		}
 
 		@Override
@@ -463,7 +517,7 @@ public class DBHandler {
 					object.put(ParseClassesNames.BUSINESS_CURRENT_DEAL, curDealJO);
 					object.saveInBackground();
 				}
-			
+
 
 				catch (JSONException exc) {
 					Log.e("External - add like to deal", exc.getMessage());
