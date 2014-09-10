@@ -34,6 +34,7 @@ import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
+import com.parse.ParseImageView;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
@@ -166,6 +167,8 @@ public class DBHandler {
 	}
 
 
+	
+	
 	/**
 	 * if the business has a bitmap on parse server, loads it asynchronously and
 	 * updates the relevant accordingly.

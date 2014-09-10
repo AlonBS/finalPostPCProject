@@ -17,6 +17,7 @@ import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.datastructures.ExternalBusiness;
 import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.infrastructure.BaseActivity;
+import com.parse.ParseImageView;
 
 /***
  * this fragment allows the user to like or dislike a certain deal, if he is
@@ -47,7 +48,7 @@ public class LikeAndDislikeFragment extends Fragment{
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.like_and_dislike_fragment,container, false);
-		ImageView imageView = (ImageView) view.findViewById(R.id.business_image_view);
+		
 
 		parentActivity = (ShowDealActivity)getActivity();
 		pressedExtern = parentActivity.getExternalBusiness();
@@ -55,8 +56,14 @@ public class LikeAndDislikeFragment extends Fragment{
 		numOfLikesAddition = 0;
 		numOfDislikesAddition = 0;
 
-		//loads the business image
-		DBHandler.loadBusinessImageViewAsync(pressedExtern.getExternBusinessId(), imageView, parentActivity);
+		//loads the business image		
+		ImageView imageView = (ImageView) view.findViewById(R.id.business_image_view);
+		DBHandler.loadBusinessImageViewAsync(pressedExtern.getExternBusinessId(), imageView);
+
+		
+		
+		
+		
 		
 		likesTextView = (TextView)view.findViewById(R.id.like_text_view);
 		dislikesTextView = (TextView)view.findViewById(R.id.dislike_text_view);

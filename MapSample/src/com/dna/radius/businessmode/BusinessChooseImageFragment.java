@@ -126,7 +126,8 @@ public class BusinessChooseImageFragment extends  Fragment{
 	 * @return
 	 */
 	public static Bitmap processImage(Bitmap bitmap){
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		
+		//ByteArrayOutputStream baos = new ByteArrayOutputStream(); TODO remove
 		
 		//downsampling
 		double proportion = (double)bitmap.getHeight() / (double)IMAGE_HEIGHT;
@@ -138,7 +139,7 @@ public class BusinessChooseImageFragment extends  Fragment{
 		Bitmap croppedBitmap = ThumbnailUtils.extractThumbnail(resizedBitmap, IMAGE_WIDTH, IMAGE_HEIGHT);
 		
 		//jpeg compression
-		croppedBitmap.compress(CompressFormat.JPEG, 100, baos);
+		//croppedBitmap.compress(CompressFormat.JPEG, 100, baos); TODO remove
 		
 		Log.d("BusinessChooseImage","returned a new image, width,height=" +croppedBitmap.getWidth() + "," +  croppedBitmap.getHeight() );
 		Log.d("BusinessChooseImage","original size: width,height=" +bitmap.getWidth() + "," +  bitmap.getHeight() );

@@ -393,8 +393,12 @@ public class BusinessData {
 		return true;
 	}
 
+<<<<<<< HEAD
+=======
+	static void loadImage(final Context context, final ImageView im) {
+>>>>>>> fbf8dea8516e091745ef2860d98088f9c982a78f
 
-	static void loadImage(final Context context, final ImageView imageView) {
+	static void loadImage(final ImageView imageView) {
 
 		if (businessInfo == null){
 			Log.e("Business - loadImage", "businessInfo was null");
@@ -414,28 +418,47 @@ public class BusinessData {
 
 		file.getDataInBackground( new GetDataCallback() {
 
+<<<<<<< HEAD
 			public void done(byte[] data, ParseException e) {
 
 				if (e == null) {
-						
+
 					businessImage = BitmapFactory.decodeByteArray(data, 0 ,data.length);
 
 					if (imageViewWR == null ||imageViewWR.get() == null) return;
-							
-							if(businessImage!=null){
-								Log.d("BusinessData", "bitmap was return. size: " + businessImage.getHeight() + "," + businessImage.getWidth());
-								imageViewWR.get().setImageBitmap(businessImage);
-							}
-							else{
-								imageViewWR.get().setImageBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.error_loading_image_version_2));
-								Toast.makeText(context, context.getResources().getString(R.string.image_wasnt_loaded), Toast.LENGTH_LONG).show();
-							}
+
+					ImageView im = imageViewWR.get();
+					im.setImageBitmap(businessImage);
+					im.setVisibility(View.VISIBLE);
+
 				}
 				else {
 					Log.e("DB - loadImageBusinessIdentified", e.getMessage());
 				}
 			}
 		});		
+=======
+						if (e == null) {
+						
+							businessImage = BitmapFactory.decodeByteArray(data, 0 ,data.length);
+
+							if (im == null) return;
+							
+							if(businessImage!=null){
+								Log.d("BusinessData", "bitmap was return. size: " + businessImage.getHeight() + "," + businessImage.getWidth());
+								im.setImageBitmap(businessImage);
+							}
+							else{
+								im.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.error_loading_image_version_2));
+								Toast.makeText(context, context.getResources().getString(R.string.image_wasnt_loaded), Toast.LENGTH_LONG).show();
+							}
+						}
+						else {
+							Log.e("Business - Load image", e.getMessage());
+						}
+					}
+				});
+>>>>>>> fbf8dea8516e091745ef2860d98088f9c982a78f
 	}
 
 
@@ -446,9 +469,7 @@ public class BusinessData {
 
 		businessImage = newImage;
 		hasImage = true;
-		
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		businessImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
 		byte[] data = stream.toByteArray();
 
 		if (data != null){
