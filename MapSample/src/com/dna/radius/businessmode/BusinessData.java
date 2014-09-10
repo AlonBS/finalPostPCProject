@@ -107,7 +107,7 @@ public class BusinessData {
 
 	public static boolean hasADealOnDisplay() { return currentDeal != null; }
 
-	public static boolean hasImage() { return hasImage; }
+	
 
 	public static boolean imageFullyLoaded() { return businessImage != null; }
 
@@ -290,6 +290,7 @@ public class BusinessData {
 			for (int i = 0 ; i < ja.length() && i < 50 ; ++i) { // TODO we support 50 comments
 
 				JSONObject commentJO = ja.getJSONObject(i);
+				
 				Comment c = new Comment(
 						commentJO.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_COMMENTS_AUTHOR),
 						commentJO.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_COMMENTS_CONTENT),
@@ -381,6 +382,18 @@ public class BusinessData {
 
 
 
+	public static boolean hasImage() {
+		
+		if (businessInfo == null) return false;
+		
+		ParseFile file = businessInfo.getParseFile(ParseClassesNames.BUSINESS_IMAGE);
+
+		if (file == null) return false;
+
+		return true;
+	}
+	
+
 	static void loadImage(final ImageView im, final ProgressBar pb) {
 
 
@@ -391,6 +404,8 @@ public class BusinessData {
 			hasImage = false;
 			return;
 		}
+		
+		hasImage = true;
 
 		file.getDataInBackground(
 				new GetDataCallback() {
@@ -399,13 +414,14 @@ public class BusinessData {
 
 						if (e == null) {
 
-							pb.setVisibility(View.GONE);
 							businessImage = BitmapFactory.decodeByteArray(data, 0 ,data.length);
 
 							if (im == null) return;
 
+							pb.setVisibility(View.GONE);
 							im.setImageBitmap(businessImage);
-							hasImage = true;
+							im.setVisibility(View.VISIBLE);
+							
 						}
 						else {
 							Log.e("Business - Load image", e.getMessage());

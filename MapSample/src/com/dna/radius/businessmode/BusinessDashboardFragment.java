@@ -98,12 +98,10 @@ public class BusinessDashboardFragment extends Fragment implements AddNewDealCom
 			dealOnDisplayLikesTextView.setText(Integer.toString(BusinessData.currentDeal.getNumOfLikes()));
 			dealOnDisplayDislikesTextView.setText(Integer.toString(BusinessData.currentDeal.getNumOfDislikes()));
 		
-			/**handles the comments segment*/
-			//commentsList = new ArrayList<>();
+			// add comments on display
 			ListView commentsListView = (ListView)v.findViewById(R.id.comments_list_view);
 			CommentsArrayAdapter commentsAdapter = new CommentsArrayAdapter(parentActivity,android.R.layout.simple_list_item_1 , BusinessData.currentDeal.getComments());
 			commentsListView.setAdapter(commentsAdapter);
-			DBHandler.loadCommentsListAsync(commentsAdapter,BusinessData.currentDeal.getId());
 		}
 		
 		else {

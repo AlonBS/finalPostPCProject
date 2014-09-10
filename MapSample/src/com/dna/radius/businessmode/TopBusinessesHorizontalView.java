@@ -6,7 +6,9 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
@@ -32,7 +34,7 @@ public class TopBusinessesHorizontalView extends HorizontalScrollView{
 	
 	/**the list of all the businesses*/
 	
-	private SparseArray<ExternalBusiness> intToExterns;
+	//private SparseArray<ExternalBusiness> intToExterns; TODO remove
 	//private ArrayList<ExternalBusiness> topBusinessesList = new ArrayList<>();
 	
 	private LinearLayout hostLayout = null;
@@ -53,7 +55,7 @@ public class TopBusinessesHorizontalView extends HorizontalScrollView{
 		super(context, attrs);
 		this.context = context;
 		
-		intToExterns = new SparseArray<ExternalBusiness>();
+		//intToExterns = new SparseArray<ExternalBusiness>(); TODO remove
 	}
 	
 	//TODO remove
@@ -79,7 +81,7 @@ public class TopBusinessesHorizontalView extends HorizontalScrollView{
 		LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		LinearLayout newLayout = (LinearLayout) inflater.inflate(R.layout.top_businesses_col,hostLayout,false);
 		
-		intToExterns.append(newLayout.hashCode(), eb);
+		//intToExterns.append(newLayout.hashCode(), eb); todo remove
 		hostLayout.addView(newLayout);
 		
 		TextView businessNameTextView = (TextView) newLayout.findViewById(R.id.top_business_name);
@@ -106,40 +108,90 @@ public class TopBusinessesHorizontalView extends HorizontalScrollView{
 		if (businessRatingBar != null) {
 			businessRatingBar.setRating((float)eb.getExternBusinessRating());
 		}
+
+//TODO not nedded
+//businessRatingBar.isIndicator()();
+//		// overrides rating bar's on touch method so it won't change anything
+//		businessRatingBar.setOnTouchListener(new OnTouchListener() {
+//			public boolean onTouch(View v, MotionEvent event) { return true; }
+//		});
 		
-		
-		//set rating bar click listener to do nothing
-		businessRatingBar.setOnClickListener(new OnClickListener() {@Override public void onClick(View arg0) {}});
 
 		//whenever a business is pressed - opens a ShowDealActivity.
-		newLayout.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				
-				ExternalBusiness eb = intToExterns.get(v.hashCode());
-				
-				Intent myIntent = new Intent(context, ShowDealActivity.class);
-				myIntent.putExtra(ShowDealActivity.EXTERNAL_BUSINESS_KEY, eb);
-				context.startActivity(myIntent);
-				
-				
-//				myIntent.putExtra(ShowDealActivity.BUSINESS_NAME_PARAM, eb.businessName); //Optional parameters
-//				myIntent.putExtra(ShowDealActivity.BUSINESS_ID_PARAM, eb.externBusinessId); //Optional parameters
-//				myIntent.putExtra(ShowDealActivity.DEAL_ID_PARAM, eb.currentDealID); 
-//				myIntent.putExtra(ShowDealActivity.BUSINESS_TYPE_PARAM, eb.externBusinessType); //Optional parameters
-//				myIntent.putExtra(ShowDealActivity.DEAL_RATING_PARAM, eb.rating); //Optional parameters
-//				myIntent.putExtra(ShowDealActivity.NUM_OF_DISLIKES_PARAM, eb.numOfDislikes); //Optional parameters
-//				myIntent.putExtra(ShowDealActivity.NUM_OF_LIKES_PARAM, eb.numOfLikes); //Optional parameters
-//				myIntent.putExtra(ShowDealActivity.USER_MODE_PARAM, false);
-//				myIntent.putExtra(ShowDealActivity.PHONE_STR_PARAM, eb.phoneStr); 
-//				myIntent.putExtra(ShowDealActivity.ADDRESS_STR_PARAM, eb.addressStr);
-//				myIntent.putExtra(ShowDealActivity.CURRENT_DEAL_STR_PARAM, eb.currentDealStr);
-				
-			}
-		});
-
+		newLayout.setOnClickListener(new TopDealsOnClickListener(context, eb));
 		++topCounter;
 		
 		return true;
 	}
+	
+	
+	private static class TopDealsOnClickListener implements OnClickListener {
+
+		private Context c;
+		private ExternalBusiness topBusiness;
+		
+		public TopDealsOnClickListener(Context c, ExternalBusiness eb) {
+			
+			this.c = c;
+			this.topBusiness = eb;
+		}
+		
+		@Override
+		public void onClick(View v) {
+			
+			
+			Intent myIntent = new Intent(c, ShowDealActivity.class);
+			myIntent.putExtra(ShowDealActivity.EXTERNAL_BUSINESS_KEY, topBusiness);
+			c.startActivity(myIntent);
+			
+			
+//			myIntent.putExtra(ShowDealActivity.BUSINESS_NAME_PARAM, eb.businessName); //Optional parameters
+//			myIntent.putExtra(ShowDealActivity.BUSINESS_ID_PARAM, eb.externBusinessId); //Optional parameters
+//			myIntent.putExtra(ShowDealActivity.DEAL_ID_PARAM, eb.currentDealID); 
+//			myIntent.putExtra(ShowDealActivity.BUSINESS_TYPE_PARAM, eb.externBusinessType); //Optional parameters
+//			myIntent.putExtra(ShowDealActivity.DEAL_RATING_PARAM, eb.rating); //Optional parameters
+//			myIntent.putExtra(ShowDealActivity.NUM_OF_DISLIKES_PARAM, eb.numOfDislikes); //Optional parameters
+//			myIntent.putExtra(ShowDealActivity.NUM_OF_LIKES_PARAM, eb.numOfLikes); //Optional parameters
+//			myIntent.putExtra(ShowDealActivity.USER_MODE_PARAM, false);
+//			myIntent.putExtra(ShowDealActivity.PHONE_STR_PARAM, eb.phoneStr); 
+//			myIntent.putExtra(ShowDealActivity.ADDRESS_STR_PARAM, eb.addressStr);
+//			myIntent.putExtra(ShowDealActivity.CURRENT_DEAL_STR_PARAM, eb.currentDealStr);
+			
+			
+		}
+		
+		
+		
+	}
 }
+
+
+
+
+
+
+//{
+//	@Override
+//	public void onClick(View v) {
+//		
+//		ExternalBusiness eb = intToExterns.get(v.hashCode());
+//		
+//		Intent myIntent = new Intent(context, ShowDealActivity.class);
+//		myIntent.putExtra(ShowDealActivity.EXTERNAL_BUSINESS_KEY, eb);
+//		context.startActivity(myIntent);
+		
+		
+//		myIntent.putExtra(ShowDealActivity.BUSINESS_NAME_PARAM, eb.businessName); //Optional parameters
+//		myIntent.putExtra(ShowDealActivity.BUSINESS_ID_PARAM, eb.externBusinessId); //Optional parameters
+//		myIntent.putExtra(ShowDealActivity.DEAL_ID_PARAM, eb.currentDealID); 
+//		myIntent.putExtra(ShowDealActivity.BUSINESS_TYPE_PARAM, eb.externBusinessType); //Optional parameters
+//		myIntent.putExtra(ShowDealActivity.DEAL_RATING_PARAM, eb.rating); //Optional parameters
+//		myIntent.putExtra(ShowDealActivity.NUM_OF_DISLIKES_PARAM, eb.numOfDislikes); //Optional parameters
+//		myIntent.putExtra(ShowDealActivity.NUM_OF_LIKES_PARAM, eb.numOfLikes); //Optional parameters
+//		myIntent.putExtra(ShowDealActivity.USER_MODE_PARAM, false);
+//		myIntent.putExtra(ShowDealActivity.PHONE_STR_PARAM, eb.phoneStr); 
+//		myIntent.putExtra(ShowDealActivity.ADDRESS_STR_PARAM, eb.addressStr);
+//		myIntent.putExtra(ShowDealActivity.CURRENT_DEAL_STR_PARAM, eb.currentDealStr);
+		
+//	}
+//});

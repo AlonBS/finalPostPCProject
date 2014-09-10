@@ -114,13 +114,13 @@ public class ShowDealActivity extends FragmentActivity{
 		ratingBar.setRating((float)pressedExternal.getExternBusinessRating()); //TODO chage to float??
 
 
-
-		/**overrides rating bar's on touch method so it won't do anything*/
-		ratingBar.setOnClickListener(new OnClickListener() {
-			public void onClick(View arg0) {
-				return;
-			}
-		});
+//TODO not needed
+//		/**overrides rating bar's on touch method so it won't do anything*/
+//		ratingBar.setOnClickListener(new OnClickListener() {
+//			public void onClick(View arg0) {
+//				return;
+//			}
+//		});
 
 		switchFragmentsButton = (ImageView)findViewById(R.id.switchFragmentButton);
 		if(pressedExternal.getExternBusinessDeal() != null){

@@ -22,8 +22,6 @@ import com.dna.radius.infrastructure.BaseActivity;
  *
  */
 public class CommentsArrayAdapter extends ArrayAdapter<Comment>{
-	@SuppressLint("SimpleDateFormat")
-	private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 	
 	
 	

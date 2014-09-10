@@ -21,6 +21,7 @@ import com.dna.radius.businessmode.BusinessOpeningScreenActivity;
 import com.dna.radius.businessmode.BusinessSettingsActivity;
 import com.dna.radius.clientmode.ClientGeneralSettingsActivity;
 import com.dna.radius.clientmode.ClientOpeningScreenActivity;
+import com.dna.radius.dbhandling.ParseClassesNames;
 import com.dna.radius.login.MainActivity;
 import com.parse.ParseUser;
 
@@ -80,6 +81,17 @@ public abstract class BaseActivity extends FragmentActivity{
 
 
 	private void handleLogOut() {
+		
+		ParseUser currentUser = ParseUser.getCurrentUser();
+		if (currentUser != null) {
+			
+			if (isInBusinessMode) {
+				ParseUser.getCurrentUser().put(ParseClassesNames.LAST_MODE, ParseClassesNames.LAST_MODE_BUSINESS_MODE);
+			}
+			else {
+				ParseUser.getCurrentUser().put(ParseClassesNames.LAST_MODE, ParseClassesNames.LAST_MODE_CLIENT_MODE);
+			}
+		}
 
 		// log out currentUser from parse
 		ParseUser.logOut();
@@ -93,7 +105,8 @@ public abstract class BaseActivity extends FragmentActivity{
 		// back to 'log in' screen
 		Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 		startActivity(intent);
-		//finish(); TODO WE NEED TO DESYTRO THIS ACTIVITY. BUT CRASHES
+		
+		finish(); //TODO WE NEED TO DESYTRO THIS ACTIVITY. BUT CRASHES
 
 	}
 

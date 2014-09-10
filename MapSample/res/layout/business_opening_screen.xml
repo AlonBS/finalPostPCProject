@@ -80,9 +80,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:isIndicator="false"
+                android:isIndicator="true"
                 android:numStars="5"
-                android:rating="3.5" />
+                android:rating="0" />
         </RelativeLayout>
 
         <LinearLayout

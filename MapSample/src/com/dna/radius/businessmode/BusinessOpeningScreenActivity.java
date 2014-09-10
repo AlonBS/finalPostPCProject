@@ -29,6 +29,10 @@ import com.dna.radius.mapsample.MapWindowFragment;
 
 public class BusinessOpeningScreenActivity extends BaseActivity{
 
+	private TextView businessNameTextView;
+	private RatingBar businessRatingBar;
+	
+	
 	/**buttons which allow switching between fragments*/
 	private ImageView homeFragmentBtn;
 	private ImageView mapFragmentBtn;
@@ -165,16 +169,18 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 
 	private void loadNameAndRating() {
 
-		TextView businessNameTv = (TextView) findViewById(R.id.businessTitle);
-		businessNameTv.setText(BusinessData.businessName);
+		businessNameTextView = (TextView) findViewById(R.id.businessTitle);
+		businessRatingBar = (RatingBar) findViewById(R.id.businessRatingBar);
 
-		RatingBar ratingBar = (RatingBar) findViewById(R.id.businessRatingBar);
-		ratingBar.setRating((float)BusinessData.businessRating);
+		businessNameTextView.setText(BusinessData.businessName);
+		businessRatingBar.setRating((float)BusinessData.businessRating);
+		
 
-		// overrides rating bar's on touch method so it won't change anything
-		ratingBar.setOnTouchListener(new OnTouchListener() {
-			public boolean onTouch(View v, MotionEvent event) { return true; }
-		});
+//TODO not needed
+//		// overrides rating bar's on touch method so it won't change anything
+//		businessRatingBar.setOnTouchListener(new OnTouchListener() {
+//			public boolean onTouch(View v, MotionEvent event) { return true; }
+//		});
 	}
 
 	@Override

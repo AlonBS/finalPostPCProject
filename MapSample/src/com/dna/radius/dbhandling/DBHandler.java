@@ -177,7 +177,7 @@ public class DBHandler {
 
 
 
-
+	// TODO - this is not used.
 	/**
 	 * receives a commentArrayAdapter and comments list. updates both of the
 	 * parameter asynchronously, using parse.
@@ -259,7 +259,7 @@ public class DBHandler {
 
 						newCommentJO.put(ParseClassesNames.BUSINESS_CURRENT_DEAL_COMMENTS_AUTHOR, newComment.getAuthorName());
 						newCommentJO.put(ParseClassesNames.BUSINESS_CURRENT_DEAL_COMMENTS_CONTENT, newComment.getCommentContent());
-						newCommentJO.put(ParseClassesNames.BUSINESS_CURRENT_DEAL_COMMENTS_DATE, newComment.getCommentDate());
+						newCommentJO.put(ParseClassesNames.BUSINESS_CURRENT_DEAL_COMMENTS_DATE, new SimpleDateFormat(BaseActivity.DATE_FORMAT).format(newComment.getCommentDate()));
 
 						JSONObject currentDealJO = o.getJSONObject(ParseClassesNames.BUSINESS_CURRENT_DEAL);
 						currentDealJO.getJSONArray(ParseClassesNames.BUSINESS_CURRENT_DEAL_COMMENTS).put(newCommentJO);

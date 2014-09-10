@@ -17,63 +17,63 @@ import android.widget.TextView;
 
 /***** Adapter class extends with ArrayAdapter ******/
 public class SpinnerTypeAdapter extends ArrayAdapter<BusinessType>{
- 
- private Activity activity;
-    private ArrayList<BusinessType> data;
-    public Resources res;
-    LayoutInflater inflater;
- 
- public SpinnerTypeAdapter(
-                 Activity activitySpinner, 
-                 int textViewResourceId,   
-                 ArrayList<BusinessType> data,
-                 Resources resLocal
-                ) 
-  {
-        super(activitySpinner, textViewResourceId, data);
-        this.activity = activitySpinner;
-        this.data     = data;
-        
-        data.add(0,BusinessType.ACCOMMODATION);
-        this.inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        
-   }
 
-    @Override
-    public View getDropDownView(int position, View convertView,ViewGroup parent) {
-        return getCustomView(position, convertView, parent);
-    }
+	private Activity activity;
+	private ArrayList<BusinessType> data;
+	public Resources res;
+	LayoutInflater inflater;
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        return getCustomView(position, convertView, parent);
-    }
+	public SpinnerTypeAdapter(
+			Activity activitySpinner, 
+			int textViewResourceId,   
+			ArrayList<BusinessType> data,
+			Resources resLocal
+			) 
+	{
+		super(activitySpinner, textViewResourceId, data);
+		this.activity = activitySpinner;
+		this.data     = data;
 
-    // This funtion called for each row ( Called data.size() times )
-    public View getCustomView(int position, View convertView, ViewGroup parent) {
+		data.add(0,BusinessType.ACCOMMODATION);
+		this.inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-     /********** Inflate spinner_rows.xml file for each row ( Defined below ) ************/
-        View row = inflater.inflate(R.layout.spinner_types_layout, parent, false);
-        
-        /***** Get each Model object from Arraylist ********/
-         BusinessType currentType = (BusinessType) data.get(position);
-        
-        TextView label        = (TextView)row.findViewById(R.id.spinner_item_text_view);
-        ImageView icon = (ImageView)row.findViewById(R.id.spinner_item_image_view);
-        
-        if(position==0){
-         
-         // Default selected Spinner item 
-         label.setText(activity.getResources().getString(R.string.business_type));
-        }
-        else
-        {
-            // Set values for spinner each row 
-            label.setText(currentType.getStringRep());
-            icon.setImageResource(currentType.getIconID());
-            
-        }   
+	}
 
-        return row;
-      }
- }
+	@Override
+	public View getDropDownView(int position, View convertView,ViewGroup parent) {
+		return getCustomView(position, convertView, parent);
+	}
+
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		return getCustomView(position, convertView, parent);
+	}
+
+	// This funtion called for each row ( Called data.size() times )
+	public View getCustomView(int position, View convertView, ViewGroup parent) {
+
+		/********** Inflate spinner_rows.xml file for each row ( Defined below ) ************/
+		View row = inflater.inflate(R.layout.spinner_types_layout, parent, false);
+
+		/***** Get each Model object from Arraylist ********/
+		BusinessType currentType = (BusinessType) data.get(position);
+
+		TextView label        = (TextView)row.findViewById(R.id.spinner_item_text_view);
+		ImageView icon = (ImageView)row.findViewById(R.id.spinner_item_image_view);
+
+		if(position==0){
+
+			// Default selected Spinner item 
+			label.setText(activity.getResources().getString(R.string.business_type));
+		}
+		else
+		{
+			// Set values for spinner each row 
+			label.setText(currentType.getStringRep());
+			icon.setImageResource(currentType.getIconID());
+
+		}   
+
+		return row;
+	}
+}

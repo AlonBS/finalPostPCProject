@@ -6,6 +6,9 @@ public class ParseClassesNames {
 	
 	/** Name of columns and classes for parse._user class */
 	public static final String LAST_MODE = "lastMode";
+	public static final int LAST_MODE_CLIENT_MODE = 1;
+	public static final int LAST_MODE_BUSINESS_MODE = 2;
+	
 	public static final String CLIENT_INFO = "clientInfo";
 	public static final String BUSINESS_INFO = "businessInfo";
 	

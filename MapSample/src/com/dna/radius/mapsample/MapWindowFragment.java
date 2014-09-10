@@ -186,7 +186,7 @@ public class MapWindowFragment extends Fragment {
 			});	
 		}
 		
-		final ImageView refreshButton = (ImageView)view.findViewById(R.id.map);
+		final ImageView refreshButton = (ImageView)view.findViewById(R.id.map_refresh_btn);
 		refreshButton.setOnClickListener(new OnClickListener() {
 			
 			@Override
