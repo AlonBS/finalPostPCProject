@@ -224,6 +224,7 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 				loadNameAndRating();
 
 				//starting current fragment once again
+				latestPressedBtn = homeFragmentBtn;
 				FragmentManager fragmentManager = getSupportFragmentManager();
 				Fragment currentFragment = new BusinessDashboardFragment();
 				FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
