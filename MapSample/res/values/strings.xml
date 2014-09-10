@@ -22,7 +22,7 @@
     <string name="tap_to_enter_deal">tap to create a new deal</string>
     <string name="top_businesses">Top Businesses</string>
     <string name="current_deal_was_deleted">Your current deal was deleted. you can now find it in your history screen.</string>
-    
+    <string name="image_wasnt_loaded">Image wasn\'t loaded, restart screen to try again</string>
     <!-- Login-in activity strings -->
     <string name="login">Log In</string>
     <string name="no_account">Don\'t have an account yet? </string>
