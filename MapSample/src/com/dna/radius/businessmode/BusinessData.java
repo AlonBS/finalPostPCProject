@@ -276,6 +276,13 @@ public class BusinessData {
 
 
 	private static void loadCurrentDeal() {
+		
+		try {
+			businessInfo.fetchIfNeeded();
+		} catch (ParseException e1) {
+			
+			Log.e("Business - loadCurrentDeal", "fetch failed:" + e1.getMessage());
+		}
 
 		JSONObject jo = businessInfo.getJSONObject(ParseClassesNames.BUSINESS_CURRENT_DEAL);
 
@@ -609,6 +616,7 @@ public class BusinessData {
 		}
 
 		businessInfo.put(ParseClassesNames.BUSINESS_HISTORY, oldDealsJO);
+		businessInfo.put(ParseClassesNames.BUSINESS_CURRENT_DEAL, new JSONObject());
 
 		dealsHistory.incTotalNumOfDeals();
 		currentDeal = null;
