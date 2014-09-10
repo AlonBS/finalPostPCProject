@@ -10,13 +10,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.dna.radius.R;
 import com.dna.radius.datastructures.Comment;
 import com.dna.radius.datastructures.Deal;
 import com.dna.radius.datastructures.DealHistoryManager;
@@ -27,7 +28,6 @@ import com.dna.radius.infrastructure.BaseActivity;
 import com.dna.radius.infrastructure.SupportedTypes;
 import com.dna.radius.infrastructure.SupportedTypes.BusinessType;
 import com.dna.radius.mapsample.MapWindowFragment;
-import com.dna.radius.mapsample.ShowDealActivity;
 import com.google.android.gms.maps.model.LatLng;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -35,7 +35,6 @@ import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
-import com.parse.ProgressCallback;
 import com.parse.SaveCallback;
 
 /***
@@ -394,7 +393,7 @@ public class BusinessData {
 	}
 	
 
-	static void loadImage(final ImageView im, final ProgressBar pb) {
+	static void loadImage(final Context context, final ImageView im) {
 
 
 		ParseFile file = businessInfo.getParseFile(ParseClassesNames.BUSINESS_IMAGE);
@@ -413,15 +412,19 @@ public class BusinessData {
 					public void done(byte[] data, ParseException e) {
 
 						if (e == null) {
-
+						
 							businessImage = BitmapFactory.decodeByteArray(data, 0 ,data.length);
 
 							if (im == null) return;
-
-							pb.setVisibility(View.GONE);
-							im.setImageBitmap(businessImage);
-							im.setVisibility(View.VISIBLE);
 							
+							if(businessImage!=null){
+								Log.d("BusinessData", "bitmap was return. size: " + businessImage.getHeight() + "," + businessImage.getWidth());
+								im.setImageBitmap(businessImage);
+							}
+							else{
+								im.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.error_loading_image_version_2));
+								Toast.makeText(context, context.getResources().getString(R.string.image_wasnt_loaded), Toast.LENGTH_LONG).show();
+							}
 						}
 						else {
 							Log.e("Business - Load image", e.getMessage());

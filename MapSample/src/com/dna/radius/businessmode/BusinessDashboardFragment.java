@@ -115,23 +115,17 @@ public class BusinessDashboardFragment extends Fragment implements AddNewDealCom
 	
 	private void displayImageIfNeeded() {
 		
-		ProgressBar loadImageProgressBar = (ProgressBar)v.findViewById(R.id.load_image_progress_bar);
 		
 		if (BusinessData.hasImage()) { //TODO
 			
 			if (BusinessData.imageFullyLoaded()) {
 				imageOnDisplayImageView.setImageBitmap(BusinessData.businessImage);
-				imageOnDisplayImageView.setVisibility(View.VISIBLE);
-				loadImageProgressBar.setVisibility(View.GONE);
 			}else {
-				
-				BusinessData.loadImage(imageOnDisplayImageView, loadImageProgressBar);
+				BusinessData.loadImage(getActivity(),imageOnDisplayImageView);
 			}
 
 		}else {
-			imageOnDisplayImageView.setVisibility(View.VISIBLE);
 			imageOnDisplayImageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.add_image_icon_transparent));
-			loadImageProgressBar.setVisibility(View.GONE);
 		}
 	}
 	

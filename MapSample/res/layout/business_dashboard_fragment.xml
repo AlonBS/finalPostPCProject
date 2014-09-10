@@ -8,8 +8,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
-        android:gravity="top"
         android:background="#22000000"
+        android:gravity="top"
         android:orientation="horizontal" >
 
         <RelativeLayout
@@ -87,8 +87,8 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/gray"
-                    android:padding="3dp"
                     android:gravity="center"
+                    android:padding="3dp"
                     android:text="@string/your_deal"
                     android:textColor="#FFFFFFFF"
                     android:textSize="16sp" />
@@ -97,8 +97,8 @@
                     android:id="@+id/your_deal_scroll_view"
                     android:layout_width="fill_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/gray_border_gray_background_oval"
                     android:layout_margin="2dp"
+                    android:background="@drawable/gray_border_gray_background_oval"
                     android:clickable="true"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
@@ -128,8 +128,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
 
-
-                <FrameLayout
+                <RelativeLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
@@ -140,15 +139,10 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:adjustViewBounds="true"
-                        android:visibility="invisible" >
+                        android:src="@drawable/add_image_icon_transparent">
                     </ImageView>
 
-                    <ProgressBar
-                        android:id="@+id/load_image_progress_bar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center" />
-                </FrameLayout>
+                </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
@@ -205,9 +199,9 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:padding="3dp"
                 android:background="@color/gray"
                 android:gravity="center"
+                android:padding="3dp"
                 android:text="@string/comments"
                 android:textColor="#FFFFFFFF"
                 android:textSize="16sp" />
