@@ -39,6 +39,8 @@ public class SpinnerTypeAdapter extends ArrayAdapter<BusinessType>{
 
 	}
 
+	
+	
 	@Override
 	public View getDropDownView(int position, View convertView,ViewGroup parent) {
 		return getCustomView(position, convertView, parent);

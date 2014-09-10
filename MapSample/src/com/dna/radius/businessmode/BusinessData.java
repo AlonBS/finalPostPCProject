@@ -77,12 +77,11 @@ public class BusinessData {
 
 
 
-
-
-
 	public static String getUserName(){ return currentUser.getUsername(); }
 
-
+	public static String getBusinessID(){
+		return businessInfo.getObjectId();
+	}
 
 	public static void setUserName(String newUserName){
 		//TODO alon - is this enough? + saveEventually() get stuck.
@@ -635,20 +634,17 @@ public class BusinessData {
 
 
 	public static boolean isInFavourites(String businessID) {
-		// TODO ALON - IMPLEMENT!!!
 		return false;
 	}
 
 
 
 	public static void addToFavourites(String businessID) {
-		// TODO ALON - IMPLEMENT!!!
 
 	}
 
 
 	public static void removeFromFavorites(String businessID) {
-		// TODO ALON - IMPLEMENT!!!
 
 	}
 

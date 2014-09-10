@@ -36,7 +36,7 @@ public class BusinessFillDetailsFragment extends Fragment{
 	private String businessPhoneHint;
 	private String businessAddressHint;
 
-	private ArrayAdapter<CharSequence> adapter;
+	private ArrayAdapter<BusinessType> adapter;
 
 	private boolean changeCurrentSettingsMode = false;
 
@@ -57,7 +57,7 @@ public class BusinessFillDetailsFragment extends Fragment{
 			businessNameEditText.setHint(businessNameHint);
 
 			businessType = typeHint;
-			int spinnerPosition = adapter.getPosition(typeHint.getStringRep());
+			int spinnerPosition = adapter.getPosition(typeHint);
 			businessTypeSpinner.setSelection(spinnerPosition);
 
 			if(businessPhoneHint!=null && !businessPhoneHint.equals("")){
@@ -83,9 +83,8 @@ public class BusinessFillDetailsFragment extends Fragment{
 		for(BusinessType b : BusinessType.values()){
 			businessTypes.add(b);
 		}
-		SpinnerTypeAdapter adapter = new SpinnerTypeAdapter(getActivity(), R.layout.spinner_types_layout, businessTypes,getResources());
+		adapter = new SpinnerTypeAdapter(getActivity(), R.layout.spinner_types_layout, businessTypes,getResources());
 		businessTypeSpinner.setAdapter(adapter);
-
 		businessTypeSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
@@ -103,34 +102,10 @@ public class BusinessFillDetailsFragment extends Fragment{
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
 				
 			}
 		});
 		
-
-			//		adapter = ArrayAdapter.createFromResource(getActivity(),
-			//				R.array.business_type_spinner, android.R.layout.simple_spinner_item);
-			//		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			//		businessTypeSpinner.setAdapter(adapter);
-			//
-			//		businessTypeSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-			//
-			//			public void onItemSelected(AdapterView<?> parent, View view, 
-			//					int pos, long id) {
-			//
-			//				String typeStr = parent.getItemAtPosition(pos).toString();
-			//				businessType = SupportedTypes.BusinessType.stringToType(typeStr);
-			//
-			//				if (businessType == null) {
-			//					Log.e("BusinessWelcomeFillDerailsFragment", "error choosing a spinner option");
-			//				}
-			//			}
-			//
-			//			public void onNothingSelected(AdapterView<?> parent) {
-			//			}
-			//
-			//		});
 
 		}
 
@@ -194,44 +169,6 @@ public class BusinessFillDetailsFragment extends Fragment{
 
 		}
 
-		//TODO ODODODODOFDSOFOSADFO
-		//	/**
-		//	 * note - this function assumes that the setHint() function was called earlier.
-		//	 */
-		//	@Override
-		//	public void applyChangesIfNeeded() {
-		//
-		//		boolean didDataChanged = false;
-		//		//tests if the users changed the user name and changes it accordingly
-		//		String newBusinessName = businessNameEditText.getText().toString();
-		//		if(!newBusinessName.equals("") && !newBusinessName.equals(businessNameHint)){
-		//			didDataChanged = true;
-		//			//TODO change business Name to newBusinessName
-		//		}
-		//
-		//		BusinessType newBusinessType = businessType;
-		//		if(newBusinessType != typeHint){
-		//			didDataChanged = true;
-		//			//TODO change business Type to newBusinessType
-		//		}
-		//
-		//		String newAddress = businessAddressEditText.getText().toString();
-		//		if(!newAddress.equals("") && !newAddress.equals(businessAddressHint)){
-		//			didDataChanged = true;
-		//			//TODO change business address to newBusinessName
-		//		}
-		//
-		//		String newPhone = businessPhoneEditText.getText().toString();
-		//		if(!newPhone.equals("") && !newPhone.equals(businessPhoneHint)){
-		//			didDataChanged = true;
-		//			//TODO change business phone to newPhone
-		//		}
-		//
-		//		if(didDataChanged){
-		//			Toast.makeText(getActivity(), getResources().getString(R.string.data_changed_successfully), Toast.LENGTH_SHORT).show();
-		//		}
-		//
-		//	}
 
 
 	}

@@ -39,7 +39,6 @@ public class BusinessSettingsActivity extends BaseActivity{
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		Fragment newFragment = new GeneralSettingsFragment(BusinessData.getUserName(),BusinessData.getEmail());;
 		fragmentTransaction.replace(R.id.business_settings_holder, newFragment);
-		fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_ENTER_MASK);
 		fragmentTransaction.commit();
 
@@ -119,6 +118,7 @@ private void handleLocationSettings() {
 			
 			BusinessOpeningScreenActivity.refreshNeeded = true;
 			Toast.makeText(this, getResources().getString(R.string.data_changed_successfully), Toast.LENGTH_SHORT).show();
+			finish();
 		}
 	}
 	
@@ -156,6 +156,7 @@ private void handleLocationSettings() {
 		if(didDataChanged){
 			BusinessOpeningScreenActivity.refreshNeeded = true;
 			Toast.makeText(this, getResources().getString(R.string.data_changed_successfully), Toast.LENGTH_SHORT).show();
+			finish();
 		}
 	}
 	
@@ -196,6 +197,7 @@ private void handleLocationSettings() {
 		if(didDataChanged){
 			BusinessOpeningScreenActivity.refreshNeeded = true;
 			Toast.makeText(this, getResources().getString(R.string.data_changed_successfully), Toast.LENGTH_SHORT).show();
+			finish();
 		}
 	}
 

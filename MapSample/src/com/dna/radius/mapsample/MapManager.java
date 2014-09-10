@@ -7,9 +7,11 @@ import java.util.Set;
 
 import android.util.Log;
 
+import com.dna.radius.businessmode.BusinessData;
 import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.datastructures.ExternalBusiness;
 import com.dna.radius.dbhandling.DBHandler;
+import com.dna.radius.infrastructure.BaseActivity;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -61,14 +63,25 @@ public class MapManager {
 		GoogleMap gMap = gMapRef.get();
 		
 		for(ExternalBusiness b : businesses){
-			Marker m =  gMap.addMarker(new MarkerOptions()
+			Marker m;
+			//if in business mode - sets the current business icon to the default icon
+			if(BaseActivity.isInBusinessMode && b.getExternBusinessId().equals(BusinessData.getBusinessID())){
+				m =  gMap.addMarker(new MarkerOptions()
+				.position(b.getExternBuisnessLocation())
+				.title(b.getExtenBusinessName()));
+			}else{
+				m =  gMap.addMarker(new MarkerOptions()
 				.position(b.getExternBuisnessLocation())
 				.title(b.getExtenBusinessName())
 				.icon(BitmapDescriptorFactory.fromResource(b.getExternBusinessType().getIconID())));
+			}
+			
 			BusinessToMarker.put(b,m);
 			markerToBusiness.put(m,b);
 			businessIDToExternalBusiness.put(b.getExternBusinessId(), b);
 		}
+		
+		
 		return true;
 	}
     

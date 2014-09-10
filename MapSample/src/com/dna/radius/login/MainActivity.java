@@ -10,6 +10,7 @@ import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.Window;
 
 import com.dna.radius.R;
@@ -62,6 +63,7 @@ public class MainActivity extends FragmentActivity {
 	private void setParse() {
 
 		Parse.initialize(getApplicationContext(), APP_ID, CLIENT_KEY);
+		Log.d("MainActivity","Parse was initialized");
 		ParseUser.enableAutomaticUser();
 
 	}
