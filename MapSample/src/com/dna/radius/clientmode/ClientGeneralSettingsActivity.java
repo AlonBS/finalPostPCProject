@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.dna.radius.R;
+import com.dna.radius.businessmode.BusinessData;
+import com.dna.radius.businessmode.BusinessSettingsActivity.CurrentRunningFragment;
 import com.dna.radius.infrastructure.BaseActivity;
 import com.dna.radius.infrastructure.GeneralSettingsFragment;
 
@@ -24,7 +26,12 @@ public class ClientGeneralSettingsActivity extends BaseActivity{
 
 		final FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-		generalSettingsFragment = new GeneralSettingsFragment(ClientData.getUserName(),ClientData.getEmail());
+		generalSettingsFragment = new GeneralSettingsFragment();
+		Bundle bdl = new Bundle();
+	    bdl.putString(GeneralSettingsFragment.USER_NAME_PARAM, ClientData.getUserName());
+	    bdl.putString(GeneralSettingsFragment.EMAIL_PARAM, ClientData.getEmail());
+	    generalSettingsFragment.setArguments(bdl);
+		
 		fragmentTransaction.add(R.id.general_settings_holder, generalSettingsFragment);
 		fragmentTransaction.commit();
 

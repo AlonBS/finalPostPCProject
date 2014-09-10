@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/aero"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/buttons_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal" >
+	
+        <Button
+            android:id="@+id/general_settings_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="0.3"
+            android:background="@drawable/btn_background"
+            android:text="@string/general_settings"
+            android:textColor="#FFFFFFFF" />
+
+        <Button
+            android:id="@+id/business_settings_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="0.3"
+            android:background="@drawable/btn_background"
+            android:text="@string/business_settings"
+            android:textColor="#FFFFFFFF" />
+
+        <Button
+            android:id="@+id/location_settings_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="0.3"
+            android:background="@drawable/btn_background"
+            android:text="@string/Location_settings"
+            android:textColor="#FFFFFFFF" />
+    </LinearLayout>
+
+    <Button
+        android:layout_centerHorizontal="true"
+        android:id="@+id/apply_changes_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_background"
+        android:textColor="#FFFFFFFF"
+        android:layout_alignParentBottom="true"
+        android:text="@string/apply_settings" />
+
+    <LinearLayout
+        android:id="@+id/business_settings_holder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/apply_changes_button"
+        android:layout_below="@id/buttons_layout"
+        android:orientation="horizontal" >
+    </LinearLayout>
+
+</RelativeLayout>

@@ -35,28 +35,21 @@ public class LocationFinderFragment extends Fragment {
 	private static final float DEFAULT_ANIMATED_ZOOM = 15;
 	private static LatLng defaultLocation = new LatLng(31.781984, 35.218221);
 	private LatLng chosenLocation = null;
-
+	
+	
+	
 	//this varible is set if the business owner filled the address field in the welcome screen
-	private String address = "";
 	//this variably is set if the location is already exists 
 	//(whenever the owner wants to change his location through the settings activity)
 	private LatLng prevLocation = null;
 
 	/**
+	 * Parameters usage:
 	 * Builds a new LocationFinderFragment. the fragment sets the map center according to the given address.
 	 * if the given address is empty or null, the map center will be the default map center.
 	 * @param address
 	 */
-	public LocationFinderFragment(String address) {
-
-		if (address==null || address.equals("")) {
-			this.address = "";
-
-		} else {
-			this.address = address;
-		}
-	}
-
+	public static String ADDRESS_PARAMETER = "addressParam";
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
@@ -67,6 +60,12 @@ public class LocationFinderFragment extends Fragment {
 		TextView userRequestTextView = (TextView)view.findViewById(R.id.find_location_user_request);
 		String textRequest;
 
+		
+		String address = getArguments().getString(ADDRESS_PARAMETER);
+		if (address==null){
+			address = "";
+		}
+		
 		if (BaseActivity.isInBusinessMode) {
 
 			if( !address.isEmpty() )

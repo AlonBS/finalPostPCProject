@@ -110,8 +110,11 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 						BusinessData.businessAddress = currentFragment.getBusinessAddress();
 						BusinessData.businessPhoneNumber = currentFragment.getBusinessPhoneNumber();
 
-						nextFragment = new LocationFinderFragment(BusinessData.businessAddress);
-
+						nextFragment = new LocationFinderFragment();
+						Bundle bdl = new Bundle();
+						bdl.putString(LocationFinderFragment.ADDRESS_PARAMETER, BusinessData.businessAddress);
+						nextFragment.setArguments(bdl);
+						
 
 					}else if (numberOfTimesNextWasPressed == GET_IMAGE_FRAGEMENT_TURN_IS_NEXT) {
 

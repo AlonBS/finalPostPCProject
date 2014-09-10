@@ -16,6 +16,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.dna.radius.R;
+import com.dna.radius.businessmode.BusinessData;
 import com.dna.radius.dbhandling.ParseClassesNames;
 import com.dna.radius.infrastructure.LocationFinderFragment;
 import com.parse.ParseException;
@@ -46,7 +47,12 @@ public class ClientWelcomeActivity extends FragmentActivity {
 		//starts the location fragment
 		final FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-		LocationFinderFragment locationFragment = new LocationFinderFragment("");
+		
+		LocationFinderFragment locationFragment = new LocationFinderFragment();
+		Bundle bdl = new Bundle();
+		bdl.putString(LocationFinderFragment.ADDRESS_PARAMETER, "");
+		locationFragment.setArguments(bdl);
+		
 		fragmentTransaction.add(R.id.client_welcome_main_fragment_layout, locationFragment);
 		fragmentTransaction.commit();
 
