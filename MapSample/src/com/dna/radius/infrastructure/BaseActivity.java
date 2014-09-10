@@ -127,8 +127,8 @@ public abstract class BaseActivity extends FragmentActivity{
 	private void handleSwitchMode() {
 		
 
-			isInBusinessMode = !isInBusinessMode;
-			String msgPrefix = isInBusinessMode?  getResources().getString(R.string.to_business_mode):getResources().getString(R.string.to_client_mode);
+			
+			String msgPrefix = !isInBusinessMode?  getResources().getString(R.string.to_business_mode):getResources().getString(R.string.to_client_mode);
 			String msg = getResources().getString(R.string.are_you_sure) + " " + msgPrefix;
 			new AlertDialog.Builder(this)
 			.setTitle(getResources().getString(R.string.switching) + " " + msgPrefix)
@@ -136,17 +136,17 @@ public abstract class BaseActivity extends FragmentActivity{
 			.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					Intent myIntent = null;
+					isInBusinessMode = !isInBusinessMode;
 					if(isInBusinessMode){
 						myIntent = new Intent(getApplicationContext(), BusinessOpeningScreenActivity.class);
 					}else{
 						myIntent = new Intent(getApplicationContext(), ClientOpeningScreenActivity.class);
 					}
 					startActivity(myIntent);
-					//TODO ADD finish(); ??? 
+					finish();
 				}
 			}).setNegativeButton("No", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
-					// Do nothing.
 				}
 			}).show();
 	}
