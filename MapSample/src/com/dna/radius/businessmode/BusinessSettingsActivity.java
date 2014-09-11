@@ -79,29 +79,29 @@ public class BusinessSettingsActivity extends BaseActivity{
 		//
 		//		currentFragment = CurrentRunningFragment.GENERAL_SETTINGS_FRAGMENT;
 		//
-		//		Button applyChagnesButton = (Button) findViewById(R.id.apply_changes_button);
-		//		applyChagnesButton.setOnClickListener(new OnClickListener() {
-		//
-		//			@Override
-		//			public void onClick(View v) {
-		//				//tests if it's possible to move to the next fragment
-		//				switch (currentFragment) {
-		//				case GENERAL_SETTINGS_FRAGMENT:
-		//					handleApplyGeneralSettings();
-		//					break;
-		//				case BUSINESS_SETTINGS_FRAGMENT:
-		//					handleApplyBusinessSettings();
-		//					break;
-		//				case LOCATION_SETTINGS_FRAGMENT:
-		//					handleLocationSettings();
-		//					break;
-		//				default:
-		//					return;
-		//				}
-		//			}
-		//
-		//			
-		//		});
+				Button applyChagnesButton = (Button) findViewById(R.id.apply_changes_button);
+				applyChagnesButton.setOnClickListener(new OnClickListener() {
+		
+					@Override
+					public void onClick(View v) {
+						//tests if it's possible to move to the next fragment
+						switch (currentFragment) {
+						case GENERAL_SETTINGS_FRAGMENT:
+							handleApplyGeneralSettings();
+							break;
+						case BUSINESS_SETTINGS_FRAGMENT:
+							handleApplyBusinessSettings();
+							break;
+						case LOCATION_SETTINGS_FRAGMENT:
+							handleLocationSettings();
+							break;
+						default:
+							return;
+						}
+					}
+		
+					
+				});
 		//
 		//
 		//

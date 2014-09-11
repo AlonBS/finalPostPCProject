@@ -34,7 +34,7 @@ public class SpinnerTypeAdapter extends ArrayAdapter<BusinessType>{
 		this.activity = activitySpinner;
 		this.data     = data;
 
-		data.add(0,BusinessType.ACCOMMODATION);
+		data.add(0,null);
 		this.inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 	}

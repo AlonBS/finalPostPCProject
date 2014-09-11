@@ -31,8 +31,6 @@ public class BusinessFillDetailsFragment extends Fragment{
 
 	private ArrayAdapter<BusinessType> adapter;
 
-	private boolean changeCurrentSettingsMode = false;
-
 	/***this parameters represents a boolean flag which is true if the fragment is inflated
 	inside of the settings scope. in this case - the edit texts should ve filled with
 	the current user details.*/
@@ -41,29 +39,30 @@ public class BusinessFillDetailsFragment extends Fragment{
 	public static String BUSINESS_TYPE_HINT_PARAM = "businessTypeParam";
 	public static String BUSINESS_PHONE_HINT_PARAM = "businessPhoneParam";
 	public static String BUSINESS_ADDRESS_HINT_PARAM = "businessAddressParam";
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
 		View view = inflater.inflate(R.layout.business_fill_details_fragment,container, false);	
-
-			setBusinessTypeSpinner();
-
-		String businessNameHint = getArguments().getString(BUSINESS_NAME_HINT_PARAM);
-		BusinessType typeHint = (BusinessType)getArguments().getSerializable(BUSINESS_TYPE_HINT_PARAM);
-		String businessAddressHint = getArguments().getString(BUSINESS_ADDRESS_HINT_PARAM);
-		String businessPhoneHint = getArguments().getString(BUSINESS_PHONE_HINT_PARAM);
 		
+		//retrives the relevant views
+		businessNameEditText = (EditText) view.findViewById(R.id.business_name_textView);
+		businessPhoneEditText = (EditText) view.findViewById(R.id.business_phone_textView);
+		businessAddressEditText = (EditText) view.findViewById(R.id.business_address_textView);
+		businessTypeSpinner = (Spinner) view.findViewById(R.id.business_type_spinner);
+		
+		setBusinessTypeSpinner();
+
 		boolean changeCurrentSettingsMode = getArguments().getBoolean(IS_IN_SETTINGS_MODE_PARAM);
-		
 		if(changeCurrentSettingsMode){
 			//receives the input arguments
-			businessNameEditText = (EditText) view.findViewById(R.id.business_name_textView);
-			businessTypeSpinner = (Spinner) view.findViewById(R.id.business_type_spinner);
-			businessPhoneEditText = (EditText) view.findViewById(R.id.business_phone_textView);
-			businessAddressEditText = (EditText) view.findViewById(R.id.business_address_textView);
-		
+			String businessNameHint = getArguments().getString(BUSINESS_NAME_HINT_PARAM);
+			BusinessType typeHint = (BusinessType)getArguments().getSerializable(BUSINESS_TYPE_HINT_PARAM);
+			String businessAddressHint = getArguments().getString(BUSINESS_ADDRESS_HINT_PARAM);
+			String businessPhoneHint = getArguments().getString(BUSINESS_PHONE_HINT_PARAM);
+			
+
 			//sets the hints accordingly
 			businessNameEditText.setHint(businessNameHint);
 
@@ -102,84 +101,85 @@ public class BusinessFillDetailsFragment extends Fragment{
 			public void onItemSelected(AdapterView<?> data, View view, int pos,
 					long id) {
 				// TODO Auto-generated method stub
-				String typeStr = data.getItemAtPosition(pos).toString();
-				businessType = SupportedTypes.BusinessType.stringToType(typeStr);
+				businessType = (BusinessType)data.getItemAtPosition(pos);
 
 				if (businessType == null) {
-					Log.e("BusinessWelcomeFillDerailsFragment", "error choosing a spinner option");
+					Log.d("BusinessWelcomeFillDerailsFragment", "chosen spinner option is null");
+				}else{
+					Log.d("BusinessWelcomeFillDerailsFragment", "chosen spinner option is " + businessType.getStringRep());
 				}
-				
+
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
-				
+
 			}
 		});
-		
-
-		}
-
-		/**
-		 * return true iff the user filled all the relevant data
-		 * @return
-		 */
-		public boolean neededInfoGiven() {
-
-			String businessName = businessNameEditText.getText().toString();
-
-			if (businessName.isEmpty() || illegalBusinessName(businessName)) {
-				Toast.makeText(getActivity(), getResources().getString(R.string.business_name_forgot_to_fill), Toast.LENGTH_SHORT).show();
-				return false;
-			}
-			if (businessType == null) {
-				Toast.makeText(getActivity(), getResources().getString(R.string.business_type_forgot_to_fill), Toast.LENGTH_SHORT).show();
-				return false;
-			}
-
-			return true;
-
-		}
-
-		private boolean illegalBusinessName(String bn) {
-
-			//TODO business name filter? alpha-numeric only ? 
-			return false;
-
-		}
-
-		public String getBusinessName(){
-			return businessNameEditText.getText().toString();
-		}
-
-		public SupportedTypes.BusinessType getBusinessType(){
-			return businessType;
-		}
-
-		public String getBusinessPhoneNumber(){
-
-			return businessPhoneEditText.getText().toString();
-		}
-
-		public String getBusinessAddress(){
-
-			return businessAddressEditText.getText().toString();
-		}
-
-//		/**
-//		 * this function is called from the settings activity and is used to set a hint for the fragment.
-//		 * the phoneNumber and address parameters can be null or empty strings. in this case, the hint won't change for these fields.
-//		 */
-//		public void setHint(String businessNameHint,SupportedTypes.BusinessType typeHint,  String businessPhoneHint, String businessAddressHint){
-//			changeCurrentSettingsMode = true;
-//			this.businessNameHint = businessNameHint;
-//			this.typeHint = typeHint;
-//
-//			this.businessPhoneHint = businessPhoneHint;
-//			this.businessAddressHint = businessAddressHint;
-//
-//		}
-
 
 
 	}
+
+	/**
+	 * return true iff the user filled all the relevant data
+	 * @return
+	 */
+	public boolean neededInfoGiven() {
+
+		String businessName = businessNameEditText.getText().toString();
+
+		if (businessName.isEmpty() || illegalBusinessName(businessName)) {
+			Toast.makeText(getActivity(), getResources().getString(R.string.business_name_forgot_to_fill), Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		if (businessType == null) {
+			Toast.makeText(getActivity(), getResources().getString(R.string.business_type_forgot_to_fill), Toast.LENGTH_SHORT).show();
+			return false;
+		}
+
+		return true;
+
+	}
+
+	private boolean illegalBusinessName(String bn) {
+
+		//TODO business name filter? alpha-numeric only ? 
+		return false;
+
+	}
+
+	public String getBusinessName(){
+		return businessNameEditText.getText().toString();
+	}
+
+	public SupportedTypes.BusinessType getBusinessType(){
+		return businessType;
+	}
+
+	public String getBusinessPhoneNumber(){
+
+		return businessPhoneEditText.getText().toString();
+	}
+
+	public String getBusinessAddress(){
+
+		return businessAddressEditText.getText().toString();
+	}
+
+	//		/**
+	//		 * this function is called from the settings activity and is used to set a hint for the fragment.
+	//		 * the phoneNumber and address parameters can be null or empty strings. in this case, the hint won't change for these fields.
+	//		 */
+	//		public void setHint(String businessNameHint,SupportedTypes.BusinessType typeHint,  String businessPhoneHint, String businessAddressHint){
+	//			changeCurrentSettingsMode = true;
+	//			this.businessNameHint = businessNameHint;
+	//			this.typeHint = typeHint;
+	//
+	//			this.businessPhoneHint = businessPhoneHint;
+	//			this.businessAddressHint = businessAddressHint;
+	//
+	//		}
+
+
+
+}
