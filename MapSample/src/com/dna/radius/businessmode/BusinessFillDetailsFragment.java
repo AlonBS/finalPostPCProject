@@ -29,31 +29,42 @@ public class BusinessFillDetailsFragment extends Fragment{
 
 	private SupportedTypes.BusinessType businessType;
 
-	/**these parameters are used for changing the default hints whenever the business is already
-	 * exists, and the user wants to change his settings*/
-	private String businessNameHint;
-	private BusinessType typeHint;
-	private String businessPhoneHint;
-	private String businessAddressHint;
-
 	private ArrayAdapter<BusinessType> adapter;
 
 	private boolean changeCurrentSettingsMode = false;
 
-
+	/***this parameters represents a boolean flag which is true if the fragment is inflated
+	inside of the settings scope. in this case - the edit texts should ve filled with
+	the current user details.*/
+	public static String IS_IN_SETTINGS_MODE_PARAM = "isInSettingsModeParam";
+	public static String BUSINESS_NAME_HINT_PARAM = "businessNameParam";
+	public static String BUSINESS_TYPE_HINT_PARAM = "businessTypeParam";
+	public static String BUSINESS_PHONE_HINT_PARAM = "businessPhoneParam";
+	public static String BUSINESS_ADDRESS_HINT_PARAM = "businessAddressParam";
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
 		View view = inflater.inflate(R.layout.business_fill_details_fragment,container, false);	
 
-		businessNameEditText = (EditText) view.findViewById(R.id.business_name_textView);
-		businessTypeSpinner = (Spinner) view.findViewById(R.id.business_type_spinner);
-		businessPhoneEditText = (EditText) view.findViewById(R.id.business_phone_textView);
-		businessAddressEditText = (EditText) view.findViewById(R.id.business_address_textView);
-		setBusinessTypeSpinner();
+			setBusinessTypeSpinner();
 
+		String businessNameHint = getArguments().getString(BUSINESS_NAME_HINT_PARAM);
+		BusinessType typeHint = (BusinessType)getArguments().getSerializable(BUSINESS_TYPE_HINT_PARAM);
+		String businessAddressHint = getArguments().getString(BUSINESS_ADDRESS_HINT_PARAM);
+		String businessPhoneHint = getArguments().getString(BUSINESS_PHONE_HINT_PARAM);
+		
+		boolean changeCurrentSettingsMode = getArguments().getBoolean(IS_IN_SETTINGS_MODE_PARAM);
+		
 		if(changeCurrentSettingsMode){
+			//receives the input arguments
+			businessNameEditText = (EditText) view.findViewById(R.id.business_name_textView);
+			businessTypeSpinner = (Spinner) view.findViewById(R.id.business_type_spinner);
+			businessPhoneEditText = (EditText) view.findViewById(R.id.business_phone_textView);
+			businessAddressEditText = (EditText) view.findViewById(R.id.business_address_textView);
+		
+			//sets the hints accordingly
 			businessNameEditText.setHint(businessNameHint);
 
 			businessType = typeHint;
@@ -155,19 +166,19 @@ public class BusinessFillDetailsFragment extends Fragment{
 			return businessAddressEditText.getText().toString();
 		}
 
-		/**
-		 * this function is called from the settings activity and is used to set a hint for the fragment.
-		 * the phoneNumber and address parameters can be null or empty strings. in this case, the hint won't change for these fields.
-		 */
-		public void setHint(String businessNameHint,SupportedTypes.BusinessType typeHint,  String businessPhoneHint, String businessAddressHint){
-			changeCurrentSettingsMode = true;
-			this.businessNameHint = businessNameHint;
-			this.typeHint = typeHint;
-
-			this.businessPhoneHint = businessPhoneHint;
-			this.businessAddressHint = businessAddressHint;
-
-		}
+//		/**
+//		 * this function is called from the settings activity and is used to set a hint for the fragment.
+//		 * the phoneNumber and address parameters can be null or empty strings. in this case, the hint won't change for these fields.
+//		 */
+//		public void setHint(String businessNameHint,SupportedTypes.BusinessType typeHint,  String businessPhoneHint, String businessAddressHint){
+//			changeCurrentSettingsMode = true;
+//			this.businessNameHint = businessNameHint;
+//			this.typeHint = typeHint;
+//
+//			this.businessPhoneHint = businessPhoneHint;
+//			this.businessAddressHint = businessAddressHint;
+//
+//		}
 
 
 

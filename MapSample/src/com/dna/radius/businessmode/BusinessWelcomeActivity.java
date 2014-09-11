@@ -60,6 +60,10 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 		final FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		BusinessFillDetailsFragment businessWelcomeFragment = new BusinessFillDetailsFragment();
+		
+		Bundle fillDataBundle = new Bundle();
+		fillDataBundle.putBoolean(BusinessFillDetailsFragment.IS_IN_SETTINGS_MODE_PARAM, false);
+		businessWelcomeFragment.setArguments(fillDataBundle);
 		fragmentTransaction.add(R.id.business_welcome_main_fragment_layout, businessWelcomeFragment);
 		fragmentTransaction.commit();
 

@@ -24,7 +24,7 @@ public class BusinessSettingsActivity extends BaseActivity{
 	private Button locationSettingsBtn;
 	private CurrentRunningFragment currentFragment;
 	private FragmentTabHost mTabHost;
-	
+
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.business_settings_activity);
@@ -35,7 +35,7 @@ public class BusinessSettingsActivity extends BaseActivity{
 
 		// Create the tabs in main_fragment.xml
 		mTabHost.setup(this, getSupportFragmentManager(), R.id.tabcontent);
-		
+
 		Bundle generalSettingFragment = new Bundle();
 		generalSettingFragment.putString(GeneralSettingsFragment.USER_NAME_PARAM, BusinessData.getUserName());
 		generalSettingFragment.putString(GeneralSettingsFragment.EMAIL_PARAM, BusinessData.getEmail());
@@ -44,8 +44,14 @@ public class BusinessSettingsActivity extends BaseActivity{
 				GeneralSettingsFragment.class, generalSettingFragment);
 
 		// Create Tab2
+		Bundle fillDataBundle = new Bundle();
+		fillDataBundle.putBoolean(BusinessFillDetailsFragment.IS_IN_SETTINGS_MODE_PARAM, true);
+		fillDataBundle.putString(BusinessFillDetailsFragment.BUSINESS_NAME_HINT_PARAM, BusinessData.getName());
+		fillDataBundle.putString(BusinessFillDetailsFragment.BUSINESS_ADDRESS_HINT_PARAM, BusinessData.getBusinessAddress());
+		fillDataBundle.putString(BusinessFillDetailsFragment.BUSINESS_PHONE_HINT_PARAM, BusinessData.getPhoneNumber());
+		fillDataBundle.putSerializable(BusinessFillDetailsFragment.BUSINESS_TYPE_HINT_PARAM, BusinessData.getType());
 		mTabHost.addTab(mTabHost.newTabSpec("tab2").setIndicator("Tab2"),
-				BusinessFillDetailsFragment.class, null);
+				BusinessFillDetailsFragment.class, fillDataBundle);
 
 		Bundle locationBundle = new Bundle();
 		locationBundle.putString(LocationFinderFragment.ADDRESS_PARAMETER, "");
@@ -113,21 +119,27 @@ public class BusinessSettingsActivity extends BaseActivity{
 			if(b==generalSettingsBtn){
 				newFragment = new GeneralSettingsFragment();
 				Bundle bdl = new Bundle();
-			    bdl.putString(GeneralSettingsFragment.USER_NAME_PARAM, BusinessData.getUserName());
-			    bdl.putString(GeneralSettingsFragment.EMAIL_PARAM, BusinessData.getEmail());
+				bdl.putString(GeneralSettingsFragment.USER_NAME_PARAM, BusinessData.getUserName());
+				bdl.putString(GeneralSettingsFragment.EMAIL_PARAM, BusinessData.getEmail());
 				currentFragment = CurrentRunningFragment.GENERAL_SETTINGS_FRAGMENT;
 				newFragment.setArguments(bdl);
 			}else if(b==businessSettingsBtn){
+				Bundle bdl = new Bundle();
+				bdl.putBoolean(BusinessFillDetailsFragment.IS_IN_SETTINGS_MODE_PARAM, true);
+				bdl.putString(BusinessFillDetailsFragment.BUSINESS_NAME_HINT_PARAM, BusinessData.getName());
+				bdl.putString(BusinessFillDetailsFragment.BUSINESS_ADDRESS_HINT_PARAM, BusinessData.getBusinessAddress());
+				bdl.putString(BusinessFillDetailsFragment.BUSINESS_PHONE_HINT_PARAM, BusinessData.getPhoneNumber());
+				bdl.putSerializable(BusinessFillDetailsFragment.BUSINESS_TYPE_HINT_PARAM, BusinessData.getType());
 				BusinessFillDetailsFragment generalSettingsFragment = new BusinessFillDetailsFragment();
-				generalSettingsFragment.setHint(BusinessData.getName(), BusinessData.getType(),BusinessData.getPhoneNumber(),BusinessData.getBusinessAddress());
 				newFragment =generalSettingsFragment;
+				generalSettingsFragment.setArguments(bdl);
 				currentFragment = CurrentRunningFragment.BUSINESS_SETTINGS_FRAGMENT;
 			}else{
 				LocationFinderFragment locationFinderFragment  = new LocationFinderFragment();
 				Bundle bdl = new Bundle();
 				bdl.putString(LocationFinderFragment.ADDRESS_PARAMETER, "");
 				locationFinderFragment.setArguments(bdl);
-				
+
 				locationFinderFragment.setPreviousLocation(BusinessData.getLocation());
 				newFragment = locationFinderFragment;
 				currentFragment = CurrentRunningFragment.LOCATION_SETTINGS_FRAGMENT;
