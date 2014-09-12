@@ -64,7 +64,7 @@ public class MainActivity extends FragmentActivity {
 
 		Parse.initialize(getApplicationContext(), APP_ID, CLIENT_KEY);
 		Log.d("MainActivity","Parse was initialized");
-		ParseUser.enableAutomaticUser();
+		//ParseUser.enableAutomaticUser(); TODO should remove?
 
 	}
 

@@ -277,14 +277,18 @@ public class BusinessData {
 	private static void loadCurrentDeal() {
 		
 		try {
-			businessInfo.fetchIfNeeded();
+			List<ParseObject> objectsToFetch = new ArrayList<ParseObject>();
+			objectsToFetch.add(businessInfo);
+			ParseObject.fetchAll(objectsToFetch);
+			
 		} catch (ParseException e1) {
 			
 			Log.e("Business - loadCurrentDeal", "fetch failed:" + e1.getMessage());
 		}
 
+		
 		JSONObject jo = businessInfo.getJSONObject(ParseClassesNames.BUSINESS_CURRENT_DEAL);
-
+		
 		if ( jo.isNull(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID) )
 			return;
 
