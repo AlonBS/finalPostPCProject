@@ -83,9 +83,132 @@ public class DBHandler {
 		String businessId = dealId.split(BaseActivity.SEPERATOR)[0];
 		ParseQuery<ParseObject> query = ParseQuery.getQuery(ParseClassesNames.BUSINESS_CLASS);
 
-		query.getInBackground(businessId, new AddRemoveLikesDislikesCallBack(n1, deleteNeeded, n2, dealId));
+		query.getInBackground(businessId, new AddRemoveLikesDislikesCallBack(dealId, n1, deleteNeeded, n2));
 
 	}
+	
+	
+	public static void removelikeExternally(String dealId) {
+		
+		removeLikes_N_Dislikes(dealId, ParseClassesNames.BUSINESS_CURRENT_DEAL_LIKES);
+	}
+
+
+	public static void removeDislikeExternally(String dealId) {
+
+		removeLikes_N_Dislikes(dealId, ParseClassesNames.BUSINESS_CURRENT_DEAL_DISLIKES);
+	}
+	
+	
+	private static void removeLikes_N_Dislikes(String dealId, final String n1) {
+
+		String businessId = dealId.split(BaseActivity.SEPERATOR)[0];
+		ParseQuery<ParseObject> query = ParseQuery.getQuery(ParseClassesNames.BUSINESS_CLASS);
+
+		query.getInBackground(businessId, new RemoveLikesDislikesCallBack(dealId, n1));
+
+	}
+	
+	
+	
+	private static class AddRemoveLikesDislikesCallBack extends GetCallback<ParseObject> {
+
+		private  String n1, n2;
+		private  boolean deleteNeeded;
+		private String dealId;
+
+		public AddRemoveLikesDislikesCallBack(String dealId, String n1, boolean deleteNeeded, String n2) {
+
+			this.n1 = n1;
+			this.n2 = n2;
+			this.deleteNeeded = deleteNeeded;
+			this.dealId = dealId;
+
+		}
+
+		@Override
+		public void done(ParseObject object, ParseException e) {
+
+			if (e == null) {
+
+				try {
+
+					JSONObject curDealJO = object.getJSONObject(ParseClassesNames.BUSINESS_CURRENT_DEAL);
+
+					if (curDealJO.isNull(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID)) return;
+					if (curDealJO.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID).compareTo(dealId) != 0) return;
+
+					curDealJO.put(n1, curDealJO.getInt(n1) + 1);
+
+					if (deleteNeeded)
+						curDealJO.put(n2, curDealJO.getInt(n2) - 1 );
+
+					object.put(ParseClassesNames.BUSINESS_CURRENT_DEAL, curDealJO);
+					object.saveInBackground();
+				}
+
+
+				catch (JSONException exc) {
+					Log.e("External - add like/dislike to deal", exc.getMessage());
+				}
+			}
+			else {
+				Log.e("External like/dislike", e.getMessage());
+			}
+		}
+	}
+	
+	
+	
+	private static class RemoveLikesDislikesCallBack extends GetCallback<ParseObject> {
+
+		private  String n1;
+		private String dealId;
+
+		public RemoveLikesDislikesCallBack(String dealId, String n1) {
+
+			this.n1 = n1;
+			this.dealId = dealId;
+
+		}
+
+		@Override
+		public void done(ParseObject object, ParseException e) {
+
+			if (e == null) {
+
+				try {
+
+					JSONObject curDealJO = object.getJSONObject(ParseClassesNames.BUSINESS_CURRENT_DEAL);
+
+					if (curDealJO.isNull(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID)) return;
+					if (curDealJO.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID).compareTo(dealId) != 0) return;
+
+					curDealJO.put(n1, curDealJO.getInt(n1) - 1);
+
+					object.put(ParseClassesNames.BUSINESS_CURRENT_DEAL, curDealJO);
+					object.saveInBackground();
+				}
+
+				catch (JSONException exc) {
+					Log.e("External - remove like/dislike from deal", exc.getMessage());
+				}
+			}
+			else {
+				Log.e("External like/dislike", e.getMessage());
+			}
+		}
+	}
+	
+	
+	
+
+
+	
+	
+	
+	
+	
 
 
 
@@ -485,53 +608,10 @@ public class DBHandler {
 	}
 
 
-	private static class AddRemoveLikesDislikesCallBack extends GetCallback<ParseObject> {
-
-		private  String n1, n2;
-		private  boolean deleteNeeded;
-		private String dealId;
-
-		public AddRemoveLikesDislikesCallBack(String n1, boolean deleteNeeded, String n2, String dealId) {
-
-			this.n1 = n1;
-			this.n2 = n2;
-			this.deleteNeeded = deleteNeeded;
-			this.dealId = dealId;
-
-		}
-
-		@Override
-		public void done(ParseObject object, ParseException e) {
-
-			if (e == null) {
-
-				try {
-
-					JSONObject curDealJO = object.getJSONObject(ParseClassesNames.BUSINESS_CURRENT_DEAL);
-
-					if (curDealJO.isNull(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID)) return;
-					if (curDealJO.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID).compareTo(dealId) != 0) return;
-
-					curDealJO.put(n1, curDealJO.getInt(n1) + 1);
-
-					if (deleteNeeded)
-						curDealJO.put(n2, curDealJO.getInt(n2) -1 );
-
-					object.put(ParseClassesNames.BUSINESS_CURRENT_DEAL, curDealJO);
-					object.saveInBackground();
-				}
+	
 
 
-				catch (JSONException exc) {
-					Log.e("External - add like to deal", exc.getMessage());
-				}
-			}
-			else {
-				Log.e("External Like", e.getMessage());
-			}
-		}
-	}
-
+	
 }
 
 

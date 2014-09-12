@@ -218,7 +218,7 @@ public class LikeAndDislikeFragment extends Fragment{
 
 		if (BaseActivity.isInBusinessMode || oldChoice == newChoice) return;
 
-		String dealId = pressedExtern.getExternBusinessId();
+		String dealId = pressedExtern.getExternBusinessDeal().getId();
 
 		switch (newChoice) { 
 			case LIKE:

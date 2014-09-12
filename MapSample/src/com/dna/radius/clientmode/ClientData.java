@@ -216,12 +216,11 @@ public class ClientData{
 	}
 
 
-
 	/**
-	 * returns the user's favourites list
-	 * @return
+	 * 
+	 * @param businessId
 	 */
-	public static void addToFavourites(String businessId){
+	public static void addToFavourites(String businessId) {
 
 		addToStorage(favourites, businessId,
 				ParseClassesNames.CLIENT_PREFERRING,
@@ -334,6 +333,8 @@ public class ClientData{
 				ParseClassesNames.CLIENT_LIKES,
 				ParseClassesNames.CLIENT_LIKES_ID,
 				"Remove from Likes");
+		
+		DBHandler.removelikeExternally(dealId);
 	}
 
 
@@ -344,6 +345,8 @@ public class ClientData{
 				ParseClassesNames.CLIENT_DISLIKES,
 				ParseClassesNames.CLIENT_DISLIKES_ID,
 				"Remove from Dislikes");
+		
+		DBHandler.removeDislikeExternally(dealId);
 	}
 
 
