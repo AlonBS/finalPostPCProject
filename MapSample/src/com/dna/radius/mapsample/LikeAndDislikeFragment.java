@@ -71,8 +71,8 @@ public class LikeAndDislikeFragment extends Fragment{
 		//updates the likes and dislikes text views
 		if (pressedExtern.getExternBusinessDeal() != null) {
 			
-			likesTextView.setText(Long.toString(pressedExtern.getExternBusinessTotalLikes()));
-			dislikesTextView.setText(Long.toString(pressedExtern.getExternBusinessTotalDislikes()));
+			likesTextView.setText(Long.toString(pressedExtern.getExternBusinessDeal().getNumOfLikes()));
+			dislikesTextView.setText(Long.toString(pressedExtern.getExternBusinessDeal().getNumOfDislikes()));
 		}
 		else {
 			
@@ -181,7 +181,7 @@ public class LikeAndDislikeFragment extends Fragment{
 			}
 		}
 		
-		MapManager.updateExternalBusinessLikesAndDislikes(pressedExtern.getExternBusinessId(), numOfLikesAddition, numOfDislikesAddition);
+		MapManager.updateExternalBusinessLikesAndDislikes(pressedExtern.getExternBusinessId(),pressedExtern.getExternBusinessDeal().getNumOfLikes() + numOfLikesAddition, pressedExtern.getExternBusinessDeal().getNumOfDislikes() + numOfDislikesAddition);
 	}
 
 
