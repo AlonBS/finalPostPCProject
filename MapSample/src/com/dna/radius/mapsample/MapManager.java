@@ -97,14 +97,14 @@ public class MapManager {
     	DBHandler.getExternalBusinessAtRadius(location, MapWindowFragment.LOAD_RADIUS);
     }
     
-    public static void updateExternalBusinessLikesAndDislikes(String businessID, int numOfLikes, int numOfDislikes){
+    public static void updateExternalBusinessLikesAndDislikes(String businessID, int newNumOfLikes, int newNumOfDislikes){
     	if(!businessIDToExternalBusiness.containsKey(businessID)){
     		Log.d("MapManager", "Business is not recognized by the map manager");
     		return;
     	}
     	ExternalBusiness b = businessIDToExternalBusiness.get(businessID);
-    	b.setExternalBusinessLikes(b.getExternBusinessDeal().getNumOfLikes() + numOfLikes);
-    	b.setExternalBusinessDislikes(b.getExternBusinessDeal().getNumOfDislikes() + numOfDislikes);
+    	b.setExternalBusinessDealLikes(newNumOfLikes);
+    	b.setExternalBusinessDealDislikes(newNumOfDislikes);
     	
 
     

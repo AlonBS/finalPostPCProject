@@ -121,13 +121,13 @@ public class ExternalBusiness implements Serializable {
 	public Deal getExternBusinessDeal() { return externBusinessDeal; }
 
 
-	public void setExternalBusinessLikes(int numOfLikes) {
-		this.externBusinessTotalLikes = numOfLikes;
+	public void setExternalBusinessDealLikes(int numOfLikes) {
+		this.externBusinessDeal.setNumOfLikes(numOfLikes);
 		
 	}
 	
-	public void setExternalBusinessDislikes(int numOfDislikes) {
-		this.externBusinessTotalDislikes = numOfDislikes;
+	public void setExternalBusinessDealDislikes(int numOfDislikes) {
+		this.externBusinessDeal.setNumOfDislikes(numOfDislikes);
 		
 	}
 }
