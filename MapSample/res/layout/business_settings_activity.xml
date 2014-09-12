@@ -37,7 +37,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/btn_background"
+        android:background="@drawable/green_button_background"
+        style="@style/ButtonText"
         android:text="@string/apply_settings"
         android:textColor="#FFFFFFFF" />
 

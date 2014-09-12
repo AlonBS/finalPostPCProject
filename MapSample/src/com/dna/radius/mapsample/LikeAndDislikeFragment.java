@@ -23,13 +23,14 @@ import com.parse.ParseImageView;
  * this fragment allows the user to like or dislike a certain deal, if he is
  * in a client mode.
  * it is also contains an imageView for the business.
- * @author dror
  *
  */
 public class LikeAndDislikeFragment extends Fragment{
-	
-	
-	private DealLikeStatus updatedDealStatus,originalDealStatus;
+
+	private View view; //This fragment's view
+
+	private ClientChoice newChoice, oldChoice;
+
 	private View dislikeBtn;
 	private View likeBtn;
 	private ShowDealActivity parentActivity;
@@ -37,90 +38,115 @@ public class LikeAndDislikeFragment extends Fragment{
 	private TextView dislikesTextView;
 	private ImageView likeImageView;
 	private ImageView dislikeImageView;
-	
+
 	private ExternalBusiness pressedExtern;
-	private int numOfLikesAddition;
-	private int numOfDislikesAddition;
-	
-	public enum DealLikeStatus{LIKE,DISLIKE,DONT_CARE};
-	
-	
+
+	private int newNumOfLikes, newNumOfDislikes;
+
+	public enum ClientChoice{LIKE,DISLIKE,DONT_CARE};
+
+
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.like_and_dislike_fragment,container, false);
-		
 
+		view = inflater.inflate(R.layout.like_and_dislike_fragment,container, false);
 		parentActivity = (ShowDealActivity)getActivity();
 		pressedExtern = parentActivity.getExternalBusiness();
-		
-		numOfLikesAddition = 0;
-		numOfDislikesAddition = 0;
 
-		//loads the business image		
-		ImageView imageView = (ImageView) view.findViewById(R.id.business_image_view);
-		DBHandler.loadBusinessImageViewAsync(pressedExtern.getExternBusinessId(), imageView);
+		loadImage();
 
-		
-		
-		
-		
-		
-		likesTextView = (TextView)view.findViewById(R.id.like_text_view);
-		dislikesTextView = (TextView)view.findViewById(R.id.dislike_text_view);
+		boolean hasDeal = loadLikesDislikes();
 
-		//updates the likes and dislikes text views
-		if (pressedExtern.getExternBusinessDeal() != null) {
-			
-			likesTextView.setText(Long.toString(pressedExtern.getExternBusinessTotalLikes()));
-			dislikesTextView.setText(Long.toString(pressedExtern.getExternBusinessTotalDislikes()));
-		}
-		else {
-			
-			likesTextView.setText(ShowDealActivity.EMPTY_DEAL);
-			dislikesTextView.setText(ShowDealActivity.EMPTY_DEAL);
-			return view;
-		}
-		
+		if (!hasDeal) return view;
+
+		newNumOfLikes = pressedExtern.getExternBusinessDeal().getNumOfLikes();
+		newNumOfDislikes = pressedExtern.getExternBusinessDeal().getNumOfDislikes();
 
 		likeImageView = (ImageView)view.findViewById(R.id.like_image_view);
 		dislikeImageView = (ImageView)view.findViewById(R.id.dislike_image_view);
 
 		//handles the like and dislikes buttons.
 		if(!BaseActivity.isInBusinessMode){
-			originalDealStatus = ClientData.getDealLikeStatus(pressedExtern.getExternBusinessDeal().getId());
-			updatedDealStatus = originalDealStatus;
+			oldChoice = ClientData.getDealLikeStatus(pressedExtern.getExternBusinessDeal().getId());
+			newChoice = oldChoice;
 		}
+
+		setLikeBtnOnClickListener();
+
+		setDislikeBtnOnClickListener();
+
+
+		setDislikeAndLikeBG();
+		return view;
+	}
+
+
+	private void loadImage() {
+
+		//loads the business image		
+		ImageView imageView = (ImageView) view.findViewById(R.id.business_image_view);
+		DBHandler.loadBusinessImageViewAsync(pressedExtern.getExternBusinessId(), imageView);
+	}
+
+	private boolean loadLikesDislikes() {
+
+		likesTextView = (TextView)view.findViewById(R.id.like_text_view);
+		dislikesTextView = (TextView)view.findViewById(R.id.dislike_text_view);
+
+		//updates the likes and dislikes text views
+		if (pressedExtern.getExternBusinessDeal() != null) {
+
+			likesTextView.setText(Long.toString(pressedExtern.getExternBusinessDeal().getNumOfLikes()));
+			dislikesTextView.setText(Long.toString(pressedExtern.getExternBusinessDeal().getNumOfDislikes()));
+		}
+		else {
+
+			likesTextView.setText(ShowDealActivity.EMPTY_DEAL);
+			dislikesTextView.setText(ShowDealActivity.EMPTY_DEAL);
+			return false;
+		}
+
+		return true;
+	}
+
+	private void setLikeBtnOnClickListener() {
+
+		likeBtn = (View)view.findViewById(R.id.show_deal_like_btn);
 		
-		likeBtn = (View)view.findViewById(R.id.sounds_cool_btn);
 		likeBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if(BaseActivity.isInBusinessMode){
-					Toast.makeText(parentActivity, "it's impossible to like/dislike a deal on business mode", Toast.LENGTH_SHORT).show();
+
+				if (BaseActivity.isInBusinessMode) {
+					Toast.makeText(parentActivity, getString(R.string.no_like_in_bus_mode), Toast.LENGTH_SHORT).show();
 					return;
 				}
-				if(updatedDealStatus==DealLikeStatus.LIKE){
-					updatedDealStatus = DealLikeStatus.DONT_CARE;
-					numOfLikesAddition--;
-					String newStr = Long.toString(Long.parseLong(likesTextView.getText().toString())-1);
-					likesTextView.setText(newStr);
-				}else{
-					if(updatedDealStatus==DealLikeStatus.DISLIKE){
-						String newStr = Long.toString(Long.parseLong(dislikesTextView.getText().toString())-1);
-						dislikesTextView.setText(newStr);
-						numOfDislikesAddition--;
+
+				if (newChoice == ClientChoice.LIKE) {
+					newChoice = ClientChoice.DONT_CARE;
+					likesTextView.setText(Integer.toString(--newNumOfLikes));
+
+				} else {
+
+					if (newChoice == ClientChoice.DISLIKE) {
+						dislikesTextView.setText(Integer.toString(--newNumOfDislikes));
+						
 					}
-					
-					numOfLikesAddition++;
-					updatedDealStatus = DealLikeStatus.LIKE;
-					String oldText =likesTextView.getText().toString();
-					String newStr = Long.toString(Long.parseLong(oldText)+1);
-					likesTextView.setText(newStr);
+
+					newChoice = ClientChoice.LIKE;
+					likesTextView.setText(Integer.toString(++newNumOfLikes));
 				}
+
 				setDislikeAndLikeBG();
 			}
 		});
-		dislikeBtn = view.findViewById(R.id.no_thanks_btn);
+
+	}
+
+	
+	private void setDislikeBtnOnClickListener() {
+
+		dislikeBtn = view.findViewById(R.id.show_deal_dislike_btn);
 		dislikeBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -129,60 +155,28 @@ public class LikeAndDislikeFragment extends Fragment{
 					Toast.makeText(parentActivity, "it's impossible to like/dislike a deal on business mode", Toast.LENGTH_SHORT).show();
 					return;
 				}
-				if(updatedDealStatus==DealLikeStatus.DISLIKE){
-					updatedDealStatus = DealLikeStatus.DONT_CARE;
-					String newStr = Long.toString(Long.parseLong(dislikesTextView.getText().toString())-1);
-					dislikesTextView.setText(newStr);
-					numOfDislikesAddition--;
-				}else{
-					if(updatedDealStatus==DealLikeStatus.LIKE){
-						String newStr = Long.toString(Long.parseLong(likesTextView.getText().toString())-1);
-						likesTextView.setText(newStr);
-						numOfLikesAddition--;
+				
+				if (newChoice == ClientChoice.DISLIKE) {
+					
+					newChoice = ClientChoice.DONT_CARE;
+					dislikesTextView.setText(Integer.toString(--newNumOfDislikes));
+					
+				} else {
+					
+					if (newChoice == ClientChoice.LIKE) {
+						
+						likesTextView.setText(Integer.toString(--newNumOfLikes));
 					}
-					numOfDislikesAddition++;
-					updatedDealStatus = DealLikeStatus.DISLIKE;
-					String newStr = Long.toString(Long.parseLong(dislikesTextView.getText().toString())+1);
-					dislikesTextView.setText(newStr);
-				}
-				setDislikeAndLikeBG();
 
+					newChoice = ClientChoice.DISLIKE;
+					dislikesTextView.setText(Integer.toString(++newNumOfDislikes));
+				}
+				
+				setDislikeAndLikeBG();
 			}
 		});
-		setDislikeAndLikeBG();
-		return view;
 	}
 
-
-	
-	
-	
-	private void saveUserActions(){
-		if(BaseActivity.isInBusinessMode){
-			return;
-		}
-		
-		if(originalDealStatus == updatedDealStatus){
-			return;
-		}
-		
-		Log.d("LikeAndDislikeFragment.saveUserActions","previus preferences: " + originalDealStatus.name() + ", new preferenced: " + updatedDealStatus.name());
-
-		if(updatedDealStatus==DealLikeStatus.LIKE){
-			ClientData.addToLikes(pressedExtern.getExternBusinessDeal().getId());
-			//pressedExtern
-		}else if(updatedDealStatus==DealLikeStatus.DISLIKE){
-			ClientData.addToDislikes(pressedExtern.getExternBusinessDeal().getId());
-		}else if(updatedDealStatus==DealLikeStatus.DONT_CARE){
-			if(originalDealStatus == DealLikeStatus.LIKE){
-				ClientData.removeFromLikes(pressedExtern.getExternBusinessDeal().getId());
-			}else if(originalDealStatus == DealLikeStatus.DISLIKE){
-				ClientData.removeFromDislikes(pressedExtern.getExternBusinessDeal().getId());
-			}
-		}
-		
-		MapManager.updateExternalBusinessLikesAndDislikes(pressedExtern.getExternBusinessId(), numOfLikesAddition, numOfDislikesAddition);
-	}
 
 
 	/**
@@ -190,31 +184,70 @@ public class LikeAndDislikeFragment extends Fragment{
 	 * according to the user preferenced. 
 	 */
 	private void setDislikeAndLikeBG(){
-		if(BaseActivity.isInBusinessMode){
+
+		if(BaseActivity.isInBusinessMode) {
 			return;
 		}
-		if(updatedDealStatus==DealLikeStatus.LIKE){
+
+		if (newChoice == ClientChoice.LIKE) {
 
 			likeImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_good_blue));
 			likesTextView.setTextColor(Color.BLUE);
+
 		}else{
+			
 			likeImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_good_black));
 			likesTextView.setTextColor(Color.BLACK);
 		}
-		if(updatedDealStatus==DealLikeStatus.DISLIKE){
-			dislikesTextView.setTextColor(Color.BLUE);
+
+		if (newChoice == ClientChoice.DISLIKE) {
+			
+			dislikesTextView.setTextColor(getResources().getColor(R.color.red_1));
 			dislikeImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_bad_blue));
-		}else{
+
+		} else {
+
 			dislikesTextView.setTextColor(Color.BLACK);
 			dislikeImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_bad_black));
 		}
-
 	}
+
+			
+
+	private void saveUserActions() {
+
+		if (BaseActivity.isInBusinessMode || oldChoice == newChoice) return;
+
+		String dealId = pressedExtern.getExternBusinessId();
+
+		switch (newChoice) { 
+			case LIKE:
+				ClientData.addToLikes(dealId);
+				break;
+
+			case DISLIKE:
+				ClientData.addToDislikes(dealId);
+				break;
+
+			case DONT_CARE:
+				if (oldChoice == ClientChoice.LIKE)
+					ClientData.removeFromLikes(dealId);
+				else 
+					ClientData.removeFromDislikes(dealId);	
+				break;
+
+			default:
+				Log.e("Like Dislike fragment", "ClientChoice wasn't recognized");
+		}
+		
+		MapManager.updateExternalBusinessLikesAndDislikes(pressedExtern.getExternBusinessId(), newNumOfLikes, newNumOfDislikes);
+	}
+
+
 	@Override
 	public void onDestroy() {
-		
+
 		saveUserActions();
 		super.onDestroy();
 	}
-
 }

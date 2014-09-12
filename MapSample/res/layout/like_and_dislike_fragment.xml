@@ -12,7 +12,7 @@
         android:adjustViewBounds="true" />
 
     <LinearLayout
-        android:id="@+id/no_thanks_btn"
+        android:id="@+id/show_deal_dislike_btn"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
@@ -33,12 +33,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="2dp"
-            android:text="0"
             android:textColor="#FF000000"
             android:textSize="14sp" />
 
         <LinearLayout
-            android:id="@+id/sounds_cool_btn"
+            android:id="@+id/show_deal_like_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
@@ -59,7 +58,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="2dp"
-                android:text="0"
                 android:textColor="#FF000000"
                 android:textSize="14sp" />
         </LinearLayout>

@@ -118,6 +118,10 @@
     <string name="are_you_sure"> are you sure you want to switch</string>
     <string name="switching"> switching</string>
     <string name="log_out"> log out</string>
+    
+    
+    <!--  ShowDeal Activity Strings -->
+    <string name="no_like_in_bus_mode">"It's impossible to like/dislike a deal on business mode"</string>
 
     <!-- map -->
     <string name="type_address">type address here</string>
