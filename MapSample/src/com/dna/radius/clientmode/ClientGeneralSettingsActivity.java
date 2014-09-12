@@ -9,8 +9,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.dna.radius.R;
-import com.dna.radius.businessmode.BusinessData;
-import com.dna.radius.businessmode.BusinessSettingsActivity.CurrentRunningFragment;
 import com.dna.radius.infrastructure.BaseActivity;
 import com.dna.radius.infrastructure.GeneralSettingsFragment;
 

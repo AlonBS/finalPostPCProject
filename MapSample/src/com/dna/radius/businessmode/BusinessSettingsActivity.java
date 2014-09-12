@@ -2,11 +2,13 @@ package com.dna.radius.businessmode;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTabHost;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SearchViewCompat.OnCloseListenerCompat;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -18,11 +20,6 @@ import com.dna.radius.infrastructure.SupportedTypes.BusinessType;
 import com.google.android.gms.maps.model.LatLng;
 
 public class BusinessSettingsActivity extends BaseActivity{
-	public static enum CurrentRunningFragment{GENERAL_SETTINGS_FRAGMENT,BUSINESS_SETTINGS_FRAGMENT,LOCATION_SETTINGS_FRAGMENT};
-	private Button generalSettingsBtn;
-	private Button businessSettingsBtn;
-	private Button locationSettingsBtn;
-	private CurrentRunningFragment currentFragment;
 	private FragmentTabHost mTabHost;
 
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +31,7 @@ public class BusinessSettingsActivity extends BaseActivity{
 		mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
 
 		// Create the tabs in main_fragment.xml
-		mTabHost.setup(this, getSupportFragmentManager(), R.id.tabcontent);
-
+		mTabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
 		Bundle generalSettingFragment = new Bundle();
 		generalSettingFragment.putString(GeneralSettingsFragment.USER_NAME_PARAM, BusinessData.getUserName());
 		generalSettingFragment.putString(GeneralSettingsFragment.EMAIL_PARAM, BusinessData.getEmail());
@@ -59,104 +55,41 @@ public class BusinessSettingsActivity extends BaseActivity{
 		mTabHost.addTab(mTabHost.newTabSpec("tab3").setIndicator("Tab3"),
 				LocationFinderFragment.class, locationBundle);
 
+		Button applyChagnesButton = (Button) findViewById(R.id.apply_changes_button);
+		applyChagnesButton.setOnClickListener(new OnClickListener() {
 
+			@Override
+			public void onClick(View v) {
 
+				Fragment currentFragment = getSupportFragmentManager().findFragmentByTag(mTabHost.getCurrentTabTag());
 
-		//		generalSettingsBtn = (Button)findViewById(R.id.general_settings_btn);
-		//		businessSettingsBtn = (Button)findViewById(R.id.business_settings_btn);
-		//		locationSettingsBtn = (Button)findViewById(R.id.location_settings_btn);
-		//
-		//		generalSettingsBtn.setOnClickListener(new SwitchFragmentOnCliclListener());
-		//		businessSettingsBtn.setOnClickListener(new SwitchFragmentOnCliclListener());
-		//		locationSettingsBtn.setOnClickListener(new SwitchFragmentOnCliclListener());
-		//
-		//		FragmentManager fragmentManager = getSupportFragmentManager();
-		//		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-		//		Fragment newFragment = new GeneralSettingsFragment(BusinessData.getUserName(),BusinessData.getEmail());;
-		//		fragmentTransaction.replace(R.id.business_settings_holder, newFragment);
-		//		fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_ENTER_MASK);
-		//		fragmentTransaction.commit();
-		//
-		//		currentFragment = CurrentRunningFragment.GENERAL_SETTINGS_FRAGMENT;
-		//
-				Button applyChagnesButton = (Button) findViewById(R.id.apply_changes_button);
-				applyChagnesButton.setOnClickListener(new OnClickListener() {
-		
-					@Override
-					public void onClick(View v) {
-						//tests if it's possible to move to the next fragment
-						switch (currentFragment) {
-						case GENERAL_SETTINGS_FRAGMENT:
-							handleApplyGeneralSettings();
-							break;
-						case BUSINESS_SETTINGS_FRAGMENT:
-							handleApplyBusinessSettings();
-							break;
-						case LOCATION_SETTINGS_FRAGMENT:
-							handleLocationSettings();
-							break;
-						default:
-							return;
-						}
-					}
-		
-					
-				});
-		//
-		//
-		//
-
-	}
-
-	class SwitchFragmentOnCliclListener implements OnClickListener{
-
-		@Override
-		public void onClick(View v) {
-			Button b = (Button)v;
-			FragmentManager fragmentManager = getSupportFragmentManager();
-			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-			Fragment newFragment;
-			if(b==generalSettingsBtn){
-				newFragment = new GeneralSettingsFragment();
-				Bundle bdl = new Bundle();
-				bdl.putString(GeneralSettingsFragment.USER_NAME_PARAM, BusinessData.getUserName());
-				bdl.putString(GeneralSettingsFragment.EMAIL_PARAM, BusinessData.getEmail());
-				currentFragment = CurrentRunningFragment.GENERAL_SETTINGS_FRAGMENT;
-				newFragment.setArguments(bdl);
-			}else if(b==businessSettingsBtn){
-				Bundle bdl = new Bundle();
-				bdl.putBoolean(BusinessFillDetailsFragment.IS_IN_SETTINGS_MODE_PARAM, true);
-				bdl.putString(BusinessFillDetailsFragment.BUSINESS_NAME_HINT_PARAM, BusinessData.getName());
-				bdl.putString(BusinessFillDetailsFragment.BUSINESS_ADDRESS_HINT_PARAM, BusinessData.getBusinessAddress());
-				bdl.putString(BusinessFillDetailsFragment.BUSINESS_PHONE_HINT_PARAM, BusinessData.getPhoneNumber());
-				bdl.putSerializable(BusinessFillDetailsFragment.BUSINESS_TYPE_HINT_PARAM, BusinessData.getType());
-				BusinessFillDetailsFragment generalSettingsFragment = new BusinessFillDetailsFragment();
-				newFragment =generalSettingsFragment;
-				generalSettingsFragment.setArguments(bdl);
-				currentFragment = CurrentRunningFragment.BUSINESS_SETTINGS_FRAGMENT;
-			}else{
-				LocationFinderFragment locationFinderFragment  = new LocationFinderFragment();
-				Bundle bdl = new Bundle();
-				bdl.putString(LocationFinderFragment.ADDRESS_PARAMETER, "");
-				locationFinderFragment.setArguments(bdl);
-
-				locationFinderFragment.setPreviousLocation(BusinessData.getLocation());
-				newFragment = locationFinderFragment;
-				currentFragment = CurrentRunningFragment.LOCATION_SETTINGS_FRAGMENT;
+				if(currentFragment.getClass() == GeneralSettingsFragment.class){
+					Log.d("BusinessSettingsActivity", "apply button was pressesd, current fragment - general settings");
+					handleApplyGeneralSettings();
+				}
+				else if(currentFragment.getClass() == BusinessFillDetailsFragment.class){
+					Log.d("BusinessSettingsActivity", "apply button was pressesd, current fragment - business settings");
+					handleApplyBusinessSettings();
+				}
+				else if(currentFragment.getClass() == LocationFinderFragment.class){
+					Log.d("BusinessSettingsActivity", "apply button was pressesd, current fragment - location settings");
+					handleLocationSettings();
+				}
+				else{
+					Log.e("BusinessSettingsActivity", "apply button was pressesd, current fragment wasnt recognized");
+					return;
+				}
 			}
-			fragmentTransaction.replace(R.id.business_settings_holder, newFragment);
-			fragmentTransaction.addToBackStack(null);
-			fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_ENTER_MASK);
-			fragmentTransaction.commit();
 
-		}
+
+		});
 
 	}
+
 
 	private void handleLocationSettings() {
 
-		final FragmentManager fragmentManager = getSupportFragmentManager();
-		LocationFinderFragment currentFragment = (LocationFinderFragment)fragmentManager.findFragmentById(R.id.business_settings_holder);
+		LocationFinderFragment currentFragment = (LocationFinderFragment) getSupportFragmentManager().findFragmentByTag(mTabHost.getCurrentTabTag());
 
 		if(!currentFragment.neededInfoGiven()){
 			return;
@@ -172,9 +105,7 @@ public class BusinessSettingsActivity extends BaseActivity{
 	}
 
 	private void handleApplyBusinessSettings() {
-
-		final FragmentManager fragmentManager = getSupportFragmentManager();
-		BusinessFillDetailsFragment currentFragment = (BusinessFillDetailsFragment)fragmentManager.findFragmentById(R.id.business_settings_holder);
+		BusinessFillDetailsFragment currentFragment = (BusinessFillDetailsFragment) getSupportFragmentManager().findFragmentByTag(mTabHost.getCurrentTabTag());
 
 
 		boolean didDataChanged = false;
@@ -211,10 +142,7 @@ public class BusinessSettingsActivity extends BaseActivity{
 
 	private void handleApplyGeneralSettings(){
 		boolean didDataChanged = false;
-
-		final FragmentManager fragmentManager = getSupportFragmentManager();
-		GeneralSettingsFragment currentFragment = (GeneralSettingsFragment)fragmentManager.findFragmentById(R.id.business_settings_holder);
-
+		GeneralSettingsFragment currentFragment = (GeneralSettingsFragment) getSupportFragmentManager().findFragmentByTag(mTabHost.getCurrentTabTag());
 
 		//tests if the users changed the user name and changes it accordingly
 		String newUserName = currentFragment.getUserName();
@@ -248,6 +176,28 @@ public class BusinessSettingsActivity extends BaseActivity{
 			Toast.makeText(this, getResources().getString(R.string.data_changed_successfully), Toast.LENGTH_SHORT).show();
 			finish();
 		}
+	}
+	
+	
+	
+	/*
+	 * apparantly, there is an android bug whenever one of the fragments
+	 * within a tab host contains several edit text.
+	 * the problem is that the edit text can't receive focus in this case.
+	 * after a research, I found out that the most suitable solution is that each
+	 * edit text will have an on touch listener which requests for focus.
+	 * No farther investigation is needed.
+	 * @author dror
+	 *
+	 */
+	public static class EditTextOnTouchListenerWithinTabhost implements OnTouchListener{
+		@Override
+		public boolean onTouch(View v, MotionEvent event) {
+			v.requestFocusFromTouch();
+			return false;
+		}
+
+		
 	}
 
 }

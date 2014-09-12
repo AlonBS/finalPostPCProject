@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.dna.radius.R;
+import com.dna.radius.businessmode.BusinessSettingsActivity;
 
 public class GeneralSettingsFragment extends Fragment{
 
@@ -28,6 +29,12 @@ public class GeneralSettingsFragment extends Fragment{
 		newPasswordConformationEditText = (EditText)view.findViewById(R.id.password_confirmation_edit_text);
 		emailEditText = (EditText)view.findViewById(R.id.email_address_edit_text);
 
+		userNameEditText.setOnTouchListener(new BusinessSettingsActivity.EditTextOnTouchListenerWithinTabhost());
+		newPasswordEditText.setOnTouchListener(new BusinessSettingsActivity.EditTextOnTouchListenerWithinTabhost());
+		newPasswordConformationEditText.setOnTouchListener(new BusinessSettingsActivity.EditTextOnTouchListenerWithinTabhost());
+		emailEditText.setOnTouchListener(new BusinessSettingsActivity.EditTextOnTouchListenerWithinTabhost());
+		
+		
 		String currentUserName = getArguments().getString(USER_NAME_PARAM);
 		userNameEditText.setHint(currentUserName);
 		String currentEmail = getArguments().getString(EMAIL_PARAM);

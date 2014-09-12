@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/aero"
+    android:background="@drawable/gradient_blue_background"
     android:orientation="vertical" >
 
     <android.support.v4.app.FragmentTabHost
@@ -10,10 +10,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-        <FrameLayout
-            android:id="@+id/tabcontent"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+        <LinearLayout
+            android:id="@+id/tabs_buttons_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+
+            <!-- TabWidget used to creat tabs -->
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+            </TabWidget>
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
     </android.support.v4.app.FragmentTabHost>
 
     <Button
@@ -25,14 +40,5 @@
         android:background="@drawable/btn_background"
         android:text="@string/apply_settings"
         android:textColor="#FFFFFFFF" />
-
-    <LinearLayout
-        android:id="@+id/business_settings_holder"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/apply_changes_button"
-        android:layout_below="@id/buttons_layout"
-        android:orientation="horizontal" >
-    </LinearLayout>
 
 </RelativeLayout>
