@@ -82,6 +82,8 @@ public class MapManager {
 		}
 		
 		
+    	Log.d("", "number of businesses (according to db): " + markerToBusiness.keySet().size());
+		
 		return true;
 	}
     
@@ -97,12 +99,15 @@ public class MapManager {
     
     public static void updateExternalBusinessLikesAndDislikes(String businessID, int numOfLikes, int numOfDislikes){
     	if(!businessIDToExternalBusiness.containsKey(businessID)){
-    		Log.e("MapManager", "Business is not recognized by the map manager");
+    		Log.d("MapManager", "Business is not recognized by the map manager");
     		return;
     	}
     	ExternalBusiness b = businessIDToExternalBusiness.get(businessID);
     	b.setExternalBusinessLikes(b.getExternBusinessDeal().getNumOfLikes() + numOfLikes);
     	b.setExternalBusinessDislikes(b.getExternBusinessDeal().getNumOfDislikes() + numOfDislikes);
+    	
+
+    
     }
     
     
