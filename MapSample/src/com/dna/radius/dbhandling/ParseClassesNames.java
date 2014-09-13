@@ -19,12 +19,12 @@ public class ParseClassesNames {
 	public static final String CLIENT_LOCATION_LAT = "homeLatitude";
 	public static final String CLIENT_LOCATION_LONG = "homeLongtitude";
 	public static final String CLIENT_PREFERRING = "preferrings";
-	public static final String CLIENT_FAVORITES = "favorites";
-	public static final String CLIENT_FAVORITES_ID = "businessId";
-	public static final String CLIENT_LIKES = "likes";
-	public static final String CLIENT_LIKES_ID = "dealId";
-	public static final String CLIENT_DISLIKES = "dislikes";
-	public static final String CLIENT_DISLIKES_ID = "dealId";
+	public static final String CLIENT_PREFERRING_FAVORITES = "favorites";
+	public static final String CLIENT_PREFERRING_FAVORITES_ID = "businessId";
+	public static final String CLIENT_PREFERRING_LIKES = "likes";
+	public static final String CLIENT_PREFERRING_LIKES_ID = "dealId";
+	public static final String CLIENT_PREFERRING_DISLIKES = "dislikes";
+	public static final String CLIENT_PREFERRING_DISLIKES_ID = "dealId";
 	
 	
 	
@@ -50,6 +50,9 @@ public class ParseClassesNames {
 	public static final String BUSINESS_CURRENT_DEAL_COMMENTS_AUTHOR = "authorName";
 	public static final String BUSINESS_CURRENT_DEAL_COMMENTS_CONTENT = "commentContent";
 	public static final String BUSINESS_CURRENT_DEAL_COMMENTS_DATE = "commentDate";
+	public static final String BUSINESS_PREFERRING = "preferrings";
+	public static final String BUSINESS_PREFERRING_FAVORITES = "favorites";
+	public static final String BUSINESS_PREFERRING_FAVORITES_ID = "businessId";
 	public static final String BUSINESS_HISTORY = "dealsHistory";
 	public static final String BUSINESS_HISTORY_TOTAL_LIKES = "totalLikes";
 	public static final String BUSINESS_HISTORY_TOTAL_DISLIKES = "totalDislikes";

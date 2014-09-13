@@ -37,7 +37,9 @@ public class DealHistoryManager {
 	
 	public void addDeal(Deal d) { oldDeals.add(d); }
 	
-	public void removeOldDeal(Deal d) { oldDeals.remove(d); }
+	public void deleteOldDeal(Deal d) { oldDeals.remove(d); }
+	
+	public boolean hasDeal(Deal d) { return oldDeals.contains(d); }
 	
 
 }

@@ -19,6 +19,7 @@ import com.dna.radius.clientmode.ClientOpeningScreenActivity;
 import com.dna.radius.dbhandling.ParseClassesNames;
 import com.parse.Parse;
 import com.parse.ParseAnonymousUtils;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 public class MainActivity extends FragmentActivity {
@@ -29,8 +30,6 @@ public class MainActivity extends FragmentActivity {
 	public static final String KEEP_LOGGED = "keepLoggedIn";
 
 	public static final String SP_NAME = "com.dna.radius.SHARED_PREFERENCES";
-	public static final String SHOW_WELCOME = "showWelcomeScreen";
-	
 	
 	
 
@@ -41,7 +40,7 @@ public class MainActivity extends FragmentActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.start_activity);
 
@@ -52,8 +51,7 @@ public class MainActivity extends FragmentActivity {
 		SharedPreferences settings1 = getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
 		boolean isChecked = settings1.getBoolean(KEEP_LOGGED, false);
 
-		checkKeepLoggedIn(isChecked); //TODO change to isChecked
-
+		checkKeepLoggedIn(isChecked);
 	}
 
 
@@ -61,9 +59,10 @@ public class MainActivity extends FragmentActivity {
 	 * Sets Parse.com (connecting information to Parse.com cloud).
 	 */
 	private void setParse() {
+		
+		//TODO read about ACL and security
 
 		Parse.initialize(getApplicationContext(), APP_ID, CLIENT_KEY);
-		Log.d("MainActivity","Parse was initialized");
 		//ParseUser.enableAutomaticUser(); TODO should remove?
 
 	}
@@ -88,14 +87,12 @@ public class MainActivity extends FragmentActivity {
 					if (lastMode == IntroFragment.CUSTOMER_MODE) {
 
 						Intent intent = new Intent(getApplicationContext(), ClientOpeningScreenActivity.class);
-						intent.putExtra(SHOW_WELCOME, false);
 						startActivity(intent);
 						finish();
 					}
 					else{
 
 						Intent intent = new Intent(getApplicationContext(), BusinessOpeningScreenActivity.class);
-						intent.putExtra(SHOW_WELCOME, false);
 						startActivity(intent);
 						finish();
 					}
@@ -108,12 +105,10 @@ public class MainActivity extends FragmentActivity {
 				SharedPreferences.Editor editor = settings.edit();
 				editor.putBoolean(KEEP_LOGGED, false);
 				editor.commit();
-
 			}
 		}
 
 		openLoginScreen();
-
 	}
 
 

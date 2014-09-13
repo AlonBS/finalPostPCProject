@@ -81,17 +81,6 @@ public abstract class BaseActivity extends FragmentActivity{
 
 
 	private void handleLogOut() {
-		
-		ParseUser currentUser = ParseUser.getCurrentUser();
-		if (currentUser != null) {
-			
-			if (isInBusinessMode) {
-				ParseUser.getCurrentUser().put(ParseClassesNames.LAST_MODE, ParseClassesNames.LAST_MODE_BUSINESS_MODE);
-			}
-			else {
-				ParseUser.getCurrentUser().put(ParseClassesNames.LAST_MODE, ParseClassesNames.LAST_MODE_CLIENT_MODE);
-			}
-		}
 
 		// log out currentUser from parse
 		ParseUser.logOut();
@@ -106,17 +95,19 @@ public abstract class BaseActivity extends FragmentActivity{
 		Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 		startActivity(intent);
 		
-		finish(); //TODO WE NEED TO DESYTRO THIS ACTIVITY. BUT CRASHES
+		finish();
 
 	}
 
-	protected void handleSettings(){
-		if(!isInBusinessMode){
-			//TODO clientSettings
-			Intent myIntent = new Intent(this, ClientGeneralSettingsActivity.class);
+	
+	private void handleSettings() {
+		
+		if(isInBusinessMode){
+			Intent myIntent = new Intent(this, BusinessSettingsActivity.class);
 			startActivity(myIntent);
 		}else{
-			Intent myIntent = new Intent(this, BusinessSettingsActivity.class);
+			
+			Intent myIntent = new Intent(this, ClientGeneralSettingsActivity.class);
 			startActivity(myIntent);
 		}
 		
@@ -125,23 +116,35 @@ public abstract class BaseActivity extends FragmentActivity{
 
 
 	private void handleSwitchMode() {
-		
-
 			
-			String msgPrefix = !isInBusinessMode?  getResources().getString(R.string.to_business_mode):getResources().getString(R.string.to_client_mode);
+			String msgPrefix = !isInBusinessMode ?  getResources().getString(R.string.to_business_mode):getResources().getString(R.string.to_client_mode);
 			String msg = getResources().getString(R.string.are_you_sure) + " " + msgPrefix;
+			
 			new AlertDialog.Builder(this)
-			.setTitle(getResources().getString(R.string.switching) + " " + msgPrefix)
+			.setTitle(getResources().getString(R.string.switch_mode))
 			.setMessage(msg)
 			.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
+					
 					Intent myIntent = null;
 					isInBusinessMode = !isInBusinessMode;
-					if(isInBusinessMode){
-						myIntent = new Intent(getApplicationContext(), BusinessOpeningScreenActivity.class);
-					}else{
-						myIntent = new Intent(getApplicationContext(), ClientOpeningScreenActivity.class);
+					
+					ParseUser currentUser = ParseUser.getCurrentUser();
+					if (currentUser != null) {
+						if (isInBusinessMode)
+							ParseUser.getCurrentUser().put(ParseClassesNames.LAST_MODE, ParseClassesNames.LAST_MODE_BUSINESS_MODE);
+						else
+							ParseUser.getCurrentUser().put(ParseClassesNames.LAST_MODE, ParseClassesNames.LAST_MODE_CLIENT_MODE);
+						
+						currentUser.saveInBackground();
 					}
+					
+					
+					if(isInBusinessMode)
+						myIntent = new Intent(getApplicationContext(), BusinessOpeningScreenActivity.class);
+					else
+						myIntent = new Intent(getApplicationContext(), ClientOpeningScreenActivity.class);
+					
 					startActivity(myIntent);
 					finish();
 				}

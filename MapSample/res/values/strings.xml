@@ -9,21 +9,8 @@
     <string name="next_button">Next</string>
     <string name="user_name">User Name</string>
     <string name="password">Password</string>
-
-    <!-- business strings -->
-    <string name="Settings_title">Settings</string>
-    <string name="user_settings">User Settings</string>
-    <string name="Location_settings">Location Settings</string>
-    <string name="business_settings">Business Settings</string>
-
-    <!-- business dashboard strings -->
-    <string name="comments">Comments</string>
-    <string name="your_deal">Your Deal</string>
-    <string name="tap_to_enter_deal">tap to create a new deal</string>
-    <string name="top_businesses">Top Businesses</string>
-    <string name="current_deal_was_deleted">Your current deal was deleted. you can now find it in your history screen.</string>
-    <string name="image_wasnt_loaded">Image wasn\'t loaded, restart screen to try again</string>
-    <!-- Login-in activity strings -->
+    
+     <!-- Login-in activity strings -->
     <string name="login">Log In</string>
     <string name="no_account">Don\'t have an account yet? </string>
     <string name="sign_up">Sign Up</string>
@@ -34,6 +21,19 @@
     <string name="customer_mode">Customer Mode</string>
     <string name="business_mode">Business Mode</string>
     <string name="copyright">Copyright © 2014 </string>
+
+    <!-- business strings -->
+    <string name="Settings_title">Settings</string>
+    <string name="user_settings">User Settings</string>
+    <string name="Location_settings">Location Settings</string>
+    <string name="business_settings">Business Settings</string>
+
+    <!-- business dashboard strings -->
+    <string name="comments">Comments</string>
+    <string name="your_deal">Your Deal</string>
+    <string name="tap_to_enter_deal">Enter your deal here.</string>
+    <string name="top_businesses">Top Businesses</string>
+    <string name="image_wasnt_loaded">Image wasn\'t loaded, restart screen to try again</string>
 
      <!-- add a new deal dialog -->
     <string name="add_a_new_deal_dialog_title">Create a new Deal</string>
@@ -82,10 +82,13 @@
     <string name="not_now_btn">Not now</string>
     <string name="finish_btn">Finish</string>
     <string name="welcome_business_fill_details">In order to complete the registration please fill the following details</string>
+    
     <!-- deal history fragment -->
-    <string name="history_fragment_tap_a_deal">Tap on a deal to set it as your current one</string>
+    <string name="delete_deal_from_history">Delete</string>
+    <string name="display_deal_from_history">Display</string>
+    <string name="history_fragment_tap_a_deal"> on a deal to set it as your current one</string>
     <string name="history_fragment_total_likes">Total likes: </string>
-    <string name="history_fragment_total_dislikes"> Total dislikes:</string>
+    <string name="history_fragment_total_dislikes">  Total dislikes: </string>
 
     <!-- business welcome dialog strings -->
     <string name="welcome_business">In order to complete please state your business name, business type, and locate your business on the map.</string>
@@ -112,12 +115,12 @@
     <string name="business_choose_image_gallery_source">open gallery </string>
 
     <!-- switching between client/user modes -->
-    <string name="switch_mode"> switch mode</string>
+    <string name="switch_mode"> Switch mode</string>
     <string name="to_business_mode"> to business mode?</string>
     <string name="to_client_mode"> to client mode?</string>
     <string name="are_you_sure"> are you sure you want to switch</string>
     <string name="switching"> switching</string>
-    <string name="log_out"> log out</string>
+    <string name="log_out"> Log out</string>
     
     
     <!--  ShowDeal Activity Strings -->

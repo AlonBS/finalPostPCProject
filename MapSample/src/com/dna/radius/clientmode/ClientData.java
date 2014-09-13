@@ -124,19 +124,6 @@ public class ClientData{
 		
 		ParseGeoPoint gp = clientInfo.getParseGeoPoint(ParseClassesNames.CLIENT_LOCATION);
 		homeLocation = new LatLng(gp.getLatitude(), gp.getLongitude());
-
-
-//		JSONObject jo = clientInfo.getJSONObject(ParseClassesNames.CLIENT_LOCATION);
-//		try {
-//			homeLocation = new LatLng(jo.getDouble(ParseClassesNames.CLIENT_LOCATION_LAT),
-//					jo.getDouble(ParseClassesNames.CLIENT_LOCATION_LONG));
-//
-//		} catch (JSONException e) {
-//
-//			Log.e("Client -load location", e.getMessage());
-//		}
-
-
 	}
 
 
@@ -146,9 +133,9 @@ public class ClientData{
 		JSONObject jo = clientInfo.getJSONObject(ParseClassesNames.CLIENT_PREFERRING);
 
 		try {
-			loadFavorites(jo.getJSONArray(ParseClassesNames.CLIENT_FAVORITES));
-			loadLikes(jo.getJSONArray(ParseClassesNames.CLIENT_LIKES));
-			loadDislikes(jo.getJSONArray(ParseClassesNames.CLIENT_DISLIKES));
+			loadFavorites(jo.getJSONArray(ParseClassesNames.CLIENT_PREFERRING_FAVORITES));
+			loadLikes(jo.getJSONArray(ParseClassesNames.CLIENT_PREFERRING_LIKES));
+			loadDislikes(jo.getJSONArray(ParseClassesNames.CLIENT_PREFERRING_DISLIKES));
 
 		} catch (JSONException e) {
 			Log.e("Client - getting Array of preferences", e.getMessage());
@@ -161,7 +148,7 @@ public class ClientData{
 		int length = ar.length();
 		for (int i = 0 ; i < length ; ++i) {
 			try {
-				favourites.add(ar.getJSONObject(i).getString(ParseClassesNames.CLIENT_FAVORITES_ID));
+				favourites.add(ar.getJSONObject(i).getString(ParseClassesNames.CLIENT_PREFERRING_FAVORITES_ID));
 			} catch (JSONException e) {
 				Log.e("Client - Add Favorites", e.getMessage());
 			}
@@ -174,7 +161,7 @@ public class ClientData{
 		int length = ar.length();
 		for (int i = 0 ; i < length ; ++i) {
 			try {
-				likes.add(ar.getJSONObject(i).getString(ParseClassesNames.CLIENT_LIKES_ID));
+				likes.add(ar.getJSONObject(i).getString(ParseClassesNames.CLIENT_PREFERRING_LIKES_ID));
 			} catch (JSONException e) {
 				Log.e("Client - Add Likes", e.getMessage());
 			}
@@ -187,7 +174,7 @@ public class ClientData{
 		int length = ar.length();
 		for (int i = 0 ; i < length ; ++i) {
 			try {
-				dislikes.add(ar.getJSONObject(i).getString(ParseClassesNames.CLIENT_DISLIKES_ID));
+				dislikes.add(ar.getJSONObject(i).getString(ParseClassesNames.CLIENT_PREFERRING_DISLIKES_ID));
 			} catch (JSONException e) {
 				Log.e("Client - Add Dislikes", e.getMessage());
 			}
@@ -224,8 +211,8 @@ public class ClientData{
 
 		addToStorage(favourites, businessId,
 				ParseClassesNames.CLIENT_PREFERRING,
-				ParseClassesNames.CLIENT_FAVORITES,
-				ParseClassesNames.CLIENT_FAVORITES_ID,
+				ParseClassesNames.CLIENT_PREFERRING_FAVORITES,
+				ParseClassesNames.CLIENT_PREFERRING_FAVORITES_ID,
 				"Add to Favorites");
 	}
 
@@ -240,8 +227,8 @@ public class ClientData{
 
 		addToStorage(likes, dealId,
 				ParseClassesNames.CLIENT_PREFERRING,
-				ParseClassesNames.CLIENT_LIKES,
-				ParseClassesNames.CLIENT_LIKES_ID,
+				ParseClassesNames.CLIENT_PREFERRING_LIKES,
+				ParseClassesNames.CLIENT_PREFERRING_LIKES_ID,
 				"Add to Likes");
 		
 		
@@ -265,8 +252,8 @@ public class ClientData{
 		
 		addToStorage(dislikes, dealId,
 				ParseClassesNames.CLIENT_PREFERRING,
-				ParseClassesNames.CLIENT_DISLIKES,
-				ParseClassesNames.CLIENT_DISLIKES_ID,
+				ParseClassesNames.CLIENT_PREFERRING_DISLIKES,
+				ParseClassesNames.CLIENT_PREFERRING_DISLIKES_ID,
 				"Add to dislikes");
 		
 		if (isInLikes(dealId)) {
@@ -319,8 +306,8 @@ public class ClientData{
 
 		removeFromStorage(favourites, businessId,
 				ParseClassesNames.CLIENT_PREFERRING,
-				ParseClassesNames.CLIENT_FAVORITES,
-				ParseClassesNames.CLIENT_FAVORITES_ID,
+				ParseClassesNames.CLIENT_PREFERRING_FAVORITES,
+				ParseClassesNames.CLIENT_PREFERRING_FAVORITES_ID,
 				"Remove from Favorites");
 	}
 
@@ -330,8 +317,8 @@ public class ClientData{
 
 		removeFromStorage(likes, dealId,
 				ParseClassesNames.CLIENT_PREFERRING,
-				ParseClassesNames.CLIENT_LIKES,
-				ParseClassesNames.CLIENT_LIKES_ID,
+				ParseClassesNames.CLIENT_PREFERRING_LIKES,
+				ParseClassesNames.CLIENT_PREFERRING_LIKES_ID,
 				"Remove from Likes");
 		
 		DBHandler.removelikeExternally(dealId);
@@ -342,8 +329,8 @@ public class ClientData{
 
 		removeFromStorage(dislikes, dealId,
 				ParseClassesNames.CLIENT_PREFERRING,
-				ParseClassesNames.CLIENT_DISLIKES,
-				ParseClassesNames.CLIENT_DISLIKES_ID,
+				ParseClassesNames.CLIENT_PREFERRING_DISLIKES,
+				ParseClassesNames.CLIENT_PREFERRING_DISLIKES_ID,
 				"Remove from Dislikes");
 		
 		DBHandler.removeDislikeExternally(dealId);
@@ -441,14 +428,4 @@ public class ClientData{
 						new Date()));
 		
 	}
-
-//	public static void setDontCareToDeal(String dealId){
-//		
-//		if (isInLikes(dealId)) {
-//			removeFromLikes(dealId);
-//		}
-//		else {
-//			removeFromDislikes(dealId);
-//		}
-//	}
 }

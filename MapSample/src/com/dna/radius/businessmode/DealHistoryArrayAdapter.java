@@ -3,7 +3,6 @@ package com.dna.radius.businessmode;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -13,22 +12,20 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.dna.radius.R;
-import com.dna.radius.datastructures.Comment;
 import com.dna.radius.datastructures.Deal;
 
 /***
  * represents an array adapter view for the comments list.
- * @author dror
  *
  */
 public class DealHistoryArrayAdapter extends ArrayAdapter<Deal>{
-	@SuppressLint("SimpleDateFormat")
-	ArrayList<Deal> list;
+	
+	//ArrayList<Deal> list; TODO not needed
 	
 	
 	public DealHistoryArrayAdapter(Context context, int resource, ArrayList<Deal> list) {
-		super(context, resource,list);
-		this.list = list;
+		super(context, resource, list);
+		//this.list = list; TODO not needed
 	}
 	@Override
 	public void notifyDataSetChanged() {
@@ -67,21 +64,21 @@ public class DealHistoryArrayAdapter extends ArrayAdapter<Deal>{
 	}
 	
 	
-	
-	int getTotalLikes(){
-		int sum = 0;
-		for (Deal d : list){
-			sum += d.getNumOfLikes();
-		}
-		return sum;
-	}
-	
-	int getTotalDislikes(){
-		int sum = 0;
-		for (Deal d : list){
-			sum += d.getNumOfDislikes();
-		}
-		return sum;
-	}
+//	TODO remove
+//	int getTotalLikes(){
+//		int sum = 0;
+//		for (Deal d : list){
+//			sum += d.getNumOfLikes();
+//		}
+//		return sum;
+//	}
+//	
+//	int getTotalDislikes(){
+//		int sum = 0;
+//		for (Deal d : list){
+//			sum += d.getNumOfDislikes();
+//		}
+//		return sum;
+//	}
 	
 }	

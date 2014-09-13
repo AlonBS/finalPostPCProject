@@ -65,8 +65,6 @@ public class BusinessChooseImageFragment extends  Fragment{
 	}
 
 
-
-
 	/**
 	 * currently used for handling an image which was picked from the gallery by the user, or
 	 * an image which was took by the camera.

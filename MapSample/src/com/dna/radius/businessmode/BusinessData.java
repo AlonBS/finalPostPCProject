@@ -47,7 +47,6 @@ import com.parse.SaveCallback;
 public class BusinessData {
 
 	static ParseUser currentUser;
-
 	static ParseObject businessInfo;
 
 	static String businessName;
@@ -57,27 +56,23 @@ public class BusinessData {
 	static String businessPhoneNumber;
 	static LatLng businessLocation;
 
-
-
 	static Deal currentDeal;
 
-
-	static boolean hasImage; //does the business has an image?
+	static boolean hasImage;
 	static Bitmap businessImage = null; // the image of the business (if exists)
 
+
+	private static ArrayList<String> favourites = new ArrayList<String>();
 	static DealHistoryManager dealsHistory;
-
-
 	static List<ExternalBusiness> topBusinesses;
 
+	static final float DEFAULT_RATING = 2.5f;
 
-	static final float DEFAULT_RATING = 3;
-
-
-
+	/***************************************************************************/
 
 
-	public static String getUserName(){ return currentUser.getUsername(); }
+	public static String getUserName() { return currentUser.getUsername(); }
+
 
 	public static String getBusinessID(){
 		return businessInfo.getObjectId();
@@ -86,7 +81,8 @@ public class BusinessData {
 	public static void setUserName(String newUserName){
 		//TODO alon - is this enough? + saveEventually() get stuck.
 		currentUser.setUsername(newUserName);
-		currentUser.saveInBackground();
+		//currentUser.saveInBackground();
+		currentUser.saveEventually();
 	}
 
 	public static String getEmail(){ return currentUser.getEmail(); }
@@ -140,7 +136,7 @@ public class BusinessData {
 	}
 
 
-	public String getAddress(){ return businessAddress; }
+	public static String getAddress(){ return businessAddress; }
 
 	public static void setAddress(String newAddress) {
 
@@ -151,7 +147,6 @@ public class BusinessData {
 
 
 	public static String getPhoneNumber() { return businessPhoneNumber; }
-	public static String getBusinessAddress() { return businessAddress; }
 
 	public static void setPhoneNumber(String newPhoneNumber) {
 
@@ -170,20 +165,7 @@ public class BusinessData {
 		ParseGeoPoint gp = new ParseGeoPoint(newLocation.latitude, newLocation.longitude);
 		businessInfo.put(ParseClassesNames.BUSINESS_LOCATION, gp);
 		businessInfo.saveInBackground();
-
-
-		//		JSONObject coordinates = new JSONObject();
-		//		try {
-		//			coordinates.put(ParseClassesNames.BUSINESS_LOCATION_LAT , businessLocation.latitude);
-		//			coordinates.put(ParseClassesNames.BUSINESS_LOCATION_LONG , businessLocation.longitude);
-		//
-		//		} catch (JSONException e) {
-		//
-		//			Log.e("Business - location change", e.getMessage());
-		//		}
 	}
-
-
 
 
 
@@ -242,6 +224,8 @@ public class BusinessData {
 		loadDealsHistory();
 
 		loadTopBusiness();
+		
+		loadPreferrings();
 
 	}
 
@@ -260,35 +244,24 @@ public class BusinessData {
 
 		ParseGeoPoint gp = businessInfo.getParseGeoPoint(ParseClassesNames.BUSINESS_LOCATION);
 		businessLocation = new LatLng(gp.getLatitude(), gp.getLongitude());
-
-
-		//		JSONObject jo = businessInfo.getJSONObject(ParseClassesNames.BUSINESS_LOCATION);
-		//		try {
-		//			businessLocation = new LatLng(jo.getDouble(ParseClassesNames.BUSINESS_LOCATION_LAT),
-		//					jo.getDouble(ParseClassesNames.BUSINESS_LOCATION_LONG));
-		//
-		//		} catch (JSONException e) {
-		//
-		//			Log.e("Business -load location", e.getMessage());
-		//		}
 	}
 
 
 	private static void loadCurrentDeal() {
-		
+
 		try {
 			List<ParseObject> objectsToFetch = new ArrayList<ParseObject>();
 			objectsToFetch.add(businessInfo);
 			ParseObject.fetchAll(objectsToFetch);
-			
+
 		} catch (ParseException e1) {
-			
+
 			Log.e("Business - loadCurrentDeal", "fetch failed:" + e1.getMessage());
 		}
 
-		
+
 		JSONObject jo = businessInfo.getJSONObject(ParseClassesNames.BUSINESS_CURRENT_DEAL);
-		
+
 		if ( jo.isNull(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID) )
 			return;
 
@@ -353,7 +326,6 @@ public class BusinessData {
 						temp.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_CONTENT),
 						temp.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_LIKES),
 						temp.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_DISLIKES),
-						//TODO - alon, try to add a deal, log out, log back in, and then open deal history - and youll get an error
 						new SimpleDateFormat(BusinessOpeningScreenActivity.DATE_FORMAT).parse(jo.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE)),
 						null)); //TODO currently - we don't support old deals comments. 
 
@@ -384,12 +356,10 @@ public class BusinessData {
 
 		}
 		else {
-
 			//TODO - show message to user
 			Log.e("Business - loadTopBusiness", "Business Location was not defined when trying to extract top business");
 		}
 	}
-
 
 
 	public static boolean hasImage() {
@@ -427,19 +397,19 @@ public class BusinessData {
 			public void done(byte[] data, ParseException e) {
 
 				if (e == null) {
-						
+
 					businessImage = BitmapFactory.decodeByteArray(data, 0 ,data.length);
 
 					if (imageViewWR == null ||imageViewWR.get() == null) return;
-							
-							if(businessImage!=null){
-								Log.d("BusinessData", "bitmap was return. size: " + businessImage.getHeight() + "," + businessImage.getWidth());
-								imageViewWR.get().setImageBitmap(businessImage);
-							}
-							else{
-								imageViewWR.get().setImageBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.error_loading_image_version_2));
-								Toast.makeText(context, context.getResources().getString(R.string.image_wasnt_loaded), Toast.LENGTH_LONG).show();
-							}
+
+					if(businessImage!=null){
+						Log.d("BusinessData", "bitmap was return. size: " + businessImage.getHeight() + "," + businessImage.getWidth());
+						imageViewWR.get().setImageBitmap(businessImage);
+					}
+					else{
+						imageViewWR.get().setImageBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.error_loading_image_version_2));
+						Toast.makeText(context, context.getResources().getString(R.string.image_wasnt_loaded), Toast.LENGTH_LONG).show();
+					}
 				}
 				else {
 					Log.e("DB - loadImageBusinessIdentified", e.getMessage());
@@ -449,90 +419,35 @@ public class BusinessData {
 	}
 
 
-
 	static void setImage(Bitmap newImage) {
 
 		//TODO Remove old picture reference
 
 		businessImage = newImage;
 		hasImage = true;
-		
+
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		businessImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
 		byte[] data = stream.toByteArray();
 
-		if (data != null){
+		if (data == null) return;
 
-			final ParseFile file = new ParseFile(data);
+		final ParseFile file = new ParseFile(data);
+		file.saveInBackground(new SaveCallback() {
 
-			file.saveInBackground(new SaveCallback() {
+			@Override
+			public void done(ParseException e) {
 
-				@Override
-				public void done(ParseException e) {
+				if (e==null) {
 
-					if (e==null) {
-
-						businessInfo.put(ParseClassesNames.BUSINESS_IMAGE, file);
-						businessInfo.saveInBackground(); //TODO SHOULD BE SAVE EVENTUALLY
-
-					}
+					businessInfo.put(ParseClassesNames.BUSINESS_IMAGE, file);
+					businessInfo.saveInBackground(); //TODO SHOULD BE SAVE EVENTUALLY
 				}
-			});
-		}
+			}
+		});
 	}
 
 
-
-
-
-
-
-
-
-
-
-
-
-	//	
-	//	//TODO - remove me!!!
-	//	//******************
-	//	try {
-	//		Thread.sleep(1000);
-	//	} catch (InterruptedException e) {
-	//		// TODO Auto-generated catch block
-	//		e.printStackTrace();
-	//	}
-	//	//*******************
-
-
-	//	//owner.name = "Mcdonalds";
-	//	//owner.businessID = "SAD";
-	//	owner.image = BitmapFactory.decodeResource(context.getResources(), R.drawable.burger);
-	//	BusinessData.numberOfLikes = 23131;
-	//	owner.numberOfDislikes = 524;
-	//	owner.phoneNumber = "0508259193";
-	//	//owner.rating = 4;
-	//	owner.hasImage = true;
-	//	owner.hasDeal = true;// TODO should be true only if the business has a an image
-	//	owner.address = "Jaffa street 61, Jerusalem";
-	//	owner.currentDeal = "ONLY TODAY AND DURING THE REST OF THE YEAR!!! BUY A COOOOL SHIRT AND GET A PLASTIC BAG TO PUT IT IN FOR 10 AGOROT ONLY!!! wow!!";
-	//	owner.dealHistory = new ArrayList<Deal>();
-	//	owner.dealHistory.add(new Deal(new Random().nextInt(99999),"Eat a megaburger and kill 3 animals for free",new Date(),new Random().nextInt(9999),new Random().nextInt(9999)));
-	//	owner.dealHistory.add(new Deal(new Random().nextInt(99999),"buy a pack of Supergoal and get a sticker with Kfir Partiely signature. you dont wanna miss that!",new Date(),new Random().nextInt(9999),new Random().nextInt(9999)));
-	//	owner.dealHistory.add(new Deal(new Random().nextInt(99999),"buy a triangle toaster and get another triangle toaster!",new Date(),new Random().nextInt(9999),new Random().nextInt(9999)));
-	//	owner.dealHistory.add(new Deal(new Random().nextInt(99999),"Buy seasonal tickets for Maccabi Petah Tikva and get Free entrance to the first Toto Cup match against Hapoel Raanana",new Date(),new Random().nextInt(9999),new Random().nextInt(9999)));
-	//	owner.dealHistory.add(new Deal(new Random().nextInt(99999),"New at superfarm! a supporting sports bra which gives you extra support during your period",new Date(),new Random().nextInt(9999),new Random().nextInt(9999)));
-	//	owner.dealHistory.add(new Deal(new Random().nextInt(99999),"Buy a nokia Phone and get free games! (snake) ",new Date(),new Random().nextInt(9999),new Random().nextInt(9999)));
-	//	owner.dealHistory.add(new Deal(new Random().nextInt(99999),"only 99.99$ for a full Kosher cellular package ",new Date(),new Random().nextInt(9999),new Random().nextInt(9999)));
-	//	owner.dealHistory.add(new Deal(new Random().nextInt(99999),"Buy a set of Tfilin and get a free tour at Kivrey Zadikim ",new Date(),new Random().nextInt(9999),new Random().nextInt(9999)));
-	//	owner.dealHistory.add(new Deal(new Random().nextInt(99999),"Eat a megaburger and kill 3 animals for free",new Date(),new Random().nextInt(9999),new Random().nextInt(9999)));
-	//	owner.dealHistory.add(new Deal(new Random().nextInt(99999),"buy a pack of Supergoal and get a sticker with Kfir Partiely signature. you dont wanna miss that!",new Date(),new Random().nextInt(9999),new Random().nextInt(9999)));
-	//	owner.dealHistory.add(new Deal(new Random().nextInt(99999),"buy a triangle toaster and get another triangle toaster!",new Date(),new Random().nextInt(9999),new Random().nextInt(9999)));
-	//	owner.dealHistory.add(new Deal(new Random().nextInt(99999),"Buy seasonal tickets for Maccabi Petah Tikva and get Free entrance to the first Toto Cup match against Hapoel Raanana",new Date(),new Random().nextInt(9999),new Random().nextInt(9999)));
-	//	owner.dealHistory.add(new Deal(new Random().nextInt(99999),"New at superfarm! a supporting sports bra which gives you extra support during your period",new Date(),new Random().nextInt(9999),new Random().nextInt(9999)));
-	//	owner.dealHistory.add(new Deal(new Random().nextInt(99999),"Buy a nokia Phone and get free games! (snake) ",new Date(),new Random().nextInt(9999),new Random().nextInt(9999)));
-	//	owner.dealHistory.add(new Deal(new Random().nextInt(99999),"only 99.99$ for a full Kosher cellular package ",new Date(),new Random().nextInt(9999),new Random().nextInt(9999)));
-	//	owner.dealHistory.add(new Deal(new Random().nextInt(99999),"Buy a set of Tfilin and get a free tour at Kivrey Zadikim ",new Date(),new Random().nextInt(9999),new Random().nextInt(9999)));
 
 	public static void createNewDeal(String content) {
 
@@ -629,30 +544,179 @@ public class BusinessData {
 	}
 
 
+
+	public static void bringDealFromHistory(Deal deal) {
+
+		deletedDealFromHistory(deal);
+		createNewDeal(deal.getDealContent());
+	}
+
+
 	/***
 	 * receives a business id and a deal, deletes the deal from the business's history list.
 	 */
-	public static void deletedDealFromHistory(String businessID,Deal deal){
-		//TODO alon
+	public static void deletedDealFromHistory(Deal deal) {
+
+		if (!dealsHistory.hasDeal(deal)) return;
+
+		dealsHistory.deleteOldDeal(deal);
+
+		try {
+
+			JSONArray ja = new JSONArray();
+			for (Deal d : dealsHistory.getOldDeals()) {
+
+				JSONObject jo = new JSONObject();
+				jo.put(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID, d.getId());
+				jo.put(ParseClassesNames.BUSINESS_CURRENT_DEAL_CONTENT, d.getDealContent());
+				jo.put(ParseClassesNames.BUSINESS_CURRENT_DEAL_LIKES, d.getNumOfLikes());
+				jo.put(ParseClassesNames.BUSINESS_CURRENT_DEAL_DISLIKES, d.getNumOfDislikes());
+				jo.put(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE, new SimpleDateFormat(BusinessOpeningScreenActivity.DATE_FORMAT).format(d.getDealDate()));
+				//TODO currently - we don't support old deals comments.
+
+				ja.put(jo);
+			}
+
+
+			JSONObject historyJo = businessInfo.getJSONObject(ParseClassesNames.BUSINESS_HISTORY);
+			historyJo.put(ParseClassesNames.BUSINESS_HISTORY_DEALS, ja);
+
+		}
+		catch (JSONException e1) {
+
+			Log.e("deletedDealFromHistory", e1.getMessage());
+		}
 	}
 
 
-	public static boolean isInFavourites(String businessID) {
-		return false;
+
+	private static void loadPreferrings() {
+
+
+		JSONObject jo = businessInfo.getJSONObject(ParseClassesNames.BUSINESS_PREFERRING);
+
+		try {
+			loadFavorites(jo.getJSONArray(ParseClassesNames.BUSINESS_PREFERRING_FAVORITES));
+
+		} catch (JSONException e) {
+			Log.e("Business - getting Array of preferences", e.getMessage());
+		}
 	}
 
 
+	private static void loadFavorites(JSONArray ar) {
 
-	public static void addToFavourites(String businessID) {
+		int length = ar.length();
+		for (int i = 0 ; i < length ; ++i) {
+			
+			try {
+				favourites.add(ar.getJSONObject(i).getString(ParseClassesNames.BUSINESS_PREFERRING_FAVORITES_ID));
+			} catch (JSONException e) {
+				Log.e("Business - Add Favorites", e.getMessage());
+			}
+		}
+	}
 
+	
+	/**
+	 * 
+	 * @param businessId
+	 */
+	public static void addToFavourites(String businessId) {
+
+		addToStorage(favourites, businessId,
+				ParseClassesNames.BUSINESS_PREFERRING,
+				ParseClassesNames.BUSINESS_PREFERRING_FAVORITES,
+				ParseClassesNames.BUSINESS_PREFERRING_FAVORITES_ID,
+				"Business - Add to Favorites");
+	}
+
+	
+	private static void addToStorage(ArrayList<String> ds, String itemId,
+			String n1, String n2, String n3, String errMsg){
+
+		if (!ds.contains(itemId)) {
+
+			ds.add(itemId);
+			JSONObject newItem = new JSONObject();
+
+			try {
+
+				newItem.put(n3, itemId);
+				businessInfo.getJSONObject(n1).getJSONArray(n2).put(newItem);
+
+			} catch (JSONException e) {
+
+				Log.e(errMsg, e.getMessage());
+			}
+
+			businessInfo.saveEventually(); //TODO should be saveEventaully?
+		}
+		else {
+
+			Log.e(errMsg, "Item was added twice");
+		}
 	}
 
 
-	public static void removeFromFavorites(String businessID) {
+	/**
+	 * receives a business id and check if it's in the user favorites list.
+	 */
+	public static boolean isInFavourites(String businessId){
 
+		return favourites.contains(businessId);
 	}
+	
+	
+	
+	public static void removeFromFavorites(String businessId) {
 
+		removeFromStorage(favourites, businessId,
+				ParseClassesNames.BUSINESS_PREFERRING,
+				ParseClassesNames.BUSINESS_PREFERRING_FAVORITES,
+				ParseClassesNames.BUSINESS_PREFERRING_FAVORITES_ID,
+				"Business -Remove from Favorites");
+	}
+	
+	
+	/**
+	 * 
+	 * @param ds
+	 * @param itemId
+	 * @param n1 - base to preferences column (i.e - CLIENT_PREFERRING)
+	 * @param n2 - name of JSONArray to remove from (i.e. 'likes' etc.)
+	 * @param n3 - name of field inside array (i.e. itemID)
+	 * @param errMsg
+	 */
+	private static void removeFromStorage(ArrayList<String> ds, String itemId,
+			String n1, String n2, String n3, String errMsg) {
 
+		if(ds.contains(itemId)){
+
+			ds.remove(itemId);
+			try {
+
+				JSONArray newArr = new JSONArray();
+
+				for (String f : ds){
+					JSONObject temp = new JSONObject().put(n3, f);
+					newArr.put(temp);
+				}
+
+				businessInfo.getJSONObject(n1).put(n2, newArr);
+				businessInfo.saveEventually();
+
+			} catch (JSONException e) {
+				Log.e(errMsg, e.getMessage());
+			}
+
+		}else{
+
+			Log.e(errMsg,"Item wasn't in db to remove");
+		}
+	}
+	
+	
 
 
 	static void refreshDB() {

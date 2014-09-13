@@ -5,30 +5,19 @@ import java.util.ArrayList;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dna.radius.R;
 import com.dna.radius.datastructures.Deal;
-import com.dna.radius.dbhandling.DBHandler;
 /**
  * represents the history fragment for the business owner.
  * should contain a list of deal with number of likes and dislikes for each.
@@ -38,27 +27,36 @@ import com.dna.radius.dbhandling.DBHandler;
  */
 public class BusinessHistoryFragment extends Fragment{
 
+	private View view;
+	
 	private DealHistoryArrayAdapter adapter;
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.business_history_fragment,container, false);	
-		final BusinessOpeningScreenActivity parentActivity = (BusinessOpeningScreenActivity)getActivity();
+		
+		view = inflater.inflate(R.layout.business_history_fragment,container, false);	
+		
 		//load the comments list
-		ListView dealHistoryListView = (ListView)view.findViewById(R.id.deal_history_list_view);
-		registerForContextMenu(dealHistoryListView);
+		
+		
+		loadTotalLikesAndDislikes();
+		
 		if(BusinessData.dealsHistory==null){
 			return view;
 		}
-		ArrayList<Deal> dealHistoryList = BusinessData.dealsHistory.getOldDeals();
-		adapter = new DealHistoryArrayAdapter(getActivity(),android.R.layout.simple_list_item_1, dealHistoryList);
+		
+		ListView dealHistoryListView = (ListView)view.findViewById(R.id.deal_history_list_view);
+		//registerForContextMenu(dealHistoryListView); TODO (alon to dror) - why needed?
+		adapter = new DealHistoryArrayAdapter(getActivity(),android.R.layout.simple_list_item_1, BusinessData.dealsHistory.getOldDeals());
 		dealHistoryListView.setAdapter(adapter);
 		
 		dealHistoryListView.setOnItemClickListener(new OnItemClickListener() {
+		
 			//TODO mant strings to put into string file DROR
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View v, int position,long arg3) {
+				
 				final Deal dealObject = (Deal)adapter.getItemAtPosition(position);
-				Log.d("BusinessHistoryFragment", "pressed on the following deal: " + dealObject.getDealContent());
+				
 				final TextView chosenDeal = new TextView(getActivity());
 				//chosenDeal.setBackgroundColor(Color.BLACK);
 				//chosenDeal.setTextColor(Color.WHITE);
@@ -68,17 +66,19 @@ public class BusinessHistoryFragment extends Fragment{
 				//.setTitle("You chose the following deal: \n" + dealObject.getDealStr())
 				.setView(chosenDeal)
 				//.setMessage("what would you like to do next?")
-				.setPositiveButton("delete it from history", new DialogInterface.OnClickListener() {
+				.setPositiveButton(getString(R.string.display_deal_from_history), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
 						
 						
-						//DBHandler.deletedDealFromHistory(parentActivity.ownerData.businessID,dealObject);
+					
+					}
+				}).setNegativeButton(getString(R.string.delete_deal_from_history), new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+						
+	//					DBHandler.deletedDealFromHistory(parentActivity.ownerData.businessID,dealObject);
 						
 						//TODO 
 						//BusinessData.deleteDealFromHistory();
-					}
-				}).setNegativeButton("set as current deal", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) {
 						
 					}
 				}).show();
@@ -86,11 +86,26 @@ public class BusinessHistoryFragment extends Fragment{
 			}
 		});
 
+		
+		return view;
+	}
+	
+	
+	private void loadTotalLikesAndDislikes() {
+		
 		TextView totalLikesTv = (TextView)view.findViewById(R.id.history_fragment_total_likes_tv);
 		TextView totalDislikesTv = (TextView)view.findViewById(R.id.history_fragment_total_dislikes_tv);
-		totalLikesTv.setText(totalLikesTv.getText()+ " " + adapter.getTotalLikes());
-		totalDislikesTv.setText(totalDislikesTv.getText()+ " " + adapter.getTotalDislikes());
-		return view;
+		
+		String totalLikes = "0", totalDislikes = "0";
+		if (BusinessData.dealsHistory != null) {
+			
+			totalLikes = Integer.toString(BusinessData.dealsHistory.getNumOfLikes());
+			totalDislikes = Integer.toString(BusinessData.dealsHistory.getNumOfDislikes());
+		}
+		
+		totalLikesTv.setText(" " + totalLikes);
+		totalDislikesTv.setText(" " + totalDislikes);
+		
 	}
 
 }

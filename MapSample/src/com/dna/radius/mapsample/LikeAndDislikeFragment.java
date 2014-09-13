@@ -17,7 +17,6 @@ import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.datastructures.ExternalBusiness;
 import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.infrastructure.BaseActivity;
-import com.parse.ParseImageView;
 
 /***
  * this fragment allows the user to like or dislike a certain deal, if he is

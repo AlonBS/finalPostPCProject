@@ -23,11 +23,11 @@ import com.dna.radius.infrastructure.BaseActivity;
  */
 public class CommentsArrayAdapter extends ArrayAdapter<Comment>{
 	
-	
-	
-	public CommentsArrayAdapter(Context context, int resource, ArrayList<Comment> list) {
-		super(context, resource,list);
+
+	public CommentsArrayAdapter(Context context, int resource, ArrayList<Comment> coms) {
+		super(context, resource, coms);
 	}
+	
 	@Override
 	public void notifyDataSetChanged() {
 		super.notifyDataSetChanged();

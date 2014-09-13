@@ -143,25 +143,13 @@ public class ClientWelcomeActivity extends FragmentActivity {
 		ParseGeoPoint location = new ParseGeoPoint(ClientData.homeLocation.latitude, ClientData.homeLocation.longitude);
 		newClient.put(ParseClassesNames.CLIENT_LOCATION, location);
 
-//TODO remove (old version of location - stored as JSON object)
-//		// store location on parse
-//		JSONObject coordinates = new JSONObject();
-//		try {
-//			coordinates.put(ParseClassesNames.CLIENT_LOCATION_LAT ,ClientData.homeLocation.latitude);
-//			coordinates.put(ParseClassesNames.CLIENT_LOCATION_LONG ,ClientData.homeLocation.longitude);
-//
-//		} catch (JSONException e) {
-//
-//			Log.e("JSON_CREATION", e.getMessage());
-//		}
-
 
 		// store preferences (favorites, likes & dislikes)
 		JSONObject prefs = new JSONObject();
 		try {
-			prefs.put(ParseClassesNames.CLIENT_FAVORITES, new JSONArray());
-			prefs.put(ParseClassesNames.CLIENT_LIKES, new JSONArray());
-			prefs.put(ParseClassesNames.CLIENT_DISLIKES, new JSONArray());
+			prefs.put(ParseClassesNames.CLIENT_PREFERRING_FAVORITES, new JSONArray());
+			prefs.put(ParseClassesNames.CLIENT_PREFERRING_LIKES, new JSONArray());
+			prefs.put(ParseClassesNames.CLIENT_PREFERRING_DISLIKES, new JSONArray());
 
 		} catch (JSONException e) {
 

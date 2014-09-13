@@ -43,7 +43,7 @@ public class BusinessSettingsActivity extends BaseActivity{
 		Bundle fillDataBundle = new Bundle();
 		fillDataBundle.putBoolean(BusinessFillDetailsFragment.IS_IN_SETTINGS_MODE_PARAM, true);
 		fillDataBundle.putString(BusinessFillDetailsFragment.BUSINESS_NAME_HINT_PARAM, BusinessData.getName());
-		fillDataBundle.putString(BusinessFillDetailsFragment.BUSINESS_ADDRESS_HINT_PARAM, BusinessData.getBusinessAddress());
+		fillDataBundle.putString(BusinessFillDetailsFragment.BUSINESS_ADDRESS_HINT_PARAM, BusinessData.getAddress());
 		fillDataBundle.putString(BusinessFillDetailsFragment.BUSINESS_PHONE_HINT_PARAM, BusinessData.getPhoneNumber());
 		fillDataBundle.putSerializable(BusinessFillDetailsFragment.BUSINESS_TYPE_HINT_PARAM, BusinessData.getType());
 		mTabHost.addTab(mTabHost.newTabSpec("tab2").setIndicator("Tab2"),
@@ -122,7 +122,7 @@ public class BusinessSettingsActivity extends BaseActivity{
 		}
 
 		String newBusinessAddress = currentFragment.getBusinessAddress();
-		if(!newBusinessAddress.equals("") && !newBusinessAddress.equals(BusinessData.getBusinessAddress())){
+		if(!newBusinessAddress.equals("") && !newBusinessAddress.equals(BusinessData.getAddress())){
 			didDataChanged = true;
 			BusinessData.setAddress(newBusinessAddress);
 		}

@@ -42,6 +42,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
 public class MapWindowFragment extends Fragment {
+	
 	private GoogleMap gMap;
 	public static final double LOAD_RADIUS = 0.01; 	
 	private static final float DEFAULT_LATLNG_ZOOM = 20;
@@ -82,7 +83,6 @@ public class MapWindowFragment extends Fragment {
 //		DBHandler.loadBusinessListAndMapMarkersAsync(gMap.getCameraPosition().target, gMap, businessManager,LOAD_RADIUS,this);
 		MapManager.loadExternalBusinesses();
 		
-		final MapWindowFragment thisFragment = this;
 		//if the the map center was changed significantly (more then a Radius),
 		//starts loading businesses again, around the new radius.
 		gMap.setOnCameraChangeListener(new OnCameraChangeListener() {

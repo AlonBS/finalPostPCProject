@@ -206,29 +206,30 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 		ParseGeoPoint location = new ParseGeoPoint(BusinessData.businessLocation.latitude, BusinessData.businessLocation.longitude);
 		newBusiness.put(ParseClassesNames.BUSINESS_LOCATION, location);
 		
-		
-//TODO alon remove
-//		JSONObject coordinates = new JSONObject();
-//		try {
-//			coordinates.put(ParseClassesNames.BUSINESS_LOCATION_LAT ,BusinessData.businessLocation.latitude);
-//			coordinates.put(ParseClassesNames.BUSINESS_LOCATION_LONG ,BusinessData.businessLocation.longitude);
-//
-//		} catch (JSONException e) {
-//
-//			Log.e("Business - location create", e.getMessage());
-//		}
-		
 
+		// store preferences (favorites, likes & dislikes)
+		JSONObject prefs = new JSONObject();
+		try {
+			prefs.put(ParseClassesNames.BUSINESS_PREFERRING_FAVORITES, new JSONArray());
+
+		} catch (JSONException e) {
+
+			Log.e("BusinessWelcome - JSON_CREATION", e.getMessage());
+		}
+		newBusiness.put(ParseClassesNames.BUSINESS_PREFERRING, prefs);
+
+		
 		// TODO this is akum
 		if (BusinessData.businessImage != null) {
 			
 			BusinessData.setImage(BusinessData.businessImage);
 		}
 
-
+		
 		BusinessData.currentDeal = null;
 		newBusiness.put(ParseClassesNames.BUSINESS_CURRENT_DEAL, new JSONObject());
 
+		
 		//build deal-history column:
 		BusinessData.dealsHistory = new DealHistoryManager(0, 0, 0, new ArrayList<Deal>());
 		JSONObject dealsHistory = new JSONObject();
