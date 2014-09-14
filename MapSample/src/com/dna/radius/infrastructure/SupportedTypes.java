@@ -8,17 +8,18 @@ public class SupportedTypes {
 	
 	public static enum BusinessType implements Serializable{
 		
-		RESTAURANT(R.drawable.resturant_icon,"Restaurant"),
-		PUB(R.drawable.bar_icon,"Pub"),
-		ACCOMMODATION(R.drawable.hotel_icon,"Accommodation"),
-		COFFEE(R.drawable.coffee_icon,"Coffee"),
-		GROCERIES(R.drawable.shopping_icon, "Groceries");
+		RESTAURANT(R.drawable.resturant_icon,R.drawable.resturant_icon_owner,"Restaurant"),
+		PUB(R.drawable.bar_icon,R.drawable.bar_icon_owner,"Pub"),
+		ACCOMMODATION(R.drawable.hotel_icon,R.drawable.hotel_icon_owner,"Accommodation"),
+		COFFEE(R.drawable.coffee_icon,R.drawable.coffee_icon_owner,"Coffee"),
+		GROCERIES(R.drawable.shopping_icon,R.drawable.shopping_icon_owner, "Groceries");
 		
-		private int iconDrawableID;
+		private int iconDrawableID,ownerIconDrawableID;
 		private String stringRep;
 		
-		private BusinessType(int iconID, String rep){
+		private BusinessType(int iconID,int ownerIconDrawableID, String rep){
 			this.iconDrawableID = iconID;
+			this.ownerIconDrawableID = ownerIconDrawableID;
 			this.stringRep = rep;
 		}
 		
@@ -30,6 +31,10 @@ public class SupportedTypes {
 		
 		public int getIconID() {
 			return iconDrawableID;
+		}
+		
+		public int getOwnerIconID() {
+			return ownerIconDrawableID;
 		}
 		
 		public static BusinessType stringToType(String str){

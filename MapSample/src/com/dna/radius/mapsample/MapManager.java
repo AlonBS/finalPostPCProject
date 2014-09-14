@@ -68,7 +68,8 @@ public class MapManager {
 			if(BaseActivity.isInBusinessMode && b.getExternBusinessId().equals(BusinessData.getBusinessID())){
 				m =  gMap.addMarker(new MarkerOptions()
 				.position(b.getExternBuisnessLocation())
-				.title(b.getExtenBusinessName()));
+				.title(b.getExtenBusinessName())
+				.icon(BitmapDescriptorFactory.fromResource(b.getExternBusinessType().getOwnerIconID())));
 			}else{
 				m =  gMap.addMarker(new MarkerOptions()
 				.position(b.getExternBuisnessLocation())
