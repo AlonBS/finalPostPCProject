@@ -123,9 +123,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.8"
-                android:text="@string/type_address"
+                android:hint="@string/type_address"
                 android:lines="1"
-                android:textColor="#FFFFFFFF" />
+                android:textColor="#FF333333" />
 
             <ImageView
                 android:id="@+id/search_address_button"
