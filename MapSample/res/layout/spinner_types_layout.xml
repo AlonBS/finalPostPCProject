@@ -6,6 +6,7 @@
     android:orientation="horizontal" >
 
     <TextView
+        android:textSize="16sp"
         android:id="@+id/spinner_item_text_view"
         android:layout_width="wrap_content"
         android:layout_alignParentLeft="true"

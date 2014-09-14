@@ -5,7 +5,32 @@
     android:background="@drawable/gradient_blue_background"
     android:orientation="vertical" >
 
+    <LinearLayout
+        android:id="@+id/apply_button_layout"
+        android:layout_alignParentBottom="true"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#99000000"
+        android:orientation="vertical" >
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
+
+        <Button
+            android:id="@+id/apply_changes_button"
+            style="@style/ButtonText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+			android:layout_gravity="center"
+            android:background="@drawable/green_button_background"
+            android:text="@string/apply_settings"
+            android:textColor="#FFFFFFFF" />
+    </LinearLayout>
+
     <android.support.v4.app.FragmentTabHost
+        android:layout_above="@id/apply_button_layout"
         android:id="@android:id/tabhost"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
@@ -19,6 +44,7 @@
             <!-- TabWidget used to creat tabs -->
 
             <TabWidget
+                android:gravity="center"
                 android:id="@android:id/tabs"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" >
@@ -30,16 +56,5 @@
                 android:layout_height="match_parent" />
         </LinearLayout>
     </android.support.v4.app.FragmentTabHost>
-
-    <Button
-        android:id="@+id/apply_changes_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/green_button_background"
-        style="@style/ButtonText"
-        android:text="@string/apply_settings"
-        android:textColor="#FFFFFFFF" />
 
 </RelativeLayout>

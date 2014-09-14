@@ -1,9 +1,9 @@
 package com.dna.radius.businessmode;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
-import android.support.v4.widget.SearchViewCompat.OnCloseListenerCompat;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -36,7 +36,7 @@ public class BusinessSettingsActivity extends BaseActivity{
 		generalSettingFragment.putString(GeneralSettingsFragment.USER_NAME_PARAM, BusinessData.getUserName());
 		generalSettingFragment.putString(GeneralSettingsFragment.EMAIL_PARAM, BusinessData.getEmail());
 		// Create Tab1 with a custom image in res folder
-		mTabHost.addTab(mTabHost.newTabSpec("tab1").setIndicator("Tab1"),
+		mTabHost.addTab(mTabHost.newTabSpec(getResources().getString(R.string.general_settings)).setIndicator(getResources().getString(R.string.general_settings)),
 				GeneralSettingsFragment.class, generalSettingFragment);
 
 		// Create Tab2
@@ -46,13 +46,15 @@ public class BusinessSettingsActivity extends BaseActivity{
 		fillDataBundle.putString(BusinessFillDetailsFragment.BUSINESS_ADDRESS_HINT_PARAM, BusinessData.getAddress());
 		fillDataBundle.putString(BusinessFillDetailsFragment.BUSINESS_PHONE_HINT_PARAM, BusinessData.getPhoneNumber());
 		fillDataBundle.putSerializable(BusinessFillDetailsFragment.BUSINESS_TYPE_HINT_PARAM, BusinessData.getType());
-		mTabHost.addTab(mTabHost.newTabSpec("tab2").setIndicator("Tab2"),
+		fillDataBundle.putInt(BusinessFillDetailsFragment.TEXT_COLOR_PARAM, Color.BLACK);
+		
+		mTabHost.addTab(mTabHost.newTabSpec(getResources().getString(R.string.business_settings)).setIndicator(getResources().getString(R.string.business_settings)),
 				BusinessFillDetailsFragment.class, fillDataBundle);
 
 		Bundle locationBundle = new Bundle();
 		locationBundle.putString(LocationFinderFragment.ADDRESS_PARAMETER, "");
 		// Create Tab3
-		mTabHost.addTab(mTabHost.newTabSpec("tab3").setIndicator("Tab3"),
+		mTabHost.addTab(mTabHost.newTabSpec(getResources().getString(R.string.Location_settings)).setIndicator(getResources().getString(R.string.Location_settings)),
 				LocationFinderFragment.class, locationBundle);
 
 		Button applyChagnesButton = (Button) findViewById(R.id.apply_changes_button);

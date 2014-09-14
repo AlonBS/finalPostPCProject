@@ -22,6 +22,9 @@ public class SupportedTypes {
 			this.stringRep = rep;
 		}
 		
+		public boolean equals(BusinessType other) {
+			return this.stringRep.equals(other.stringRep);
+		}
 		
 		public String getStringRep(){ return stringRep;	}
 		

@@ -124,6 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.8"
                 android:text="@string/type_address"
+                android:lines="1"
                 android:textColor="#FFFFFFFF" />
 
             <ImageView

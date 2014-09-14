@@ -2,6 +2,7 @@ package com.dna.radius.businessmode;
 
 import java.util.ArrayList;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -28,9 +29,9 @@ public class BusinessFillDetailsFragment extends Fragment{
 
 	private Spinner businessTypeSpinner;
 
-	private SupportedTypes.BusinessType businessType;
+	private SupportedTypes.BusinessType businessType = null;
 
-	private ArrayAdapter<BusinessType> adapter;
+	private ArrayAdapter<BusinessType> spinnerAdapter;
 
 	/***this parameters represents a boolean flag which is true if the fragment is inflated
 	inside of the settings scope. in this case - the edit texts should ve filled with
@@ -40,7 +41,11 @@ public class BusinessFillDetailsFragment extends Fragment{
 	public static String BUSINESS_TYPE_HINT_PARAM = "businessTypeParam";
 	public static String BUSINESS_PHONE_HINT_PARAM = "businessPhoneParam";
 	public static String BUSINESS_ADDRESS_HINT_PARAM = "businessAddressParam";
-
+	
+	//default color is white
+	public static String TEXT_COLOR_PARAM = "textColorParam";
+	
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -58,8 +63,15 @@ public class BusinessFillDetailsFragment extends Fragment{
 		businessPhoneEditText.setOnTouchListener(new EditTextOnTouchListenerWithinTabhost());
 		
 		
-		setBusinessTypeSpinner();
-
+		if(getArguments().containsKey(TEXT_COLOR_PARAM)){
+			int color = getArguments().getInt(TEXT_COLOR_PARAM);
+//			businessNameEditText.setHintTextColor(color);
+//			businessPhoneEditText.setHintTextColor(color);
+//			businessAddressEditText.setHintTextColor(color);
+			businessNameEditText.setTextColor(color);
+			businessPhoneEditText.setTextColor(color);
+			businessAddressEditText.setTextColor(color);
+		}
 		boolean changeCurrentSettingsMode = getArguments().getBoolean(IS_IN_SETTINGS_MODE_PARAM);
 		if(changeCurrentSettingsMode){
 			//receives the input arguments
@@ -68,12 +80,12 @@ public class BusinessFillDetailsFragment extends Fragment{
 			String businessAddressHint = getArguments().getString(BUSINESS_ADDRESS_HINT_PARAM);
 			String businessPhoneHint = getArguments().getString(BUSINESS_PHONE_HINT_PARAM);
 			
-
 			//sets the hints accordingly
 			businessNameEditText.setHint(businessNameHint);
-
 			businessType = typeHint;
-			int spinnerPosition = adapter.getPosition(typeHint);
+			setBusinessTypeSpinner(businessType);
+			
+			int spinnerPosition = spinnerAdapter.getPosition(typeHint);
 			businessTypeSpinner.setSelection(spinnerPosition);
 
 			if(businessPhoneHint!=null && !businessPhoneHint.equals("")){
@@ -87,20 +99,30 @@ public class BusinessFillDetailsFragment extends Fragment{
 			//since we are on the settings menu, no message is requires
 			TextView welcomeMessage = (TextView)view.findViewById(R.id.welcome_business_textView);
 			welcomeMessage.setVisibility(View.GONE);
+		}else{
+			setBusinessTypeSpinner(null);
 		}
-
+		
+		
 		return view;
 	}
 
 
-	private void setBusinessTypeSpinner() {
+	private void setBusinessTypeSpinner(BusinessType hintType) {
+
 
 		ArrayList<SupportedTypes.BusinessType> businessTypes = new ArrayList<SupportedTypes.BusinessType>();
 		for(BusinessType b : BusinessType.values()){
 			businessTypes.add(b);
 		}
-		adapter = new SpinnerTypeAdapter(getActivity(), R.layout.spinner_types_layout, businessTypes,getResources());
-		businessTypeSpinner.setAdapter(adapter);
+		
+		if(getArguments().containsKey(TEXT_COLOR_PARAM)){
+			int color = getArguments().getInt(TEXT_COLOR_PARAM);
+			spinnerAdapter = new SpinnerTypeAdapter(getActivity(), R.layout.spinner_types_layout, businessTypes,getResources(),hintType,color);
+		}else{
+			spinnerAdapter = new SpinnerTypeAdapter(getActivity(), R.layout.spinner_types_layout, businessTypes,getResources(),hintType);
+		}
+		businessTypeSpinner.setAdapter(spinnerAdapter);
 		businessTypeSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
@@ -172,19 +194,6 @@ public class BusinessFillDetailsFragment extends Fragment{
 		return businessAddressEditText.getText().toString();
 	}
 
-	//		/**
-	//		 * this function is called from the settings activity and is used to set a hint for the fragment.
-	//		 * the phoneNumber and address parameters can be null or empty strings. in this case, the hint won't change for these fields.
-	//		 */
-	//		public void setHint(String businessNameHint,SupportedTypes.BusinessType typeHint,  String businessPhoneHint, String businessAddressHint){
-	//			changeCurrentSettingsMode = true;
-	//			this.businessNameHint = businessNameHint;
-	//			this.typeHint = typeHint;
-	//
-	//			this.businessPhoneHint = businessPhoneHint;
-	//			this.businessAddressHint = businessAddressHint;
-	//
-	//		}
 
 
 
