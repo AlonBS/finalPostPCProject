@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_welcome_activity_2" >
+    android:background="@drawable/gradient_grayish_blue_background" >
 
     <LinearLayout
         android:id="@+id/layout_next"
