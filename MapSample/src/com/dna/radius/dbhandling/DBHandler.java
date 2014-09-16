@@ -478,9 +478,9 @@ public class DBHandler {
 
 			if (query.count() < TopBusinessesHorizontalView.MAX_TOP_BUSINESSES) {
 
-				radius += 0.1; //TODO change ammount
+				radius += 0.01; //TODO change ammount
 				if (query.count() < TopBusinessesHorizontalView.MAX_TOP_BUSINESSES) {
-					radius += 0.1;
+					radius += 0.02;
 				}
 
 			}

@@ -219,11 +219,7 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 		newBusiness.put(ParseClassesNames.BUSINESS_PREFERRING, prefs);
 
 		
-		// TODO this is akum
-		if (BusinessData.businessImage != null) {
-			
-			BusinessData.setImage(BusinessData.businessImage);
-		}
+		
 
 		
 		BusinessData.currentDeal = null;
@@ -257,6 +253,13 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 			newBusiness.save();
 			BusinessData.currentUser.save();
 			BusinessData.businessInfo = newBusiness;
+			
+			// TODO this is akum
+			if (BusinessData.businessImage != null) {
+				
+				BusinessData.setImage(BusinessData.businessImage);
+			}
+			
 
 			BusinessData.currentUser.fetchIfNeeded();
 			BusinessData.businessInfo.fetchIfNeeded();
