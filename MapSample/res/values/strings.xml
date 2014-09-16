@@ -9,8 +9,8 @@
     <string name="next_button">Next</string>
     <string name="user_name">User Name</string>
     <string name="password">Password</string>
-    
-     <!-- Login-in activity strings -->
+
+    <!-- Login-in activity strings -->
     <string name="login">Log In</string>
     <string name="no_account">Don\'t have an account yet? </string>
     <string name="sign_up">Sign Up</string>
@@ -35,18 +35,18 @@
     <string name="top_businesses">Top Businesses</string>
     <string name="image_wasnt_loaded">Image wasn\'t loaded, restart screen to try again</string>
 
-     <!-- add a new deal dialog -->
+    <!-- add a new deal dialog -->
     <string name="add_a_new_deal_dialog_title">Create a new Deal</string>
     <string name="add_a_new_deal_deal_is_empty">the new deal is empty</string>
     <string name="add_a_new_deal_deal_identical_to_previous">the new deal is equal to the previous one</string>
-    
+
     <!-- signup_activity strings -->
     <string name="instructions">Please fill in the details</string>
     <string name="password_confirmation">Password Confirmation</string>
     <string name="email_address">Email Address</string>
     <string name="business_name">Business Name</string>
     <string name="business_type">Business type</string>
-    
+
     <string-array name="business_type_spinner">
         <item>Business type</item>
         <item>Restaurant</item>
@@ -83,7 +83,7 @@
     <string name="not_now_btn">Not now</string>
     <string name="finish_btn">Finish</string>
     <string name="welcome_business_fill_details">In order to complete the registration please fill the following details</string>
-    
+
     <!-- deal history fragment -->
     <string name="delete_deal_from_history">Delete</string>
     <string name="display_deal_from_history">Display</string>
@@ -122,10 +122,10 @@
     <string name="are_you_sure"> are you sure you want to switch</string>
     <string name="switching"> switching</string>
     <string name="log_out"> Log out</string>
-    
-    
-    <!--  ShowDeal Activity Strings -->
+
+    <!-- ShowDeal Activity Strings -->
     <string name="no_like_in_bus_mode">"It's impossible to like/dislike a deal on business mode"</string>
+    <string name="no_deal_currently">"This business currently has no deal on display"</string>
 
     <!-- map -->
     <string name="type_address">type address here</string>

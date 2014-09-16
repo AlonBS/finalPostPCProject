@@ -1,7 +1,5 @@
 package com.dna.radius.mapsample;
 
-import java.util.ArrayList;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,7 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -21,28 +19,13 @@ import android.widget.TextView;
 import com.dna.radius.R;
 import com.dna.radius.businessmode.BusinessData;
 import com.dna.radius.clientmode.ClientData;
-import com.dna.radius.datastructures.Comment;
 import com.dna.radius.datastructures.ExternalBusiness;
-import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.infrastructure.BaseActivity;
-import com.dna.radius.infrastructure.SupportedTypes;
 
 public class ShowDealActivity extends FragmentActivity{
 	//needed parameters for the activity
 
 	public static final String EXTERNAL_BUSINESS_KEY = "externBusiness";
-	//TODO remove
-	//	public final static String BUSINESS_NAME_PARAM = "BusinessName";
-	//	public final static String BUSINESS_ID_PARAM = "BusinessID";
-	//	public final static String DEAL_ID_PARAM = "BusinessID";
-	//	public final static String BUSINESS_TYPE_PARAM = "BusinessType";
-	//	public final static String DEAL_RATING_PARAM = "DealRating";
-	//	public final static String USER_MODE_PARAM = "IsInUserMode";	
-	//	public final static String NUM_OF_LIKES_PARAM = "likesParam";
-	//	public final static String NUM_OF_DISLIKES_PARAM = "dislikesParam";	
-	//	public final static String CURRENT_DEAL_STR_PARAM = "currentDealParam";	
-	//	public final static String PHONE_STR_PARAM = "phone";
-	//	public final static String ADDRESS_STR_PARAM = "address";	
 
 
 	//a button which allows switching between the like fragment and the comments fragment.
@@ -75,18 +58,6 @@ public class ShowDealActivity extends FragmentActivity{
 		pressedExternal = (ExternalBusiness)intent.getSerializableExtra(EXTERNAL_BUSINESS_KEY);
 		final String externBusId = pressedExternal.getExternBusinessId();
 
-		//loads the relevant data
-		//		businessName = intent.getStringExtra(BUSINESS_NAME_PARAM);
-		//		businessID = intent.getStringExtra(BUSINESS_ID_PARAM);
-		//		dealID = intent.getStringExtra(DEAL_ID_PARAM);
-		//		bType = (SupportedTypes.BusinessType)intent.getSerializableExtra(BUSINESS_TYPE_PARAM);
-		//		int rating = intent.getIntExtra(DEAL_RATING_PARAM, 0);
-		//		numOfLikes = intent.getIntExtra(NUM_OF_LIKES_PARAM,0);
-		//		numOfDislikes = intent.getIntExtra(NUM_OF_DISLIKES_PARAM,0);
-		//		phoneStr = intent.getStringExtra(PHONE_STR_PARAM);
-		//		addressStr = intent.getStringExtra(ADDRESS_STR_PARAM);
-		//		dealStr = intent.getStringExtra(CURRENT_DEAL_STR_PARAM);
-
 		//sets the views
 		TextView businessNameTV = (TextView)findViewById(R.id.businessTitle);
 		TextView dealTextView = (TextView)findViewById(R.id.dealTextView);
@@ -101,8 +72,7 @@ public class ShowDealActivity extends FragmentActivity{
 		}
 
 		else {
-
-			dealTextView.setText("This business currently has no deal on display"); // TODO R.STRING
+			dealTextView.setText(getResources().getString(R.string.no_deal_currently));
 		}
 
 		if ( (!pressedExternal.getExternBusinessAddress().isEmpty()) && 
@@ -113,14 +83,6 @@ public class ShowDealActivity extends FragmentActivity{
 
 		ratingBar.setRating((float)pressedExternal.getExternBusinessRating()); 
 
-
-//TODO not needed
-//		/**overrides rating bar's on touch method so it won't do anything*/
-//		ratingBar.setOnClickListener(new OnClickListener() {
-//			public void onClick(View arg0) {
-//				return;
-//			}
-//		});
 
 		switchFragmentsButton = (ImageView)findViewById(R.id.switchFragmentButton);
 		if(pressedExternal.getExternBusinessDeal() != null){
@@ -191,11 +153,24 @@ public class ShowDealActivity extends FragmentActivity{
 				finish();
 			}
 		});
+		
+		
+		setScreenSize();
 
 	}
 
 
+	private void setScreenSize() {
 
+		// This will set this dialog-themed activity to take 80% of the screen
+		DisplayMetrics metrics = getResources().getDisplayMetrics();
+		int screenWidth = (int) (metrics.widthPixels * 0.9);
+		int screenHeight = getWindow().getAttributes().height;
+		getWindow().setLayout(screenWidth, screenHeight);
+	}
+
+	
+	
 	/**
 	 * this function is called whenever the comment button / the back arrow button is pressed.
 	 * in this case - a new fragment should be loaded to the screen.

@@ -34,7 +34,7 @@
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/deal_title_background"
+            android:background="@drawable/gradient_light_gray"
             android:orientation="horizontal" >
 
             <LinearLayout

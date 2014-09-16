@@ -6,7 +6,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -179,7 +178,6 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 	}
 
 	private void setScreenSize() {
-
 		// This will set this dialog-themed activity to take 80% of the screen
 		DisplayMetrics metrics = getResources().getDisplayMetrics();
 		int screenWidth = (int) (metrics.widthPixels * 0.9);
