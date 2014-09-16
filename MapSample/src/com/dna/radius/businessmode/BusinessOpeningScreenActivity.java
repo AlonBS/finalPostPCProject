@@ -4,17 +4,14 @@ package com.dna.radius.businessmode;
 
 
 import android.content.Intent;
-import android.graphics.DashPathEffect;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -22,7 +19,6 @@ import android.widget.TextView;
 import com.dna.radius.R;
 import com.dna.radius.infrastructure.BaseActivity;
 import com.dna.radius.infrastructure.WaitingFragment;
-import com.dna.radius.login.IntroFragment;
 import com.dna.radius.mapsample.MapWindowFragment;
 
 
@@ -70,7 +66,7 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 				BusinessData.loadBusinessInfo();
 
 				runOnUiThread(new Runnable() {
-					private ImageView refreshScreenBtn;
+					private View logoLayout;
 
 
 					@Override
@@ -99,14 +95,14 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 
 
 					private void setOnClickListeners() {
-						refreshScreenBtn = (ImageView)findViewById(R.id.refresh_btn);
+						logoLayout = (View)findViewById(R.id.logo_layout);
 						homeFragmentBtn = (ImageView)findViewById(R.id.home_btn);
 						mapFragmentBtn = (ImageView)findViewById(R.id.map_btn);
 						businessHistoryFragment = (ImageView)findViewById(R.id.stats_btn);
 
 						FragmentChangerBtnOnClickListener f = new FragmentChangerBtnOnClickListener();
 
-						refreshScreenBtn.setOnClickListener(new OnClickListener() {
+						logoLayout.setOnClickListener(new OnClickListener() {
 							
 							@Override
 							public void onClick(View arg0) {

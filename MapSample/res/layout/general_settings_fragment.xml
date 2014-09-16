@@ -2,41 +2,62 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
-    android:padding="10dp"
     android:layout_marginTop="5dp"
-    android:orientation="vertical" >
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="10dp" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/user_name" />
 
     <EditText
         android:id="@+id/user_name_edit_text"
         android:layout_width="match_parent"
-        android:lines="1"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:lines="1" >
     </EditText>
 
-    <EditText
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:text="@string/new_password" />
+
+    <EditText
         android:id="@+id/password_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/new_password"
+        android:layout_marginTop="2dp"
         android:inputType="textPassword" />
 
-    <EditText
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:text="@string/new_password_confirmation" />
+
+    <EditText
         android:id="@+id/password_confirmation_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/new_password_confirmation"
+        android:layout_marginTop="2dp"
         android:inputType="textPassword" />
 
-    <EditText
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:text="@string/new_email" />
+
+    <EditText
         android:id="@+id/email_address_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
         android:ems="10"
         android:inputType="textEmailAddress" />
-
 
 </LinearLayout>

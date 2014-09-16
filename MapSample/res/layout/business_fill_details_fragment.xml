@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
-    android:focusableInTouchMode="true" >
+    android:focusableInTouchMode="true"
+    android:padding="10dp" >
 
     <LinearLayout
         android:id="@+id/business_welcome_details_layout"
@@ -20,42 +20,72 @@
             android:text="@string/welcome_business_fill_details"
             android:textColor="@color/white" />
 
-        <EditText
-            android:inputType="text"
-            android:id="@+id/business_name_textView"
+        <TextView
+            android:textColor="@color/white"
+            android:id="@+id/business_name_text_view"
+            android:layout_marginTop="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:text="@string/business_name_hint" />
+
+        
+        <EditText
+            android:id="@+id/business_name_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
             android:ems="10"
+            android:inputType="text"
             android:lines="1"
-            android:hint="@string/business_name_hint"
             android:singleLine="true" >
         </EditText>
+
+        <TextView
+            android:textColor="@color/white"
+            android:id="@+id/business_type_text_view"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/business_type" />
 
         <Spinner
             android:id="@+id/business_type_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="2dp" />
 
-        <EditText
-            android:id="@+id/business_phone_textView"
+        <TextView
+            android:textColor="@color/white"
+            android:id="@+id/business_phone_text_view"
+            android:layout_marginTop="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:text="@string/business_phone_hint" />
+
+        <EditText
+            android:id="@+id/business_phone_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
             android:ems="10"
-            android:hint="@string/business_phone_hint"
             android:inputType="phone"
-            android:singleLine="true">
+            android:singleLine="true" >
         </EditText>
 
+        <TextView
+             android:id="@+id/business_address_text_view"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:textColor="@color/white"
+            android:layout_height="wrap_content"
+            android:text="@string/business_address_hint" />
+
         <EditText
-            android:id="@+id/business_address_textView"
+            android:id="@+id/business_address_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="2dp"
             android:ems="10"
-            android:hint="@string/business_address_hint"
             android:singleLine="true"
             android:textColor="@color/white" >
         </EditText>

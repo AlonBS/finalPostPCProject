@@ -2,7 +2,6 @@ package com.dna.radius.businessmode;
 
 import java.util.ArrayList;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -26,12 +25,14 @@ import com.dna.radius.infrastructure.SupportedTypes.BusinessType;
 public class BusinessFillDetailsFragment extends Fragment{
 
 	private EditText businessNameEditText, businessAddressEditText, businessPhoneEditText;
+	private TextView businessNameTextView, businessPhoneTextView,  businessAddressTextView,  businessTypeTextView;
 
 	private Spinner businessTypeSpinner;
 
 	private SupportedTypes.BusinessType businessType = null;
 
 	private ArrayAdapter<BusinessType> spinnerAdapter;
+
 
 	/***this parameters represents a boolean flag which is true if the fragment is inflated
 	inside of the settings scope. in this case - the edit texts should ve filled with
@@ -53,10 +54,16 @@ public class BusinessFillDetailsFragment extends Fragment{
 		View view = inflater.inflate(R.layout.business_fill_details_fragment,container, false);	
 		
 		//retrives the relevant views
-		businessNameEditText = (EditText) view.findViewById(R.id.business_name_textView);
-		businessPhoneEditText = (EditText) view.findViewById(R.id.business_phone_textView);
-		businessAddressEditText = (EditText) view.findViewById(R.id.business_address_textView);
+		businessNameEditText = (EditText) view.findViewById(R.id.business_name_edit_text);
+		businessPhoneEditText = (EditText) view.findViewById(R.id.business_phone_edit_text);
+		businessAddressEditText = (EditText) view.findViewById(R.id.business_address_edit_text);
 		businessTypeSpinner = (Spinner) view.findViewById(R.id.business_type_spinner);
+		
+		businessNameTextView = (TextView) view.findViewById(R.id.business_name_text_view);
+		businessPhoneTextView = (TextView) view.findViewById(R.id.business_phone_text_view);
+		businessAddressTextView = (TextView) view.findViewById(R.id.business_address_text_view);
+		businessTypeTextView = (TextView) view.findViewById(R.id.business_type_text_view);
+		
 		
 		businessAddressEditText.setOnTouchListener(new EditTextOnTouchListenerWithinTabhost());
 		businessNameEditText.setOnTouchListener(new EditTextOnTouchListenerWithinTabhost());
@@ -65,12 +72,14 @@ public class BusinessFillDetailsFragment extends Fragment{
 		
 		if(getArguments().containsKey(TEXT_COLOR_PARAM)){
 			int color = getArguments().getInt(TEXT_COLOR_PARAM);
-//			businessNameEditText.setHintTextColor(color);
-//			businessPhoneEditText.setHintTextColor(color);
-//			businessAddressEditText.setHintTextColor(color);
 			businessNameEditText.setTextColor(color);
 			businessPhoneEditText.setTextColor(color);
 			businessAddressEditText.setTextColor(color);
+			
+			businessNameTextView.setTextColor(color);
+			businessPhoneTextView.setTextColor(color);
+			businessAddressTextView.setTextColor(color);
+			businessTypeTextView.setTextColor(color);
 		}
 		boolean changeCurrentSettingsMode = getArguments().getBoolean(IS_IN_SETTINGS_MODE_PARAM);
 		if(changeCurrentSettingsMode){

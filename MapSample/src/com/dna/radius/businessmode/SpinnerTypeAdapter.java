@@ -85,7 +85,7 @@ public class SpinnerTypeAdapter extends ArrayAdapter<BusinessType>{
 
 			// Default selected Spinner item 
 			label.setTextColor(new EditText(getContext()).getHintTextColors());
-			label.setText(activity.getResources().getString(R.string.business_type));
+			//label.setText(activity.getResources().getString(R.string.business_type));
 
 		}
 		else
