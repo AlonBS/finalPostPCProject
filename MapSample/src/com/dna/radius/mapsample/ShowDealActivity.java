@@ -79,6 +79,13 @@ public class ShowDealActivity extends FragmentActivity{
 				(!pressedExternal.getExternBusinessPhone().isEmpty()) )  {
 
 			detailsTV.setText(pressedExternal.getExternBusinessAddress() + WHITE_SPACES + pressedExternal.getExternBusinessPhone());
+		}else if(!pressedExternal.getExternBusinessAddress().isEmpty()){
+			detailsTV.setText(pressedExternal.getExternBusinessAddress());
+			
+		}else if(!pressedExternal.getExternBusinessPhone().isEmpty()){
+			detailsTV.setText(pressedExternal.getExternBusinessAddress());
+		}else{
+			detailsTV.setVisibility(View.GONE);
 		}
 
 		ratingBar.setRating((float)pressedExternal.getExternBusinessRating()); 
