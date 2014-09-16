@@ -8,12 +8,15 @@
         android:id="@+id/business_image_view"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:adjustViewBounds="true" />
+        android:layout_marginBottom="5dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY" />
 
     <LinearLayout
         android:id="@+id/show_deal_dislike_btn"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/gradient_light_gray"
         android:gravity="center_horizontal"
         android:orientation="horizontal" >
 
