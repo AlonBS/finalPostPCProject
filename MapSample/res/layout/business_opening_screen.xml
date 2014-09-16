@@ -63,7 +63,7 @@
                     android:id="@+id/stats_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_action_view_as_list" >
+                    android:src="@drawable/ic_action_h" >
                 </ImageView>
 
                 <ImageView
