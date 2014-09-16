@@ -1,13 +1,11 @@
 package com.dna.radius.businessmode;
 
 
-import java.util.ArrayList;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,20 +67,17 @@ public class BusinessHistoryFragment extends Fragment{
 				.setPositiveButton(getString(R.string.display_deal_from_history), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
 						
+						BusinessData.bringDealFromHistory(dealObject);
 						
 					
 					}
 				}).setNegativeButton(getString(R.string.delete_deal_from_history), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
 						
-	//					DBHandler.deletedDealFromHistory(parentActivity.ownerData.businessID,dealObject);
-						
-						//TODO 
-						//BusinessData.deleteDealFromHistory();
+						BusinessData.deletedDealFromHistory(dealObject);
 						
 					}
 				}).show();
-			
 			}
 		});
 

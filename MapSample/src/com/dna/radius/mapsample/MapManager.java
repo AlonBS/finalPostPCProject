@@ -2,8 +2,10 @@ package com.dna.radius.mapsample;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.TreeSet;
 
 import android.util.Log;
 
@@ -30,15 +32,20 @@ public class MapManager {
 	private static HashMap <Marker, ExternalBusiness> markerToBusiness;
 	private static HashMap <ExternalBusiness, Marker> BusinessToMarker;
 	private static HashMap <String, ExternalBusiness> businessIDToExternalBusiness;
-	   
 	private static WeakReference<GoogleMap> gMapRef = null;
+	private static TreeSet<ExternalBusiness> topDealsList;
+	private static TreeSet<ExternalBusiness> topBusinessesList;
+	
+	private static final int TOP_DEAL_SUPPORTED = 10;
+	private static final int TOP_BUSINESSES_SUPPORTED = 10;
 	
 	public static void init(GoogleMap gMap){
 		gMapRef = new WeakReference<GoogleMap>(gMap);
 		markerToBusiness = new HashMap <Marker, ExternalBusiness>();
 		BusinessToMarker = new HashMap <ExternalBusiness, Marker>();
 		businessIDToExternalBusiness = new HashMap <String, ExternalBusiness>();
-		
+		topDealsList = new TreeSet<ExternalBusiness>(new ExternalBusinessDealsComperator());
+		topBusinessesList = new TreeSet<ExternalBusiness>(new ExternalBusinessRatingComperator());
 	}
 	
 	public static void refreshDataBases(){
@@ -52,6 +59,8 @@ public class MapManager {
 		markerToBusiness = new HashMap <Marker, ExternalBusiness>();
 		BusinessToMarker = new HashMap <ExternalBusiness, Marker>();
 		businessIDToExternalBusiness = new HashMap <String, ExternalBusiness>();
+		topDealsList = new TreeSet<ExternalBusiness>(new ExternalBusinessDealsComperator());
+		topBusinessesList = new TreeSet<ExternalBusiness>(new ExternalBusinessRatingComperator());
 		loadExternalBusinesses();
 	}
 	
@@ -82,6 +91,15 @@ public class MapManager {
 			businessIDToExternalBusiness.put(b.getExternBusinessId(), b);
 		}
 		
+		topDealsList.addAll(businesses);
+		while (topDealsList.size() > TOP_DEAL_SUPPORTED) {
+			topDealsList.pollLast();
+		}
+		
+		topBusinessesList.addAll(businesses);
+		while (topBusinessesList.size() > TOP_BUSINESSES_SUPPORTED) {
+			topBusinessesList.pollLast();
+		}
 		
     	Log.d("", "number of businesses (according to db): " + markerToBusiness.keySet().size());
 		
@@ -132,23 +150,11 @@ public class MapManager {
 		return markerToBusiness.get(m);
 	}
 	
-	
-//TODO 
-//	public static void addBusiness(ExternalBusiness b,Marker m){
-//		BusinessToMarker.put(b,m);
-//		markerToBusiness.put(m,b);
-//	}
-	
+
 	/** this function returns true if a business has a certein propert, 
 	 * according to the propery enum list*/
 	public enum Property{FAVORITES_PROP,TOP_BUSINESS_PROP,TOP_DEALS_PROP,ALL;}
 	
-	
-	//TODO (alon - to dror) - unused?
-	//public static boolean hasProperty(Marker marker, Property p){
-	//	ExternalBusiness buisness = markerToBusiness.get(marker);
-	//	return hasProperty(buisness, p);		
-	//}	
 	
 	/**returns true if a business has a certain property.*/
 	public static boolean hasProperty(ExternalBusiness extern ,Property p){
@@ -157,11 +163,10 @@ public class MapManager {
 			return ClientData.isInFavourites(extern.getExternBusinessId()); //TODO - improve!
 			
 		}else if (p == Property.TOP_DEALS_PROP) {
-			
-			return isInTopDeals(extern.getExternBusinessId());
+			return topDealsList.contains(extern);
 			
 		}else if(p == Property.TOP_BUSINESS_PROP) {
-			return extern.getExternBusinessRating() >= 4; //TODO decide creteria
+			return topBusinessesList.contains(extern);
 		}
 		else if (p == Property.ALL) {
 			return true;
@@ -174,11 +179,48 @@ public class MapManager {
 
 	
 	
-	private static boolean isInTopDeals(String businessId) {
+	private static class ExternalBusinessDealsComperator implements Comparator<ExternalBusiness> {
+
+		@Override
+		public int compare(ExternalBusiness o1, ExternalBusiness o2) {
+			
+			int sum1, sum2;
+			sum1 = 2 * o1.getExternBusinessDeal().getNumOfLikes() + o1.getExternBusinessDeal().getNumOfDislikes();
+			sum2 = 2 * o2.getExternBusinessDeal().getNumOfLikes() + o2.getExternBusinessDeal().getNumOfDislikes();
+			
+			return sum1 - sum2;
+			
+			
+			
+		}
 		
-		// TODO call DBhandler topBusiness finder
-		// TODO Auto-generated method stub
-		return false;
+		
 	}
+	
+	private static class ExternalBusinessRatingComperator implements Comparator<ExternalBusiness> {
+
+		@Override
+		public int compare(ExternalBusiness o1, ExternalBusiness o2) {
+			
+			double epsilon = 0.000001;
+			double diff = o1.getExternBusinessRating() - o2.getExternBusinessRating();
+			
+			if (Math.abs(diff) < epsilon) return 0;
+			if (diff > 0 ) return 1;
+			
+			return -1;
+			
+			
+			
+		}
+		
+		
+	}
+	
+	
+	
+	
+	
+	
 	
 }

@@ -144,8 +144,8 @@ public class LoginFragment extends Fragment {
 			}
 		});
 	}
-
 	
+
 	private void setOnCheckedChangeListener() {
 
 		keepLoggedInCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

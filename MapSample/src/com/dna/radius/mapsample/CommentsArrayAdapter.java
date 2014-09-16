@@ -39,7 +39,7 @@ public class CommentsArrayAdapter extends ArrayAdapter<Comment>{
 
 		View rowView = convertView;
 		
-		 if(rowView==null){
+		 if (rowView == null) {
 		  LayoutInflater inflater=LayoutInflater.from(super.getContext());
 		  rowView=inflater.inflate(R.layout.comment_row, parent, false);
 		 
