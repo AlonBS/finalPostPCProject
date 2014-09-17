@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -35,6 +36,14 @@ public class AddNewDealDialogFragment extends DialogFragment implements View.OnC
 		if(userHadADealBefore){
 			dealEditText.setText(previousDealStr);
 		}
+		
+		ImageView clearBtn = (ImageView)view.findViewById(R.id.add_deal_clean_btn);
+		clearBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dealEditText.setText("");
+			}
+		});
 		return view;
 	}
 
