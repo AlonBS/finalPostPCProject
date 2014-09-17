@@ -60,24 +60,10 @@ public class ShowDealActivity extends FragmentActivity{
 
 		//sets the views
 		TextView businessNameTV = (TextView)findViewById(R.id.businessTitle);
-		TextView dealTextView = (TextView)findViewById(R.id.dealTextView);
 		TextView detailsTV = (TextView)findViewById(R.id.businessDetails);
 		RatingBar ratingBar = (RatingBar)findViewById(R.id.businessRatingBar);
-
-		businessNameTV.setText(pressedExternal.getExtenBusinessName());
-
-		if (pressedExternal.getExternBusinessDeal() != null) {
-
-			dealTextView.setText(pressedExternal.getExternBusinessDeal().getDealContent());
-		}
-
-		else {
-			dealTextView.setText(getResources().getString(R.string.no_deal_currently));
-		}
-
 		if ( (!pressedExternal.getExternBusinessAddress().isEmpty()) && 
 				(!pressedExternal.getExternBusinessPhone().isEmpty()) )  {
-
 			detailsTV.setText(pressedExternal.getExternBusinessAddress() + WHITE_SPACES + pressedExternal.getExternBusinessPhone());
 		}else if(!pressedExternal.getExternBusinessAddress().isEmpty()){
 			detailsTV.setText(pressedExternal.getExternBusinessAddress());
@@ -88,6 +74,7 @@ public class ShowDealActivity extends FragmentActivity{
 			detailsTV.setVisibility(View.GONE);
 		}
 
+		businessNameTV.setText(pressedExternal.getExtenBusinessName());
 		ratingBar.setRating((float)pressedExternal.getExternBusinessRating()); 
 
 

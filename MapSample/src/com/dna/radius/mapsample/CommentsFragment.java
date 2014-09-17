@@ -36,8 +36,14 @@ public class CommentsFragment extends Fragment{
 	 * In order to prevent spamming, 
 	 * for each comment which the users add, the map holds the time it happened.
 	 */
-	static final HashMap<String,Long > previousComments = new HashMap<>();
+	static HashMap<String,Long > previousComments = new HashMap<>();
 
+	public static void restartCommentsHistory(){
+		previousComments = new HashMap<>();
+		
+	}
+	
+	
 	/**the amount of time (in milliseconds) which the user need to wait before writing another comment
 	 * to a deal. currently set to 5 minutes*/
 	private final static long  WAITING_TIME_BETWEEN_COMMENTS =  1000 * 60 * 5;
@@ -78,7 +84,7 @@ public class CommentsFragment extends Fragment{
 				}
 			});
 
-			ImageView sendCommentButton = (ImageView)view.findViewById(R.id.comment_send);
+			View sendCommentButton = view.findViewById(R.id.comment_send);
 			sendCommentButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {

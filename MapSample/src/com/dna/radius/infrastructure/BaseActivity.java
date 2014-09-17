@@ -23,6 +23,7 @@ import com.dna.radius.clientmode.ClientGeneralSettingsActivity;
 import com.dna.radius.clientmode.ClientOpeningScreenActivity;
 import com.dna.radius.dbhandling.ParseClassesNames;
 import com.dna.radius.login.MainActivity;
+import com.dna.radius.mapsample.CommentsFragment;
 import com.parse.ParseUser;
 
 /***
@@ -87,6 +88,9 @@ public abstract class BaseActivity extends FragmentActivity{
 		// back to 'log in' screen
 		Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 		startActivity(intent);
+		
+		//resets the comments fragment
+		CommentsFragment.restartCommentsHistory();
 		
 		finish();
 

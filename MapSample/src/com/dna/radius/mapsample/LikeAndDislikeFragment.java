@@ -71,11 +71,19 @@ public class LikeAndDislikeFragment extends Fragment{
 		}
 
 		setLikeBtnOnClickListener();
-
 		setDislikeBtnOnClickListener();
-
-
 		setDislikeAndLikeBG();
+		
+		TextView dealTV = (TextView)view.findViewById(R.id.dealTextView);
+		if (pressedExtern.getExternBusinessDeal() != null) {
+			dealTV.setText(pressedExtern.getExternBusinessDeal().getDealContent());
+		}
+		else {
+			dealTV.setText(getResources().getString(R.string.no_deal_currently));
+		}
+
+
+		
 		return view;
 	}
 

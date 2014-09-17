@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_dark_gray"
+    android:background="@drawable/gradient_med_gray"
     android:orientation="vertical" >
 
     <FrameLayout
@@ -87,34 +87,7 @@
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:background="#AA000000"/>
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal|center_vertical"
-        android:orientation="vertical"
-        android:padding="2dp" >
 
-        <ScrollView
-            android:id="@+id/your_deal_scroll_view"
-            android:layout_width="fill_parent"
-            android:layout_height="80dp"
-            android:layout_margin="2dp"
-            android:background="@drawable/deal_body_background"
-            android:clickable="true"
-            android:padding="5dp"
-            android:scrollbars="vertical" >
-
-            <TextView
-                android:padding="5dp"
-                android:id="@+id/dealTextView"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textSize="17sp"
-                 />
-        </ScrollView>
-        
-    </LinearLayout>
-    
 
     
     <LinearLayout
