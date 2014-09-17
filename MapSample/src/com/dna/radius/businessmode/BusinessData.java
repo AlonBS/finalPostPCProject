@@ -227,7 +227,7 @@ public class BusinessData {
 		loadDealsHistory();
 
 		loadTopBusiness();
-		
+
 		loadPreferrings();
 
 	}
@@ -241,9 +241,9 @@ public class BusinessData {
 		businessPhoneNumber = businessInfo.getString(ParseClassesNames.BUSINESS_PHONE);
 		loadRating();
 	}
-	
+
 	private static void loadRating() {
-		
+
 		businessRating = businessInfo.getDouble(ParseClassesNames.BUSINESS_RATING); // range should be: [0, 5]
 	}
 
@@ -430,15 +430,15 @@ public class BusinessData {
 	static void setImage(Bitmap bMap, byte[] imageData) {
 
 		//TODO Remove old picture reference
-		
+
 		if (imageData == null) return;
 
 		businessImage = bMap;
 		hasImage = true;
-//
-//		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//		businessImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-//		byte[] data = stream.toByteArray();
+		//
+		//		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		//		businessImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+		//		byte[] data = stream.toByteArray();
 
 
 		final ParseFile file = new ParseFile(imageData);
@@ -519,30 +519,31 @@ public class BusinessData {
 		//TODO should be saveEventually()
 		currentUser.saveInBackground(null);
 		businessInfo.saveInBackground(new SaveCallback() {
-			
+
 			@Override
 			public void done(ParseException arg0) {
 				updateRating();
 			}
 		});
 	}
-	
-	
+
+
 	private static void updateRating() {
-		
+
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("businessId", businessInfo.getObjectId());
-		
+
 		ParseCloud.callFunctionInBackground("calculateRating", params, new FunctionCallback<Double>() {
-		   
+
 			public void done(Double newRating, ParseException e) {
-		       if (e == null) {
-		    	   businessRating = newRating;
-		          Log.d("New Rating was:", Double.toString(newRating));
-		       }
-		       
-		       Log.e("Business - updateRating", e.getMessage());
-		   }
+				if (e == null) {
+					businessRating = newRating;
+					Log.d("New Rating was:", Double.toString(newRating));
+					return;
+				}
+
+				Log.e("Business - updateRating", e.getMessage());
+			}
 		});
 	}
 
@@ -642,7 +643,7 @@ public class BusinessData {
 
 		int length = ar.length();
 		for (int i = 0 ; i < length ; ++i) {
-			
+
 			try {
 				favourites.add(ar.getJSONObject(i).getString(ParseClassesNames.BUSINESS_PREFERRING_FAVORITES_ID));
 			} catch (JSONException e) {
@@ -651,7 +652,7 @@ public class BusinessData {
 		}
 	}
 
-	
+
 	/**
 	 * 
 	 * @param businessId
@@ -665,7 +666,7 @@ public class BusinessData {
 				"Business - Add to Favorites");
 	}
 
-	
+
 	private static void addToStorage(ArrayList<String> ds, String itemId,
 			String n1, String n2, String n3, String errMsg){
 
@@ -700,9 +701,9 @@ public class BusinessData {
 
 		return favourites.contains(businessId);
 	}
-	
-	
-	
+
+
+
 	public static void removeFromFavorites(String businessId) {
 
 		removeFromStorage(favourites, businessId,
@@ -711,8 +712,8 @@ public class BusinessData {
 				ParseClassesNames.BUSINESS_PREFERRING_FAVORITES_ID,
 				"Business -Remove from Favorites");
 	}
-	
-	
+
+
 	/**
 	 * 
 	 * @param ds
@@ -749,14 +750,14 @@ public class BusinessData {
 			Log.e(errMsg,"Item wasn't in db to remove");
 		}
 	}
-	
-	
+
+
 
 
 	static void refreshDB() {
 
 		loadCurrentDeal();
-		
+
 		loadRating();
 
 		topBusinesses = DBHandler.LoadTopBusinessesSync(
