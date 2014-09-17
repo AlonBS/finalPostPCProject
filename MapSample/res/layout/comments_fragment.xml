@@ -6,6 +6,7 @@
     
     
 	<ListView 
+	android:layout_margin="4dp"
     android:id="@+id/comments_list_view"
     android:layout_width="fill_parent"
     android:layout_height="0dp"
