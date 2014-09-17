@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.dna.radius.R;
 import com.dna.radius.datastructures.ExternalBusiness;
+import com.dna.radius.infrastructure.ColoredRatingBar;
 import com.dna.radius.mapsample.ShowDealActivity;
 
 /***
@@ -88,7 +89,7 @@ public class TopBusinessesHorizontalView extends HorizontalScrollView{
 		TextView businessTotalLikesTextView = (TextView) newLayout.findViewById(R.id.top_business_num_of_likes);
 		TextView businessTotalDislikesTextView = (TextView) newLayout.findViewById(R.id.top_business_num_of_dislikes);
 		//TextView businessTotalDealsTextView = (TextView) newLayout.findViewById(R.id.blabla); TODO support if needed
-		RatingBar businessRatingBar = (RatingBar) newLayout.findViewById(R.id.top_business_rating_bar);
+		ColoredRatingBar businessRatingBar = (ColoredRatingBar) newLayout.findViewById(R.id.top_business_rating_bar);
 		
 		if (businessNameTextView != null) {
 			businessNameTextView.setText(eb.getExtenBusinessName());

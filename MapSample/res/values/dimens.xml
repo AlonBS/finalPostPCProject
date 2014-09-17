@@ -4,6 +4,8 @@
     <dimen name="activity_horizontal_margin">8dp</dimen>
     <dimen name="activity_vertical_margin">8dp</dimen>
     
+    <dimen name="global_margin">4dip</dimen>
+    
     <!-- Login screen margins -->
     <dimen name="login_margin">15dip</dimen>
     

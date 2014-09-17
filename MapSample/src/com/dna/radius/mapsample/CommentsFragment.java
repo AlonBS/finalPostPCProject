@@ -3,15 +3,19 @@ package com.dna.radius.mapsample;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import testing_stuff.ListViewWithMaxDimensions;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -36,8 +40,14 @@ public class CommentsFragment extends Fragment{
 	 * In order to prevent spamming, 
 	 * for each comment which the users add, the map holds the time it happened.
 	 */
-	static final HashMap<String,Long > previousComments = new HashMap<>();
+	static HashMap<String,Long > previousComments = new HashMap<>();
 
+	public static void restartCommentsHistory(){
+		previousComments = new HashMap<>();
+		
+	}
+	
+	
 	/**the amount of time (in milliseconds) which the user need to wait before writing another comment
 	 * to a deal. currently set to 5 minutes*/
 	private final static long  WAITING_TIME_BETWEEN_COMMENTS =  1000 * 60 * 5;
@@ -63,6 +73,21 @@ public class CommentsFragment extends Fragment{
 		CommentsArrayAdapter adapter = new CommentsArrayAdapter(parentActivity,android.R.layout.simple_list_item_1, commentsList);
 		commentsListView.setAdapter(adapter);
 		
+//		//sets the listview max height to be 50% of the activity
+//		DisplayMetrics metrics = getActivity().getResources().getDisplayMetrics();
+//		int activityHeight = metrics.heightPixels;
+//		//float listViewMaxHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (float) (activityHeight*0.5), getResources().getDisplayMetrics());
+		//commentsListView.setMaxHeight((int) (activityHeight*0.5));
+
+//		DisplayMetrics metrics = getActivity().getResources().getDisplayMetrics();
+//		int activityHeight = metrics.heightPixels;
+//		DisplayMetrics displaymetrics = new DisplayMetrics();
+//		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+//		float screenHeight = displaymetrics.heightPixels;
+//		float listViewHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (float) (screenHeight*0.2), getResources().getDisplayMetrics());
+//		commentsListView.getLayoutParams().height = (int) listViewHeight;
+	
+		
 		DBHandler.loadCommentsListAsync(adapter,dealID);
 
 		//if the user is in user mode - allows him to comment on a certain deal.
@@ -78,7 +103,7 @@ public class CommentsFragment extends Fragment{
 				}
 			});
 
-			ImageView sendCommentButton = (ImageView)view.findViewById(R.id.comment_send);
+			View sendCommentButton = view.findViewById(R.id.comment_send);
 			sendCommentButton.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {

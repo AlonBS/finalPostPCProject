@@ -45,6 +45,7 @@ public class BusinessChooseImageDialogActivity extends  BaseActivity{
 		Button cameraButton = (Button)findViewById(R.id.camera_button);
 		Button galleryButton = (Button)findViewById(R.id.gallery_button);
 		Button applyImageButton =  (Button)findViewById(R.id.apply_image_button);
+		Button cancelButton =  (Button)findViewById(R.id.cancel_image_button);
 		
 		imageView = (ImageView)findViewById(R.id.business_choose_image_view);
 
@@ -88,14 +89,24 @@ public class BusinessChooseImageDialogActivity extends  BaseActivity{
 				}
 			}
 		});
+		
+		cancelButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				Intent result = new Intent();
+				setResult(RESULT_CANCELED, result);
+				finish();
+			}
+		});
 	}
 	
 	
 	private void setScreenSize() {
 		// This will set this dialog-themed activity to take 80% of the screen
 		DisplayMetrics metrics = getResources().getDisplayMetrics();
-		int screenWidth = (int) (metrics.widthPixels * 0.75);
-		int screenHeight = (int) (metrics.heightPixels * 0.7);
+		int screenWidth = (int) (metrics.widthPixels * 0.9);
+		int screenHeight = (int) (metrics.heightPixels * 0.8);
 		getWindow().setLayout(screenWidth, screenHeight);
 	}
 

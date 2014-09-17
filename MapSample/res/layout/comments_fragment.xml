@@ -2,41 +2,44 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-    
-    
-	<ListView 
-    android:id="@+id/comments_list_view"
-    android:layout_width="fill_parent"
-    android:layout_height="0dp"
-    android:layout_weight="0.6"
-    android:divider="#00000000" /> 
+    android:orientation="vertical"
+    android:padding="5dp" >
 
-	<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal" 
-    android:id="@+id/add_comment_layout">
+    <LinearLayout
+        android:id="@+id/add_comment_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/white_border_oval"
+        android:orientation="horizontal" >
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <EditText
+                android:id="@+id/comment_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:gravity="top"
+                android:hint="@string/type_comment_here"
+                android:inputType="textMultiLine"
+                android:maxLength="200" />
+
+            <ImageView
+                android:id="@+id/comment_send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:src="@drawable/ic_action_send_now" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/comments_list_view"
+        android:layout_width="fill_parent"
+        android:layout_height="260dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/white_border_oval"
+        android:divider="#00000000" ></ListView>
     
-	<FrameLayout 
-	    android:layout_height="wrap_content"
-	    android:layout_width="match_parent"
-	    >
-	    
-	<EditText 
-	android:id="@+id/comment_edit_text"
-	android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:gravity="top"
-    android:inputType="textMultiLine"
-    android:hint="@string/type_comment_here"/>
-	
-	<ImageView 
-	    android:id="@+id/comment_send"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_gravity="bottom|right"
-	    android:src="@drawable/ic_action_send_now"/>
-	</FrameLayout>
-</LinearLayout>
 </LinearLayout>

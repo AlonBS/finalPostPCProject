@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient_blue_background"
+    android:layout_margin="@dimen/global_margin" 
     android:orientation="vertical" >
 
     <LinearLayout
@@ -76,7 +77,7 @@
                 android:layout_centerInParent="true"
                 android:textSize="20sp" />
 
-            <RatingBar
+            <com.dna.radius.infrastructure.ColoredRatingBar
                 android:id="@+id/businessRatingBar"
                 style="?android:attr/ratingBarStyleSmall"
                 android:layout_width="wrap_content"

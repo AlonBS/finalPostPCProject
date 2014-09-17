@@ -1,60 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="10dp"
-    android:orientation="vertical" >
-	
-    <TextView 
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity = "center"
-        android:textColor="#FFFFFFFF"
-        android:textSize="17sp"
-        android:text="@string/business_choose_image_message"/>
+    android:orientation="vertical"
+    android:padding="2dp" >
 
     <LinearLayout
-        android:layout_marginTop="10dp"
+        android:id="@+id/apply_and_cancel_layouts"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:background="#22000000"
+        android:gravity="center_horizontal"
         android:orientation="vertical" >
+        
+        <View 
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#FFFFFF"/>
 
-        <Button
-            android:paddingRight = "20dp"
-            android:gravity = "center"
-            android:id="@+id/camera_button"
+        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/choose_image_fragment_button_bg"
-            android:drawableRight="@drawable/ic_action_camera"
-            android:text="@string/business_choose_image_camera_source" />
+            android:layout_marginTop="5dp"
+            android:background="#22000000"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal" >
 
-        <Button
-            android:paddingRight = "20dp"
-            android:gravity = "center"
-            android:id="@+id/gallery_button"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:layout_gravity="center"
-            android:background="@drawable/choose_image_fragment_button_bg"
-            android:drawableRight="@drawable/ic_action_picture"
-            android:text="@string/business_choose_image_gallery_source" />
+            <Button
+                android:id="@+id/apply_image_button"
+                style="@style/ButtonText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="0.5"
+                android:background="@drawable/blue_button_background"
+                android:text="@string/apply_image" />
+
+            <Button
+                android:id="@+id/cancel_image_button"
+                style="@style/ButtonText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="0.5"
+                android:background="@drawable/blue_button_background"
+                android:text="@string/cancel_image" />
+        </LinearLayout>
     </LinearLayout>
 
-    <ImageView
-        android:layout_marginTop="10dp"
-        android:id="@+id/business_choose_image_view"
-        android:layout_width="wrap_content"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/apply_and_cancel_layouts"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical" >
 
-        
-    <Button 
-        android:id="@+id/apply_image_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/apply_image"/>
-</LinearLayout>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/business_choose_image_message"
+            android:textColor="#FFFFFFFF"
+            android:textSize="17sp" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/camera_button"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/blue_button_background"
+                android:drawableRight="@drawable/ic_action_camera"
+                android:gravity="center"
+                android:paddingRight="20dp"
+                android:text="@string/business_choose_image_camera_source" />
+
+            <Button
+                android:id="@+id/gallery_button"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/blue_button_background"
+                android:drawableRight="@drawable/ic_action_picture"
+                android:gravity="center"
+                android:paddingRight="20dp"
+                android:text="@string/business_choose_image_gallery_source" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/business_choose_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp" />
+    </LinearLayout>
+
+</RelativeLayout>

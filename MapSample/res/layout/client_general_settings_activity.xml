@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:padding="10dp"
     android:background="@drawable/gradient_blue_background"
+    android:layout_margin="@dimen/global_margin" 
     android:orientation="vertical" >
 
     <LinearLayout
