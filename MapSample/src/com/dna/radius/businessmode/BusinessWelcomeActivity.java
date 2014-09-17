@@ -38,10 +38,9 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 	/**
 	 * This integer and constants were meant to tell which fragment should be 
 	 * loaded whenever the next button is pressed.*/
-	private int numberOfTimesNextWasPressed = 0;
-	private final int FIND_LOCATION_FRAGEMENT_IS_NEXT = 0;
-	private final int GET_IMAGE_FRAGEMENT_TURN_IS_NEXT = 1;
-	private final int FINISH_FILLING_DETAILS_IS_NEXT= 2;
+	private int fragmentCount = 0;
+	private final int ON_FILL_DETAILS_FRAGMENT = 0;
+	private final int ON_LOCATION_FRAGMENT = 1;
 
 	private Button progressButton;
 
@@ -72,9 +71,8 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 	@Override
 	public void onBackPressed() {
 		//if the user is in the fill detail screen - do nothing
-		--numberOfTimesNextWasPressed;
-		if (numberOfTimesNextWasPressed < FIND_LOCATION_FRAGEMENT_IS_NEXT) {
-			numberOfTimesNextWasPressed = 0;
+		if (fragmentCount <= ON_FILL_DETAILS_FRAGMENT) {
+			fragmentCount = 0;
 			return;
 		}
 
@@ -83,6 +81,7 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 		progressButton.setCompoundDrawablesWithIntrinsicBounds(null, null,  getResources().getDrawable(R.drawable.ic_action_next_item),  null);
 		progressButton.setText(getResources().getString(R.string.next_button).toUpperCase()); //TODO CHECK TO UPPER CASE?
 
+		--fragmentCount;
 	}
 
 
@@ -96,44 +95,23 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 
 				final FragmentManager fragmentManager = getSupportFragmentManager();
 				
-				if (numberOfTimesNextWasPressed == FIND_LOCATION_FRAGEMENT_IS_NEXT || 
-						numberOfTimesNextWasPressed == GET_IMAGE_FRAGEMENT_TURN_IS_NEXT) {
+				if (fragmentCount == ON_FILL_DETAILS_FRAGMENT) {
+					
+					BusinessFillDetailsFragment currentFragment = (BusinessFillDetailsFragment)fragmentManager.findFragmentById(R.id.business_welcome_main_fragment_layout);
+					if( !currentFragment.neededInfoGiven()) return;
 
-					Fragment nextFragment = null;
+					//Retrieves the business data from fragment
+					BusinessData.businessName = currentFragment.getBusinessName();
+					BusinessData.businessType = currentFragment.getBusinessType();
+					BusinessData.businessAddress = currentFragment.getBusinessAddress();
+					BusinessData.businessPhoneNumber = currentFragment.getBusinessPhoneNumber();
 
-					if (numberOfTimesNextWasPressed == FIND_LOCATION_FRAGEMENT_IS_NEXT) {
-
-						//tests if it's possible to move to the next fragment
-						BusinessFillDetailsFragment currentFragment = (BusinessFillDetailsFragment)fragmentManager.findFragmentById(R.id.business_welcome_main_fragment_layout);
-						if( !currentFragment.neededInfoGiven()) return;
-
-						//Retrieves the business data from fragment
-						BusinessData.businessName = currentFragment.getBusinessName();
-						BusinessData.businessType = currentFragment.getBusinessType();
-						BusinessData.businessAddress = currentFragment.getBusinessAddress();
-						BusinessData.businessPhoneNumber = currentFragment.getBusinessPhoneNumber();
-
-						nextFragment = new LocationFinderFragment();
-						Bundle bdl = new Bundle();
-						bdl.putString(LocationFinderFragment.ADDRESS_PARAMETER, BusinessData.businessAddress);
-						nextFragment.setArguments(bdl);
-						
-
-					}else if (numberOfTimesNextWasPressed == GET_IMAGE_FRAGEMENT_TURN_IS_NEXT) {
-
-						//gets the chosen location from the fragment
-						LocationFinderFragment currentFragment = (LocationFinderFragment)fragmentManager.findFragmentById(R.id.business_welcome_main_fragment_layout);
-						if (!currentFragment.neededInfoGiven()) return;
-
-						BusinessData.businessLocation = currentFragment.getLocation();
-						nextFragment = new BusinessChooseImageFragment();
-
-						//changes the next Button to finish button
-						progressButton.setCompoundDrawablesWithIntrinsicBounds(null, null,  getResources().getDrawable(R.drawable.ic_action_done),  null);
-						progressButton.setText(getResources().getString(R.string.finish_btn).toUpperCase());
-					}
-
-					numberOfTimesNextWasPressed++;
+					Fragment nextFragment = new LocationFinderFragment();
+					Bundle bdl = new Bundle();
+					bdl.putString(LocationFinderFragment.ADDRESS_PARAMETER, BusinessData.businessAddress);
+					nextFragment.setArguments(bdl);
+					
+					fragmentCount++;
 
 					//moves to the next fragment
 					FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -142,15 +120,16 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 					fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_ENTER_MASK);
 					fragmentTransaction.commit();
 
-				}else if (numberOfTimesNextWasPressed == FINISH_FILLING_DETAILS_IS_NEXT) {
-					
-					BusinessChooseImageFragment currentFragment = (BusinessChooseImageFragment)fragmentManager.findFragmentById(R.id.business_welcome_main_fragment_layout);
-					
-					if (currentFragment.neededInfoGiven()) {
-						BusinessData.businessImage = currentFragment.getImageBitmap();
-					}
-					
-					
+					//changes the next Button to finish button
+					progressButton.setCompoundDrawablesWithIntrinsicBounds(null, null,  getResources().getDrawable(R.drawable.ic_action_done),  null);
+					progressButton.setText(getResources().getString(R.string.finish_btn).toUpperCase());
+
+				}else if (fragmentCount == ON_LOCATION_FRAGMENT) {
+					LocationFinderFragment currentFragment = (LocationFinderFragment)fragmentManager.findFragmentById(R.id.business_welcome_main_fragment_layout);
+					if (!currentFragment.neededInfoGiven()) return;
+
+					BusinessData.businessLocation = currentFragment.getLocation();
+
 					progressButton.setVisibility(View.INVISIBLE);
 					ProgressBar progressBar = (ProgressBar)findViewById(R.id.registration_progress_bar);
 					progressBar.setVisibility(View.VISIBLE);
@@ -163,17 +142,17 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 						}
 						protected void onPostExecute(Void result) {
 							finish();  // activity
-						};
+						}
 					}.execute();
-					
-					
+						
 
 				}else{
-					Log.e("BusinessWelcomeActivity", "error with the next button. numberOfTimesNextWasPressed:" + numberOfTimesNextWasPressed);
+					Log.e("BusinessWelcomeActivity", "error with the next button. numberOfTimesNextWasPressed:" + fragmentCount);
 				}
+			
 			}
 		});
-
+			
 
 	}
 
@@ -215,9 +194,12 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 			Log.e("BusinessWelcome - JSON_CREATION", e.getMessage());
 		}
 		newBusiness.put(ParseClassesNames.BUSINESS_PREFERRING, prefs);
-
-		
-		
+//		
+//		// TODO this is akum
+//		if (BusinessData.businessImage != null) {
+//			
+//			BusinessData.setImage(BusinessData.businessImage);
+//		}
 
 		
 		BusinessData.currentDeal = null;
@@ -251,19 +233,11 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 			newBusiness.save();
 			BusinessData.currentUser.save();
 			BusinessData.businessInfo = newBusiness;
-			
-			// TODO this is akum
-			if (BusinessData.businessImage != null) {
-				
-				BusinessData.setImage(BusinessData.businessImage);
-			}
-			
 
 			BusinessData.currentUser.fetchIfNeeded();
 			BusinessData.businessInfo.fetchIfNeeded();
 			
 			BusinessOpeningScreenActivity.refreshNeeded = true;
-			
 
 		} catch (ParseException e) {
 			Log.e("Welcome - business", e.getMessage());
