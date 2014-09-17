@@ -33,7 +33,7 @@
                 android:textColor="#FFFFFFFF"
                 android:textSize="16sp" />
 
-            <RatingBar
+            <com.dna.radius.infrastructure.ColoredRatingBar
                 android:id="@+id/top_business_rating_bar"
                 style="?android:attr/ratingBarStyleSmall"
                 android:layout_width="wrap_content"

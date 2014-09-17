@@ -35,7 +35,7 @@
                     android:textColor="#FF000000"
                     android:textSize="20sp" />
 
-                <RatingBar
+                <com.dna.radius.infrastructure.ColoredRatingBar
                     android:id="@+id/businessRatingBar"
                     style="?android:attr/ratingBarStyleSmall"
                     android:layout_width="wrap_content"
