@@ -2,15 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="5dp"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:padding="5dp" >
 
     <LinearLayout
         android:id="@+id/add_comment_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" 
-        android:background="@drawable/white_border_oval">
+        android:background="@drawable/white_border_oval"
+        android:orientation="horizontal" >
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -22,8 +22,8 @@
                 android:layout_height="100dp"
                 android:gravity="top"
                 android:hint="@string/type_comment_here"
-                android:maxLength="200"
-                android:inputType="textMultiLine" />
+                android:inputType="textMultiLine"
+                android:maxLength="200" />
 
             <ImageView
                 android:id="@+id/comment_send"
@@ -35,12 +35,11 @@
     </LinearLayout>
 
     <ListView
-        android:background="#FF000000"
-        android:layout_marginTop="5dp"
         android:id="@+id/comments_list_view"
         android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.6"
-        android:divider="#00000000" />
-
+        android:layout_height="260dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/white_border_oval"
+        android:divider="#00000000" ></ListView>
+    
 </LinearLayout>

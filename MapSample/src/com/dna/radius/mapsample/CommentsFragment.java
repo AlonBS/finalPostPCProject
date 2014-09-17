@@ -3,15 +3,19 @@ package com.dna.radius.mapsample;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import testing_stuff.ListViewWithMaxDimensions;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -68,6 +72,21 @@ public class CommentsFragment extends Fragment{
 		ArrayList<Comment> commentsList = new ArrayList<Comment>();//todoDal.all(TodoDAL.DB_TYPE.SQLITE);
 		CommentsArrayAdapter adapter = new CommentsArrayAdapter(parentActivity,android.R.layout.simple_list_item_1, commentsList);
 		commentsListView.setAdapter(adapter);
+		
+//		//sets the listview max height to be 50% of the activity
+//		DisplayMetrics metrics = getActivity().getResources().getDisplayMetrics();
+//		int activityHeight = metrics.heightPixels;
+//		//float listViewMaxHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (float) (activityHeight*0.5), getResources().getDisplayMetrics());
+		//commentsListView.setMaxHeight((int) (activityHeight*0.5));
+
+//		DisplayMetrics metrics = getActivity().getResources().getDisplayMetrics();
+//		int activityHeight = metrics.heightPixels;
+//		DisplayMetrics displaymetrics = new DisplayMetrics();
+//		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+//		float screenHeight = displaymetrics.heightPixels;
+//		float listViewHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (float) (screenHeight*0.2), getResources().getDisplayMetrics());
+//		commentsListView.getLayoutParams().height = (int) listViewHeight;
+	
 		
 		DBHandler.loadCommentsListAsync(adapter,dealID);
 
