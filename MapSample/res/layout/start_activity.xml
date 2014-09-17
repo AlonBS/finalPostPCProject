@@ -12,20 +12,7 @@
         android:layout_above="@id/copyright_textView"
         android:orientation="vertical" >
 
-        <LinearLayout
-            android:background="@color/logo_background_transparent_color"
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.12" >
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_gravity="center_horizontal"
-                android:scaleType="centerInside"
-                android:src="@drawable/logo" />
-
-        </LinearLayout>
+        <include layout="@layout/logo_layout"/>
 
         <FrameLayout
             android:padding="@dimen/login_margin"

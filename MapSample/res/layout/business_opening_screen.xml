@@ -7,23 +7,7 @@
     android:layout_margin="@dimen/global_margin" 
     android:orientation="vertical" >
 
-    <LinearLayout
-        android:id="@+id/logo_layout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_gravity="center"
-        android:layout_weight="0.12"
-        android:background="@color/logo_background_transparent_color"
-        android:gravity="center"
-        android:orientation="horizontal" >
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:scaleType="centerInside"
-            android:src="@drawable/logo" />
-    </LinearLayout>
+    <include layout="@layout/logo_layout"/>
 
     <LinearLayout
         android:layout_width="match_parent"
