@@ -5,25 +5,24 @@ import java.io.ByteArrayOutputStream;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.dna.radius.R;
+import com.dna.radius.infrastructure.BaseActivity;
 
-public class BusinessChooseImageFragment extends  Fragment{
+public class BusinessChooseImageDialogActivity extends  BaseActivity{
 	
 	private final static int RESULT_LOAD_IMAGE_GALLERY = 1;
 	private final static int RESULT_LOAD_IMAGE_CAMERA = 2;
@@ -35,18 +34,25 @@ public class BusinessChooseImageFragment extends  Fragment{
 	
 	private Bitmap currentBitmap = null;
 
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.business_choose_image_fragment,container, false);	
+	
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.business_choose_image_dialog_activity);
 		
-		Button cameraButton = (Button)view.findViewById(R.id.camera_button);
-		Button galleryButton = (Button)view.findViewById(R.id.gallery_button);
-		imageView = (ImageView)view.findViewById(R.id.business_choose_image_view);
+		setScreenSize();
+		
+
+		Button cameraButton = (Button)findViewById(R.id.camera_button);
+		Button galleryButton = (Button)findViewById(R.id.gallery_button);
+		Button applyImageButton =  (Button)findViewById(R.id.apply_image_button);
+		
+		imageView = (ImageView)findViewById(R.id.business_choose_image_view);
 
 		cameraButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-				if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+				if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
 					startActivityForResult(takePictureIntent, RESULT_LOAD_IMAGE_CAMERA);
 				}
 
@@ -61,7 +67,36 @@ public class BusinessChooseImageFragment extends  Fragment{
 				startActivityForResult(i, RESULT_LOAD_IMAGE_GALLERY);				
 			}
 		});
-		return view;
+		
+		applyImageButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(currentBitmap == null){
+					
+					Toast.makeText(getApplicationContext(), getResources().getString(R.string.apply_image_error), Toast.LENGTH_LONG).show();
+					
+				}else{
+					Intent result = new Intent();
+					
+					ByteArrayOutputStream stream = new ByteArrayOutputStream();
+					currentBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+					byte[] byteArray = stream.toByteArray();
+					
+					result.putExtra("data", byteArray);
+					setResult(RESULT_OK, result);
+					finish();
+				}
+			}
+		});
+	}
+	
+	
+	private void setScreenSize() {
+		// This will set this dialog-themed activity to take 80% of the screen
+		DisplayMetrics metrics = getResources().getDisplayMetrics();
+		int screenWidth = (int) (metrics.widthPixels * 0.75);
+		int screenHeight = (int) (metrics.heightPixels * 0.7);
+		getWindow().setLayout(screenWidth, screenHeight);
 	}
 
 
@@ -73,12 +108,14 @@ public class BusinessChooseImageFragment extends  Fragment{
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		Bitmap bMap = null;
+		
 		/**receives an image from the gallery, and change the image of the business*/
-		if (requestCode == RESULT_LOAD_IMAGE_GALLERY   && resultCode == FragmentActivity.RESULT_OK && null != data) {
+		if (requestCode == RESULT_LOAD_IMAGE_GALLERY && resultCode == FragmentActivity.RESULT_OK && null != data) {
+			
 			Uri selectedImage = data.getData();
 			String[] filePathColumn = { MediaStore.Images.Media.DATA };
 
-			Cursor cursor = getActivity().getContentResolver().query(selectedImage,
+			Cursor cursor = getContentResolver().query(selectedImage,
 					filePathColumn, null, null, null);
 			cursor.moveToFirst();
 
@@ -87,9 +124,10 @@ public class BusinessChooseImageFragment extends  Fragment{
 			cursor.close();
 
 			bMap = BitmapFactory.decodeFile(picturePath);
-
 		}
+		
 		else if (requestCode == RESULT_LOAD_IMAGE_CAMERA  && resultCode == FragmentActivity.RESULT_OK) {
+			
 			Bundle extras = data.getExtras();
 			bMap = (Bitmap) extras.get("data");
 
@@ -98,23 +136,14 @@ public class BusinessChooseImageFragment extends  Fragment{
 			return;
 		}
 
-		if(bMap!=null){
-			//TODO - if we want to resize the bMap, that's the way to do it
-			//Bitmap resizedBitmap = Bitmap.createScaledBitmap(bMap, 480,320, false);
+		if (bMap != null) {
 			bMap = processImage(bMap);
 			imageView.setImageBitmap(bMap);
 			currentBitmap = bMap;
+			
 		}else{
 			Log.e("BusinessChooseImageFragment", "returned bitmap is null");
 		}
-	}
-	
-	/**
-	 * return true iff the user filled all the relevant data
-	 * @return
-	 */
-	public boolean didUserFillAllData() {
-		return currentBitmap != null;
 	}
 	
 	
@@ -125,8 +154,6 @@ public class BusinessChooseImageFragment extends  Fragment{
 	 */
 	public static Bitmap processImage(Bitmap bitmap){
 		
-		//ByteArrayOutputStream baos = new ByteArrayOutputStream(); TODO remove
-		
 		//downsampling
 		double proportion = (double)bitmap.getHeight() / (double)IMAGE_HEIGHT;
 		int newImageHeight = IMAGE_HEIGHT;
@@ -136,24 +163,9 @@ public class BusinessChooseImageFragment extends  Fragment{
 		//crops from the center
 		Bitmap croppedBitmap = ThumbnailUtils.extractThumbnail(resizedBitmap, IMAGE_WIDTH, IMAGE_HEIGHT);
 		
-		//jpeg compression
-		//croppedBitmap.compress(CompressFormat.JPEG, 100, baos); TODO remove
-		
 		Log.d("BusinessChooseImage","returned a new image, width,height=" +croppedBitmap.getWidth() + "," +  croppedBitmap.getHeight() );
 		Log.d("BusinessChooseImage","original size: width,height=" +bitmap.getWidth() + "," +  bitmap.getHeight() );
+		
 		return croppedBitmap;
 	}
-	
-	public Bitmap getImageBitmap(){
-		return currentBitmap;
-	}
-	
-	
-	public boolean neededInfoGiven(){
-		return currentBitmap != null;
-	}
-
-
-
-
 }

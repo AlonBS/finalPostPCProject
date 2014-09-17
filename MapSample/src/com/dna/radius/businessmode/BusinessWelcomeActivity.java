@@ -194,13 +194,7 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 			Log.e("BusinessWelcome - JSON_CREATION", e.getMessage());
 		}
 		newBusiness.put(ParseClassesNames.BUSINESS_PREFERRING, prefs);
-//		
-//		// TODO this is akum
-//		if (BusinessData.businessImage != null) {
-//			
-//			BusinessData.setImage(BusinessData.businessImage);
-//		}
-
+		
 		
 		BusinessData.currentDeal = null;
 		newBusiness.put(ParseClassesNames.BUSINESS_CURRENT_DEAL, new JSONObject());

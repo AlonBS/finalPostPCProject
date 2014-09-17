@@ -38,11 +38,11 @@ import com.dna.radius.mapsample.ShowDealActivity;
 public class BusinessDashboardFragment extends Fragment implements AddNewDealCommunicator{
 
 	private BusinessOpeningScreenActivity  parentActivity = null;
-	
+
 	private View v; // This fragment's view
-	
+
 	//private ArrayList<Comment> commentsList;
-	
+
 	private TextView dealOnDisplayTextView;
 	private TextView dealOnDisplayLikesTextView;
 	private TextView dealOnDisplayDislikesTextView;
@@ -51,8 +51,10 @@ public class BusinessDashboardFragment extends Fragment implements AddNewDealCom
 	private	TopBusinessesHorizontalView topBusinessesHorizontalScrollView;
 
 	/**this variable is used for loading an image from the gallery*/
-	private final static int RESULT_LOAD_IMAGE_GALLERY = 1;
-	private final static int RESULT_LOAD_IMAGE_CAMERA = 2;
+	private final static int RESULT_LOAD_IMAGE = 1;
+	//TODO dolphin
+	//	private final static int RESULT_LOAD_IMAGE_GALLERY = 1;
+	//	private final static int RESULT_LOAD_IMAGE_CAMERA = 2;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,64 +62,64 @@ public class BusinessDashboardFragment extends Fragment implements AddNewDealCom
 
 		v = inflater.inflate(R.layout.business_dashboard_fragment,container, false);	
 		parentActivity = (BusinessOpeningScreenActivity)getActivity();
-		
+
 		initViews();
-		
+
 		displayDealIfNeeded();
 
 		displayImageIfNeeded();
-		
+
 		displaySurroundingTopBusiness();
-		
+
 		setChangeImageOnClickListener();
-		
+
 		setChangeDealOnClickListener();
-		
+
 		setRemoveDealOnClickListener();
 
 		return v;
 	}
-	
-	
+
+
 	private void initViews() {
-		
+
 		dealOnDisplayTextView = (TextView) v.findViewById(R.id.deal_tv);
 		imageOnDisplayImageView = (ImageView) v.findViewById(R.id.buisness_image_view);
 		dealOnDisplayLikesTextView = (TextView) v.findViewById(R.id.num_of_likes_tv);
 		dealOnDisplayDislikesTextView = (TextView) v.findViewById(R.id.num_of_dislikes_tv);
 		removeDealOnDisplayImageView = (ImageView)v.findViewById(R.id.remove_deal_image_view);
 		topBusinessesHorizontalScrollView = (TopBusinessesHorizontalView)v.findViewById(R.id.top_businesses_list_view);
-		
+
 	}
-	
+
 	private void displayDealIfNeeded() {
 
 		if (BusinessData.hasADealOnDisplay()) {
-			
+
 			dealOnDisplayTextView.setText(BusinessData.currentDeal.getDealContent());
 			dealOnDisplayLikesTextView.setText(Integer.toString(BusinessData.currentDeal.getNumOfLikes()));
 			dealOnDisplayDislikesTextView.setText(Integer.toString(BusinessData.currentDeal.getNumOfDislikes()));
-		
+
 			// add comments on display
 			ListView commentsListView = (ListView)v.findViewById(R.id.comments_list_view);
 			CommentsArrayAdapter commentsAdapter = new CommentsArrayAdapter(parentActivity,android.R.layout.simple_list_item_1 , BusinessData.currentDeal.getComments());
 			commentsListView.setAdapter(commentsAdapter);
 		}
-		
+
 		else {
-			
+
 			dealOnDisplayTextView.setText(R.string.tap_to_enter_deal);
 			dealOnDisplayLikesTextView.setText(ShowDealActivity.EMPTY_DEAL);
 			dealOnDisplayDislikesTextView.setText(ShowDealActivity.EMPTY_DEAL);
 		}
 	}
-	
-	
+
+
 	private void displayImageIfNeeded() {
-		
-		
+
+
 		if (BusinessData.hasImage()) { //TODO
-			
+
 			if (BusinessData.imageFullyLoaded()) {
 				imageOnDisplayImageView.setImageBitmap(BusinessData.businessImage);
 			}else {
@@ -128,51 +130,63 @@ public class BusinessDashboardFragment extends Fragment implements AddNewDealCom
 			imageOnDisplayImageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.add_image_icon_transparent));
 		}
 	}
-	
-	
+
+
 	private void displaySurroundingTopBusiness() {
-		
+
 		if (BusinessData.topBusinesses != null) {
-			
+
 			for(ExternalBusiness b : BusinessData.topBusinesses){
 				topBusinessesHorizontalScrollView.addBusiness(b);
 			}
 		}
 	}
-	
-	
+
+
 	private void setChangeImageOnClickListener() {
-		
-		/*handles the image of the business*/
+
 		imageOnDisplayImageView.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
-				
-				new AlertDialog.Builder(parentActivity)
-				.setTitle("Choose an image for your business")
-				.setMessage("please choose an image source")
-				.setPositiveButton("Camera", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) {
-						Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-						if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-							startActivityForResult(takePictureIntent, RESULT_LOAD_IMAGE_CAMERA);
-						}
-					}
-				}).setNegativeButton("Gallery", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) {
-						Intent i = new Intent(
-								Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-						startActivityForResult(i, RESULT_LOAD_IMAGE_GALLERY);
-					}
-				}).show();
+				Intent intent = new Intent(getActivity(), BusinessChooseImageDialogActivity.class);
+				startActivityForResult(intent, RESULT_LOAD_IMAGE );
+
+
 			}
+
 		});
+
+		/*handles the image of the business*/
+		//		imageOnDisplayImageView.setOnClickListener(new OnClickListener() {
+		//
+		//			@Override
+		//			public void onClick(View arg0) {
+		//				
+		//				new AlertDialog.Builder(parentActivity)
+		//				.setTitle("Choose an image for your business")
+		//				.setMessage("please choose an image source")
+		//				.setPositiveButton("Camera", new DialogInterface.OnClickListener() {
+		//					public void onClick(DialogInterface dialog, int whichButton) {
+		//						Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		//						if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+		//							startActivityForResult(takePictureIntent, RESULT_LOAD_IMAGE_CAMERA);
+		//						}
+		//					}
+		//				}).setNegativeButton("Gallery", new DialogInterface.OnClickListener() {
+		//					public void onClick(DialogInterface dialog, int whichButton) {
+		//						Intent i = new Intent(
+		//								Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+		//						startActivityForResult(i, RESULT_LOAD_IMAGE_GALLERY);
+		//					}
+		//				}).show();
+		//			}
+		//		});
 	}
-	
-	
+
+
 	private void setChangeDealOnClickListener() {
-		
+
 		/***
 		 * allows adding a new deal instead of the old one
 		 */
@@ -188,20 +202,20 @@ public class BusinessDashboardFragment extends Fragment implements AddNewDealCom
 
 
 	private void setRemoveDealOnClickListener() {
-		
-		
+
+
 		removeDealOnDisplayImageView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				
+
 				deleteDisplayedDeal();
 			}
 		});
 	}
-	
-	
-	
-	
+
+
+
+
 
 	@Override
 	public void onPause() {
@@ -222,33 +236,33 @@ public class BusinessDashboardFragment extends Fragment implements AddNewDealCom
 		}
 		dialog.show( getActivity().getSupportFragmentManager(),"");
 	}
-	
-	
+
+
 	private void deleteDisplayedDeal() {
-		
+
 		if (BusinessData.hasADealOnDisplay()) {
-			
+
 			new AlertDialog.Builder(parentActivity)
 			.setTitle("Delete Current Deal")
 			.setMessage("Are you sure you want to delete your current deal?")
 			.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-				
+
 				public void onClick(DialogInterface dialog, int whichButton) {
-					
+
 					dealOnDisplayTextView.setText(R.string.tap_to_enter_deal);
 					dealOnDisplayLikesTextView.setText("0");
 					dealOnDisplayDislikesTextView.setText("0");
-					
+
 					BusinessData.deleteCurrentDeal();
 				}
 			}).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-				
+
 				public void onClick(DialogInterface dialog, int whichButton) {/* Do nothing */ }
-				
+
 			}).show();
 		}
 	}
-		
+
 
 
 	/**
@@ -257,41 +271,47 @@ public class BusinessDashboardFragment extends Fragment implements AddNewDealCom
 	 */
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		
+
 		super.onActivityResult(requestCode, resultCode, data);
 		Bitmap newBmap = null;
 		/**receives an image from the gallery, and change the image of the business*/
-		if (requestCode == RESULT_LOAD_IMAGE_GALLERY   && resultCode == FragmentActivity.RESULT_OK && null != data) {
-			Uri selectedImage = data.getData();
-			String[] filePathColumn = { MediaStore.Images.Media.DATA };
+		//		if (requestCode == RESULT_LOAD_IMAGE_GALLERY   && resultCode == FragmentActivity.RESULT_OK && null != data) {
+		//			Uri selectedImage = data.getData();
+		//			String[] filePathColumn = { MediaStore.Images.Media.DATA };
+		//
+		//			Cursor cursor = getActivity().getContentResolver().query(selectedImage,
+		//					filePathColumn, null, null, null);
+		//			cursor.moveToFirst();
+		//
+		//			int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+		//			String picturePath = cursor.getString(columnIndex);
+		//			cursor.close();
+		//
+		//			newBmap = BitmapFactory.decodeFile(picturePath);
+		//
+		//		}
+		//		else if (requestCode == RESULT_LOAD_IMAGE_CAMERA  && resultCode == FragmentActivity.RESULT_OK) {
+		//			Bundle extras = data.getExtras();
+		//			newBmap = (Bitmap) extras.get("data");
 
-			Cursor cursor = getActivity().getContentResolver().query(selectedImage,
-					filePathColumn, null, null, null);
-			cursor.moveToFirst();
+		if (requestCode == RESULT_LOAD_IMAGE  && resultCode == FragmentActivity.RESULT_OK) {
 
-			int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-			String picturePath = cursor.getString(columnIndex);
-			cursor.close();
+			byte[] byteArray = data.getByteArrayExtra("data");
+			newBmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
 
-			newBmap = BitmapFactory.decodeFile(picturePath);
+			if (newBmap != null) {
+				BusinessData.setImage(newBmap, byteArray);
+				imageOnDisplayImageView.setImageBitmap(newBmap);
 
-		}
-		else if (requestCode == RESULT_LOAD_IMAGE_CAMERA  && resultCode == FragmentActivity.RESULT_OK) {
-			Bundle extras = data.getExtras();
-			newBmap = (Bitmap) extras.get("data");
+			}else {
+				Log.e("BusinessDashboardFragment", "ERROR!! The RETURNED BITMAP IS NULL");
+			}
+
 		}else{
+			Log.e("BusinessDashboardFragment", "ERROR!! return from unknown activity");
 			return;
 		}
 
-		if (newBmap != null) {
-			
-			Bitmap processedImage = BusinessChooseImageFragment.processImage(newBmap);
-			BusinessData.setImage(processedImage);
-			imageOnDisplayImageView.setImageBitmap(processedImage);
-			
-		}else {
-			Log.e("BusinessDashboardFragment", "ERROR!! The RETURNED BITMAP IS NULL");
-		}
 	}
 
 
@@ -302,6 +322,6 @@ public class BusinessDashboardFragment extends Fragment implements AddNewDealCom
 			dealOnDisplayTextView.setText(newDealStr);
 		}
 	}
-	
-	
+
+
 }

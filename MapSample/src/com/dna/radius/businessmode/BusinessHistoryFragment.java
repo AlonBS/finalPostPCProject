@@ -27,7 +27,7 @@ public class BusinessHistoryFragment extends Fragment{
 
 	private View view;
 	
-	private DealHistoryArrayAdapter adapter;
+	private  DealHistoryArrayAdapter adapter;
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		
@@ -47,13 +47,15 @@ public class BusinessHistoryFragment extends Fragment{
 		adapter = new DealHistoryArrayAdapter(getActivity(),android.R.layout.simple_list_item_1, BusinessData.dealsHistory.getOldDeals());
 		dealHistoryListView.setAdapter(adapter);
 		
+		
+		
 		dealHistoryListView.setOnItemClickListener(new OnItemClickListener() {
 		
 			//TODO mant strings to put into string file DROR
 			@Override
-			public void onItemClick(AdapterView<?> adapter, View v, int position,long arg3) {
+			public void onItemClick(final AdapterView<?> adapterView, View v, int position,long arg3) {
 				
-				final Deal dealObject = (Deal)adapter.getItemAtPosition(position);
+				final Deal dealObject = (Deal)adapterView.getItemAtPosition(position);
 				
 				final TextView chosenDeal = new TextView(getActivity());
 				//chosenDeal.setBackgroundColor(Color.BLACK);
@@ -68,13 +70,14 @@ public class BusinessHistoryFragment extends Fragment{
 					public void onClick(DialogInterface dialog, int whichButton) {
 						
 						BusinessData.bringDealFromHistory(dealObject);
-						
+						adapter.notifyDataSetChanged();
 					
 					}
 				}).setNegativeButton(getString(R.string.delete_deal_from_history), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
 						
 						BusinessData.deletedDealFromHistory(dealObject);
+						adapter.notifyDataSetChanged();
 						
 					}
 				}).show();
@@ -102,5 +105,4 @@ public class BusinessHistoryFragment extends Fragment{
 		totalDislikesTv.setText(" " + totalDislikes);
 		
 	}
-
 }

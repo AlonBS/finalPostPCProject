@@ -355,7 +355,7 @@ public class DBHandler {
 
 
 
-
+	private static final int NUM_OF_COMMENTS = 50;
 
 	// TODO - this is not used.
 	/**
@@ -386,7 +386,7 @@ public class DBHandler {
 
 						ja = curDealJO.getJSONArray(ParseClassesNames.BUSINESS_CURRENT_DEAL_COMMENTS);
 
-						for (int i = 0 ; i < ja.length() && i < 2 ; ++i) { // TODO we support 50 comments
+						for (int i = 0 ; i < ja.length() && i < NUM_OF_COMMENTS ; ++i) {
 
 							JSONObject commentJO = ja.getJSONObject(i);
 							Comment c = new Comment(

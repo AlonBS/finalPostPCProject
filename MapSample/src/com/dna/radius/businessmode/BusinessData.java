@@ -419,20 +419,21 @@ public class BusinessData {
 	}
 
 
-	static void setImage(Bitmap newImage) {
+	static void setImage(Bitmap bMap, byte[] imageData) {
 
 		//TODO Remove old picture reference
+		
+		if (imageData == null) return;
 
-		businessImage = newImage;
+		businessImage = bMap;
 		hasImage = true;
+//
+//		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//		businessImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+//		byte[] data = stream.toByteArray();
 
-		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		businessImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-		byte[] data = stream.toByteArray();
 
-		if (data == null) return;
-
-		final ParseFile file = new ParseFile(data);
+		final ParseFile file = new ParseFile(imageData);
 		file.saveInBackground(new SaveCallback() {
 
 			@Override

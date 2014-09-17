@@ -114,7 +114,9 @@
     <string name="business_choose_image_can_be_done_later">This stage can be completed later on </string>
     <string name="business_choose_image_camera_source">take a picture </string>
     <string name="business_choose_image_gallery_source">open gallery </string>
-
+	<string name="apply_image">apply</string>
+    <string name="apply_image_error">No image was selected</string>
+	
     <!-- switching between client/user modes -->
     <string name="switch_mode"> Switch mode</string>
     <string name="to_business_mode"> to business mode?</string>

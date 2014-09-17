@@ -40,13 +40,6 @@ public abstract class BaseActivity extends FragmentActivity{
 	public static boolean isInBusinessMode; 
 
 
-	@Override
-	protected void onCreate(Bundle arg0) {
-		// TODO Auto-generated method stub
-		setContentView(R.layout.waiting_fragment);
-		super.onCreate(arg0);
-	}
-
 	
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
