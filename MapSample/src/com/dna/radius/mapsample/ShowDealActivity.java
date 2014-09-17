@@ -171,7 +171,7 @@ public class ShowDealActivity extends FragmentActivity{
 
 		// This will set this dialog-themed activity to take 80% of the screen
 		DisplayMetrics metrics = getResources().getDisplayMetrics();
-		int screenWidth = (int) (metrics.widthPixels * 0.9);
+		int screenWidth = (int) (metrics.widthPixels * 0.75);
 		int screenHeight = getWindow().getAttributes().height;
 		getWindow().setLayout(screenWidth, screenHeight);
 	}

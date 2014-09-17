@@ -92,7 +92,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal|center_vertical"
         android:orientation="vertical"
-        android:padding="5dp" >
+        android:padding="2dp" >
 
         <ScrollView
             android:id="@+id/your_deal_scroll_view"
