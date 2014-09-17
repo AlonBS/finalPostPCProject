@@ -58,14 +58,10 @@ public class BusinessHistoryFragment extends Fragment{
 				final Deal dealObject = (Deal)adapterView.getItemAtPosition(position);
 				
 				final TextView chosenDeal = new TextView(getActivity());
-				//chosenDeal.setBackgroundColor(Color.BLACK);
-				//chosenDeal.setTextColor(Color.WHITE);
 				chosenDeal.setText("You chose the following deal: \n\n" + dealObject.getDealContent() + "\n\n what do you want to do now?");
 				
 				new AlertDialog.Builder(getActivity())
-				//.setTitle("You chose the following deal: \n" + dealObject.getDealStr())
 				.setView(chosenDeal)
-				//.setMessage("what would you like to do next?")
 				.setPositiveButton(getString(R.string.display_deal_from_history), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
 						

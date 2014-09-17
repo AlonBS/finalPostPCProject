@@ -5,6 +5,7 @@ import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -30,7 +31,9 @@ import com.dna.radius.infrastructure.SupportedTypes;
 import com.dna.radius.infrastructure.SupportedTypes.BusinessType;
 import com.dna.radius.mapsample.MapWindowFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.parse.FunctionCallback;
 import com.parse.GetDataCallback;
+import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
@@ -66,7 +69,7 @@ public class BusinessData {
 	static DealHistoryManager dealsHistory;
 	static List<ExternalBusiness> topBusinesses;
 
-	static final float DEFAULT_RATING = 2.5f;
+	static final float DEFAULT_RATING = 0f;
 
 	/***************************************************************************/
 
@@ -233,10 +236,15 @@ public class BusinessData {
 	private static void loadRawData() {
 
 		businessName = businessInfo.getString(ParseClassesNames.BUSINESS_NAME);
-		businessRating = businessInfo.getDouble(ParseClassesNames.BUSINESS_RATING); // range should be: [0, 5]
 		businessType = SupportedTypes.BusinessType.stringToType(businessInfo.getString(ParseClassesNames.BUSINESS_TYPE));
 		businessAddress = businessInfo.getString(ParseClassesNames.BUSINESS_ADDRESS);
 		businessPhoneNumber = businessInfo.getString(ParseClassesNames.BUSINESS_PHONE);
+		loadRating();
+	}
+	
+	private static void loadRating() {
+		
+		businessRating = businessInfo.getDouble(ParseClassesNames.BUSINESS_RATING); // range should be: [0, 5]
 	}
 
 
@@ -510,7 +518,32 @@ public class BusinessData {
 
 		//TODO should be saveEventually()
 		currentUser.saveInBackground(null);
-		businessInfo.saveInBackground(null);
+		businessInfo.saveInBackground(new SaveCallback() {
+			
+			@Override
+			public void done(ParseException arg0) {
+				updateRating();
+			}
+		});
+	}
+	
+	
+	private static void updateRating() {
+		
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("businessId", businessInfo.getObjectId());
+		
+		ParseCloud.callFunctionInBackground("calculateRating", params, new FunctionCallback<Double>() {
+		   
+			public void done(Double newRating, ParseException e) {
+		       if (e == null) {
+		    	   businessRating = newRating;
+		          Log.d("New Rating was:", Double.toString(newRating));
+		       }
+		       
+		       Log.e("Business - updateRating", e.getMessage());
+		   }
+		});
 	}
 
 
@@ -723,6 +756,8 @@ public class BusinessData {
 	static void refreshDB() {
 
 		loadCurrentDeal();
+		
+		loadRating();
 
 		topBusinesses = DBHandler.LoadTopBusinessesSync(
 				new ParseGeoPoint(businessLocation.latitude,
