@@ -156,32 +156,6 @@ public class BusinessDashboardFragment extends Fragment implements AddNewDealCom
 			}
 
 		});
-
-		/*handles the image of the business*/
-		//		imageOnDisplayImageView.setOnClickListener(new OnClickListener() {
-		//
-		//			@Override
-		//			public void onClick(View arg0) {
-		//				
-		//				new AlertDialog.Builder(parentActivity)
-		//				.setTitle("Choose an image for your business")
-		//				.setMessage("please choose an image source")
-		//				.setPositiveButton("Camera", new DialogInterface.OnClickListener() {
-		//					public void onClick(DialogInterface dialog, int whichButton) {
-		//						Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-		//						if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-		//							startActivityForResult(takePictureIntent, RESULT_LOAD_IMAGE_CAMERA);
-		//						}
-		//					}
-		//				}).setNegativeButton("Gallery", new DialogInterface.OnClickListener() {
-		//					public void onClick(DialogInterface dialog, int whichButton) {
-		//						Intent i = new Intent(
-		//								Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-		//						startActivityForResult(i, RESULT_LOAD_IMAGE_GALLERY);
-		//					}
-		//				}).show();
-		//			}
-		//		});
 	}
 
 
@@ -275,24 +249,6 @@ public class BusinessDashboardFragment extends Fragment implements AddNewDealCom
 		super.onActivityResult(requestCode, resultCode, data);
 		Bitmap newBmap = null;
 		/**receives an image from the gallery, and change the image of the business*/
-		//		if (requestCode == RESULT_LOAD_IMAGE_GALLERY   && resultCode == FragmentActivity.RESULT_OK && null != data) {
-		//			Uri selectedImage = data.getData();
-		//			String[] filePathColumn = { MediaStore.Images.Media.DATA };
-		//
-		//			Cursor cursor = getActivity().getContentResolver().query(selectedImage,
-		//					filePathColumn, null, null, null);
-		//			cursor.moveToFirst();
-		//
-		//			int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-		//			String picturePath = cursor.getString(columnIndex);
-		//			cursor.close();
-		//
-		//			newBmap = BitmapFactory.decodeFile(picturePath);
-		//
-		//		}
-		//		else if (requestCode == RESULT_LOAD_IMAGE_CAMERA  && resultCode == FragmentActivity.RESULT_OK) {
-		//			Bundle extras = data.getExtras();
-		//			newBmap = (Bitmap) extras.get("data");
 
 		if (requestCode == RESULT_LOAD_IMAGE  && resultCode == FragmentActivity.RESULT_OK) {
 
