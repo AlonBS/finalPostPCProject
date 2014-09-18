@@ -22,7 +22,7 @@ public class DealHistoryDialogFragment extends DialogFragment implements View.On
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.business_deal_history_dialog_layout,container, false);	
-	//	getDialog().setTitle(getResources().getString(R.string.add_a_new_deal_dialog_title));
+		getDialog().setTitle(getResources().getString(R.string.deal_dialog_title));
 
 		View setDealFromHistoryBtn = (View)view.findViewById(R.id.set_history_as_current_btn);
 		View deleteDealFromHistoryBtn = (View)view.findViewById(R.id.delete_from_history_btn);

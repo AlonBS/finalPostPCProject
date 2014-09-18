@@ -328,12 +328,12 @@ public class BusinessData {
 			for (int i = 0 ; i < len ; ++i) {
 
 				JSONObject temp = ja.getJSONObject(i);
-
 				oldDeals.add( new Deal(
 						temp.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID),
 						temp.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_CONTENT),
 						temp.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_LIKES),
 						temp.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_DISLIKES),
+						//TODO - ALON, the problem is here, there is a deal without a date, who did he get there?
 						new SimpleDateFormat(BusinessOpeningScreenActivity.DATE_FORMAT).parse(jo.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE)),
 						null)); //TODO currently - we don't support old deals comments. 
 
@@ -343,8 +343,8 @@ public class BusinessData {
 
 		}
 		catch (JSONException e) {
-
 			Log.e("Business - history create", e.getMessage());
+			//TODO - Alon, I suggest creating an empty history object here to prevent crashing
 		}
 
 		catch (java.text.ParseException e) {

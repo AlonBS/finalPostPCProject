@@ -2,70 +2,86 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="10dp" >
+    android:background="@drawable/gradient_med_gray"
+    android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
         android:orientation="vertical" >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="You chose the following deal: " >
+            android:layout_marginLeft="2dp"
+            android:text="@string/you_chose_the_deal"
+            android:textColor="#FFFFFFFF" >
         </TextView>
 
         <ScrollView
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:padding="3dp" >
+            android:layout_height="wrap_content" >
 
             <TextView
                 android:id="@+id/deal_history_text_view"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/gray_border_gray_background_oval"
+                android:background="@drawable/blue_gradient_background_similar_to_btn"
                 android:gravity="top|left"
                 android:lines="6"
                 android:maxLength="200"
+                android:padding="6dp"
                 android:text="asdfasdfasfd"
+                android:textColor="#FFFFFFFF"
                 android:textSize="16sp" />
         </ScrollView>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
             android:layout_marginTop="5dp"
-            android:text="what do you want to do next? " />
+            android:text="@string/what_next"
+            android:textColor="#FFFFFFFF" />
+    </LinearLayout>
 
-        <LinearLayout
-            android:background="#33000000"
-            android:layout_marginTop="20dp"
-            android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="20dp"
+        android:background="#33000000"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <Button
+            android:id="@+id/set_history_as_current_btn"
+            style="@style/ButtonTextSmaller"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.5"
+            android:background="@drawable/blue_button_background"
+            android:gravity="center"
+            android:lines="2"
+            android:text="@string/set_as_current" />
 
-            <Button
-                android:id="@+id/set_history_as_current_btn"
-                style="@style/ButtonText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:background="@drawable/blue_button_background"
-                android:text="set as current deal" />
-
-            <Button
-                
-                android:id="@+id/delete_from_history_btn"
-                style="@style/ButtonText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:background="@drawable/blue_button_background"
-                android:text="delete deal from history" />
-        </LinearLayout>
+        <Button
+            android:id="@+id/delete_from_history_btn"
+            style="@style/ButtonTextSmaller"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.5"
+            android:background="@drawable/blue_button_background"
+            android:gravity="center"
+            android:lines="2"
+            android:text="@string/delete_from_hist_dialog" />
     </LinearLayout>
 
 </LinearLayout>

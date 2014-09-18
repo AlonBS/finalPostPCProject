@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#FF111111"
+    android:background="@drawable/gradient_med_gray"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -16,13 +16,14 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:background="@drawable/deal_body_background"
+            android:background="@drawable/blue_gradient_background_similar_to_btn"
+            android:textColorHint="#FFFFFFFF"
+            android:textColor="#FFFFFFFF"
             android:gravity="top|left"
             android:hint="@string/tap_to_enter_deal"
             android:lines="6"
             android:maxLength="200"
             android:padding="5dp"
-            android:textColor="#FFFFFFFF"
             android:textSize="16sp" />
 
         <RelativeLayout
