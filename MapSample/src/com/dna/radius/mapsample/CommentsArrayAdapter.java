@@ -3,7 +3,6 @@ package com.dna.radius.mapsample;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.Html;
 import android.view.LayoutInflater;

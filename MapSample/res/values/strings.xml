@@ -137,7 +137,8 @@
     <!-- ShowDeal Activity Strings -->
     <string name="no_like_in_bus_mode">"It's impossible to like/dislike a deal on business mode"</string>
     <string name="no_deal_currently">"This business currently has no deal on display"</string>
-
+	<string name="created_at">"Crated at: "</string>
+	
     <!-- map -->
     <string name="type_address">type address here</string>
     <string name="waiting">loading data from server</string>

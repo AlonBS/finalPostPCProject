@@ -94,6 +94,17 @@ public class SignUpFragment extends Fragment {
 				//user.setEmail(emailText); TODO retrive
 				user.put(ParseClassesNames.LAST_MODE, app_mode);
 				
+				if(!passwordText.equals(passwordConfirmText)){
+					Toast.makeText(getActivity().getApplicationContext(),
+							"Password dont match",
+							Toast.LENGTH_SHORT).show();
+				}
+				
+				if(passwordText.equals("") || userNameText.equals("")){
+					Toast.makeText(getActivity().getApplicationContext(),
+							"one of the field is empty",
+							Toast.LENGTH_SHORT).show();
+				}
 				
 				//TODO add email verification using emailVerified field
 				

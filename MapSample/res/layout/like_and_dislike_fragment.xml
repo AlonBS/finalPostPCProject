@@ -11,6 +11,15 @@
         android:orientation="vertical"
         android:padding="2dp" >
 
+        <TextView
+            android:id="@+id/deal_date_text_view"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginBottom="2dp"
+            android:textColor="#2d226f"
+            android:textSize="14sp" />
+
         <ScrollView
             android:id="@+id/your_deal_scroll_view"
             android:layout_width="fill_parent"
