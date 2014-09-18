@@ -15,11 +15,11 @@
         android:background="#22000000"
         android:gravity="center_horizontal"
         android:orientation="vertical" >
-        
-        <View 
+
+        <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:background="#FFFFFF"/>
+            android:background="#FFFFFF" />
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -30,16 +30,6 @@
             android:orientation="horizontal" >
 
             <Button
-                android:id="@+id/apply_image_button"
-                style="@style/ButtonText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="0.5"
-                android:background="@drawable/blue_button_background"
-                android:text="@string/apply_image" />
-
-            <Button
                 android:id="@+id/cancel_image_button"
                 style="@style/ButtonText"
                 android:layout_width="0dp"
@@ -48,6 +38,16 @@
                 android:layout_weight="0.5"
                 android:background="@drawable/blue_button_background"
                 android:text="@string/cancel_image" />
+
+            <Button
+                android:id="@+id/apply_image_button"
+                style="@style/ButtonText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="0.5"
+                android:background="@drawable/blue_button_background"
+                android:text="@string/apply_image" />
         </LinearLayout>
     </LinearLayout>
 
