@@ -59,7 +59,11 @@ public class LikeAndDislikeFragment extends Fragment{
 
 		boolean hasDeal = loadLikesDislikes();
 
-		if (!hasDeal) return view;
+		if (!hasDeal){
+			TextView dealTV = (TextView)view.findViewById(R.id.dealTextView);
+			dealTV.setText(getResources().getString(R.string.no_deal_currently));
+			return view;
+		}
 		
 		setNewNumbersCounters();
 
@@ -73,6 +77,15 @@ public class LikeAndDislikeFragment extends Fragment{
 			newChoice = oldChoice;
 		}
 
+		
+		ImageView commentsFragmentBtn = (ImageView)view.findViewById(R.id.commentsFragmentButton);
+		commentsFragmentBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				parentActivity.onFragmentSwitchBtnClick();
+			}
+		});
+		
 		setLikeBtnOnClickListener();
 		setDislikeBtnOnClickListener();
 		
