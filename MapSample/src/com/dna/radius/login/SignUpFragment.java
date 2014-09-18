@@ -98,12 +98,14 @@ public class SignUpFragment extends Fragment {
 					Toast.makeText(getActivity().getApplicationContext(),
 							"Password dont match",
 							Toast.LENGTH_SHORT).show();
+					return;
 				}
 				
 				if(passwordText.equals("") || userNameText.equals("")){
 					Toast.makeText(getActivity().getApplicationContext(),
 							"one of the field is empty",
 							Toast.LENGTH_SHORT).show();
+					return;
 				}
 				
 				//TODO add email verification using emailVerified field

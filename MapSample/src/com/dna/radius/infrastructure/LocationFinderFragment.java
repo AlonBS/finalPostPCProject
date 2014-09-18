@@ -4,6 +4,8 @@ package com.dna.radius.infrastructure;
 import java.util.List;
 import java.util.Locale;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -35,9 +37,9 @@ public class LocationFinderFragment extends Fragment {
 	private static final float DEFAULT_ANIMATED_ZOOM = 15;
 	private static LatLng defaultLocation = new LatLng(31.781984, 35.218221);
 	private LatLng chosenLocation = null;
-	
-	
-	
+
+
+
 	//this varible is set if the business owner filled the address field in the welcome screen
 	//this variably is set if the location is already exists 
 	//(whenever the owner wants to change his location through the settings activity)
@@ -60,12 +62,12 @@ public class LocationFinderFragment extends Fragment {
 		TextView userRequestTextView = (TextView)view.findViewById(R.id.find_location_user_request);
 		String textRequest;
 
-		
+
 		String address = getArguments().getString(ADDRESS_PARAMETER);
 		if (address==null){
 			address = "";
 		}
-		
+
 		if (BaseActivity.isInBusinessMode) {
 
 			if( !address.isEmpty() )
@@ -114,7 +116,7 @@ public class LocationFinderFragment extends Fragment {
 				String addressStr = addressEditText.getText().toString();
 				boolean success = searchForAddress(addressStr);
 				if(!success){
-					Toast.makeText(getActivity().getApplicationContext(), "couln't find the given address",Toast.LENGTH_SHORT ).show();
+					createAlertDialog("couln't find the given address");
 				}
 			}
 		});
@@ -122,9 +124,10 @@ public class LocationFinderFragment extends Fragment {
 		if( !address.isEmpty() ){
 			boolean success = searchForAddress(address);
 			if(!success){
-				Toast.makeText(getActivity().getApplicationContext(), "couln't find your location based on the supplied address, please tap on the screen and set your location",Toast.LENGTH_LONG ).show();
+				//createAlertDialog("couln't find your location based on the supplied address, please tap on the screen and set your location");
+			}else{
+				chosenLocation = gMap.getCameraPosition().target;
 			}
-			chosenLocation = gMap.getCameraPosition().target;
 		}
 
 		//if the business already has a location - the map center will be the existing location
@@ -137,6 +140,20 @@ public class LocationFinderFragment extends Fragment {
 
 		}
 		return view;
+	}
+
+
+	private void createAlertDialog(String string) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		builder.setMessage(string)
+		.setCancelable(false)
+		.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				return;
+			}
+		});
+		AlertDialog alert = builder.create();
+		alert.show();
 	}
 
 
@@ -205,7 +222,7 @@ public class LocationFinderFragment extends Fragment {
 		if(chosenLocation != null){
 			return true;
 		}else{
-			Toast.makeText(getActivity(),getResources().getString(R.string.forgot_to_set_location),Toast.LENGTH_SHORT).show();
+			createAlertDialog(getResources().getString(R.string.forgot_to_set_location));
 			return false;
 		}
 	}

@@ -19,21 +19,21 @@
         android:orientation="vertical" >
 
         <FrameLayout
-            android:background="#44FFFFFF"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="#44FFFFFF" >
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:lines="3"
-                android:text=""
-                android:paddingTop="4dp" />
+                android:paddingTop="4dp"
+                android:text="" />
 
             <LinearLayout
-                android:layout_gravity="center_vertical"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:orientation="vertical" >
 
                 <TextView
@@ -59,13 +59,12 @@
             </LinearLayout>
         </FrameLayout>
 
-
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:layout_marginRight="5dp"
             android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:gravity="center_horizontal"
             android:orientation="horizontal" >
 
             <ImageView
@@ -73,6 +72,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:adjustViewBounds="true"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
                 android:src="@drawable/ic_action_bad" >
             </ImageView>
 
@@ -91,6 +92,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
                 android:adjustViewBounds="true"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
                 android:src="@drawable/ic_action_good" >
             </ImageView>
 

@@ -82,7 +82,7 @@ public class LikeAndDislikeFragment extends Fragment{
 		if (pressedExtern.getExternBusinessDeal() != null) {
 			Date dealDate = pressedExtern.getExternBusinessDeal().getDealDate();
 			String dateStr = new SimpleDateFormat(BaseActivity.DATE_FORMAT).format(dealDate);
-			dateTV.setText(getResources().getString(R.string.created_at) + " " + dateStr);
+			dateTV.setText(dateStr);
 			dealTV.setText(pressedExtern.getExternBusinessDeal().getDealContent());
 		}
 		else {
