@@ -23,7 +23,7 @@
 
         <ScrollView
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="140dp" >
 
             <TextView
                 android:id="@+id/deal_history_text_view"
@@ -32,21 +32,12 @@
                 android:layout_marginTop="5dp"
                 android:background="@drawable/blue_gradient_background_similar_to_btn"
                 android:gravity="top|left"
-                android:lines="6"
                 android:maxLength="200"
                 android:padding="6dp"
-                android:text="asdfasdfasfd"
                 android:textColor="#FFFFFFFF"
                 android:textSize="16sp" />
         </ScrollView>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:layout_marginTop="5dp"
-            android:text="@string/what_next"
-            android:textColor="#FFFFFFFF" />
     </LinearLayout>
 
     <LinearLayout

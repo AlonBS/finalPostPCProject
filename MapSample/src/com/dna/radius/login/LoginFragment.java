@@ -37,9 +37,6 @@ public class LoginFragment extends Fragment {
 	private CheckBox keepLoggedInCheckBox;
 
 
-
-
-
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
@@ -56,9 +53,6 @@ public class LoginFragment extends Fragment {
 
 		return v;
 	}
-
-
-
 
 
 	private void initViews() {
@@ -110,10 +104,10 @@ public class LoginFragment extends Fragment {
 
 
 						} else {
+							
+							showErrorMessage(e);
 							// Invalid userName or Password were entered
-							Toast.makeText(getActivity().getApplicationContext(),
-									getString(R.string.incorrect_info),
-									Toast.LENGTH_LONG).show();
+							
 							logInButton.setEnabled(true);
 						}
 					}
@@ -160,6 +154,37 @@ public class LoginFragment extends Fragment {
 				editor.commit();
 			}
 		});   
+	}
+	
+	void showErrorMessage(ParseException e) {
+		
+		int error_code = e.getCode();
+		String msg; 
+		
+		switch (error_code) {
+		
+			case ParseException.CONNECTION_FAILED:
+				msg = getResources().getString(R.string.connection_failed);
+				break;
+				
+			case ParseException.USERNAME_MISSING:
+				msg = getResources().getString(R.string.username_missing);
+				break;
+				
+			case ParseException.PASSWORD_MISSING:
+				msg = getResources().getString(R.string.password_missing);
+				break;
+				
+			case ParseException.VALIDATION_ERROR:
+				msg = getResources().getString(R.string.validation_failed);
+				break;
+				
+			default:
+				msg = getResources().getString(R.string.unknown_error);
+		}
+		
+		
+		Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_LONG).show();
 	}
 }
 

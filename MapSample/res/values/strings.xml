@@ -22,6 +22,22 @@
     <string name="business_mode">Business Mode</string>
     <string name="copyright">Copyright © 2014 </string>
 
+    <!-- signup_activity strings -->
+    <string name="instructions">Please fill in the details</string>
+    <string name="password_confirmation">Password Confirmation</string>
+    <string name="email_address">Email Address</string>
+    <string name="business_name">Business Name</string>
+    <string name="business_type">Business type</string>
+    
+    <!--  login / signUp Errors -->
+    <string name="connection_failed">Unable to connect.\nPlease check your internet connection.</string>
+    <string name="username_missing">Username is missing or incorrect.</string>
+    <string name="password_missing">Password is missing or incorrect.</string>
+    <string name="validation_failed">Validation failed. Please retry.</string>
+    <string name="unknown_error">Unknown error has occurred.</string>
+				
+    
+    
     <!-- business strings -->
     <string name="Settings_title">Settings</string>
     <string name="user_settings">User Settings</string>
@@ -40,12 +56,6 @@
     <string name="add_a_new_deal_deal_is_empty">the new deal is empty</string>
     <string name="add_a_new_deal_deal_identical_to_previous">the new deal is equal to the previous one</string>
 
-    <!-- signup_activity strings -->
-    <string name="instructions">Please fill in the details</string>
-    <string name="password_confirmation">Password Confirmation</string>
-    <string name="email_address">Email Address</string>
-    <string name="business_name">Business Name</string>
-    <string name="business_type">Business type</string>
 
     <string-array name="business_type_spinner">
         <item>Business type</item>
@@ -85,18 +95,15 @@
     <string name="welcome_business_fill_details">In order to complete the registration please fill the following details</string>
 
     <!-- deal history fragment -->
-    <string name="delete_deal_from_history">Delete</string>
-    <string name="display_deal_from_history">Display</string>
-    <string name="history_fragment_tap_a_deal"> on a deal to set it as your current one</string>
     <string name="history_fragment_total_likes">Total likes: </string>
     <string name="history_fragment_total_dislikes">  Total dislikes: </string>
 
     <!-- deal history dialog -->
     <string name="deal_dialog_title">Set a deal from history </string>
-    <string name="you_chose_the_deal">You chose the following deal: </string>
-    <string name="what_next">what do you want to do next?  </string>
-    <string name="set_as_current">set as current deal  </string>
-    <string name="delete_from_hist_dialog">delete deal from history  </string>
+    <string name="you_chose_the_deal">You chose the following deal:</string>
+    <string name="set_as_current">Post</string>
+    <string name="delete_from_hist_dialog">Delete</string>
+    
     
     <!-- business welcome dialog strings -->
     <string name="welcome_business">In order to complete please state your business name, business type, and locate your business on the map.</string>
@@ -122,8 +129,8 @@
     <string name="business_choose_image_can_be_done_later">This stage can be completed later on </string>
     <string name="business_choose_image_camera_source">take a picture </string>
     <string name="business_choose_image_gallery_source">open gallery </string>
-    <string name="apply_image">apply</string>
-    <string name="cancel_image">cancel</string>
+    <string name="apply_image">Apply</string>
+    <string name="cancel_image">Cancel</string>
     <string name="apply_image_error">No image was selected</string>
 
     <!-- switching between client/user modes -->

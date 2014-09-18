@@ -2,9 +2,12 @@ package com.dna.radius.businessmode;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.view.WindowCompat;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,7 +25,9 @@ public class DealHistoryDialogFragment extends DialogFragment implements View.On
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.business_deal_history_dialog_layout,container, false);	
-		getDialog().setTitle(getResources().getString(R.string.deal_dialog_title));
+		getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+		
+		setScreenSize();
 
 		View setDealFromHistoryBtn = (View)view.findViewById(R.id.set_history_as_current_btn);
 		View deleteDealFromHistoryBtn = (View)view.findViewById(R.id.delete_from_history_btn);
@@ -36,6 +41,17 @@ public class DealHistoryDialogFragment extends DialogFragment implements View.On
 
 		return view;
 	}
+	
+	
+	private void setScreenSize() {
+		// This will set this dialog-themed activity to take 80% of the screen
+		DisplayMetrics metrics = getResources().getDisplayMetrics();
+		int screenWidth = (int) (metrics.widthPixels * 0.9);
+		int screenHeight = (int) (metrics.heightPixels * 0.9);
+		getDialog().getWindow().setLayout(screenWidth, screenHeight);
+	}
+
+	
 
 	/**
 	 * this C-tor creates the dialog and sets the edit text to hold the previous deal text.

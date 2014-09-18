@@ -124,6 +124,8 @@ public class BusinessChooseImageDialogActivity extends  BaseActivity{
 		if (requestCode == RESULT_LOAD_IMAGE_GALLERY && resultCode == FragmentActivity.RESULT_OK && null != data) {
 			
 			Uri selectedImage = data.getData();
+			if (selectedImage == null) return; //User pressed 'back'
+			
 			String[] filePathColumn = { MediaStore.Images.Media.DATA };
 
 			Cursor cursor = getContentResolver().query(selectedImage,

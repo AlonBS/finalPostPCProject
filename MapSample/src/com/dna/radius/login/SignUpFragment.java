@@ -55,8 +55,6 @@ public class SignUpFragment extends Fragment {
 	}
 
 
-
-
 	private void initViews() {
 
 		userNameTextView = (TextView) v.findViewById(R.id.user_name_textView);
@@ -64,11 +62,7 @@ public class SignUpFragment extends Fragment {
 		passwordConTextView = (TextView) v.findViewById(R.id.password_confirmation_textView);
 		emailAddressTextView = (TextView) v.findViewById(R.id.email_address_textView);
 		signUpButton = (Button) v.findViewById(R.id.sign_up_button);
-	
-	
 	}
-		
-
 
 
 	private void setNextButton() {
@@ -91,56 +85,23 @@ public class SignUpFragment extends Fragment {
 				ParseUser user = new ParseUser();
 				user.setUsername(userNameText);
 				user.setPassword(passwordText);
-				//user.setEmail(emailText); TODO retrive
+				user.setEmail(emailText); //TODO retrive
 				user.put(ParseClassesNames.LAST_MODE, app_mode);
-				
-				if(!passwordText.equals(passwordConfirmText)){
-					Toast.makeText(getActivity().getApplicationContext(),
-							"Password dont match",
-							Toast.LENGTH_SHORT).show();
-					return;
-				}
-				
-				if(passwordText.equals("") || userNameText.equals("")){
-					Toast.makeText(getActivity().getApplicationContext(),
-							"one of the field is empty",
-							Toast.LENGTH_SHORT).show();
-					return;
-				}
-				
-				//TODO add email verification using emailVerified field
-				
-				//TODO in main??
-//				if (app_mode == IntroFragment.CUSTOMER_MODE) {
-//					
-//					user.put("Client Info", ParseUser.getCurrentUser());
-//					user.put("Business Info", "");
-//				}
-//				else {
-//					user.put("Client Info", "");
-//					user.put("Business Info", ParseUser.getCurrentUser());
-//				}
-				
+
 				
 				user.signUpInBackground(new SignUpCallback() {
 
 					public void done(ParseException e) {
 						if (e == null) {
-							//signUpButton.setEnabled(true);
-							//TODO Remove Toast
-							// Show a simple Toast message upon successful registration
-							Toast.makeText(getActivity().getApplicationContext(),
-									"Successfully Signed up",
-									Toast.LENGTH_SHORT).show();
 
 							startUserActivity();
 
-
 						} else {
 							signUpButton.setEnabled(true);
-							e.printStackTrace();
+							
+							//TODO add informative message
 							Toast.makeText(getActivity().getApplicationContext(),
-									"Sign up Error", Toast.LENGTH_SHORT)
+									e.getMessage(), Toast.LENGTH_SHORT)
 									.show();
 						}
 					}
@@ -196,7 +157,7 @@ public class SignUpFragment extends Fragment {
 			// TODO check if email exists and valid
 			return true;
 		}
-
+		
 		return false;
 	}
 	

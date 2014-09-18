@@ -133,6 +133,7 @@ public class LikeAndDislikeFragment extends Fragment{
 		
 	}
 
+	
 	private void setLikeBtnOnClickListener() {
 
 		likeBtn = (View)view.findViewById(R.id.show_deal_like_btn);
