@@ -88,6 +88,7 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 						FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 						BusinessDashboardFragment dashboardFragment = new BusinessDashboardFragment();
 						fragmentTransaction.replace(R.id.business_fragment_layout, dashboardFragment);
+						fragmentTransaction.addToBackStack(null);
 						fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 						fragmentTransaction.commit();
 					}
@@ -166,6 +167,7 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 			FragmentManager fragmentManager = getSupportFragmentManager();
 			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 			fragmentTransaction.replace(R.id.business_fragment_layout, newFragment);
+			fragmentTransaction.addToBackStack(null);
 			fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 			fragmentTransaction.commit();
 

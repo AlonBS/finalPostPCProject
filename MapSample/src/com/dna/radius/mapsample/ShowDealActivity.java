@@ -60,19 +60,33 @@ public class ShowDealActivity extends FragmentActivity{
 
 		//sets the views
 		TextView businessNameTV = (TextView)findViewById(R.id.businessTitle);
-		TextView detailsTV = (TextView)findViewById(R.id.businessDetails);
-		RatingBar ratingBar = (RatingBar)findViewById(R.id.businessRatingBar);
-		if ( (!pressedExternal.getExternBusinessAddress().isEmpty()) && 
-				(!pressedExternal.getExternBusinessPhone().isEmpty()) )  {
-			detailsTV.setText(pressedExternal.getExternBusinessAddress() + WHITE_SPACES + pressedExternal.getExternBusinessPhone());
-		}else if(!pressedExternal.getExternBusinessAddress().isEmpty()){
-			detailsTV.setText(pressedExternal.getExternBusinessAddress());
-			
-		}else if(!pressedExternal.getExternBusinessPhone().isEmpty()){
-			detailsTV.setText(pressedExternal.getExternBusinessAddress());
+		TextView addressTV = (TextView)findViewById(R.id.businessAddressTv);
+		TextView phoneTV = (TextView)findViewById(R.id.businessPhoneTv);
+		
+		if (pressedExternal.getExternBusinessAddress().isEmpty()){
+			addressTV.setVisibility(View.GONE);
 		}else{
-			detailsTV.setVisibility(View.GONE);
+			addressTV.setText(pressedExternal.getExternBusinessAddress());
 		}
+		if (pressedExternal.getExternBusinessPhone().isEmpty()){
+			phoneTV.setVisibility(View.GONE);
+		}else{
+			phoneTV.setText(pressedExternal.getExternBusinessPhone());
+		}
+		
+		RatingBar ratingBar = (RatingBar)findViewById(R.id.businessRatingBar);
+		//TODO ERASE
+//		if ( (!pressedExternal.getExternBusinessAddress().isEmpty()) && 
+//				(!pressedExternal.getExternBusinessPhone().isEmpty()) )  {
+//			detailsTV.setText(pressedExternal.getExternBusinessAddress() + WHITE_SPACES + pressedExternal.getExternBusinessPhone());
+//		}else if(!pressedExternal.getExternBusinessAddress().isEmpty()){
+//			detailsTV.setText(pressedExternal.getExternBusinessAddress());
+//			
+//		}else if(!pressedExternal.getExternBusinessPhone().isEmpty()){
+//			detailsTV.setText(pressedExternal.getExternBusinessAddress());
+//		}else{
+//			detailsTV.setVisibility(View.GONE);
+//		}
 
 		businessNameTV.setText(pressedExternal.getExtenBusinessName());
 		ratingBar.setRating((float)pressedExternal.getExternBusinessRating()); 

@@ -59,7 +59,11 @@ public class LikeAndDislikeFragment extends Fragment{
 
 		boolean hasDeal = loadLikesDislikes();
 
-		if (!hasDeal) return view;
+		if (!hasDeal){
+			TextView dealTV = (TextView)view.findViewById(R.id.dealTextView);
+			dealTV.setText(getResources().getString(R.string.no_deal_currently));
+			return view;
+		}
 		
 		setNewNumbersCounters();
 
