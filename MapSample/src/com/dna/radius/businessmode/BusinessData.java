@@ -312,7 +312,7 @@ public class BusinessData {
 
 	private static void loadDealsHistory() {
 
-		int totalLikes, totalDislikes, totalDeals;
+		int totalLikes = 0, totalDislikes = 0, totalDeals = 0;
 		ArrayList<Deal> oldDeals = new ArrayList<Deal>();
 
 		JSONObject jo = businessInfo.getJSONObject(ParseClassesNames.BUSINESS_HISTORY);
@@ -326,30 +326,37 @@ public class BusinessData {
 			int len = ja.length();
 
 			for (int i = 0 ; i < len ; ++i) {
-
-				JSONObject temp = ja.getJSONObject(i);
-				oldDeals.add( new Deal(
-						temp.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID),
-						temp.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_CONTENT),
-						temp.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_LIKES),
-						temp.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_DISLIKES),
-						//TODO - ALON, the problem is here, there is a deal without a date, who did he get there?
-						new SimpleDateFormat(BusinessOpeningScreenActivity.DATE_FORMAT).parse(jo.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE)),
-						null)); //TODO currently - we don't support old deals comments. 
+				
+				try {
+					
+					JSONObject temp = ja.getJSONObject(i);
+					oldDeals.add( new Deal(
+							temp.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID),
+							temp.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_CONTENT),
+							temp.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_LIKES),
+							temp.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_DISLIKES),
+							new SimpleDateFormat(BusinessOpeningScreenActivity.DATE_FORMAT).parse(jo.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE)),
+							null));
+					
+				}
+				catch (JSONException e) {
+					Log.e("Business - load old deal", e.getMessage());
+				}
 
 			}
-
-			dealsHistory = new DealHistoryManager(totalLikes, totalDislikes, totalDeals, oldDeals);
-
 		}
 		catch (JSONException e) {
+			
 			Log.e("Business - history create", e.getMessage());
-			//TODO - Alon, I suggest creating an empty history object here to prevent crashing
 		}
 
 		catch (java.text.ParseException e) {
 
 			Log.e("Business - load old deals", e.getMessage());
+		}
+		finally {
+			
+			dealsHistory = new DealHistoryManager(totalLikes, totalDislikes, totalDeals, oldDeals);
 		}
 	}
 
@@ -459,11 +466,20 @@ public class BusinessData {
 
 
 	public static void createNewDeal(String content) {
+		
+		int serialNumber;
+		if (dealsHistory == null) {
+			Log.e("Business - create new Deal", "dealsHistory was null");
+			serialNumber = 0;
+		}
+		else {
+			serialNumber = dealsHistory.getTotalNumOfDeals();
+		}
 
 		// get old deal (as JSON object)
 		JSONObject oldDealJO = businessInfo.getJSONObject(ParseClassesNames.BUSINESS_CURRENT_DEAL);
 
-		String id = businessInfo.getObjectId() + BusinessOpeningScreenActivity.SEPERATOR + Integer.toString(dealsHistory.getTotalNumOfDeals());
+		String id = businessInfo.getObjectId() + BusinessOpeningScreenActivity.SEPERATOR + Integer.toString(serialNumber);
 		Date date = new Date();
 
 		// update locally
