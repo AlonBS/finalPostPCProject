@@ -35,6 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:ems="10"
+            android:maxLength="30"
             android:inputType="text"
             android:lines="1"
             android:singleLine="true" >

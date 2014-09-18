@@ -78,7 +78,7 @@ public class LoginFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 
-
+				logInButton.setEnabled(false);
 				String userName = userNameEditText.getText().toString();
 				String userPassword = userPasswordEditText.getText().toString();
 
@@ -114,6 +114,7 @@ public class LoginFragment extends Fragment {
 							Toast.makeText(getActivity().getApplicationContext(),
 									getString(R.string.incorrect_info),
 									Toast.LENGTH_LONG).show();
+							logInButton.setEnabled(true);
 						}
 					}
 				});
