@@ -136,7 +136,7 @@ public class SignUpFragment extends Fragment {
 
 						} else {
 
-							//TODO Mofify Toast
+							e.printStackTrace();
 							Toast.makeText(getActivity().getApplicationContext(),
 									"Sign up Error", Toast.LENGTH_LONG)
 									.show();

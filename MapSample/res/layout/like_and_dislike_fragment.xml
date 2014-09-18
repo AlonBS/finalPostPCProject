@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_marginBottom="2dp"
-            android:textColor="#2d226f"
+            android:textColor="#FFFFFFFF"
             android:textSize="14sp" />
 
         <ScrollView
@@ -44,9 +44,9 @@
         android:id="@+id/business_image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="5dp"
-        android:scaleType="fitXY" />
+        android:layout_gravity="center_horizontal"
+        android:adjustViewBounds="true"
+        android:layout_marginBottom="5dp"/>
 
     <LinearLayout
         android:id="@+id/show_deal_dislike_btn"
