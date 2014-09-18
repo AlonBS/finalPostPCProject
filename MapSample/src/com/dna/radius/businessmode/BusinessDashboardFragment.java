@@ -48,6 +48,7 @@ public class BusinessDashboardFragment extends Fragment implements AddNewDealCom
 	private TextView dealOnDisplayDislikesTextView;
 	private ImageView imageOnDisplayImageView;
 	private ImageView removeDealOnDisplayImageView;
+	private View dealOnDisplayTitle;
 	private	TopBusinessesHorizontalView topBusinessesHorizontalScrollView;
 
 	/**this variable is used for loading an image from the gallery*/
@@ -85,6 +86,7 @@ public class BusinessDashboardFragment extends Fragment implements AddNewDealCom
 
 		dealOnDisplayTextView = (TextView) v.findViewById(R.id.deal_tv);
 		imageOnDisplayImageView = (ImageView) v.findViewById(R.id.buisness_image_view);
+		dealOnDisplayTitle = (View)v.findViewById(R.id.your_deal_title);
 		dealOnDisplayLikesTextView = (TextView) v.findViewById(R.id.num_of_likes_tv);
 		dealOnDisplayDislikesTextView = (TextView) v.findViewById(R.id.num_of_dislikes_tv);
 		removeDealOnDisplayImageView = (ImageView)v.findViewById(R.id.remove_deal_image_view);
@@ -164,7 +166,13 @@ public class BusinessDashboardFragment extends Fragment implements AddNewDealCom
 		/***
 		 * allows adding a new deal instead of the old one
 		 */
-
+		dealOnDisplayTitle.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				displayAddNewDealDialog();
+			}
+		});
+		
 		dealOnDisplayTextView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

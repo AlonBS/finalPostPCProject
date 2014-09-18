@@ -3,18 +3,26 @@ package com.dna.radius.businessmode;
 
 
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
+import android.hardware.SensorManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dna.radius.R;
 import com.dna.radius.infrastructure.BaseActivity;
@@ -27,8 +35,8 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 
 	private TextView businessNameTextView;
 	private RatingBar businessRatingBar;
-	
-	
+
+
 	/**buttons which allow switching between fragments*/
 	private ImageView homeFragmentBtn;
 	private ImageView mapFragmentBtn;
@@ -36,17 +44,18 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 
 	/**holds the lates button which was pressed*/
 	private ImageView latestPressedBtn;
+	private boolean orientationChangeEnabled = false;
 
 	static boolean refreshNeeded = false;
 
-
+	private OrientationListener orientationListener;
 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.business_opening_screen);
-		
+
 		isInBusinessMode = true;
 
 		//Sets the waiting fragment.
@@ -77,7 +86,7 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 						setOnClickListeners();
 
 						loadDashBoard();
-						
+
 						displayWelcomeIfNeeded();
 					}
 
@@ -104,7 +113,7 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 						FragmentChangerBtnOnClickListener f = new FragmentChangerBtnOnClickListener();
 
 						logoLayout.setOnClickListener(new OnClickListener() {
-							
+
 							@Override
 							public void onClick(View arg0) {
 								refresh();
@@ -130,6 +139,17 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 			}
 		});
 		t.start();
+
+		forcePortraitOrientation();
+		orientationListener = new OrientationListener(this, SensorManager.SENSOR_DELAY_NORMAL);
+		if (orientationListener.canDetectOrientation()){
+			Log.d("BusinessOpeningScreenActivity","orientationListener Can DetectOrientation");
+			orientationListener.disable();
+		}
+		else{
+			Log.d("BusinessOpeningScreenActivity","orientationListener Can't DetectOrientation");
+		}
+
 
 	}
 
@@ -182,13 +202,7 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 
 		businessNameTextView.setText(BusinessData.businessName);
 		businessRatingBar.setRating((float)BusinessData.businessRating);
-		
 
-//TODO not needed
-//		// overrides rating bar's on touch method so it won't change anything
-//		businessRatingBar.setOnTouchListener(new OnTouchListener() {
-//			public boolean onTouch(View v, MotionEvent event) { return true; }
-//		});
 	}
 
 	@Override
@@ -198,6 +212,7 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 			refresh();
 		}
 	}
+
 
 
 	private void refresh() {
@@ -235,9 +250,76 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 
 
 
+	public void enableOrientationChange(){
+		Log.d("Business Opening Screen Activity", "orientation changed was enabled");
+		orientationListener.enable();
+	}
+	public void disableOrientationChange(){
+		Log.d("Business Opening Screen Activity", "orientation changed was disabled");
+		orientationListener.disable();
+		forcePortraitOrientation();
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+	}
+
+
+	/***
+	 * forces the screen to be in lanscapr rotation mode
+	 */
+	protected void forcePortraitOrientation() {
+		int current = getRequestedOrientation();
+		if ( current != ActivityInfo.SCREEN_ORIENTATION_PORTRAIT ) {
+			setRequestedOrientation( ActivityInfo.SCREEN_ORIENTATION_PORTRAIT );
+		}
+	}
 
 
 
+	/***
+	 * allows the screen to rotate whenever thae OrientationListener is enabled
+	 */
+	static class OrientationListener extends OrientationEventListener{
+		FragmentActivity context;
+		private int THRESHOLD = 20;
+		int  currentOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+		public OrientationListener(Context context, int rate) {
+			super(context, rate);
+			this.context = (FragmentActivity) context;
+		}
+
+
+		@Override
+		public void onOrientationChanged(int orientation) {
+			int currentScreenOrientation = context.getResources().getConfiguration().orientation;
+			
+			if(isLandscape(orientation) && currentScreenOrientation!=ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE){
+				Log.d("OrientationListener", "changes to landscape");
+				context.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);	
+			}else if(isPortrait(orientation) && currentScreenOrientation!=ActivityInfo.SCREEN_ORIENTATION_PORTRAIT){
+				Log.d("OrientationListener", "changes to portrait");
+				context.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);	
+				
+			}else{
+				Log.d("OrientationListener", "the change was low : " + orientation);
+			}
+		}
+
+		private boolean isLandscape(int orientation){
+			boolean retVal = orientation >= (90 - THRESHOLD) && orientation <= (90 + THRESHOLD);
+			retVal |= orientation >= (270 - THRESHOLD) && orientation <= (270 + THRESHOLD);
+			return retVal;
+		}
+
+		private boolean isPortrait(int orientation){
+			boolean retVal = (orientation >= (360 - THRESHOLD) && orientation <= 360) || (orientation >= 0 && orientation <= THRESHOLD);
+			retVal |= (orientation >= (180 - THRESHOLD) && orientation <= 180) || (orientation >= 0 && orientation <= THRESHOLD);
+			return retVal;
+		}
+
+	}
 
 
 

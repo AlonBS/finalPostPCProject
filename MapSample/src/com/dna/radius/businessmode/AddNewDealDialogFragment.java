@@ -1,5 +1,6 @@
 package com.dna.radius.businessmode;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -44,6 +45,10 @@ public class AddNewDealDialogFragment extends DialogFragment implements View.OnC
 				dealEditText.setText("");
 			}
 		});
+
+		BusinessOpeningScreenActivity parentActivity = (BusinessOpeningScreenActivity) getActivity();
+		parentActivity.enableOrientationChange();
+		
 		return view;
 	}
 
@@ -98,5 +103,15 @@ public class AddNewDealDialogFragment extends DialogFragment implements View.OnC
 		 * the newDealStr represents the new deal string
 		 * in case of an error/cancel - the newDealStr will be empty */
 		public void onAddNewDealDialogResult(AddDealDialogResult result, String newDealStr);
+	}
+	
+
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		BusinessOpeningScreenActivity parentActivity = (BusinessOpeningScreenActivity) getActivity();
+		parentActivity.disableOrientationChange();
+		
 	}
 }
