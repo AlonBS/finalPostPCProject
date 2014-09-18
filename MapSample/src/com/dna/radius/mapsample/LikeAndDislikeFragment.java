@@ -60,37 +60,25 @@ public class LikeAndDislikeFragment extends Fragment{
 		boolean hasDeal = loadLikesDislikes();
 
 		if (!hasDeal) return view;
+		
+		setNewNumbersCounters();
 
-		newNumOfLikes = pressedExtern.getExternBusinessDeal().getNumOfLikes();
-		newNumOfDislikes = pressedExtern.getExternBusinessDeal().getNumOfDislikes();
-
+		
 		likeImageView = (ImageView)view.findViewById(R.id.like_image_view);
 		dislikeImageView = (ImageView)view.findViewById(R.id.dislike_image_view);
 
 		//handles the like and dislikes buttons.
 		if(!BaseActivity.isInBusinessMode){
-			oldChoice = ClientData.getDealLikeStatus(pressedExtern.getExternBusinessDeal().getId());
+			oldChoice = ClientData.getClientChoiceOnDeal(pressedExtern.getExternBusinessDeal().getId());
 			newChoice = oldChoice;
 		}
 
 		setLikeBtnOnClickListener();
 		setDislikeBtnOnClickListener();
+		
+		setDeal();
+		
 		setDislikeAndLikeBG();
-		
-		TextView dealTV = (TextView)view.findViewById(R.id.dealTextView);
-		TextView dateTV = (TextView)view.findViewById(R.id.deal_date_text_view);
-		if (pressedExtern.getExternBusinessDeal() != null) {
-			Date dealDate = pressedExtern.getExternBusinessDeal().getDealDate();
-			String dateStr = new SimpleDateFormat(BaseActivity.DATE_FORMAT).format(dealDate);
-			dateTV.setText(getResources().getString(R.string.created_at) + " " + dateStr);
-			dealTV.setText(pressedExtern.getExternBusinessDeal().getDealContent());
-		}
-		else {
-			dealTV.setText(getResources().getString(R.string.no_deal_currently));
-		}
-
-		
-
 		
 		return view;
 	}
@@ -111,8 +99,8 @@ public class LikeAndDislikeFragment extends Fragment{
 		//updates the likes and dislikes text views
 		if (pressedExtern.getExternBusinessDeal() != null) {
 
-			likesTextView.setText(Long.toString(pressedExtern.getExternBusinessDeal().getNumOfLikes()));
-			dislikesTextView.setText(Long.toString(pressedExtern.getExternBusinessDeal().getNumOfDislikes()));
+			likesTextView.setText(Integer.toString(pressedExtern.getExternBusinessDeal().getNumOfLikes()));
+			dislikesTextView.setText(Integer.toString(pressedExtern.getExternBusinessDeal().getNumOfDislikes()));
 		}
 		else {
 
@@ -122,6 +110,27 @@ public class LikeAndDislikeFragment extends Fragment{
 		}
 
 		return true;
+	}
+	
+	
+	private void setNewNumbersCounters() {
+
+		newNumOfLikes = pressedExtern.getExternBusinessDeal().getNumOfLikes();
+		newNumOfDislikes = pressedExtern.getExternBusinessDeal().getNumOfDislikes();
+		
+		ClientChoice c = ClientData.getClientChoiceOnDeal(pressedExtern.getExternBusinessDeal().getId());
+		
+		if (c == ClientChoice.LIKE && newNumOfLikes == 0) {
+			++newNumOfLikes;
+			likesTextView.setText(Integer.toString(newNumOfLikes));
+			
+		}
+		if (c == ClientChoice.DISLIKE && newNumOfDislikes == 0){
+			++newNumOfDislikes;
+			dislikesTextView.setText(Integer.toString(newNumOfDislikes));
+		}
+		
+		
 	}
 
 	private void setLikeBtnOnClickListener() {
@@ -191,6 +200,21 @@ public class LikeAndDislikeFragment extends Fragment{
 			}
 		});
 	}
+	
+	private void setDeal() {
+		
+		TextView dealTV = (TextView)view.findViewById(R.id.dealTextView);
+		TextView dateTV = (TextView)view.findViewById(R.id.deal_date_text_view);
+		if (pressedExtern.getExternBusinessDeal() != null) {
+			Date dealDate = pressedExtern.getExternBusinessDeal().getDealDate();
+			String dateStr = new SimpleDateFormat(BaseActivity.DATE_FORMAT).format(dealDate);
+			dateTV.setText(dateStr);
+			dealTV.setText(pressedExtern.getExternBusinessDeal().getDealContent());
+		}
+		else {
+			dealTV.setText(getResources().getString(R.string.no_deal_currently));
+		}
+	}
 
 
 
@@ -207,7 +231,20 @@ public class LikeAndDislikeFragment extends Fragment{
 		if (newChoice == ClientChoice.LIKE) {
 
 			likeImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_good_blue));
-			likesTextView.setTextColor(Color.BLUE);
+			likesTextView.setTextColor(getResources().getColor(R.color.green_likes));
+			
+//			Log.e("HERE", "HERE1");
+//			
+//			if (likesTextView.getText().toString().compareTo("0") == 0 ) {
+//				String s1 = likesTextView.getText().toString();
+//				likesTextView.setText("1");
+//				Log.e("HERE2", s1);
+//			}
+//			else 
+//			{
+//				String s2 = likesTextView.getText().toString();
+//				Log.e("HERE3", s2);
+//			}
 
 		}else{
 			
@@ -217,8 +254,12 @@ public class LikeAndDislikeFragment extends Fragment{
 
 		if (newChoice == ClientChoice.DISLIKE) {
 			
-			dislikesTextView.setTextColor(getResources().getColor(R.color.red_1));
+			dislikesTextView.setTextColor(getResources().getColor(R.color.red_dislikes));
 			dislikeImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_bad_blue));
+			
+//			if (dislikesTextView.getText().toString().compareTo("0") == 0 ) {
+//				dislikesTextView.setText("1");
+//			}
 
 		} else {
 

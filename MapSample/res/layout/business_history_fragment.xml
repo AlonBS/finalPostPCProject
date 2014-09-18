@@ -46,7 +46,7 @@
             
             <TextView
                 android:textSize="17sp" 
-                android:textColor="#FF006600"
+                android:textColor="@color/green_likes"
                 android:id="@+id/history_fragment_total_likes_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
                 android:text="@string/history_fragment_total_dislikes" />
              <TextView
                  android:textSize="17sp" 
-                android:textColor="#FFFF0000"
+                android:textColor="@color/red_dislikes"
                 android:id="@+id/history_fragment_total_dislikes_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

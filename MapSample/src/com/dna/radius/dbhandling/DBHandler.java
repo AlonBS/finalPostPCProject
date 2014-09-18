@@ -226,6 +226,8 @@ public class DBHandler {
 	public static void getExternalBusinessAtRadius(LatLng location, double radius) {
 
 		ParseQuery<ParseObject> query = ParseQuery.getQuery(ParseClassesNames.BUSINESS_CLASS);
+		
+		//query.
 		query.whereWithinRadians(ParseClassesNames.BUSINESS_LOCATION, //TODO check radians indeed work
 				new ParseGeoPoint(location.latitude, location.longitude), radius);
 
@@ -237,7 +239,7 @@ public class DBHandler {
 					ArrayList<ExternalBusiness>result = new ArrayList<ExternalBusiness>();
 
 					for (ParseObject o : objects ) {
-
+						
 						JSONObject j = o.getJSONObject(ParseClassesNames.BUSINESS_CURRENT_DEAL);
 
 						if (j.isNull(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID)) continue; //we don't show business who currently don't have a deal						

@@ -407,12 +407,12 @@ public class ClientData{
 	 * to the current business deal.
 	 * @return
 	 */
-	public static LikeAndDislikeFragment.ClientChoice getDealLikeStatus(String businessId){
+	public static LikeAndDislikeFragment.ClientChoice getClientChoiceOnDeal(String dealId){
 
-		if (isInLikes(businessId))
+		if (isInLikes(dealId))
 			return LikeAndDislikeFragment.ClientChoice.LIKE;
 
-		else if(isInDislikes(businessId))
+		else if(isInDislikes(dealId))
 			return LikeAndDislikeFragment.ClientChoice.DISLIKE;
 
 		return LikeAndDislikeFragment.ClientChoice.DONT_CARE;
