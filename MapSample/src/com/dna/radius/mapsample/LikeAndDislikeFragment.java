@@ -77,6 +77,15 @@ public class LikeAndDislikeFragment extends Fragment{
 			newChoice = oldChoice;
 		}
 
+		
+		ImageView commentsFragmentBtn = (ImageView)view.findViewById(R.id.commentsFragmentButton);
+		commentsFragmentBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				parentActivity.onFragmentSwitchBtnClick();
+			}
+		});
+		
 		setLikeBtnOnClickListener();
 		setDislikeBtnOnClickListener();
 		

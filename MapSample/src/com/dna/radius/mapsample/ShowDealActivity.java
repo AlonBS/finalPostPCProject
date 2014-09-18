@@ -28,8 +28,6 @@ public class ShowDealActivity extends FragmentActivity{
 	public static final String EXTERNAL_BUSINESS_KEY = "externBusiness";
 
 
-	//a button which allows switching between the like fragment and the comments fragment.
-	private ImageView switchFragmentsButton;
 	//used for switching between fragments.
 	private enum CurrentFragmentType{DEAL_FRAGMENT,COMMENTS_FRAGMENT};
 	private CurrentFragmentType currentFragmentType = CurrentFragmentType.DEAL_FRAGMENT;
@@ -60,55 +58,40 @@ public class ShowDealActivity extends FragmentActivity{
 
 		//sets the views
 		TextView businessNameTV = (TextView)findViewById(R.id.businessTitle);
-		TextView addressTV = (TextView)findViewById(R.id.businessAddressTv);
-		TextView phoneTV = (TextView)findViewById(R.id.businessPhoneTv);
-		
-		if (pressedExternal.getExternBusinessAddress().isEmpty()){
-			addressTV.setVisibility(View.GONE);
-		}else{
-			addressTV.setText(pressedExternal.getExternBusinessAddress());
-		}
-		if (pressedExternal.getExternBusinessPhone().isEmpty()){
-			phoneTV.setVisibility(View.GONE);
-		}else{
-			phoneTV.setText(pressedExternal.getExternBusinessPhone());
-		}
+		TextView detailsTV = (TextView)findViewById(R.id.businessDetailsTv);
+		//TODO ERASE
+//		TextView addressTV = (TextView)findViewById(R.id.businessAddressTv);
+//		TextView phoneTV = (TextView)findViewById(R.id.businessPhoneTv);
+//		if (pressedExternal.getExternBusinessAddress().isEmpty()){
+//			addressTV.setVisibility(View.GONE);
+//		}else{
+//			addressTV.setText(pressedExternal.getExternBusinessAddress());
+//		}
+//		if (pressedExternal.getExternBusinessPhone().isEmpty()){
+//			phoneTV.setVisibility(View.GONE);
+//		}else{
+//			phoneTV.setText(pressedExternal.getExternBusinessPhone());
+//		}
 		
 		RatingBar ratingBar = (RatingBar)findViewById(R.id.businessRatingBar);
-		//TODO ERASE
-//		if ( (!pressedExternal.getExternBusinessAddress().isEmpty()) && 
-//				(!pressedExternal.getExternBusinessPhone().isEmpty()) )  {
-//			detailsTV.setText(pressedExternal.getExternBusinessAddress() + WHITE_SPACES + pressedExternal.getExternBusinessPhone());
-//		}else if(!pressedExternal.getExternBusinessAddress().isEmpty()){
-//			detailsTV.setText(pressedExternal.getExternBusinessAddress());
-//			
-//		}else if(!pressedExternal.getExternBusinessPhone().isEmpty()){
-//			detailsTV.setText(pressedExternal.getExternBusinessAddress());
-//		}else{
-//			detailsTV.setVisibility(View.GONE);
-//		}
+		
+		if ( (!pressedExternal.getExternBusinessAddress().isEmpty()) && 
+				(!pressedExternal.getExternBusinessPhone().isEmpty()) )  {
+			detailsTV.setText(pressedExternal.getExternBusinessAddress() + ", " + pressedExternal.getExternBusinessPhone());
+		}else if(!pressedExternal.getExternBusinessAddress().isEmpty()){
+			detailsTV.setText(pressedExternal.getExternBusinessAddress());
+			
+		}else if(!pressedExternal.getExternBusinessPhone().isEmpty()){
+			detailsTV.setText(pressedExternal.getExternBusinessAddress());
+		}else{
+			detailsTV.setVisibility(View.GONE);
+		}
 
 		businessNameTV.setText(pressedExternal.getExtenBusinessName());
 		ratingBar.setRating((float)pressedExternal.getExternBusinessRating()); 
 
 
-		switchFragmentsButton = (ImageView)findViewById(R.id.switchFragmentButton);
-		if(pressedExternal.getExternBusinessDeal() != null){
-
-			//handles the switch fragment button
-			Bitmap commentsIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_chat);
-			switchFragmentsButton.setImageBitmap(commentsIcon);
-			//until the Extra data will be loaded fully - this button is unusable.
-			switchFragmentsButton.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					onFragmentSwitchBtnClick();
-				}
-			});
-		}else{
-			switchFragmentsButton.setVisibility(View.GONE);
-		}
-
+	
 
 		//handles the favourites button
 		final ImageView favouritesBtn = (ImageView)findViewById(R.id.favourites_flag);
@@ -183,7 +166,7 @@ public class ShowDealActivity extends FragmentActivity{
 	 * this function is called whenever the comment button / the back arrow button is pressed.
 	 * in this case - a new fragment should be loaded to the screen.
 	 */
-	private void onFragmentSwitchBtnClick(){
+	public void onFragmentSwitchBtnClick(){
 
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -203,9 +186,9 @@ public class ShowDealActivity extends FragmentActivity{
 		}
 
 		fragmentTransaction.replace(R.id.deal_or_comments_fragment, fragmentToSwitch);
+		fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();
 
-		switchFragmentsButton.setImageBitmap(newIcon);
 	}
 
 

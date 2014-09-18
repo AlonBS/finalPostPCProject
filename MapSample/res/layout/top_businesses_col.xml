@@ -41,7 +41,6 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal|center_vertical"
-                    android:text="drogba name"
                     android:textColor="#FFFFFFFF"
                     android:textSize="14sp" />
 
@@ -62,15 +61,14 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginLeft="14dp"
+            android:layout_marginRight="14dp"
             android:gravity="center_horizontal"
             android:orientation="horizontal" >
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
                 android:adjustViewBounds="true"
                 android:scaleX="0.8"
                 android:scaleY="0.8"

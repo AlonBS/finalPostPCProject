@@ -5,34 +5,62 @@
     android:background="@drawable/gradient_med_gray"
     android:orientation="vertical" >
 
-    <FrameLayout
+    <RelativeLayout
+        android:background="@drawable/gradient_light_gray"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center" >
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:background="@drawable/gradient_light_gray"
-            android:gravity="center"
+            android:id="@+id/buttons_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
             android:orientation="horizontal" >
 
-            <LinearLayout
+            <ImageView
+                android:id="@+id/favourites_flag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_not_important" />
+
+           
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/close_window"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="top|right"
+            android:src="@drawable/ic_action_cancel" />
+
+        <LinearLayout
+            android:layout_toRightOf="@id/buttons_layout"
+            android:layout_toLeftOf="@id/close_window"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal" >
+
+           <LinearLayout
+                android:layout_marginTop="5dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="vertical" >
 
                 <TextView
+                    android:text="adsfasdfadsfsdfdsf"
                     android:id="@+id/businessTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="65dp"
-                    android:layout_marginRight="65dp"
-                    android:layout_marginTop="5dp"
                     android:gravity="center_horizontal"
                     android:textColor="#FF000000"
-                    android:textSize="20sp" />
+                    android:textSize="16sp" />
 
                 <com.dna.radius.infrastructure.ColoredRatingBar
                     android:id="@+id/businessRatingBar"
@@ -44,9 +72,9 @@
                     android:clickable="false"
                     android:isIndicator="true"
                     android:numStars="5" />
-
+				
                 <TextView
-                    android:id="@+id/businessAddressTv"
+                    android:id="@+id/businessDetailsTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
@@ -54,42 +82,10 @@
                     android:textColor="#EE000000"
                     android:typeface="sans" />
 
-                <TextView
-                    android:id="@+id/businessPhoneTv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:gravity="center_horizontal"
-                    android:textColor="#EE000000"
-                    android:typeface="sans" />
+
             </LinearLayout>
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-
-            <ImageView
-                android:id="@+id/favourites_flag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_action_not_important" />
-
-            <ImageView
-                android:id="@+id/switchFragmentButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|top" />
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/close_window"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|right"
-            android:src="@drawable/ic_action_cancel" />
-    </FrameLayout>
+    </RelativeLayout>
 
     <View
         android:layout_width="fill_parent"
