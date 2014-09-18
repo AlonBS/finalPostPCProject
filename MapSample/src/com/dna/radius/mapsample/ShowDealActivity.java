@@ -171,18 +171,14 @@ public class ShowDealActivity extends FragmentActivity{
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		Fragment fragmentToSwitch;
-		Bitmap newIcon;
 
 		if (currentFragmentType == CurrentFragmentType.DEAL_FRAGMENT){
 			currentFragmentType = CurrentFragmentType.COMMENTS_FRAGMENT;
 			fragmentToSwitch = new CommentsFragment();
-			newIcon= BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_back);
 
 		}else{
-
 			currentFragmentType = CurrentFragmentType.DEAL_FRAGMENT;
 			fragmentToSwitch = new LikeAndDislikeFragment();
-			newIcon= BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_chat);
 		}
 
 		fragmentTransaction.replace(R.id.deal_or_comments_fragment, fragmentToSwitch);

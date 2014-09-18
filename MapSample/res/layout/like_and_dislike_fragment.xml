@@ -35,7 +35,6 @@
                 android:scrollbars="vertical" >
 
                 <TextView
-                    android:text="ASDFASDFASDF"
                     android:id="@+id/dealTextView"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -51,7 +50,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_gravity="right|top"
                 android:layout_marginRight="10dp"
-                android:src="@drawable/ic_action_chat" />
+                android:src="@drawable/ic_action_chat_light" />
         </RelativeLayout>
     </LinearLayout>
 
