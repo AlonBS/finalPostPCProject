@@ -16,7 +16,7 @@
             android:layout_width="fill_parent"
             android:layout_height="80dp"
             android:layout_margin="2dp"
-            android:background="@drawable/deal_body_background"
+            android:background="@drawable/blue_gradient_background_white_border"
             android:clickable="true"
             android:padding="5dp"
             android:scrollbars="vertical" >
