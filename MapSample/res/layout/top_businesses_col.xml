@@ -13,41 +13,59 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:background="#FF222255"
         android:gravity="center"
         android:orientation="vertical" >
 
+        <FrameLayout
+            android:background="#44FFFFFF"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:lines="3"
+                android:text=""
+                android:paddingTop="4dp" />
+
+            <LinearLayout
+                android:layout_gravity="center_vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/top_business_name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="drogba name"
+                    android:textColor="#FFFFFFFF"
+                    android:textSize="14sp" />
+
+                <com.dna.radius.infrastructure.ColoredRatingBar
+                    android:id="@+id/top_business_rating_bar"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="3dp"
+                    android:isIndicator="true"
+                    android:numStars="0"
+                    android:scaleX="1.1"
+                    android:scaleY="1.1" />
+            </LinearLayout>
+        </FrameLayout>
+
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="#44FFFFFF"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/top_business_name"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="drogba name"
-                android:textColor="#FFFFFFFF"
-                android:textSize="16sp" />
-
-            <com.dna.radius.infrastructure.ColoredRatingBar
-                android:id="@+id/top_business_rating_bar"
-                style="?android:attr/ratingBarStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:layout_gravity="center_horizontal"
-                android:isIndicator="true"
-                android:numStars="0" />
-        </LinearLayout>
-
-       <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
             android:gravity="center_horizontal"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
             android:orientation="horizontal" >
 
             <ImageView
@@ -66,9 +84,7 @@
                 android:layout_marginRight="5dp"
                 android:text="0"
                 android:textColor="#FFFFFFFF"
-                android:textSize="14sp" />
-
-
+                android:textSize="12sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -86,7 +102,7 @@
                 android:layout_marginRight="5dp"
                 android:text="0"
                 android:textColor="#FFFFFFFF"
-                android:textSize="14sp" />
+                android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>
 

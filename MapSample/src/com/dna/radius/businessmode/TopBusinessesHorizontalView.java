@@ -93,10 +93,12 @@ public class TopBusinessesHorizontalView extends HorizontalScrollView{
 		
 		if (businessNameTextView != null) {
 			businessNameTextView.setText(eb.getExtenBusinessName());
+			if(businessNameTextView.getLineCount() > 1){
+				businessNameTextView.setTextSize(businessNameTextView.getTextSize() - 4 );
+			}
 		}
 		if (businessTotalLikesTextView != null) {
 			businessTotalLikesTextView.setText(Integer.toString(eb.getExternBusinessTotalLikes()));
-			
 		}
 		if (businessTotalDislikesTextView != null) {
 			businessTotalDislikesTextView.setText(Integer.toString(eb.getExternBusinessTotalDislikes()));
@@ -139,26 +141,9 @@ public class TopBusinessesHorizontalView extends HorizontalScrollView{
 		
 		@Override
 		public void onClick(View v) {
-			
-			
 			Intent myIntent = new Intent(c, ShowDealActivity.class);
 			myIntent.putExtra(ShowDealActivity.EXTERNAL_BUSINESS_KEY, topBusiness);
 			c.startActivity(myIntent);
-			
-			
-//			myIntent.putExtra(ShowDealActivity.BUSINESS_NAME_PARAM, eb.businessName); //Optional parameters
-//			myIntent.putExtra(ShowDealActivity.BUSINESS_ID_PARAM, eb.externBusinessId); //Optional parameters
-//			myIntent.putExtra(ShowDealActivity.DEAL_ID_PARAM, eb.currentDealID); 
-//			myIntent.putExtra(ShowDealActivity.BUSINESS_TYPE_PARAM, eb.externBusinessType); //Optional parameters
-//			myIntent.putExtra(ShowDealActivity.DEAL_RATING_PARAM, eb.rating); //Optional parameters
-//			myIntent.putExtra(ShowDealActivity.NUM_OF_DISLIKES_PARAM, eb.numOfDislikes); //Optional parameters
-//			myIntent.putExtra(ShowDealActivity.NUM_OF_LIKES_PARAM, eb.numOfLikes); //Optional parameters
-//			myIntent.putExtra(ShowDealActivity.USER_MODE_PARAM, false);
-//			myIntent.putExtra(ShowDealActivity.PHONE_STR_PARAM, eb.phoneStr); 
-//			myIntent.putExtra(ShowDealActivity.ADDRESS_STR_PARAM, eb.addressStr);
-//			myIntent.putExtra(ShowDealActivity.CURRENT_DEAL_STR_PARAM, eb.currentDealStr);
-			
-			
 		}
 		
 		

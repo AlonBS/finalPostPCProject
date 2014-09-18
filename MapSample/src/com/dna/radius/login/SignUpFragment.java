@@ -77,7 +77,7 @@ public class SignUpFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-
+				signUpButton.setEnabled(false);
 				String userNameText, passwordText, passwordConfirmText, emailText;
 
 				userNameText = userNameTextView.getText().toString();
@@ -124,21 +124,21 @@ public class SignUpFragment extends Fragment {
 
 					public void done(ParseException e) {
 						if (e == null) {
-
+							//signUpButton.setEnabled(true);
 							//TODO Remove Toast
 							// Show a simple Toast message upon successful registration
 							Toast.makeText(getActivity().getApplicationContext(),
-									"Successfully Signed up, please log in.",
-									Toast.LENGTH_LONG).show();
+									"Successfully Signed up",
+									Toast.LENGTH_SHORT).show();
 
 							startUserActivity();
 
 
 						} else {
-
+							signUpButton.setEnabled(true);
 							e.printStackTrace();
 							Toast.makeText(getActivity().getApplicationContext(),
-									"Sign up Error", Toast.LENGTH_LONG)
+									"Sign up Error", Toast.LENGTH_SHORT)
 									.show();
 						}
 					}
