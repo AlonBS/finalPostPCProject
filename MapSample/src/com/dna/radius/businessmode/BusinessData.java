@@ -334,7 +334,7 @@ public class BusinessData {
 							temp.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_CONTENT),
 							temp.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_LIKES),
 							temp.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_DISLIKES),
-							new SimpleDateFormat(BusinessOpeningScreenActivity.DATE_FORMAT).parse(jo.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE)),
+							new SimpleDateFormat(BusinessOpeningScreenActivity.DATE_FORMAT).parse(temp.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE)),
 							null));
 					
 				}
