@@ -1,73 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="5dp"
     android:gravity="center_horizontal"
-    android:orientation="vertical"
     android:padding="10dp" >
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/user_name" />
+        android:orientation="vertical" >
 
-    <EditText
-        android:id="@+id/user_name_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:lines="1" >
-    </EditText>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/user_name" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/new_password" />
+        <EditText
+            android:id="@+id/user_name_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:lines="1" >
+        </EditText>
 
-    <EditText
-        android:id="@+id/password_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:inputType="textPassword" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/new_password" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/new_password_confirmation" />
+        <EditText
+            android:id="@+id/password_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:inputType="textPassword" />
 
-    <EditText
-        android:id="@+id/password_confirmation_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:inputType="textPassword" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/new_password_confirmation" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/new_email" />
+        <EditText
+            android:id="@+id/password_confirmation_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:inputType="textPassword" />
 
-    <EditText
-        android:id="@+id/email_address_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="2dp"
-        android:ems="10"
-        android:inputType="textEmailAddress" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/new_email" />
 
-    <Button
-        android:id="@+id/delete_acount_button"
-        style="@style/ButtonText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:background="@drawable/black_button_background"
-        android:text="@string/delete_acount" />
+        <EditText
+            android:id="@+id/email_address_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="2dp"
+            android:ems="10"
+            android:inputType="textEmailAddress" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/delete_acount_button"
+            style="@style/ButtonText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:background="@drawable/black_button_background"
+            android:text="@string/delete_acount" />
+    </LinearLayout>
+
+</ScrollView>

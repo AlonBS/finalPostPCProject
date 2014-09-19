@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -20,6 +21,7 @@ import com.dna.radius.datastructures.Comment;
 import com.dna.radius.datastructures.ExternalBusiness;
 import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.infrastructure.BaseActivity;
+import com.dna.radius.mapsample.ShowDealActivity.ShowDealFragmentType;
 
 /**
  * This fragment shows comments on a certein deal.
@@ -67,27 +69,20 @@ public class CommentsFragment extends Fragment{
 		CommentsArrayAdapter adapter = new CommentsArrayAdapter(parentActivity,android.R.layout.simple_list_item_1, commentsList);
 		commentsListView.setAdapter(adapter);
 		
-//		//sets the listview max height to be 50% of the activity
-//		DisplayMetrics metrics = getActivity().getResources().getDisplayMetrics();
-//		int activityHeight = metrics.heightPixels;
-//		//float listViewMaxHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (float) (activityHeight*0.5), getResources().getDisplayMetrics());
-		//commentsListView.setMaxHeight((int) (activityHeight*0.5));
-
-//		DisplayMetrics metrics = getActivity().getResources().getDisplayMetrics();
-//		int activityHeight = metrics.heightPixels;
-//		DisplayMetrics displaymetrics = new DisplayMetrics();
-//		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-//		float screenHeight = displaymetrics.heightPixels;
-//		float listViewHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (float) (screenHeight*0.2), getResources().getDisplayMetrics());
-//		commentsListView.getLayoutParams().height = (int) listViewHeight;
-	
-		
 		DBHandler.loadCommentsListAsync(adapter,dealID);
-
+		
+		ImageView returnBtn = (ImageView)view.findViewById(R.id.return_to_like_fragment_btn);
+		returnBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				parentActivity.switchToFragment(ShowDealFragmentType.DEAL_FRAGMENT);
+			}
+		});
+		
 		//if the user is in user mode - allows him to comment on a certain deal.
 		if(BaseActivity.isInBusinessMode){
-			LinearLayout linearLayout = (LinearLayout)view.findViewById(R.id.add_comment_layout);
-			linearLayout.setVisibility(View.GONE);
+			View commentsView = view.findViewById(R.id.add_comment_layout);
+			commentsView.setVisibility(View.GONE);
 		}else{
 			final EditText newCommentEditText = (EditText)view.findViewById(R.id.comment_edit_text);
 			newCommentEditText.setOnClickListener(new OnClickListener() {
@@ -119,13 +114,22 @@ public class CommentsFragment extends Fragment{
 						parentActivity.createAlertDialog("you already commented on this deal lately");
 						return;
 					}
+					
 
-					// TODO (alon) - change alert string, maybe remove
-					parentActivity.createAlertDialog("Thank you for your comment!");
-					previousComments.put(dealID,System.currentTimeMillis());
+
+					
 					String commentContent = newCommentEditText.getText().toString();
 					
+					if(commentContent.equals("")){
+						parentActivity.createAlertDialog("your comment is empty");
+						return;
+					}
+					
+					// TODO (alon) - change alert string, maybe remove
+					parentActivity.createAlertDialog("Thank you for your comment!");
+					
 					//TODO put in ClientData ALON 
+					previousComments.put(dealID,System.currentTimeMillis());
 					ClientData.commentOnADeal(dealID, commentContent);
 					newCommentEditText.setText(getResources().getString(R.string.type_comment_here));
 				}

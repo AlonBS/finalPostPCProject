@@ -29,8 +29,7 @@ public class ShowDealActivity extends BaseActivity{
 	
 
 	//used for switching between fragments.
-	private enum CurrentFragmentType{DEAL_FRAGMENT,COMMENTS_FRAGMENT};
-	private CurrentFragmentType currentFragmentType = CurrentFragmentType.DEAL_FRAGMENT;
+	public enum ShowDealFragmentType{DEAL_FRAGMENT,COMMENTS_FRAGMENT};
 
 	//	public String businessID, dealID,phoneStr,addressStr,dealStr;
 	//	public int numOfLikes,numOfDislikes;
@@ -166,19 +165,16 @@ public class ShowDealActivity extends BaseActivity{
 	 * this function is called whenever the comment button / the back arrow button is pressed.
 	 * in this case - a new fragment should be loaded to the screen.
 	 */
-	public void onFragmentSwitchBtnClick(){
+	public void switchToFragment(ShowDealFragmentType newFragmentType){
 
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		Fragment fragmentToSwitch;
 
-		if (currentFragmentType == CurrentFragmentType.DEAL_FRAGMENT){
-			currentFragmentType = CurrentFragmentType.COMMENTS_FRAGMENT;
-			fragmentToSwitch = new CommentsFragment();
-
-		}else{
-			currentFragmentType = CurrentFragmentType.DEAL_FRAGMENT;
+		if (newFragmentType == ShowDealFragmentType.DEAL_FRAGMENT){
 			fragmentToSwitch = new LikeAndDislikeFragment();
+		}else{
+			fragmentToSwitch = new CommentsFragment();
 		}
 
 		fragmentTransaction.replace(R.id.deal_or_comments_fragment, fragmentToSwitch);

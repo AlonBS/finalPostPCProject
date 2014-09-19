@@ -5,61 +5,54 @@
     android:background="@drawable/gradient_med_gray"
     android:orientation="vertical" >
 
-    <LinearLayout
-        
+    <EditText
+        android:id="@+id/add_new_deal_edit_text"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:layout_margin="10dp"
+        android:background="@drawable/blue_gradient_background_similar_to_btn"
+        android:gravity="top|left"
+        android:hint="@string/tap_to_enter_deal"
+        android:lines="6"
+        android:maxLength="200"
+        android:padding="5dp"
+        android:textColor="#FFFFFFFF"
+        android:textColorHint="#FFFFFFFF"
+        android:textSize="16sp" />
 
-        <EditText
-            android:id="@+id/add_new_deal_edit_text"
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/add_deal_clean_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:paddingLeft="10dp"
+            android:src="@drawable/ic_action_discard" />
+
+        <LinearLayout
+            android:id="@+id/buttons_layout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/blue_gradient_background_similar_to_btn"
-            android:textColorHint="#FFFFFFFF"
-            android:textColor="#FFFFFFFF"
-            android:gravity="top|left"
-            android:hint="@string/tap_to_enter_deal"
-            android:lines="6"
-            android:maxLength="200"
-            android:padding="5dp"
-            android:textSize="16sp" />
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:gravity="right"
+            android:orientation="horizontal"
+            android:paddingRight="10dp" >
 
             <ImageView
-                android:layout_alignParentLeft="true"
-                android:paddingLeft="10dp"
-                android:id="@+id/add_deal_clean_btn"
+                android:id="@+id/add_deal_cancel_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_action_discard" />
+                android:layout_marginRight="5dp"
+                android:src="@drawable/ic_action_cancel_dark" />
 
-            <LinearLayout
-                android:id="@+id/buttons_layout"
-                android:layout_width="fill_parent"
+            <ImageView
+                android:id="@+id/add_deal_ok_btn"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="right"
-                android:orientation="horizontal"
-                android:paddingRight="10dp" >
-
-                <ImageView
-                    android:id="@+id/add_deal_cancel_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:src="@drawable/ic_action_cancel_dark" />
-
-                <ImageView
-                    android:id="@+id/add_deal_ok_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_action_accept" />
-            </LinearLayout>
-        </RelativeLayout>
-    </LinearLayout>
+                android:src="@drawable/ic_action_accept" />
+        </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

@@ -29,9 +29,11 @@ import com.dna.radius.datastructures.ExternalBusiness;
 import com.dna.radius.infrastructure.BaseActivity;
 import com.dna.radius.infrastructure.SupportedTypes;
 import com.dna.radius.mapsample.MapManager.Property;
+import com.google.android.gms.internal.fm;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
+import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -43,7 +45,7 @@ public class MapWindowFragment extends Fragment {
 	private GoogleMap gMap;
 	public static final double LOAD_RADIUS = 0.01; 	
 	private static final float DEFAULT_LATLNG_ZOOM = 20;
-	private static final float DEFAULT_ANIMATED_ZOOM = 15;
+	private static final float DEFAULT_ANIMATED_ZOOM = 16;
 	private HashMap<SupportedTypes.BusinessType,ImageView> typeToButton;
 	private ImageView restBtn,pubBtn,hotelBtn,shoppingBtn,coffeeBtn;
 	private View view;
@@ -73,6 +75,8 @@ public class MapWindowFragment extends Fragment {
 		gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latestMapCenter, DEFAULT_LATLNG_ZOOM));
 		gMap.animateCamera(CameraUpdateFactory.zoomTo(DEFAULT_ANIMATED_ZOOM), 2000, null);
 
+
+		
 		//adds a button which finds the current user location
 		gMap.setMyLocationEnabled(true);
 
@@ -201,6 +205,7 @@ public class MapWindowFragment extends Fragment {
 			}
 		});
 
+		
 		return view;
 	}
 
