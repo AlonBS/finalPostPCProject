@@ -52,6 +52,7 @@ public class GeneralSettingsFragment extends Fragment{
 				}).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
 						//TODO - ALON - do your magic
+						//dont forget to check if we are on user mode or business mode
 						getActivity().finish();
 					}
 				}).show();
