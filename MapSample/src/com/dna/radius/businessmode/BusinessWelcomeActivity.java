@@ -9,11 +9,11 @@ import org.json.JSONObject;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -23,13 +23,14 @@ import com.dna.radius.R;
 import com.dna.radius.datastructures.Deal;
 import com.dna.radius.datastructures.DealHistoryManager;
 import com.dna.radius.dbhandling.ParseClassesNames;
+import com.dna.radius.infrastructure.BaseActivity;
 import com.dna.radius.infrastructure.LocationFinderFragment;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
-public class BusinessWelcomeActivity extends FragmentActivity {
+public class BusinessWelcomeActivity extends BaseActivity {
 
 	//private Bitmap businessBitmap;
 
@@ -238,5 +239,9 @@ public class BusinessWelcomeActivity extends FragmentActivity {
 		}
 	}
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		return true;
+	}
 
 }

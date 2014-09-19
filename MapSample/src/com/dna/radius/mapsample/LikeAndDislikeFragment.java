@@ -156,7 +156,7 @@ public class LikeAndDislikeFragment extends Fragment{
 			public void onClick(View v) {
 
 				if (BaseActivity.isInBusinessMode) {
-					Toast.makeText(parentActivity, getString(R.string.no_like_in_bus_mode), Toast.LENGTH_SHORT).show();
+					parentActivity.createAlertDialog(getString(R.string.no_like_in_bus_mode));
 					return;
 				}
 
@@ -190,7 +190,7 @@ public class LikeAndDislikeFragment extends Fragment{
 			@Override
 			public void onClick(View v) {
 				if(BaseActivity.isInBusinessMode){
-					Toast.makeText(parentActivity, "it's impossible to like/dislike a deal on business mode", Toast.LENGTH_SHORT).show();
+					parentActivity.createAlertDialog("it's impossible to like/dislike a deal on business mode");
 					return;
 				}
 				

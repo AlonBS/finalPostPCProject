@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,30 +27,29 @@ import com.parse.ParseUser;
 
 /***
  * This Activity is used in order to share settings and menu between
- * all activities running on this app.
+ * all activities running on this application.
  */
 
 public abstract class BaseActivity extends FragmentActivity{
-	
+
 	public static final String SEPERATOR = "###";
-	
+
 	public static final String DATE_FORMAT = "dd.MM.yyyy 'at' HH:mm";
-	
-	//TODO this value should be set when the application starts!!
+
+	//this value should be set when the application starts!!
 	public static boolean isInBusinessMode; 
 
 
-	
+
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.main_menu, menu);
 		return true;
 	}
 
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// TODO Auto-generated method stub
 		switch (item.getItemId()) {
 		case R.id.log_out_action:
 			handleLogOut();
@@ -88,70 +86,84 @@ public abstract class BaseActivity extends FragmentActivity{
 		// back to 'log in' screen
 		Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 		startActivity(intent);
-		
+
 		//resets the comments fragment
 		CommentsFragment.restartCommentsHistory();
-		
+
 		finish();
 
 	}
 
-	
+
 	private void handleSettings() {
-		
+
 		if(isInBusinessMode){
 			Intent myIntent = new Intent(this, BusinessSettingsActivity.class);
 			startActivity(myIntent);
 		}else{
-			
+
 			Intent myIntent = new Intent(this, ClientGeneralSettingsActivity.class);
 			startActivity(myIntent);
 		}
-		
-		
+
+
 	}
 
 
 	private void handleSwitchMode() {
-			
-			String msgPrefix = !isInBusinessMode ?  getResources().getString(R.string.to_business_mode):getResources().getString(R.string.to_client_mode);
-			String msg = getResources().getString(R.string.are_you_sure) + " " + msgPrefix;
-			
-			new AlertDialog.Builder(this)
-			.setTitle(getResources().getString(R.string.switch_mode))
-			.setMessage(msg)
-			.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int whichButton) {
-					
-					Intent myIntent = null;
-					isInBusinessMode = !isInBusinessMode;
-					
-					ParseUser currentUser = ParseUser.getCurrentUser();
-					if (currentUser != null) {
-						if (isInBusinessMode)
-							ParseUser.getCurrentUser().put(ParseClassesNames.LAST_MODE, ParseClassesNames.LAST_MODE_BUSINESS_MODE);
-						else
-							ParseUser.getCurrentUser().put(ParseClassesNames.LAST_MODE, ParseClassesNames.LAST_MODE_CLIENT_MODE);
-						
-						currentUser.saveInBackground();
-					}
-					
-					
-					if(isInBusinessMode)
-						myIntent = new Intent(getApplicationContext(), BusinessOpeningScreenActivity.class);
+
+		String msgPrefix = !isInBusinessMode ?  getResources().getString(R.string.to_business_mode):getResources().getString(R.string.to_client_mode);
+		String msg = getResources().getString(R.string.are_you_sure) + " " + msgPrefix;
+
+		new AlertDialog.Builder(this)
+		.setTitle(getResources().getString(R.string.switch_mode))
+		.setMessage(msg)
+		.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+
+				Intent myIntent = null;
+				isInBusinessMode = !isInBusinessMode;
+
+				ParseUser currentUser = ParseUser.getCurrentUser();
+				if (currentUser != null) {
+					if (isInBusinessMode)
+						ParseUser.getCurrentUser().put(ParseClassesNames.LAST_MODE, ParseClassesNames.LAST_MODE_BUSINESS_MODE);
 					else
-						myIntent = new Intent(getApplicationContext(), ClientOpeningScreenActivity.class);
-					
-					startActivity(myIntent);
-					finish();
+						ParseUser.getCurrentUser().put(ParseClassesNames.LAST_MODE, ParseClassesNames.LAST_MODE_CLIENT_MODE);
+
+					currentUser.saveInBackground();
 				}
-			}).setNegativeButton("No", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int whichButton) {
-				}
-			}).show();
+
+
+				if(isInBusinessMode)
+					myIntent = new Intent(getApplicationContext(), BusinessOpeningScreenActivity.class);
+				else
+					myIntent = new Intent(getApplicationContext(), ClientOpeningScreenActivity.class);
+
+				startActivity(myIntent);
+				finish();
+			}
+		}).setNegativeButton("No", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+			}
+		}).show();
 	}
 
-	
+
+	public void createAlertDialog(String string) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage(string)
+		.setCancelable(false)
+		.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				return;
+			}
+		});
+		builder.show();
+	}
+
+
+
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();

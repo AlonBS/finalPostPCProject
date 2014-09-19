@@ -20,12 +20,9 @@ import com.dna.radius.datastructures.Deal;
  */
 public class DealHistoryArrayAdapter extends ArrayAdapter<Deal>{
 	
-	//ArrayList<Deal> list; TODO not needed
-	
 	
 	public DealHistoryArrayAdapter(Context context, int resource, ArrayList<Deal> list) {
 		super(context, resource, list);
-		//this.list = list; TODO not needed
 	}
 	@Override
 	public void notifyDataSetChanged() {
@@ -63,22 +60,5 @@ public class DealHistoryArrayAdapter extends ArrayAdapter<Deal>{
 		 return rowView;
 	}
 	
-	
-//	TODO remove
-//	int getTotalLikes(){
-//		int sum = 0;
-//		for (Deal d : list){
-//			sum += d.getNumOfLikes();
-//		}
-//		return sum;
-//	}
-//	
-//	int getTotalDislikes(){
-//		int sum = 0;
-//		for (Deal d : list){
-//			sum += d.getNumOfDislikes();
-//		}
-//		return sum;
-//	}
 	
 }	

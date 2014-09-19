@@ -4,8 +4,6 @@ package com.dna.radius.infrastructure;
 import java.util.List;
 import java.util.Locale;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -20,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dna.radius.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -116,7 +113,8 @@ public class LocationFinderFragment extends Fragment {
 				String addressStr = addressEditText.getText().toString();
 				boolean success = searchForAddress(addressStr);
 				if(!success){
-					createAlertDialog("couln't find the given address");
+					BaseActivity parentActivity = (BaseActivity)getActivity();
+					parentActivity.createAlertDialog(getResources().getString(R.string.couldnt_find_address));
 				}
 			}
 		});
@@ -143,20 +141,7 @@ public class LocationFinderFragment extends Fragment {
 	}
 
 
-	private void createAlertDialog(String string) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setMessage(string)
-		.setCancelable(false)
-		.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
-				return;
-			}
-		});
-		AlertDialog alert = builder.create();
-		alert.show();
-	}
-
-
+	
 	private boolean searchForAddress(String addressStr){
 		Log.d("SEARCH ADRESS", "searching for: " + addressStr );
 		Geocoder geoCoder = new Geocoder(getActivity(), Locale.getDefault());
@@ -201,7 +186,6 @@ public class LocationFinderFragment extends Fragment {
 
 	@Override
 	public void onDestroyView() {
-		// TODO Auto-generated method stub
 		super.onDestroyView();
 
 		//kills the old map
@@ -222,7 +206,8 @@ public class LocationFinderFragment extends Fragment {
 		if(chosenLocation != null){
 			return true;
 		}else{
-			createAlertDialog(getResources().getString(R.string.forgot_to_set_location));
+			BaseActivity parentActivity = (BaseActivity)getActivity();
+			parentActivity.createAlertDialog(getResources().getString(R.string.forgot_to_set_location));
 			return false;
 		}
 	}

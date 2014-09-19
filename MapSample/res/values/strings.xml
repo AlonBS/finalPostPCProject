@@ -86,7 +86,9 @@
     <string name="find_location_business_request">please set your business location by tapping on the screen or by searching for an address</string>
     <string name="find_location_client_request">please set your default location by tapping on the screen or by searching for an address</string>
     <string name="forgot_to_set_location">you forget to set a location</string>
-
+    <string name="couldnt_find_address">couldn\'t find the given address</string>
+	<string name="location_finder_service_unavailable">location finder service is unavailable</string>
+    
     <!-- client welcome dialog strings -->
     <string name="welcome_client">In order to complete the registration please select you preferable location</string>
     <string name="set_location">Choose location</string>

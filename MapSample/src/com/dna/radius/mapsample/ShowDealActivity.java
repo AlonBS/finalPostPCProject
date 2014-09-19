@@ -22,11 +22,11 @@ import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.datastructures.ExternalBusiness;
 import com.dna.radius.infrastructure.BaseActivity;
 
-public class ShowDealActivity extends FragmentActivity{
+public class ShowDealActivity extends BaseActivity{
 	//needed parameters for the activity
 
 	public static final String EXTERNAL_BUSINESS_KEY = "externBusiness";
-
+	
 
 	//used for switching between fragments.
 	private enum CurrentFragmentType{DEAL_FRAGMENT,COMMENTS_FRAGMENT};

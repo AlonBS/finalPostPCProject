@@ -2,8 +2,8 @@ package com.dna.radius.businessmode;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.view.WindowCompat;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,10 +31,10 @@ public class DealHistoryDialogFragment extends DialogFragment implements View.On
 
 		View setDealFromHistoryBtn = (View)view.findViewById(R.id.set_history_as_current_btn);
 		View deleteDealFromHistoryBtn = (View)view.findViewById(R.id.delete_from_history_btn);
-		//View cancelBtn = (ImageView)view.findViewById(R.id.add_deal_cancel_btn);
+		View cancelBtn = (ImageView)view.findViewById(R.id.history_dialog_user_canceled_btn);
 		setDealFromHistoryBtn.setOnClickListener(this);
 		deleteDealFromHistoryBtn.setOnClickListener(this);
-
+		cancelBtn.setOnClickListener(this);
 
 		dealTextViewStr = (TextView)view.findViewById(R.id.deal_history_text_view);
 		dealTextViewStr.setText(dealHistoryObj.getDealContent());
@@ -72,7 +72,11 @@ public class DealHistoryDialogFragment extends DialogFragment implements View.On
 		}else if(v.getId()==R.id.delete_from_history_btn){
 			communitor.onDealHistoryDialogResult(DealHistoryDialogResult.DELETE_DEAL_OBJECT,dealHistoryObj);
 			dismiss();
-		}else{//TODO
+		}else if(v.getId()==R.id.history_dialog_user_canceled_btn){//TODO
+			communitor.onDealHistoryDialogResult(DealHistoryDialogResult.USER_CANCELED,dealHistoryObj);
+			dismiss();
+		}else{
+			Log.d("businessHistoryDialog","received click even without knowing its source");
 			communitor.onDealHistoryDialogResult(DealHistoryDialogResult.USER_CANCELED,dealHistoryObj);
 			dismiss();
 		}

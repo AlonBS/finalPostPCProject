@@ -2,8 +2,6 @@ package com.dna.radius.businessmode;
 
 
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -46,7 +44,6 @@ public class BusinessHistoryFragment extends Fragment  implements DealHistoryDia
 		}
 
 		ListView dealHistoryListView = (ListView)view.findViewById(R.id.deal_history_list_view);
-		//registerForContextMenu(dealHistoryListView); TODO (alon to dror) - why needed?
 		adapter = new DealHistoryArrayAdapter(getActivity(),android.R.layout.simple_list_item_1, BusinessData.dealsHistory.getOldDeals());
 		dealHistoryListView.setAdapter(adapter);
 

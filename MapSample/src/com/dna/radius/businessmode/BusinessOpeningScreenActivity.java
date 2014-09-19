@@ -3,7 +3,6 @@ package com.dna.radius.businessmode;
 
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -22,7 +21,6 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dna.radius.R;
 import com.dna.radius.infrastructure.BaseActivity;

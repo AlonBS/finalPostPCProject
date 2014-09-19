@@ -8,21 +8,21 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
+import android.view.MenuItem;
 import android.view.Window;
 
 import com.dna.radius.R;
 import com.dna.radius.businessmode.BusinessOpeningScreenActivity;
 import com.dna.radius.clientmode.ClientOpeningScreenActivity;
 import com.dna.radius.dbhandling.ParseClassesNames;
+import com.dna.radius.infrastructure.BaseActivity;
 import com.parse.Parse;
 import com.parse.ParseAnonymousUtils;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
 
-public class MainActivity extends FragmentActivity {
+//This activity extends BaseActivity in order to inherit it's createDialog function
+public class MainActivity extends BaseActivity {
 
 	private final static String APP_ID = "x3jwFIHknyHP4pajQ7P9ottjCnwlnZIPl3JQLNzZ";
 	private final static String CLIENT_KEY = "EXlH8MQcMa8l50sAcrL0jSbQlOhGW6MdJAu4hHAA";
@@ -128,5 +128,11 @@ public class MainActivity extends FragmentActivity {
 		Window window = getWindow();
 		window.setFormat(PixelFormat.RGBA_8888);
 	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		return true;
+	}
+	
 
 }

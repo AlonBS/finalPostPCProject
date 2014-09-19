@@ -166,7 +166,7 @@ public class BusinessSettingsActivity extends BaseActivity{
 		if(!newPassword.equals("")){
 			didDataChanged = true;
 			if(!newPassword.equals(newPasswordConformation)){
-				Toast.makeText(this, getResources().getString(R.string.passwords_mismatch), Toast.LENGTH_SHORT).show();
+				createAlertDialog(getResources().getString(R.string.passwords_mismatch));
 			}else{
 				BusinessData.setPassword(newPassword);
 				didDataChanged = true;
@@ -175,7 +175,7 @@ public class BusinessSettingsActivity extends BaseActivity{
 
 		if(didDataChanged){
 			BusinessOpeningScreenActivity.refreshNeeded = true;
-			Toast.makeText(this, getResources().getString(R.string.data_changed_successfully), Toast.LENGTH_SHORT).show();
+			createAlertDialog(getResources().getString(R.string.data_changed_successfully));
 			finish();
 		}
 	}

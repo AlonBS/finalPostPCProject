@@ -2,6 +2,7 @@ package com.dna.radius.businessmode;
 
 import java.util.ArrayList;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,16 +10,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dna.radius.R;
 import com.dna.radius.businessmode.BusinessSettingsActivity.EditTextOnTouchListenerWithinTabhost;
+import com.dna.radius.infrastructure.BaseActivity;
 import com.dna.radius.infrastructure.SupportedTypes;
 import com.dna.radius.infrastructure.SupportedTypes.BusinessType;
 
@@ -42,40 +44,40 @@ public class BusinessFillDetailsFragment extends Fragment{
 	public static String BUSINESS_TYPE_HINT_PARAM = "businessTypeParam";
 	public static String BUSINESS_PHONE_HINT_PARAM = "businessPhoneParam";
 	public static String BUSINESS_ADDRESS_HINT_PARAM = "businessAddressParam";
-	
+
 	//default color is white
 	public static String TEXT_COLOR_PARAM = "textColorParam";
-	
-	
+
+
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
 		View view = inflater.inflate(R.layout.business_fill_details_fragment,container, false);	
-		
+
 		//retrives the relevant views
 		businessNameEditText = (EditText) view.findViewById(R.id.business_name_edit_text);
 		businessPhoneEditText = (EditText) view.findViewById(R.id.business_phone_edit_text);
 		businessAddressEditText = (EditText) view.findViewById(R.id.business_address_edit_text);
 		businessTypeSpinner = (Spinner) view.findViewById(R.id.business_type_spinner);
-		
+
 		businessNameTextView = (TextView) view.findViewById(R.id.business_name_text_view);
 		businessPhoneTextView = (TextView) view.findViewById(R.id.business_phone_text_view);
 		businessAddressTextView = (TextView) view.findViewById(R.id.business_address_text_view);
 		businessTypeTextView = (TextView) view.findViewById(R.id.business_type_text_view);
-		
-		
+
+
 		businessAddressEditText.setOnTouchListener(new EditTextOnTouchListenerWithinTabhost());
 		businessNameEditText.setOnTouchListener(new EditTextOnTouchListenerWithinTabhost());
 		businessPhoneEditText.setOnTouchListener(new EditTextOnTouchListenerWithinTabhost());
-		
-		
+
+
 		if(getArguments().containsKey(TEXT_COLOR_PARAM)){
 			int color = getArguments().getInt(TEXT_COLOR_PARAM);
 			businessNameEditText.setTextColor(color);
 			businessPhoneEditText.setTextColor(color);
 			businessAddressEditText.setTextColor(color);
-			
+
 			businessNameTextView.setTextColor(color);
 			businessPhoneTextView.setTextColor(color);
 			businessAddressTextView.setTextColor(color);
@@ -88,12 +90,12 @@ public class BusinessFillDetailsFragment extends Fragment{
 			BusinessType typeHint = (BusinessType)getArguments().getSerializable(BUSINESS_TYPE_HINT_PARAM);
 			String businessAddressHint = getArguments().getString(BUSINESS_ADDRESS_HINT_PARAM);
 			String businessPhoneHint = getArguments().getString(BUSINESS_PHONE_HINT_PARAM);
-			
+
 			//sets the hints accordingly
 			businessNameEditText.setHint(businessNameHint);
 			businessType = typeHint;
 			setBusinessTypeSpinner(businessType);
-			
+
 			int spinnerPosition = spinnerAdapter.getPosition(typeHint);
 			businessTypeSpinner.setSelection(spinnerPosition);
 
@@ -111,8 +113,8 @@ public class BusinessFillDetailsFragment extends Fragment{
 		}else{
 			setBusinessTypeSpinner(null);
 		}
-		
-		
+
+
 		return view;
 	}
 
@@ -124,7 +126,7 @@ public class BusinessFillDetailsFragment extends Fragment{
 		for(BusinessType b : BusinessType.values()){
 			businessTypes.add(b);
 		}
-		
+
 		if(getArguments().containsKey(TEXT_COLOR_PARAM)){
 			int color = getArguments().getInt(TEXT_COLOR_PARAM);
 			spinnerAdapter = new SpinnerTypeAdapter(getActivity(), R.layout.spinner_types_layout, businessTypes,getResources(),hintType,color);
@@ -166,11 +168,13 @@ public class BusinessFillDetailsFragment extends Fragment{
 		String businessName = businessNameEditText.getText().toString();
 
 		if (businessName.isEmpty() || illegalBusinessName(businessName)) {
-			Toast.makeText(getActivity(), getResources().getString(R.string.business_name_forgot_to_fill), Toast.LENGTH_SHORT).show();
+			BaseActivity parentActivity = (BaseActivity)getActivity();
+			parentActivity.createAlertDialog(getResources().getString(R.string.business_name_forgot_to_fill));
 			return false;
 		}
 		if (businessType == null) {
-			Toast.makeText(getActivity(), getResources().getString(R.string.business_type_forgot_to_fill), Toast.LENGTH_SHORT).show();
+			BaseActivity parentActivity = (BaseActivity)getActivity();
+			parentActivity.createAlertDialog(getResources().getString(R.string.business_type_forgot_to_fill));
 			return false;
 		}
 
@@ -181,6 +185,10 @@ public class BusinessFillDetailsFragment extends Fragment{
 	private boolean illegalBusinessName(String bn) {
 
 		//TODO business name filter? alpha-numeric only ? 
+		//ALON: if you add such a filter use the following two lines to present the error message (instead of a toast):
+		//BaseActivity parentActivity = (BaseActivity)getActivity();
+		//parentActivity.createAlertDialog(getResources().getString(R.string.business_type_forgot_to_fill));
+		
 		return false;
 
 	}
@@ -202,7 +210,6 @@ public class BusinessFillDetailsFragment extends Fragment{
 
 		return businessAddressEditText.getText().toString();
 	}
-
 
 
 

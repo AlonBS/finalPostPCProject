@@ -3,22 +3,16 @@ package com.dna.radius.mapsample;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import testing_stuff.ListViewWithMaxDimensions;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.dna.radius.R;
 import com.dna.radius.clientmode.ClientData;
@@ -122,13 +116,12 @@ public class CommentsFragment extends Fragment{
 					}
 
 					if(!addComment){
-						// todo remove
-						Toast.makeText(getActivity(), "you already commented on this deal lately", Toast.LENGTH_SHORT).show();				
+						parentActivity.createAlertDialog("you already commented on this deal lately");
 						return;
 					}
 
-					// TODO (alon) - change toast, maybe remove
-					Toast.makeText(getActivity(), "Thank you for your comment!", Toast.LENGTH_SHORT).show();				
+					// TODO (alon) - change alert string, maybe remove
+					parentActivity.createAlertDialog("Thank you for your comment!");
 					previousComments.put(dealID,System.currentTimeMillis());
 					String commentContent = newCommentEditText.getText().toString();
 					

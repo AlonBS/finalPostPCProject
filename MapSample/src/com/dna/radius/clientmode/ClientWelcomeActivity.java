@@ -6,25 +6,25 @@ import org.json.JSONObject;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.dna.radius.R;
-import com.dna.radius.businessmode.BusinessData;
 import com.dna.radius.dbhandling.ParseClassesNames;
+import com.dna.radius.infrastructure.BaseActivity;
 import com.dna.radius.infrastructure.LocationFinderFragment;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
-public class ClientWelcomeActivity extends FragmentActivity {
+public class ClientWelcomeActivity extends BaseActivity {
 	public static final String DID_USER_CHOSE_LAT_PARAM = "userChoseLocation";
 	public static final String LATITUDE_PARAM = "latitudeParam";
 	public static final String LONGITUDE_PARAM = "longitudeParam";
@@ -181,4 +181,9 @@ public class ClientWelcomeActivity extends FragmentActivity {
 
 	@Override
 	public void onBackPressed() {/* Do nothing*/}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		return true;
+	}
 }

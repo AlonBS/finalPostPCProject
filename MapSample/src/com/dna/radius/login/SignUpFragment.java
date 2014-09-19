@@ -1,8 +1,6 @@
 package com.dna.radius.login;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -10,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +16,7 @@ import com.dna.radius.R;
 import com.dna.radius.businessmode.BusinessOpeningScreenActivity;
 import com.dna.radius.clientmode.ClientOpeningScreenActivity;
 import com.dna.radius.dbhandling.ParseClassesNames;
+import com.dna.radius.infrastructure.BaseActivity;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
@@ -31,8 +29,8 @@ public class SignUpFragment extends Fragment {
 	private View v;
 
 	private TextView userNameTextView, passwordTextView,
-		passwordConTextView, emailAddressTextView;
-	
+	passwordConTextView, emailAddressTextView;
+
 	private Button signUpButton;
 
 	private int app_mode;
@@ -44,7 +42,7 @@ public class SignUpFragment extends Fragment {
 		// Inflate the layout for this fragment
 
 		v = inflater.inflate(R.layout.signup_fragment, container, false);
-		
+
 		app_mode = getActivity().getIntent().getExtras().getInt(IntroFragment.MODE_KEY);
 
 		initViews();
@@ -79,7 +77,10 @@ public class SignUpFragment extends Fragment {
 				passwordConfirmText = passwordConTextView.getText().toString();
 				emailText = emailAddressTextView.getText().toString();
 
-				if (illegalValues(userNameText, passwordText, passwordConfirmText, emailText) ) return;
+				if (illegalValues(userNameText, passwordText, passwordConfirmText, emailText) ){
+					signUpButton.setEnabled(true);
+					return;
+				}
 
 				// Save new user data into Parse.com Data Storage
 				ParseUser user = new ParseUser();
@@ -88,7 +89,7 @@ public class SignUpFragment extends Fragment {
 				user.setEmail(emailText); //TODO retrive
 				user.put(ParseClassesNames.LAST_MODE, app_mode);
 
-				
+
 				user.signUpInBackground(new SignUpCallback() {
 
 					public void done(ParseException e) {
@@ -98,7 +99,7 @@ public class SignUpFragment extends Fragment {
 
 						} else {
 							signUpButton.setEnabled(true);
-							
+
 							//TODO add informative message
 							Toast.makeText(getActivity().getApplicationContext(),
 									e.getMessage(), Toast.LENGTH_SHORT)
@@ -122,7 +123,7 @@ public class SignUpFragment extends Fragment {
 			mainActivity.finish();
 		}
 		else {
-			
+
 			Intent intent = new Intent(mainActivity.getApplicationContext(), BusinessOpeningScreenActivity.class);
 			startActivity(intent);
 			mainActivity.finish();
@@ -134,20 +135,14 @@ public class SignUpFragment extends Fragment {
 
 	// TODO COMPLETE CHECKS 
 	private boolean illegalValues(String u, String p1, String p2, String e) {
-
-		if (u.matches("[^a-zA-Z0-9 ]")) {
-
-			Toast.makeText(getActivity().getApplicationContext(),
-					getResources().getString(R.string.illegal_user_name),
-					Toast.LENGTH_LONG).show();
+		BaseActivity parentActivity = (BaseActivity)getActivity();
+		if (u.matches("[^a-zA-Z0-9 ]") || u.equals("")){
+			parentActivity.createAlertDialog(getResources().getString(R.string.illegal_user_name));
 			return true;
 		}
 
-		else if ( p1.compareTo(p2) != 0 ) {
-
-			Toast.makeText(getActivity().getApplicationContext(),
-					getResources().getString(R.string.passwords_mismatch),
-					Toast.LENGTH_LONG).show();
+		else if ( p1.compareTo(p2) != 0 || p1.equals("")) {
+			parentActivity.createAlertDialog(getResources().getString(R.string.passwords_mismatch));
 			return true;
 
 		}
@@ -157,11 +152,11 @@ public class SignUpFragment extends Fragment {
 			// TODO check if email exists and valid
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 
 }
 
-	
+

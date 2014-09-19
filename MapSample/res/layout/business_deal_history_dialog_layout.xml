@@ -8,6 +8,26 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:background="#FFFFFFFF"
+        android:gravity="right"
+        android:orientation="horizontal"
+        android:padding="5dp" >
+
+        <ImageView
+            android:id="@+id/history_dialog_user_canceled_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_action_cancel" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#99FFFFFF" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
@@ -16,35 +36,49 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="7dp"
             android:layout_marginLeft="2dp"
             android:text="@string/you_chose_the_deal"
+            android:textSize="16sp"
             android:textColor="#FFFFFFFF" >
         </TextView>
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="140dp" >
+            android:layout_height="wrap_content"
+            android:background="#FFFFFFFF"
+            android:orientation="vertical"
+            android:padding="1dp" >
 
-            <TextView
-                android:id="@+id/deal_history_text_view"
+            <ScrollView
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/blue_gradient_background_similar_to_btn"
-                android:gravity="top|left"
-                android:maxLength="200"
-                android:padding="6dp"
-                android:textColor="#FFFFFFFF"
-                android:textSize="16sp" />
-        </ScrollView>
+                android:layout_height="140dp"
+                android:background="@drawable/blue_gradient_background_similar_to_btn" >
 
+                <TextView
+                    android:id="@+id/deal_history_text_view"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top|left"
+                    android:maxLength="200"
+                    android:padding="2dp"
+                    android:text="asdfasdfasdf"
+                    android:textColor="#FFFFFFFF"
+                    android:textSize="16sp" />
+            </ScrollView>
+        </LinearLayout>
     </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="20dp"
+        android:background="#99FFFFFF" />
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginTop="20dp"
         android:background="#33000000"
         android:orientation="horizontal"
         android:paddingLeft="10dp"

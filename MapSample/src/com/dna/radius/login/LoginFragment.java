@@ -4,6 +4,7 @@ import com.dna.radius.R;
 import com.dna.radius.businessmode.BusinessOpeningScreenActivity;
 import com.dna.radius.clientmode.ClientOpeningScreenActivity;
 import com.dna.radius.dbhandling.ParseClassesNames;
+import com.dna.radius.infrastructure.BaseActivity;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -183,8 +184,8 @@ public class LoginFragment extends Fragment {
 				msg = getResources().getString(R.string.unknown_error);
 		}
 		
-		
-		Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+		BaseActivity parentActivity = (BaseActivity)getActivity();
+		parentActivity.createAlertDialog(msg);
 	}
 }
 

@@ -1,6 +1,5 @@
 package com.dna.radius.businessmode;
 
-import java.io.ByteArrayOutputStream;
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -84,8 +83,8 @@ public class BusinessData {
 	public static void setUserName(String newUserName){
 		//TODO alon - is this enough? + saveEventually() get stuck.
 		currentUser.setUsername(newUserName);
-		//currentUser.saveInBackground();
-		currentUser.saveEventually();
+		//currentUser.saveInBackground(); 
+		currentUser.saveInBackground();
 	}
 
 	public static String getEmail(){ return currentUser.getEmail(); }

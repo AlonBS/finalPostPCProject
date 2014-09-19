@@ -1,7 +1,6 @@
 package com.dna.radius.mapsample;
 
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -22,13 +21,11 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.dna.radius.R;
 import com.dna.radius.businessmode.BusinessData;
 import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.datastructures.ExternalBusiness;
-import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.infrastructure.BaseActivity;
 import com.dna.radius.infrastructure.SupportedTypes;
 import com.dna.radius.mapsample.MapManager.Property;
@@ -145,13 +142,10 @@ public class MapWindowFragment extends Fragment {
 						// Zoom in, animating the camera.
 						gMap.animateCamera(CameraUpdateFactory.zoomTo(DEFAULT_ANIMATED_ZOOM), 2000, null);
 					}
-				} catch (IOException e) {
+				} catch (Exception e) {
 					e.printStackTrace();
-					Toast.makeText(getActivity().getApplicationContext(), "couln't find the given address",Toast.LENGTH_SHORT ).show();
-				}
-				catch (NullPointerException e) {
-					e.printStackTrace();
-					Toast.makeText(getActivity().getApplicationContext(), "couln't find the given address",Toast.LENGTH_SHORT ).show();
+					BaseActivity parentActivity = (BaseActivity)getActivity();
+					parentActivity.createAlertDialog("couln't find the given address");
 				}
 
 
@@ -171,8 +165,8 @@ public class MapWindowFragment extends Fragment {
 				public boolean onLongClick(View v) {
 					LatLng latLng = gMap.getCameraPosition().target;
 					ClientData.setHome(latLng);
-
-					Toast.makeText(getActivity(), "new home location was selected", Toast.LENGTH_SHORT).show();
+					BaseActivity parentActivity = (BaseActivity)getActivity();
+					parentActivity.createAlertDialog("new home location was selected");
 					return false;
 				}
 			});

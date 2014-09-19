@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.dna.radius.R;
 import com.dna.radius.infrastructure.BaseActivity;
@@ -73,9 +72,7 @@ public class BusinessChooseImageDialogActivity extends  BaseActivity{
 			@Override
 			public void onClick(View v) {
 				if(currentBitmap == null){
-					
-					Toast.makeText(getApplicationContext(), getResources().getString(R.string.apply_image_error), Toast.LENGTH_LONG).show();
-					
+					createAlertDialog(getResources().getString(R.string.apply_image_error));
 				}else{
 					Intent result = new Intent();
 					
