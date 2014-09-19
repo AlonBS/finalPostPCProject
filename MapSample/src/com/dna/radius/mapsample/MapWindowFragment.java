@@ -207,15 +207,6 @@ public class MapWindowFragment extends Fragment {
 
 		
 		
-		gMap.setOnMapClickListener(new OnMapClickListener() {
-			
-			@Override
-			public void onMapClick(LatLng point) {
-				etAddress.clearFocus();
-			}
-		});
-		
-		
 		return view;
 	}
 
