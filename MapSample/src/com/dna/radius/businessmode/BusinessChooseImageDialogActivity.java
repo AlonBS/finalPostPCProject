@@ -1,11 +1,14 @@
 package com.dna.radius.businessmode;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
@@ -134,6 +137,29 @@ public class BusinessChooseImageDialogActivity extends  BaseActivity{
 			cursor.close();
 
 			bMap = BitmapFactory.decodeFile(picturePath);
+			
+			//rotation if needed
+			ExifInterface exif;
+			try {
+				exif = new ExifInterface(picturePath);
+				int ImageOrientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
+				Matrix matrix = new Matrix();
+				
+				if(ImageOrientation==ExifInterface.ORIENTATION_ROTATE_90){
+					matrix.postRotate(90);
+				}
+				else if(ImageOrientation==ExifInterface.ORIENTATION_ROTATE_180){
+					matrix.postRotate(180);
+				}
+				else if(ImageOrientation==ExifInterface.ORIENTATION_ROTATE_270){
+					matrix.postRotate(270);
+				}
+				
+				bMap = Bitmap.createBitmap(bMap, 0, 0, bMap.getWidth(), bMap.getHeight(), matrix, true);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
 		}
 		
 		else if (requestCode == RESULT_LOAD_IMAGE_CAMERA  && resultCode == FragmentActivity.RESULT_OK) {
