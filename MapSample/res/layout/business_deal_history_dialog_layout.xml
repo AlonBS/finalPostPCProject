@@ -62,7 +62,6 @@
                     android:gravity="top|left"
                     android:maxLength="200"
                     android:padding="2dp"
-                    android:text="asdfasdfasdf"
                     android:textColor="#FFFFFFFF"
                     android:textSize="16sp" />
             </ScrollView>
