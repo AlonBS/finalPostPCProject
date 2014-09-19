@@ -77,7 +77,7 @@ public class LoginFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				progressBar.setVisibility(View.VISIBLE);
-				logInButton.setVisibility(View.GONE);
+				logInButton.setText("");
 				String userName = userNameEditText.getText().toString();
 				String userPassword = userPasswordEditText.getText().toString();
 
@@ -114,7 +114,7 @@ public class LoginFragment extends Fragment {
 							// Invalid userName or Password were entered
 							
 							progressBar.setVisibility(View.GONE);
-							logInButton.setVisibility(View.VISIBLE);
+							logInButton.setText(getString(R.string.login));
 						}
 					}
 				});

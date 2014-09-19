@@ -119,9 +119,9 @@
     <string name="business_name_hint">  Business name </string>
     <string name="business_name_forgot_to_fill">  Please fill your business name </string>
     <string name="business_type_forgot_to_fill"> Please fill your business type </string>
-    <string name="business_phone_hint"> Business phone number </string>
+    <string name="business_phone_hint"> Business phone number</string>
     <string name="business_phone_forgot_to_fill"> Please fill your business phone number </string>
-    <string name="business_address_hint"> Business address </string>
+    <string name="business_address_hint"> Business address</string>
     <string name="business_address_forgot_to_fill"> Please fill your business address </string>
     <string name="button_next"> NEXT </string>
     <string name="button_done"> DONE </string>

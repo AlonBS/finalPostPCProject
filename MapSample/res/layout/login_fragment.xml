@@ -35,21 +35,27 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:inputType="textPassword" />
-        
-		<ProgressBar 
-		    android:layout_gravity="center"
-		    android:id="@+id/login_progress_bar"
-		    android:layout_height="wrap_content"
-		    android:layout_width="wrap_content"
-		    android:visibility="gone"/>
-		
-        <Button
-            android:id="@+id/login_button"
+
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/ButtonText"
-            android:background="@drawable/green_button_background"
-            android:text="@string/login" />
+            android:layout_gravity="center" >
+
+            <Button
+                android:id="@+id/login_button"
+                style="@style/ButtonText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/green_button_background"
+                android:text="@string/login" />
+
+            <ProgressBar
+                android:id="@+id/login_progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
+        </FrameLayout>
 
         <CheckBox
             android:id="@+id/keep_logged_in_checkbox"

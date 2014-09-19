@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dna.radius.R;
 import com.dna.radius.businessmode.BusinessOpeningScreenActivity;
@@ -73,7 +72,7 @@ public class SignUpFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-				signUpButton.setVisibility(View.GONE);
+				signUpButton.setText("");
 				progressBar.setVisibility(View.VISIBLE);
 				String userNameText, passwordText, passwordConfirmText, emailText;
 
@@ -83,7 +82,7 @@ public class SignUpFragment extends Fragment {
 				emailText = emailAddressTextView.getText().toString();
 
 				if (illegalValues(userNameText, passwordText, passwordConfirmText, emailText) ){
-					signUpButton.setVisibility(View.VISIBLE);
+					signUpButton.setText(getString(R.string.sign_up));
 					progressBar.setVisibility(View.GONE);
 					return;
 				}
@@ -104,7 +103,7 @@ public class SignUpFragment extends Fragment {
 							startUserActivity();
 
 						} else {
-							signUpButton.setVisibility(View.VISIBLE);
+							signUpButton.setText(getString(R.string.sign_up));
 							progressBar.setVisibility(View.GONE);
 
 							//TODO add informative message
