@@ -2,62 +2,56 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="5dp" >
+    android:orientation="vertical" >
 
-    <LinearLayout
+    <FrameLayout
+        android:padding="2dp"
         android:id="@+id/add_comment_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/white_border_oval"
-        android:orientation="horizontal" >
+        android:layout_height="wrap_content" >
 
-        <FrameLayout
+        <EditText
+            android:id="@+id/comment_edit_text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="100dp"
+            android:gravity="top"
+            android:hint="@string/type_comment_here"
+            android:inputType="textMultiLine"
+            android:maxLength="200" />
 
-            <EditText
-                android:id="@+id/comment_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:gravity="top"
-                android:hint="@string/type_comment_here"
-                android:inputType="textMultiLine"
-                android:maxLength="200" />
+        <ImageView
+            android:id="@+id/comment_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_marginRight="2dp"
+            android:src="@drawable/ic_action_send_now" />
+    </FrameLayout>
 
-            <ImageView
-                android:id="@+id/comment_send"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|right"
-                android:src="@drawable/ic_action_send_now" />
-        </FrameLayout>
-    </LinearLayout>
-
-    <LinearLayout
+    <ListView
+        android:id="@+id/comments_list_view"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="230dp"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/blue_gradient_background_white_border_no_padding"
+        android:divider="#00000000"
         android:padding="1dp" >
-
-        <ListView
-            android:id="@+id/comments_list_view"
-            android:layout_width="fill_parent"
-            android:layout_height="260dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/blue_gradient_background_similar_to_btn"
-            android:divider="#00000000" >
-        </ListView>
-        
-    </LinearLayout>
+    </ListView>
 
     <LinearLayout
         android:id="@+id/show_deal_dislike_btn"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="4dp"
+        android:layout_marginTop="2dp"
         android:background="@drawable/gradient_light_gray"
         android:gravity="left"
-        android:orientation="horizontal" >
+        android:orientation="vertical"
+        android:paddingLeft="4dp" >
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#99000000" />
 
         <ImageView
             android:id="@+id/return_to_like_fragment_btn"

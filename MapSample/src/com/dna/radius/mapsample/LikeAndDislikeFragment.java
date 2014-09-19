@@ -20,6 +20,7 @@ import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.datastructures.ExternalBusiness;
 import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.infrastructure.BaseActivity;
+import com.dna.radius.mapsample.ShowDealActivity.ShowDealFragmentType;
 
 /***
  * this fragment allows the user to like or dislike a certain deal, if he is
@@ -82,7 +83,7 @@ public class LikeAndDislikeFragment extends Fragment{
 		commentsFragmentBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				parentActivity.onFragmentSwitchBtnClick();
+				parentActivity.switchToFragment(ShowDealFragmentType.COMMENTS_FRAGMENT);
 			}
 		});
 		
