@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
+import android.widget.TabHost.OnTabChangeListener;
 import android.widget.Toast;
 
 import com.dna.radius.R;
@@ -30,6 +31,14 @@ public class BusinessSettingsActivity extends BaseActivity{
 		// Locate android.R.id.tabhost in main_fragment.xml
 		mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
 
+		mTabHost.setOnTabChangedListener(new OnTabChangeListener(){    
+			public void onTabChanged(String tabID) {    
+				mTabHost.clearFocus(); 
+			}   
+		});
+
+
+
 		// Create the tabs in main_fragment.xml
 		mTabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
 		Bundle generalSettingFragment = new Bundle();
@@ -47,7 +56,7 @@ public class BusinessSettingsActivity extends BaseActivity{
 		fillDataBundle.putString(BusinessFillDetailsFragment.BUSINESS_PHONE_HINT_PARAM, BusinessData.getPhoneNumber());
 		fillDataBundle.putSerializable(BusinessFillDetailsFragment.BUSINESS_TYPE_HINT_PARAM, BusinessData.getType());
 		fillDataBundle.putInt(BusinessFillDetailsFragment.TEXT_COLOR_PARAM, Color.BLACK);
-		
+
 		mTabHost.addTab(mTabHost.newTabSpec(getResources().getString(R.string.business_settings)).setIndicator(getResources().getString(R.string.business_settings)),
 				BusinessFillDetailsFragment.class, fillDataBundle);
 
@@ -86,6 +95,9 @@ public class BusinessSettingsActivity extends BaseActivity{
 
 		});
 
+		for (int i = 0; i < mTabHost.getTabWidget().getChildCount(); i++) {
+			mTabHost.getTabWidget().getChildAt(i).setFocusable(false); 
+		}
 	}
 
 
@@ -164,7 +176,6 @@ public class BusinessSettingsActivity extends BaseActivity{
 		String newPassword = currentFragment.getPassword();
 		String newPasswordConformation = currentFragment.getConformationPassword();
 		if(!newPassword.equals("")){
-			didDataChanged = true;
 			if(!newPassword.equals(newPasswordConformation)){
 				createAlertDialog(getResources().getString(R.string.passwords_mismatch));
 			}else{
@@ -179,9 +190,9 @@ public class BusinessSettingsActivity extends BaseActivity{
 			finish();
 		}
 	}
-	
-	
-	
+
+
+
 	/*
 	 * apparantly, there is an android bug whenever one of the fragments
 	 * within a tab host contains several edit text.
@@ -199,7 +210,7 @@ public class BusinessSettingsActivity extends BaseActivity{
 			return false;
 		}
 
-		
+
 	}
 
 }
