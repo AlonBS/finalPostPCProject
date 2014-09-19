@@ -95,7 +95,6 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 						FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 						BusinessDashboardFragment dashboardFragment = new BusinessDashboardFragment();
 						fragmentTransaction.replace(R.id.business_fragment_layout, dashboardFragment);
-						fragmentTransaction.addToBackStack(null);
 						fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 						fragmentTransaction.commit();
 					}
@@ -161,7 +160,6 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 		@Override
 		public void onClick(View clickedBtn) {
 
-			//TODO add refresh button?
 			if((latestPressedBtn == clickedBtn) && (clickedBtn!=homeFragmentBtn)) { return; }
 
 

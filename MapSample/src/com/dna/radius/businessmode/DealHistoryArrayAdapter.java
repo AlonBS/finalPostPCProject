@@ -48,15 +48,16 @@ public class DealHistoryArrayAdapter extends ArrayAdapter<Deal>{
 		 dealTextView.setText(dealStr);
 		 
 		//sets the deal data (date, num of likes, num of dislikes) into the proper text view
-		 TextView dataTextView = (TextView)rowView.findViewById(R.id.deal_hist_data_text_view);
+		 TextView dataTextView = (TextView)rowView.findViewById(R.id.deal_hist_date_text_view);
 		 String dateStr = new SimpleDateFormat(BusinessOpeningScreenActivity.DATE_FORMAT).format(deal.getDealDate().getTime());
-		 String dateHtml = " <font color=#000000> " + dateStr + ",  </font> &nbsp;";
-		 String numOfLikes = Integer.toString(deal.getNumOfLikes());	
-		 String numOfLikesHtml = " <font color=#008800> " + numOfLikes + " likes,  </font>&nbsp;";
-		 String numOfDislikes = Integer.toString(deal.getNumOfDislikes());
-		 String numOfDislikesHtml = " <font color=#FF0000> " + numOfDislikes + " dislikes </font>&nbsp;";
-		 dataTextView.setText(Html.fromHtml(dateHtml + numOfLikesHtml + numOfDislikesHtml));
+		 dataTextView.setText(dateStr);
 		 
+		 TextView likesTextView = (TextView)rowView.findViewById(R.id.deal_hist_likes_tv);
+		 likesTextView.setText(Integer.toString(deal.getNumOfLikes()));
+		
+		 TextView dislikesTextView = (TextView)rowView.findViewById(R.id.deal_hist_dislikes_tv);
+		 dislikesTextView.setText(Integer.toString(deal.getNumOfDislikes()));
+
 		 return rowView;
 	}
 	

@@ -160,7 +160,11 @@ public class MapManager {
 	public static boolean hasProperty(ExternalBusiness extern ,Property p){
 		
 		if (p == Property.FAVORITES_PROP) {
-			return ClientData.isInFavourites(extern.getExternBusinessId()); //TODO - improve!
+			if(BaseActivity.isInBusinessMode){
+				return BusinessData.isInFavourites(extern.getExternBusinessId()); 
+			}else{
+				return ClientData.isInFavourites(extern.getExternBusinessId()); 
+			}
 			
 		}else if (p == Property.TOP_DEALS_PROP) {
 			return topDealsList.contains(extern);

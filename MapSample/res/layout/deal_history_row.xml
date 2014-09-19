@@ -14,31 +14,90 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/blue_gradient_background_white_border_no_padding"
             android:orientation="vertical"
-            android:background="@drawable/bordered_shape"
             android:padding="2dp" >
 
-            <TextView
-                android:id="@+id/deal_hist_text_view"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/abc_ab_bottom_solid_dark_holo"
-                android:gravity="center"
-                android:padding="4dp"
-                android:scrollHorizontally="true"
-                android:ellipsize="end"
-                android:lines="2"
-                android:maxLines="3"
-                android:textColor="#FFFFFFFF"
-                android:textSize="16sp" />
+                android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/deal_hist_data_text_view"
-                android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/deal_hist_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:lines="2"
+                    android:maxLines="3"
+                    android:padding="4dp"
+                    android:scrollHorizontally="true"
+                    android:textColor="#FFFFFFFF"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/deal_hist_date_text_view"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_margin="2dp"
+                    android:textColor="#FFFFFFFF"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="#99000000" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="#A3C1AD"
-                android:gravity="center"
-                android:textSize="13sp" />
+                android:background="#55000000"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="1dp"
+                        android:scaleX="0.8"
+                        android:scaleY="0.8"
+                        android:src="@drawable/ic_action_bad" />
+
+                    <TextView
+                        android:id="@+id/deal_hist_dislikes_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="16dp"
+                        android:textColor="@color/red_dislikes"
+                        android:textSize="13sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="1dp"
+                        android:scaleX="0.8"
+                        android:scaleY="0.8"
+                        android:src="@drawable/ic_action_good" />
+
+                    <TextView
+                        android:id="@+id/deal_hist_likes_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="#03d10c"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
