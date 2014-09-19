@@ -56,8 +56,18 @@
         android:id="@+id/email_address_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         android:layout_marginTop="2dp"
         android:ems="10"
         android:inputType="textEmailAddress" />
+
+    <Button
+        android:id="@+id/delete_acount_button"
+        style="@style/ButtonText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:background="@drawable/black_button_background"
+        android:text="@string/delete_acount" />
 
 </LinearLayout>
