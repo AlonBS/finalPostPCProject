@@ -62,6 +62,7 @@ public class BusinessSettingsActivity extends BaseActivity{
 
 		Bundle locationBundle = new Bundle();
 		locationBundle.putString(LocationFinderFragment.ADDRESS_PARAMETER, "");
+		locationBundle.putParcelable(LocationFinderFragment.DEFAULT_LOCATION_PARAMETER, BusinessData.getLocation());
 		// Create Tab3
 		mTabHost.addTab(mTabHost.newTabSpec(getResources().getString(R.string.Location_settings)).setIndicator(getResources().getString(R.string.Location_settings)),
 				LocationFinderFragment.class, locationBundle);
