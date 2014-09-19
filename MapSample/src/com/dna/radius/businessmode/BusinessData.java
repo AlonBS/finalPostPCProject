@@ -630,6 +630,8 @@ public class BusinessData {
 
 			JSONObject historyJo = businessInfo.getJSONObject(ParseClassesNames.BUSINESS_HISTORY);
 			historyJo.put(ParseClassesNames.BUSINESS_HISTORY_DEALS, ja);
+			businessInfo.put(ParseClassesNames.BUSINESS_HISTORY, historyJo);
+			businessInfo.saveInBackground();
 
 		}
 		catch (JSONException e1) {

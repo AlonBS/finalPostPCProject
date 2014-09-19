@@ -117,6 +117,7 @@ public class BusinessHistoryFragment extends Fragment  implements DealHistoryDia
 
 	@Override
 	public void onDealHistoryDialogResult(DealHistoryDialogResult result,Deal dealObject) {
+		
 		if(result==DealHistoryDialogResult.SET_AS_CURRENT){
 			BusinessData.bringDealFromHistory(dealObject);
 			adapter.notifyDataSetChanged();
