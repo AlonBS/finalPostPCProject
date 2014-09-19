@@ -29,7 +29,7 @@
 
             <ImageView
                 android:id="@+id/customer_mode_button"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:background="@drawable/intro_fragment_image_background"
                 android:padding="2dp"
@@ -58,7 +58,7 @@
 
             <ImageView
                 android:id="@+id/business_mode_button"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:adjustViewBounds="true"
                 android:background="@drawable/intro_fragment_image_background"
