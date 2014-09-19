@@ -79,7 +79,8 @@ public class AddNewDealDialogFragment extends DialogFragment implements View.OnC
 				Toast.makeText(getActivity(), getResources().getString(R.string.add_a_new_deal_deal_is_empty), Toast.LENGTH_SHORT).show();
 				return;
 			}else if(newDealStr.equals(previousDealStr)){
-				Toast.makeText(getActivity(), getResources().getString(R.string.add_a_new_deal_deal_identical_to_previous), Toast.LENGTH_SHORT).show();
+				communitor.onAddNewDealDialogResult(AddDealDialogResult.USER_CANCELED,"");
+				dismiss();
 				return;
 			}
 			else{
