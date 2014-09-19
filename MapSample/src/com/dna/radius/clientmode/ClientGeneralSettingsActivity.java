@@ -67,7 +67,7 @@ public class ClientGeneralSettingsActivity extends BaseActivity{
 		if(!newPassword.equals("")){
 			didDataChanged = true;
 			if(!newPassword.equals(newPasswordConformation)){
-				Toast.makeText(this, getResources().getString(R.string.passwords_mismatch), Toast.LENGTH_SHORT).show();
+				createAlertDialog(getResources().getString(R.string.passwords_mismatch));
 			}else{
 				ClientData.setPassword(newPassword);
 				didDataChanged = true;
@@ -76,6 +76,7 @@ public class ClientGeneralSettingsActivity extends BaseActivity{
 
 		if(didDataChanged){
 			Toast.makeText(this, getResources().getString(R.string.data_changed_successfully), Toast.LENGTH_SHORT).show();
+			finish();
 		}
 	}
 }

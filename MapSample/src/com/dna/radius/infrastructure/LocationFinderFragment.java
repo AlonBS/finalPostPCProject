@@ -32,7 +32,7 @@ public class LocationFinderFragment extends Fragment {
 	private GoogleMap gMap;
 	private static final float DEFAULT_LATLNG_ZOOM = 22;
 	private static final float DEFAULT_ANIMATED_ZOOM = 18;
-	private static LatLng defaultLocation = new LatLng(31.781984, 35.218221);
+	private LatLng defaultLocation = new LatLng(31.781984, 35.218221);
 	private LatLng chosenLocation = null;
 
 	/**
