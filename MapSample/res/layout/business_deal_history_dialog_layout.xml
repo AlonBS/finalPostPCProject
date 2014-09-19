@@ -39,8 +39,8 @@
             android:layout_marginBottom="7dp"
             android:layout_marginLeft="2dp"
             android:text="@string/you_chose_the_deal"
-            android:textSize="16sp"
-            android:textColor="#FFFFFFFF" >
+            android:textColor="#FFFFFFFF"
+            android:textSize="16sp" >
         </TextView>
 
         <LinearLayout
@@ -85,18 +85,6 @@
         android:paddingRight="10dp" >
 
         <Button
-            android:id="@+id/set_history_as_current_btn"
-            style="@style/ButtonTextSmaller"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="0.5"
-            android:background="@drawable/blue_button_background"
-            android:gravity="center"
-            android:lines="2"
-            android:text="@string/set_as_current" />
-
-        <Button
             android:id="@+id/delete_from_history_btn"
             style="@style/ButtonTextSmaller"
             android:layout_width="0dp"
@@ -107,6 +95,18 @@
             android:gravity="center"
             android:lines="2"
             android:text="@string/delete_from_hist_dialog" />
+
+        <Button
+            android:id="@+id/set_history_as_current_btn"
+            style="@style/ButtonTextSmaller"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.5"
+            android:background="@drawable/blue_button_background"
+            android:gravity="center"
+            android:lines="2"
+            android:text="@string/set_as_current" />
     </LinearLayout>
 
 </LinearLayout>
