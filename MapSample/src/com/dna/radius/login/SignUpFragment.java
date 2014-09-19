@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +36,8 @@ public class SignUpFragment extends Fragment {
 
 	private int app_mode;
 
+	private ProgressBar progressBar;
+
 
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,6 +63,7 @@ public class SignUpFragment extends Fragment {
 		passwordConTextView = (TextView) v.findViewById(R.id.password_confirmation_textView);
 		emailAddressTextView = (TextView) v.findViewById(R.id.email_address_textView);
 		signUpButton = (Button) v.findViewById(R.id.sign_up_button);
+		progressBar = (ProgressBar)v.findViewById(R.id.sign_up_progress_bar);
 	}
 
 
@@ -69,7 +73,8 @@ public class SignUpFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-				signUpButton.setEnabled(false);
+				signUpButton.setVisibility(View.GONE);
+				progressBar.setVisibility(View.VISIBLE);
 				String userNameText, passwordText, passwordConfirmText, emailText;
 
 				userNameText = userNameTextView.getText().toString();
@@ -78,7 +83,8 @@ public class SignUpFragment extends Fragment {
 				emailText = emailAddressTextView.getText().toString();
 
 				if (illegalValues(userNameText, passwordText, passwordConfirmText, emailText) ){
-					signUpButton.setEnabled(true);
+					signUpButton.setVisibility(View.VISIBLE);
+					progressBar.setVisibility(View.GONE);
 					return;
 				}
 
@@ -98,12 +104,12 @@ public class SignUpFragment extends Fragment {
 							startUserActivity();
 
 						} else {
-							signUpButton.setEnabled(true);
+							signUpButton.setVisibility(View.VISIBLE);
+							progressBar.setVisibility(View.GONE);
 
 							//TODO add informative message
-							Toast.makeText(getActivity().getApplicationContext(),
-									e.getMessage(), Toast.LENGTH_SHORT)
-									.show();
+							BaseActivity parentActivity = (BaseActivity)getActivity();
+							parentActivity.createAlertDialog(e.getMessage());
 						}
 					}
 				});

@@ -1,14 +1,5 @@
 package com.dna.radius.login;
 
-import com.dna.radius.R;
-import com.dna.radius.businessmode.BusinessOpeningScreenActivity;
-import com.dna.radius.clientmode.ClientOpeningScreenActivity;
-import com.dna.radius.dbhandling.ParseClassesNames;
-import com.dna.radius.infrastructure.BaseActivity;
-import com.parse.LogInCallback;
-import com.parse.ParseException;
-import com.parse.ParseUser;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,7 +15,16 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.ProgressBar;
+
+import com.dna.radius.R;
+import com.dna.radius.businessmode.BusinessOpeningScreenActivity;
+import com.dna.radius.clientmode.ClientOpeningScreenActivity;
+import com.dna.radius.dbhandling.ParseClassesNames;
+import com.dna.radius.infrastructure.BaseActivity;
+import com.parse.LogInCallback;
+import com.parse.ParseException;
+import com.parse.ParseUser;
 
 public class LoginFragment extends Fragment {
 
@@ -36,6 +36,8 @@ public class LoginFragment extends Fragment {
 	private Button logInButton, signUpButton; 
 
 	private CheckBox keepLoggedInCheckBox;
+
+	private ProgressBar progressBar;
 
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,6 +65,8 @@ public class LoginFragment extends Fragment {
 		signUpButton = (Button) v.findViewById(R.id.signUp_button);
 		logInButton = (Button) v.findViewById(R.id.login_button);
 		keepLoggedInCheckBox = (CheckBox) v.findViewById(R.id.keep_logged_in_checkbox);
+		
+		progressBar = (ProgressBar)v.findViewById(R.id.login_progress_bar);
 	}
 	
 	
@@ -72,8 +76,8 @@ public class LoginFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-
-				logInButton.setEnabled(false);
+				progressBar.setVisibility(View.VISIBLE);
+				logInButton.setVisibility(View.GONE);
 				String userName = userNameEditText.getText().toString();
 				String userPassword = userPasswordEditText.getText().toString();
 
@@ -109,7 +113,8 @@ public class LoginFragment extends Fragment {
 							showErrorMessage(e);
 							// Invalid userName or Password were entered
 							
-							logInButton.setEnabled(true);
+							progressBar.setVisibility(View.GONE);
+							logInButton.setVisibility(View.VISIBLE);
 						}
 					}
 				});
