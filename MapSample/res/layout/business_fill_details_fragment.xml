@@ -1,101 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_alignParentTop="true"
     android:focusableInTouchMode="true"
     android:padding="10dp" >
 
-    <ScrollView
+    <LinearLayout
+        android:id="@+id/business_welcome_details_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true" >
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
 
-        <LinearLayout
-            android:id="@+id/business_welcome_details_layout"
+        <TextView
+            android:id="@+id/welcome_business_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/welcome_margin"
+            android:text="@string/welcome_business_fill_details"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/business_name_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_marginTop="8dp"
+            android:text="@string/business_name_hint"
+            android:textColor="@color/white" />
 
-            <TextView
-                android:id="@+id/welcome_business_textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/welcome_margin"
-                android:text="@string/welcome_business_fill_details"
-                android:textColor="@color/white" />
+        <EditText
+            android:id="@+id/business_name_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:ems="10"
+            android:inputType="text"
+            android:lines="1"
+            android:maxLength="30"
+            android:singleLine="true" >
+        </EditText>
 
-            <TextView
-                android:id="@+id/business_name_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/business_name_hint"
-                android:textColor="@color/white" />
+        <TextView
+            android:id="@+id/business_type_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/business_type"
+            android:textColor="@color/white" />
 
-            <EditText
-                android:id="@+id/business_name_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:ems="10"
-                android:inputType="text"
-                android:lines="1"
-                android:maxLength="30"
-                android:singleLine="true" >
-            </EditText>
+        <Spinner
+            android:id="@+id/business_type_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp" />
 
-            <TextView
-                android:id="@+id/business_type_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/business_type"
-                android:textColor="@color/white" />
+        <TextView
+            android:id="@+id/business_phone_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:maxLength="20"
+            android:text="@string/business_phone_hint"
+            android:textColor="@color/white" />
 
-            <Spinner
-                android:id="@+id/business_type_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp" />
+        <EditText
+            android:id="@+id/business_phone_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:ems="10"
+            android:inputType="phone"
+            android:singleLine="true" >
+        </EditText>
 
-            <TextView
-                android:id="@+id/business_phone_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:maxLength="20"
-                android:text="@string/business_phone_hint"
-                android:textColor="@color/white" />
+        <TextView
+            android:id="@+id/business_address_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/business_address_hint"
+            android:textColor="@color/white" />
 
-            <EditText
-                android:id="@+id/business_phone_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:ems="10"
-                android:inputType="phone"
-                android:singleLine="true" >
-            </EditText>
+        <EditText
+            android:id="@+id/business_address_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:ems="10"
+            android:inputType="text"
+            android:singleLine="true"
+            android:textColor="@color/white" >
+        </EditText>
+    </LinearLayout>
 
-            <TextView
-                android:id="@+id/business_address_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/business_address_hint"
-                android:textColor="@color/white" />
-
-            <EditText
-                android:id="@+id/business_address_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:ems="10"
-                android:inputType="text"
-                android:singleLine="true"
-                android:textColor="@color/white" >
-            </EditText>
-        </LinearLayout>
-    </ScrollView>
-
-</RelativeLayout>
+</ScrollView>
