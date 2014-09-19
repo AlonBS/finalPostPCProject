@@ -10,6 +10,7 @@
         android:gravity="center_horizontal|center_vertical"
         android:orientation="vertical"
         android:padding="6dp" >
+
         <TextView
             android:id="@+id/deal_date_text_view"
             android:layout_width="fill_parent"
@@ -63,30 +64,37 @@
         android:padding="6dp" />
 
     <LinearLayout
-        android:id="@+id/show_deal_dislike_btn"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/gradient_light_gray"
         android:gravity="center_horizontal"
         android:orientation="horizontal" >
 
-        <ImageView
-            android:id="@+id/dislike_image_view"
+        <LinearLayout
+            android:id="@+id/show_deal_dislike_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:adjustViewBounds="true"
-            android:src="@drawable/ic_action_bad_black" >
-        </ImageView>
+            android:gravity="center_horizontal"
+            android:orientation="horizontal" >
 
-        <TextView
-            android:id="@+id/dislike_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="2dp"
-            android:textColor="#FF000000"
-            android:textSize="14sp" />
+            <ImageView
+                android:id="@+id/dislike_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_action_bad_black" >
+            </ImageView>
+
+            <TextView
+                android:id="@+id/dislike_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="2dp"
+                android:textColor="#FF000000"
+                android:textSize="14sp" />
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/show_deal_like_btn"
