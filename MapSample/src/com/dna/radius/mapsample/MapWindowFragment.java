@@ -206,7 +206,6 @@ public class MapWindowFragment extends Fragment {
 		});
 
 		
-		
 		return view;
 	}
 
