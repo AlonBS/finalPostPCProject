@@ -2,7 +2,6 @@ package com.dna.radius.login;
 
 
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,6 +16,12 @@ import com.dna.radius.businessmode.BusinessOpeningScreenActivity;
 import com.dna.radius.clientmode.ClientOpeningScreenActivity;
 import com.dna.radius.dbhandling.ParseClassesNames;
 import com.dna.radius.infrastructure.BaseActivity;
+import com.dna.radius.infrastructure.MyApp;
+import com.dna.radius.infrastructure.MyApp.TrackerName;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Logger.LogLevel;
+import com.google.android.gms.analytics.Tracker;
 import com.parse.Parse;
 import com.parse.ParseAnonymousUtils;
 import com.parse.ParseUser;
@@ -30,8 +35,8 @@ public class MainActivity extends BaseActivity {
 	public static final String KEEP_LOGGED = "keepLoggedIn";
 
 	public static final String SP_NAME = "com.dna.radius.SHARED_PREFERENCES";
-	
-	
+
+
 
 
 	//static FragmentManager fragmentManager;
@@ -40,12 +45,15 @@ public class MainActivity extends BaseActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.start_activity);
-
+		
+		Tracker t = ((MyApp) getApplication()).getTracker(MyApp.TrackerName.APP_TRACKER);
+//		Tracker t = GoogleAnalytics.getInstance(this).newTracker("UA-55549552-1");
 		// initializse Parse settings
 		setParse();
+		
 
 		// if 'keep me logged in' was previously set - we log in if possible
 		SharedPreferences settings1 = getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
@@ -59,7 +67,7 @@ public class MainActivity extends BaseActivity {
 	 * Sets Parse.com (connecting information to Parse.com cloud).
 	 */
 	private void setParse() {
-		
+
 		//TODO read about ACL and security
 
 		Parse.initialize(getApplicationContext(), APP_ID, CLIENT_KEY);
@@ -128,11 +136,25 @@ public class MainActivity extends BaseActivity {
 		Window window = getWindow();
 		window.setFormat(PixelFormat.RGBA_8888);
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		return true;
 	}
 	
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		GoogleAnalytics.getInstance(this).reportActivityStart(this);
+	}
+	
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		GoogleAnalytics.getInstance(this).reportActivityStop(this);
+	}
+
 
 }

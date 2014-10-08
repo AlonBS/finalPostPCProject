@@ -24,8 +24,10 @@ import android.widget.TextView;
 
 import com.dna.radius.R;
 import com.dna.radius.infrastructure.BaseActivity;
+import com.dna.radius.infrastructure.MyApp;
 import com.dna.radius.infrastructure.WaitingFragment;
 import com.dna.radius.mapsample.MapWindowFragment;
+import com.google.android.gms.analytics.GoogleAnalytics;
 
 
 
@@ -54,6 +56,8 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.business_opening_screen);
 
+		((MyApp) getApplication()).getTracker(MyApp.TrackerName.APP_TRACKER);
+		
 		isInBusinessMode = true;
 
 		//Sets the waiting fragment.
@@ -316,6 +320,22 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 		}
 
 	}
+	
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		GoogleAnalytics.getInstance(this).reportActivityStart(this);
+	}
+	
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		GoogleAnalytics.getInstance(this).reportActivityStop(this);
+	}
+	
+	
 
 
 

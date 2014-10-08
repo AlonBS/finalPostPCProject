@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!--
          The following two permissions are not required to use
-    	 Google Maps Android API v2, but are recommended.
+    	 Google Maps Android API v2, but are recommended.
     -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -27,6 +27,7 @@
         android:targetSdkVersion="20" />
 
     <application
+        android:name="com.dna.radius.infrastructure.MyApp"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -38,6 +39,9 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyBg8uSpxy8ZXzmw5KlA0-0uK07NsWcAFgE" />
+        <meta-data
+            android:name="com.google.android.gms.analytics.globalConfigResource"
+            android:resource="@xml/global_tracker" />
 
         <activity
             android:name="com.dna.radius.mapsample.ShowDealActivity"
@@ -56,7 +60,7 @@
         <activity
             android:name="com.dna.radius.businessmode.BusinessOpeningScreenActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/app_name">
+            android:label="@string/app_name" >
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
