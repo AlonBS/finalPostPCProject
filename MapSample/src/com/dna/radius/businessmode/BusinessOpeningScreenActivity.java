@@ -44,7 +44,6 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 
 	/**holds the lates button which was pressed*/
 	private ImageView latestPressedBtn;
-	private boolean orientationChangeEnabled = false;
 
 	static boolean refreshNeeded = false;
 
@@ -73,7 +72,6 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 			@Override
 			public void run() {
 
-				Log.e("as", "asd"); //TODO REMOVE
 				BusinessData.loadBusinessInfo();
 
 				runOnUiThread(new Runnable() {
@@ -323,14 +321,12 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 	
 	@Override
 	protected void onStart() {
-		// TODO Auto-generated method stub
 		super.onStart();
 		GoogleAnalytics.getInstance(this).reportActivityStart(this);
 	}
 	
 	@Override
 	protected void onStop() {
-		// TODO Auto-generated method stub
 		super.onStop();
 		GoogleAnalytics.getInstance(this).reportActivityStop(this);
 	}

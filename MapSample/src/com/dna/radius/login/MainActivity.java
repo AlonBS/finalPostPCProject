@@ -17,11 +17,7 @@ import com.dna.radius.clientmode.ClientOpeningScreenActivity;
 import com.dna.radius.dbhandling.ParseClassesNames;
 import com.dna.radius.infrastructure.BaseActivity;
 import com.dna.radius.infrastructure.MyApp;
-import com.dna.radius.infrastructure.MyApp.TrackerName;
 import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Logger.LogLevel;
-import com.google.android.gms.analytics.Tracker;
 import com.parse.Parse;
 import com.parse.ParseAnonymousUtils;
 import com.parse.ParseUser;
@@ -49,7 +45,7 @@ public class MainActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.start_activity);
 		
-		Tracker t = ((MyApp) getApplication()).getTracker(MyApp.TrackerName.APP_TRACKER);
+		((MyApp) getApplication()).getTracker(MyApp.TrackerName.APP_TRACKER);
 //		Tracker t = GoogleAnalytics.getInstance(this).newTracker("UA-55549552-1");
 		// initializse Parse settings
 		setParse();
@@ -144,14 +140,12 @@ public class MainActivity extends BaseActivity {
 	
 	@Override
 	protected void onStart() {
-		// TODO Auto-generated method stub
 		super.onStart();
 		GoogleAnalytics.getInstance(this).reportActivityStart(this);
 	}
 	
 	@Override
 	protected void onStop() {
-		// TODO Auto-generated method stub
 		super.onStop();
 		GoogleAnalytics.getInstance(this).reportActivityStop(this);
 	}

@@ -4,12 +4,9 @@ package com.dna.radius.businessmode;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -19,14 +16,12 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.dna.radius.R;
 import com.dna.radius.businessmode.AddNewDealDialogFragment.AddDealDialogResult;
 import com.dna.radius.businessmode.AddNewDealDialogFragment.AddNewDealCommunicator;
 import com.dna.radius.datastructures.ExternalBusiness;
-import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.mapsample.CommentsArrayAdapter;
 import com.dna.radius.mapsample.ShowDealActivity;
 
@@ -53,9 +48,6 @@ public class BusinessDashboardFragment extends Fragment implements AddNewDealCom
 
 	/**this variable is used for loading an image from the gallery*/
 	private final static int RESULT_LOAD_IMAGE = 1;
-	//TODO dolphin
-	//	private final static int RESULT_LOAD_IMAGE_GALLERY = 1;
-	//	private final static int RESULT_LOAD_IMAGE_CAMERA = 2;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

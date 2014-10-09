@@ -1,6 +1,5 @@
 package com.dna.radius.dbhandling;
 
-import org.json.JSONArray;
 
 public class ParseClassesNames {
 	

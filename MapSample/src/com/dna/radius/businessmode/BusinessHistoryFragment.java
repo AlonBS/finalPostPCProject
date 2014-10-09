@@ -56,37 +56,6 @@ public class BusinessHistoryFragment extends Fragment  implements DealHistoryDia
 			}
 		});
 
-//		dealHistoryListView.setOnItemClickListener(new OnItemClickListener() {
-//
-//			//TODO mant strings to put into string file DROR
-//			@Override
-//			public void onItemClick(final AdapterView<?> adapterView, View v, int position,long arg3) {
-//
-//				final Deal dealObject = (Deal)adapterView.getItemAtPosition(position);
-//
-//				final TextView chosenDeal = new TextView(getActivity());
-//				chosenDeal.setText("You chose the following deal: \n\n" + dealObject.getDealContent() + "\n\n what do you want to do now?");
-//
-//				new AlertDialog.Builder(getActivity())
-//				.setView(chosenDeal)
-//				.setPositiveButton(getString(R.string.display_deal_from_history), new DialogInterface.OnClickListener() {
-//					public void onClick(DialogInterface dialog, int whichButton) {
-//
-//						BusinessData.bringDealFromHistory(dealObject);
-//						adapter.notifyDataSetChanged();
-//
-//					}
-//				}).setNegativeButton(getString(R.string.delete_deal_from_history), new DialogInterface.OnClickListener() {
-//					public void onClick(DialogInterface dialog, int whichButton) {
-//
-//						BusinessData.deletedDealFromHistory(dealObject);
-//						adapter.notifyDataSetChanged();
-//
-//					}
-//				}).show();
-//			}
-//		});
-
 
 		return view;
 	}

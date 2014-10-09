@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
@@ -41,7 +40,6 @@ public class ShowDealActivity extends BaseActivity{
 
 	public static final String EMPTY_DEAL = "---";
 
-	private static final String WHITE_SPACES = "    ";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,19 +56,6 @@ public class ShowDealActivity extends BaseActivity{
 		//sets the views
 		TextView businessNameTV = (TextView)findViewById(R.id.businessTitle);
 		TextView detailsTV = (TextView)findViewById(R.id.businessDetailsTv);
-		//TODO ERASE
-//		TextView addressTV = (TextView)findViewById(R.id.businessAddressTv);
-//		TextView phoneTV = (TextView)findViewById(R.id.businessPhoneTv);
-//		if (pressedExternal.getExternBusinessAddress().isEmpty()){
-//			addressTV.setVisibility(View.GONE);
-//		}else{
-//			addressTV.setText(pressedExternal.getExternBusinessAddress());
-//		}
-//		if (pressedExternal.getExternBusinessPhone().isEmpty()){
-//			phoneTV.setVisibility(View.GONE);
-//		}else{
-//			phoneTV.setText(pressedExternal.getExternBusinessPhone());
-//		}
 		
 		RatingBar ratingBar = (RatingBar)findViewById(R.id.businessRatingBar);
 		

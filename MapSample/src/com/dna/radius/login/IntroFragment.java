@@ -1,15 +1,14 @@
 package com.dna.radius.login;
 
-import com.dna.radius.R;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.view.ViewGroup;
+
+import com.dna.radius.R;
 
 public class IntroFragment extends Fragment {
 	

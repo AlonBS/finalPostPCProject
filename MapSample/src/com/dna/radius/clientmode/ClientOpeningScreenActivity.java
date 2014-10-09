@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.MenuItem;
 
 import com.dna.radius.R;
 import com.dna.radius.infrastructure.BaseActivity;
@@ -22,7 +21,6 @@ public class ClientOpeningScreenActivity extends BaseActivity{
 	private final int CLIENT_WELCOME_ACTIVITY = 1;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.client_opening_screen);
 		
@@ -91,14 +89,12 @@ public class ClientOpeningScreenActivity extends BaseActivity{
 	
 	@Override
 	protected void onStart() {
-		// TODO Auto-generated method stub
 		super.onStart();
 		GoogleAnalytics.getInstance(this).reportActivityStart(this);
 	}
 	
 	@Override
 	protected void onStop() {
-		// TODO Auto-generated method stub
 		super.onStop();
 		GoogleAnalytics.getInstance(this).reportActivityStop(this);
 	}

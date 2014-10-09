@@ -1,9 +1,6 @@
 package com.dna.radius.datastructures;
 
 import java.io.Serializable;
-import java.util.Random;
-
-import android.util.Log;
 
 import com.dna.radius.infrastructure.SupportedTypes;
 import com.google.android.gms.maps.model.LatLng;

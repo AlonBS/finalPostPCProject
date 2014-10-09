@@ -4,14 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.dna.radius.R;
@@ -35,20 +31,9 @@ public class TopBusinessesHorizontalView extends HorizontalScrollView{
 	
 	/**the list of all the businesses*/
 	
-	//private SparseArray<ExternalBusiness> intToExterns; TODO remove
-	//private ArrayList<ExternalBusiness> topBusinessesList = new ArrayList<>();
 	
 	private LinearLayout hostLayout = null;
 
-	//TODO remove
-//	/**C-tor*/
-//	public TopBusinessesHorizontalView(Context context) {
-//		super(context);
-//		this.context = context;
-//		
-//		//intToExterns = new SparseArray<ExternalBusiness>();
-//	}
-	
 	
 	/**C-tor*/
 	public TopBusinessesHorizontalView(Context context, AttributeSet attrs)
@@ -56,15 +41,7 @@ public class TopBusinessesHorizontalView extends HorizontalScrollView{
 		super(context, attrs);
 		this.context = context;
 		
-		//intToExterns = new SparseArray<ExternalBusiness>(); TODO remove
 	}
-	
-	//TODO remove
-//	/**C-tor*/
-//	public TopBusinessesHorizontalView(Context context, AttributeSet attrs, int defStyle) {
-//		super(context, attrs, defStyle); 	
-//		this.context = context;
-//	}
 	
 
 	/**Add a business into the top list*/
@@ -111,14 +88,6 @@ public class TopBusinessesHorizontalView extends HorizontalScrollView{
 		if (businessRatingBar != null) {
 			businessRatingBar.setRating((float)eb.getExternBusinessRating());
 		}
-
-//TODO not nedded
-//businessRatingBar.isIndicator()();
-//		// overrides rating bar's on touch method so it won't change anything
-//		businessRatingBar.setOnTouchListener(new OnTouchListener() {
-//			public boolean onTouch(View v, MotionEvent event) { return true; }
-//		});
-		
 
 		//whenever a business is pressed - opens a ShowDealActivity.
 		newLayout.setOnClickListener(new TopDealsOnClickListener(context, eb));

@@ -72,7 +72,7 @@ public class DealHistoryDialogFragment extends DialogFragment implements View.On
 		}else if(v.getId()==R.id.delete_from_history_btn){
 			communitor.onDealHistoryDialogResult(DealHistoryDialogResult.DELETE_DEAL_OBJECT,dealHistoryObj);
 			dismiss();
-		}else if(v.getId()==R.id.history_dialog_user_canceled_btn){//TODO
+		}else if(v.getId()==R.id.history_dialog_user_canceled_btn){
 			communitor.onDealHistoryDialogResult(DealHistoryDialogResult.USER_CANCELED,dealHistoryObj);
 			dismiss();
 		}else{

@@ -1,6 +1,5 @@
 package com.dna.radius.businessmode;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -24,7 +23,6 @@ public class AddNewDealDialogFragment extends DialogFragment implements View.OnC
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		View view = inflater.inflate(R.layout.business_add_new_deal_layout,container, false);	
 		getDialog().setTitle(getResources().getString(R.string.add_a_new_deal_dialog_title));
 
