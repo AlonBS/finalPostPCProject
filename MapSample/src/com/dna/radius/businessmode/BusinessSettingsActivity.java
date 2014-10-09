@@ -17,7 +17,9 @@ import com.dna.radius.R;
 import com.dna.radius.infrastructure.BaseActivity;
 import com.dna.radius.infrastructure.GeneralSettingsFragment;
 import com.dna.radius.infrastructure.LocationFinderFragment;
+import com.dna.radius.infrastructure.MyApp;
 import com.dna.radius.infrastructure.SupportedTypes.BusinessType;
+import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.maps.model.LatLng;
 
 public class BusinessSettingsActivity extends BaseActivity{
@@ -27,7 +29,8 @@ public class BusinessSettingsActivity extends BaseActivity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.business_settings_activity);
 
-
+		((MyApp) getApplication()).getTracker(MyApp.TrackerName.APP_TRACKER);
+		
 		// Locate android.R.id.tabhost in main_fragment.xml
 		mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
 
@@ -212,6 +215,18 @@ public class BusinessSettingsActivity extends BaseActivity{
 		}
 
 
+	}
+	
+	@Override
+	protected void onStart() {
+		super.onStart();
+		GoogleAnalytics.getInstance(this).reportActivityStart(this);
+	}
+	
+	@Override
+	protected void onStop() {
+		super.onStop();
+		GoogleAnalytics.getInstance(this).reportActivityStop(this);
 	}
 
 }

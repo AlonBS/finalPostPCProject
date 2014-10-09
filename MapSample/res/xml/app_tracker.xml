@@ -7,21 +7,25 @@
 
     <!-- Percentage of events to include in reports -->
     <string name="ga_sampleFrequency">100.0</string>
-    
+
     <!-- Enable automatic Activity measurement -->
     <bool name="ga_autoActivityTracking">true</bool>
-    
+
     <!-- catch and report uncaught exceptions from the app -->
     <bool name="ga_reportUncaughtExceptions">true</bool>
-    
+
     <!-- How long a session exists before giving up -->
     <integer name="ga_sessionTimeout">-1</integer>
     <!--
 	If ga_autoActivityTracking is enabled, an alternate screen name can be specified to
 	substitute for the full length canonical Activity name in screen view hit. In order to
 	specify an alternate screen name use an <screenName> element, with the name attribute
-	specifying the canonical name, and the value the alias to use instead.
+	specifying the canonical name, and the value the alias to use instead.
     -->
-    <screenName name="com.mycompany.MyActivity">My Activity</screenName>
+    <screenName name="com.dna.radius.MainActivity">Main Activity</screenName>
+    <screenName name="com.dna.radius.businessmode.ClientOpeningScreenActivity">Business Activity</screenName>
+    <screenName name="com.dna.radius.clientmode">Client Activity</screenName>
+    <screenName name="com.dna.radius.clientmode.ClientGeneralSettingsActivity">Client Settings</screenName>
+    <screenName name="com.dna.radius.businessmode.BusinessSettingsActivity">Business Settings</screenName>
 
 </resources>

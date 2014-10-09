@@ -11,6 +11,8 @@ import android.widget.Toast;
 import com.dna.radius.R;
 import com.dna.radius.infrastructure.BaseActivity;
 import com.dna.radius.infrastructure.GeneralSettingsFragment;
+import com.dna.radius.infrastructure.MyApp;
+import com.google.android.gms.analytics.GoogleAnalytics;
 
 public class ClientGeneralSettingsActivity extends BaseActivity{
 	private GeneralSettingsFragment generalSettingsFragment;
@@ -21,6 +23,8 @@ public class ClientGeneralSettingsActivity extends BaseActivity{
 		super.onCreate(arg0);
 		setContentView(R.layout.client_general_settings_activity);
 
+		((MyApp) getApplication()).getTracker(MyApp.TrackerName.APP_TRACKER);
+		
 		final FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		generalSettingsFragment = new GeneralSettingsFragment();
@@ -77,5 +81,17 @@ public class ClientGeneralSettingsActivity extends BaseActivity{
 			Toast.makeText(this, getResources().getString(R.string.data_changed_successfully), Toast.LENGTH_SHORT).show();
 			finish();
 		}
+	}
+	
+	@Override
+	protected void onStart() {
+		super.onStart();
+		GoogleAnalytics.getInstance(this).reportActivityStart(this);
+	}
+	
+	@Override
+	protected void onStop() {
+		super.onStop();
+		GoogleAnalytics.getInstance(this).reportActivityStop(this);
 	}
 }

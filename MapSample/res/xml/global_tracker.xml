@@ -14,7 +14,8 @@
     
     <!-- The screen names that will appear in reports -->
     <string name="com.dna.radius.MainActivity">Main Activity</string>
-    <string name="com.dna.radius.businessmode.ClientOpeningScreenActivity">Business Activity</string>
-    <string name="com.dna.radius.clientmode">Client Activity</string>
-
+    <string name="com.dna.radius.businessmode.BusinessOpeningScreenActivity">Business Activity</string>
+    <string name="com.dna.radius.clientmode.ClientOpeningScreenActivity">Client Activity</string>
+	<string name="com.dna.radius.clientmode.ClientGeneralSettingsActivity">Client Settings</string>
+    <string name="com.dna.radius.businessmode.BusinessSettingsActivity">Business Settings</string>
 </resources>
