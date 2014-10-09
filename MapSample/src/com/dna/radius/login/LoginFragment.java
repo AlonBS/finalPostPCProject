@@ -22,6 +22,10 @@ import com.dna.radius.businessmode.BusinessOpeningScreenActivity;
 import com.dna.radius.clientmode.ClientOpeningScreenActivity;
 import com.dna.radius.dbhandling.ParseClassesNames;
 import com.dna.radius.infrastructure.BaseActivity;
+import com.dna.radius.infrastructure.MyApp;
+import com.dna.radius.infrastructure.MyApp.TrackerName;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -77,6 +81,16 @@ public class LoginFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 			
+				//TODO - this tracking event should be erased - it's for debug
+				// sends event that the user pressed log in
+		        Tracker t = ((MyApp) getActivity().getApplication()).getTracker(
+		            TrackerName.APP_TRACKER);
+		        // Build and send an Event.
+		        t.send(new HitBuilders.EventBuilder()
+		            .setCategory("no catagory")
+		            .setAction("login")
+		            .setLabel("login label")
+		            .build());
 				
 				progressBar.setVisibility(View.VISIBLE);
 				logInButton.setText("");

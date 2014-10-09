@@ -26,8 +26,11 @@ import com.dna.radius.R;
 import com.dna.radius.infrastructure.BaseActivity;
 import com.dna.radius.infrastructure.MyApp;
 import com.dna.radius.infrastructure.WaitingFragment;
+import com.dna.radius.infrastructure.MyApp.TrackerName;
 import com.dna.radius.mapsample.MapWindowFragment;
 import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 
 
@@ -56,7 +59,7 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 		setContentView(R.layout.business_opening_screen);
 
 		((MyApp) getApplication()).getTracker(MyApp.TrackerName.APP_TRACKER);
-		
+
 		isInBusinessMode = true;
 
 		//Sets the waiting fragment.
@@ -164,18 +167,19 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 
 			if((latestPressedBtn == clickedBtn) && (clickedBtn!=homeFragmentBtn)) { return; }
 
-
+			String newFragmentName="";
 			Fragment newFragment = null;
 			if (clickedBtn == homeFragmentBtn) {
-
+				newFragmentName = "home fragment";
 				newFragment =  new BusinessDashboardFragment();
 
-			}else if (clickedBtn == mapFragmentBtn){
 
+			}else if (clickedBtn == mapFragmentBtn){
+				newFragmentName = "map fragment";
 				newFragment =  new MapWindowFragment();
 
 			}else if( clickedBtn == businessHistoryFragment){
-
+				newFragmentName = "business fragment";
 				newFragment =  new BusinessHistoryFragment();
 
 			}
@@ -188,6 +192,18 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 			fragmentTransaction.addToBackStack(null);
 			fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 			fragmentTransaction.commit();
+
+
+			// sends event that the switched fragment
+			Tracker t = ((MyApp) getApplication()).getTracker(
+					TrackerName.APP_TRACKER);
+			// Build and send an Event.
+			t.send(new HitBuilders.EventBuilder()
+			.setCategory("no catagory")
+			.setAction("fragment switch, to: " + newFragmentName)
+			.setLabel("fragment switch to: " + newFragmentName)
+			.build());
+
 
 		}
 	}
@@ -292,14 +308,14 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 		@Override
 		public void onOrientationChanged(int orientation) {
 			int currentScreenOrientation = context.getResources().getConfiguration().orientation;
-			
+
 			if(isLandscape(orientation) && currentScreenOrientation!=ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE){
 				Log.d("OrientationListener", "changes to landscape");
 				context.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);	
 			}else if(isPortrait(orientation) && currentScreenOrientation!=ActivityInfo.SCREEN_ORIENTATION_PORTRAIT){
 				Log.d("OrientationListener", "changes to portrait");
 				context.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);	
-				
+
 			}else{
 				Log.d("OrientationListener", "the change was low : " + orientation);
 			}
@@ -318,20 +334,20 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 		}
 
 	}
-	
+
 	@Override
 	protected void onStart() {
 		super.onStart();
 		GoogleAnalytics.getInstance(this).reportActivityStart(this);
 	}
-	
+
 	@Override
 	protected void onStop() {
 		super.onStop();
 		GoogleAnalytics.getInstance(this).reportActivityStop(this);
 	}
-	
-	
+
+
 
 
 
