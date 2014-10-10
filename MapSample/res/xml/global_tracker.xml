@@ -12,6 +12,8 @@
     <!-- Treat events as test events and don't send to google -->
     <bool name="ga_dryRun">false</bool>
     
+    <bool name="ga_reportUncaughtExceptions">true</bool>
+    
     <!-- The screen names that will appear in reports -->
     <string name="com.dna.radius.MainActivity">Main Activity</string>
     <string name="com.dna.radius.businessmode.BusinessOpeningScreenActivity">Business Activity</string>

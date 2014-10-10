@@ -14,6 +14,8 @@ import com.dna.radius.infrastructure.MyApp;
 import com.dna.radius.infrastructure.WaitingFragment;
 import com.dna.radius.mapsample.MapWindowFragment;
 import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.maps.model.LatLng;
 
 
@@ -24,7 +26,10 @@ public class ClientOpeningScreenActivity extends BaseActivity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.client_opening_screen);
 		
-		((MyApp) getApplication()).getTracker(MyApp.TrackerName.APP_TRACKER);
+		Tracker tracker = ((MyApp) getApplication()).getTracker(MyApp.TrackerName.APP_TRACKER);
+		tracker.enableExceptionReporting(true);
+		tracker.setScreenName("Client Main Screen");
+		tracker.send(new HitBuilders.AppViewBuilder().build());
 		
 		isInBusinessMode = false;
 
@@ -87,16 +92,5 @@ public class ClientOpeningScreenActivity extends BaseActivity{
 		}
 	}
 	
-	@Override
-	protected void onStart() {
-		super.onStart();
-		GoogleAnalytics.getInstance(this).reportActivityStart(this);
-	}
-	
-	@Override
-	protected void onStop() {
-		super.onStop();
-		GoogleAnalytics.getInstance(this).reportActivityStop(this);
-	}
 
 }

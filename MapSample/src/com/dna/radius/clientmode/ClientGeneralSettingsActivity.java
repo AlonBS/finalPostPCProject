@@ -12,7 +12,8 @@ import com.dna.radius.R;
 import com.dna.radius.infrastructure.BaseActivity;
 import com.dna.radius.infrastructure.GeneralSettingsFragment;
 import com.dna.radius.infrastructure.MyApp;
-import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 public class ClientGeneralSettingsActivity extends BaseActivity{
 	private GeneralSettingsFragment generalSettingsFragment;
@@ -23,7 +24,10 @@ public class ClientGeneralSettingsActivity extends BaseActivity{
 		super.onCreate(arg0);
 		setContentView(R.layout.client_general_settings_activity);
 
-		((MyApp) getApplication()).getTracker(MyApp.TrackerName.APP_TRACKER);
+		Tracker tracker = ((MyApp) getApplication()).getTracker(MyApp.TrackerName.APP_TRACKER);
+		tracker.enableExceptionReporting(true);
+		tracker.setScreenName("client Settings");
+		tracker.send(new HitBuilders.AppViewBuilder().build());
 		
 		final FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -83,15 +87,4 @@ public class ClientGeneralSettingsActivity extends BaseActivity{
 		}
 	}
 	
-	@Override
-	protected void onStart() {
-		super.onStart();
-		GoogleAnalytics.getInstance(this).reportActivityStart(this);
-	}
-	
-	@Override
-	protected void onStop() {
-		super.onStop();
-		GoogleAnalytics.getInstance(this).reportActivityStop(this);
-	}
 }

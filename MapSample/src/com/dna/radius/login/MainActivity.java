@@ -18,6 +18,8 @@ import com.dna.radius.dbhandling.ParseClassesNames;
 import com.dna.radius.infrastructure.BaseActivity;
 import com.dna.radius.infrastructure.MyApp;
 import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.parse.Parse;
 import com.parse.ParseAnonymousUtils;
 import com.parse.ParseUser;
@@ -45,8 +47,11 @@ public class MainActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.start_activity);
 		
-		((MyApp) getApplication()).getTracker(MyApp.TrackerName.APP_TRACKER);
-//		Tracker t = GoogleAnalytics.getInstance(this).newTracker("UA-55549552-1");
+		Tracker tracker = ((MyApp) getApplication()).getTracker(MyApp.TrackerName.APP_TRACKER);
+		tracker.enableExceptionReporting(true);
+		tracker.setScreenName("Main Activity");
+		tracker.send(new HitBuilders.AppViewBuilder().build());
+		
 		// initializse Parse settings
 		setParse();
 		
