@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 import android.view.Window;
 
+import com.crashlytics.android.Crashlytics;
 import com.dna.radius.R;
 import com.dna.radius.businessmode.BusinessOpeningScreenActivity;
 import com.dna.radius.clientmode.ClientOpeningScreenActivity;
@@ -45,6 +46,7 @@ public class MainActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
+		Crashlytics.start(this);
 		setContentView(R.layout.start_activity);
 		
 		Tracker tracker = ((MyApp) getApplication()).getTracker(MyApp.TrackerName.APP_TRACKER);

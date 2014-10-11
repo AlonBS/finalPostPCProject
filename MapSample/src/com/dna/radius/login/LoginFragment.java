@@ -53,9 +53,9 @@ public class LoginFragment extends Fragment {
 		initViews();
 
 		setLoginOnClickListener();
-		
+
 		setSignUpOnClickListener();
-		
+
 		setOnCheckedChangeListener();
 
 		return v;
@@ -69,29 +69,28 @@ public class LoginFragment extends Fragment {
 		signUpButton = (Button) v.findViewById(R.id.signUp_button);
 		logInButton = (Button) v.findViewById(R.id.login_button);
 		keepLoggedInCheckBox = (CheckBox) v.findViewById(R.id.keep_logged_in_checkbox);
-		
+
 		progressBar = (ProgressBar)v.findViewById(R.id.login_progress_bar);
 	}
-	
-	
+
+
 	private void setLoginOnClickListener() {
-		
+
 		logInButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-			
 				//TODO - this tracking event should be erased - it's for debug
 				// sends event that the user pressed log in
-		        Tracker t = ((MyApp) getActivity().getApplication()).getTracker(
-		            TrackerName.APP_TRACKER);
-		        // Build and send an Event.
-		        t.send(new HitBuilders.EventBuilder()
-		            .setCategory("no catagory")
-		            .setAction("login")
-		            .setLabel("login label")
-		            .build());
-				
+				Tracker t = ((MyApp) getActivity().getApplication()).getTracker(
+						TrackerName.APP_TRACKER);
+				// Build and send an Event.
+				t.send(new HitBuilders.EventBuilder()
+				.setCategory("no catagory")
+				.setAction("login")
+				.setLabel("login label")
+				.build());
+
 				progressBar.setVisibility(View.VISIBLE);
 				logInButton.setText("");
 				String userName = userNameEditText.getText().toString();
@@ -108,7 +107,7 @@ public class LoginFragment extends Fragment {
 							int lastMode = user.getInt(ParseClassesNames.LAST_MODE);
 
 							FragmentActivity mainActivity = getActivity();
-							
+
 							if (lastMode == IntroFragment.CUSTOMER_MODE) {
 
 								Intent intent = new Intent(mainActivity.getApplicationContext(), ClientOpeningScreenActivity.class);
@@ -125,10 +124,10 @@ public class LoginFragment extends Fragment {
 
 
 						} else {
-							
+
 							showErrorMessage(e);
 							// Invalid userName or Password were entered
-							
+
 							progressBar.setVisibility(View.GONE);
 							logInButton.setText(getString(R.string.login));
 						}
@@ -136,10 +135,10 @@ public class LoginFragment extends Fragment {
 				});
 			}
 		});
-		
+
 	}
 
-	
+
 	private void setSignUpOnClickListener() {
 
 		signUpButton.setOnClickListener(new OnClickListener() {
@@ -154,14 +153,14 @@ public class LoginFragment extends Fragment {
 				MainActivity.fragmentTransaction.addToBackStack(null);
 
 				MainActivity.fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-				
+
 				//MainActivity.fragmentTransaction.setCustomAnimations(arg0, arg1, arg2, arg3) TODO - add
 
 				MainActivity.fragmentTransaction.commit();
 			}
 		});
 	}
-	
+
 
 	private void setOnCheckedChangeListener() {
 
@@ -177,34 +176,34 @@ public class LoginFragment extends Fragment {
 			}
 		});   
 	}
-	
+
 	void showErrorMessage(ParseException e) {
-		
+
 		int error_code = e.getCode();
 		String msg; 
-		
+
 		switch (error_code) {
-		
-			case ParseException.CONNECTION_FAILED:
-				msg = getResources().getString(R.string.connection_failed);
-				break;
-				
-			case ParseException.USERNAME_MISSING:
-				msg = getResources().getString(R.string.username_missing);
-				break;
-				
-			case ParseException.PASSWORD_MISSING:
-				msg = getResources().getString(R.string.password_missing);
-				break;
-				
-			case ParseException.VALIDATION_ERROR:
-				msg = getResources().getString(R.string.validation_failed);
-				break;
-				
-			default:
-				msg = getResources().getString(R.string.unknown_error);
+
+		case ParseException.CONNECTION_FAILED:
+			msg = getResources().getString(R.string.connection_failed);
+			break;
+
+		case ParseException.USERNAME_MISSING:
+			msg = getResources().getString(R.string.username_missing);
+			break;
+
+		case ParseException.PASSWORD_MISSING:
+			msg = getResources().getString(R.string.password_missing);
+			break;
+
+		case ParseException.VALIDATION_ERROR:
+			msg = getResources().getString(R.string.validation_failed);
+			break;
+
+		default:
+			msg = getResources().getString(R.string.unknown_error);
 		}
-		
+
 		BaseActivity parentActivity = (BaseActivity)getActivity();
 		parentActivity.createAlertDialog(msg);
 	}

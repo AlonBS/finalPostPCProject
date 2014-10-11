@@ -25,7 +25,6 @@ import com.dna.radius.dbhandling.ParseClassesNames;
 import com.dna.radius.login.MainActivity;
 import com.dna.radius.mapsample.CommentsFragment;
 import com.parse.ParseUser;
-import com.splunk.mint.Mint;
 
 /***
  * This Activity is used in order to share settings and menu between
@@ -45,7 +44,6 @@ public abstract class BaseActivity extends FragmentActivity{
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
 		super.onCreate(arg0);
-		Mint.initAndStartSession(this, "6030fa84");
 	}
 
 	public boolean onCreateOptionsMenu(Menu menu) {
