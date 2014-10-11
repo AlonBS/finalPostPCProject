@@ -48,7 +48,7 @@ public class MainActivity extends BaseActivity {
 		setContentView(R.layout.start_activity);
 		
 		Tracker tracker = ((MyApp) getApplication()).getTracker(MyApp.TrackerName.APP_TRACKER);
-		tracker.enableExceptionReporting(true);
+//		tracker.enableExceptionReporting(true);
 		tracker.setScreenName("Main Activity");
 		tracker.send(new HitBuilders.AppViewBuilder().build());
 		

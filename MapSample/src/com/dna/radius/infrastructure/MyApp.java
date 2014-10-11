@@ -4,6 +4,7 @@ import java.util.HashMap;
 import com.dna.radius.R;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
+import com.splunk.mint.Mint;
 
 import android.app.Application;
 
@@ -30,4 +31,5 @@ public class MyApp extends Application {
         }
         return mTrackers.get(trackerId);
     }
+    
 }

@@ -11,8 +11,8 @@
     <!-- Enable automatic Activity measurement -->
     <bool name="ga_autoActivityTracking">true</bool>
 
-    <!-- catch and report uncaught exceptions from the app -->
-    <bool name="ga_reportUncaughtExceptions">true</bool>
+    <!-- change to trut to catch and report uncaught exceptions from the app -->
+    <bool name="ga_reportUncaughtExceptions">false</bool>
 
     <!-- How long a session exists before giving up -->
     <integer name="ga_sessionTimeout">-1</integer>

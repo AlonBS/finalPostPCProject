@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,6 +25,7 @@ import com.dna.radius.dbhandling.ParseClassesNames;
 import com.dna.radius.login.MainActivity;
 import com.dna.radius.mapsample.CommentsFragment;
 import com.parse.ParseUser;
+import com.splunk.mint.Mint;
 
 /***
  * This Activity is used in order to share settings and menu between
@@ -39,7 +41,12 @@ public abstract class BaseActivity extends FragmentActivity{
 	//this value should be set when the application starts!!
 	public static boolean isInBusinessMode; 
 
-
+	@Override
+	protected void onCreate(Bundle arg0) {
+		// TODO Auto-generated method stub
+		super.onCreate(arg0);
+		Mint.initAndStartSession(this, "6030fa84");
+	}
 
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
