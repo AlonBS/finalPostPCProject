@@ -20,6 +20,10 @@ import com.dna.radius.businessmode.BusinessData;
 import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.datastructures.ExternalBusiness;
 import com.dna.radius.infrastructure.BaseActivity;
+import com.dna.radius.infrastructure.MyApp;
+import com.dna.radius.infrastructure.MyApp.TrackerName;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 public class ShowDealActivity extends BaseActivity{
 	//needed parameters for the activity
@@ -48,6 +52,13 @@ public class ShowDealActivity extends BaseActivity{
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.show_deal_activity);
 
+		
+		Tracker tracker = ((MyApp) getApplication()).getTracker(MyApp.TrackerName.APP_TRACKER);
+		tracker.enableExceptionReporting(true);
+		tracker.setScreenName("Show deal activity");
+		tracker.send(new HitBuilders.AppViewBuilder().build());
+		
+		
 		Intent intent = getIntent();
 
 		pressedExternal = (ExternalBusiness)intent.getSerializableExtra(EXTERNAL_BUSINESS_KEY);
@@ -152,19 +163,31 @@ public class ShowDealActivity extends BaseActivity{
 	 */
 	public void switchToFragment(ShowDealFragmentType newFragmentType){
 
+		String newFragmentName;
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		Fragment fragmentToSwitch;
 
 		if (newFragmentType == ShowDealFragmentType.DEAL_FRAGMENT){
 			fragmentToSwitch = new LikeAndDislikeFragment();
+			newFragmentName = "show deal Fragment";
 		}else{
 			fragmentToSwitch = new CommentsFragment();
+			newFragmentName = "show comment Fragment";
 		}
 
 		fragmentTransaction.replace(R.id.deal_or_comments_fragment, fragmentToSwitch);
 		fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();
+		
+		Tracker t = ((MyApp) getApplication()).getTracker(
+				TrackerName.APP_TRACKER);
+		// Build and send an Event.
+		t.send(new HitBuilders.EventBuilder()
+		.setCategory("deal activity fragment switch")
+		.setAction("fragment switch, to: " + newFragmentName)
+		.setLabel("fragment switch to: " + newFragmentName)
+		.build());
 
 	}
 

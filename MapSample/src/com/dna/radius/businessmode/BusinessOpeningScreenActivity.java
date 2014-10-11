@@ -202,7 +202,7 @@ public class BusinessOpeningScreenActivity extends BaseActivity{
 					TrackerName.APP_TRACKER);
 			// Build and send an Event.
 			t.send(new HitBuilders.EventBuilder()
-			.setCategory("no catagory")
+			.setCategory("business fragment switch")
 			.setAction("fragment switch, to: " + newFragmentName)
 			.setLabel("fragment switch to: " + newFragmentName)
 			.build());
