@@ -193,13 +193,9 @@ public class MapManager {
 			sum2 = 2 * o2.getExternBusinessDeal().getNumOfLikes() + o2.getExternBusinessDeal().getNumOfDislikes();
 			
 			return sum1 - sum2;
-			
-			
-			
 		}
-		
-		
 	}
+	
 	
 	private static class ExternalBusinessRatingComperator implements Comparator<ExternalBusiness> {
 
@@ -213,18 +209,6 @@ public class MapManager {
 			if (diff > 0 ) return 1;
 			
 			return -1;
-			
-			
-			
 		}
-		
-		
 	}
-	
-	
-	
-	
-	
-	
-	
 }

@@ -54,14 +54,35 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:visibility="gone"/>
+                android:visibility="gone" />
+          
+                    
         </FrameLayout>
 
-        <CheckBox
-            android:id="@+id/keep_logged_in_checkbox"
-            android:layout_width="wrap_content"
+        <FrameLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/keep_logged_in" />
+            android:layout_gravity="center" >
+        
+       	 	<CheckBox
+	            android:id="@+id/keep_logged_in_checkbox"
+            	android:layout_width="wrap_content"
+            	android:layout_height="wrap_content"
+            	android:text="@string/keep_logged_in" />
+                  
+        	<TextView
+            	android:id="@+id/forgot_password_textView"
+            	android:layout_width="wrap_content"
+            	android:layout_height="wrap_content"
+            	android:text="@string/forgot_password"
+            	android:layout_gravity="center|right"
+            	android:textStyle="bold|italic"
+            	android:textSize="15sp"
+            	android:paddingRight="@dimen/login_margin"
+            	/>
+        	    
+        </FrameLayout>
+        
     </LinearLayout>
 
     <LinearLayout

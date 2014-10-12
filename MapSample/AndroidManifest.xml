@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!--
          The following two permissions are not required to use
-    	 Google Maps Android API v2, but are recommended.
+    	 Google Maps Android API v2, but are recommended.
     -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -42,6 +42,9 @@
         <meta-data
             android:name="com.google.android.gms.analytics.globalConfigResource"
             android:resource="@xml/global_tracker" />
+         <meta-data
+            android:name="com.crashlytics.ApiKey"
+            android:value="41fd8614796692ce833aa373b9de1f894dbfbb6e" />
 
         <activity
             android:name="com.dna.radius.mapsample.ShowDealActivity"
@@ -122,10 +125,7 @@
             </intent-filter>
         </activity>
 
-
-    
-
-    <meta-data android:name="com.crashlytics.ApiKey" android:value="41fd8614796692ce833aa373b9de1f894dbfbb6e"/>
+       
     </application>
 
 </manifest>

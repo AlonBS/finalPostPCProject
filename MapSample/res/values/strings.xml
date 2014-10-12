@@ -16,6 +16,13 @@
     <string name="sign_up">Sign Up</string>
     <string name="incorrect_info">Wrong Email address or password</string>
     <string name="keep_logged_in">Keep me logged in</string>
+    <string name="forgot_password"><u>Forgot Password</u></string>
+    
+    <!--  Forgot password fragment strings -->
+    <string name="forgot_password_instructions">Please type in the Email address used when first registered to Radius:</string>
+    <string name="email_sent">An Email was sent to the given address</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="enter_email">Please enter an Email address.</string>
 
     <!-- intro_activity strings -->
     <string name="customer_mode">Customer Mode</string>

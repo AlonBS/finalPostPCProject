@@ -16,6 +16,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.dna.radius.R;
 import com.dna.radius.businessmode.BusinessOpeningScreenActivity;
@@ -36,6 +37,8 @@ public class LoginFragment extends Fragment {
 	private View v;
 
 	private EditText userNameEditText, userPasswordEditText;
+	
+	private TextView forgotPasswordEditText;
 
 	private Button logInButton, signUpButton; 
 
@@ -57,6 +60,8 @@ public class LoginFragment extends Fragment {
 		setSignUpOnClickListener();
 
 		setOnCheckedChangeListener();
+		
+		setForgotPasswordOnClickListener();
 
 		return v;
 	}
@@ -69,6 +74,7 @@ public class LoginFragment extends Fragment {
 		signUpButton = (Button) v.findViewById(R.id.signUp_button);
 		logInButton = (Button) v.findViewById(R.id.login_button);
 		keepLoggedInCheckBox = (CheckBox) v.findViewById(R.id.keep_logged_in_checkbox);
+		forgotPasswordEditText = (TextView) v.findViewById(R.id.forgot_password_textView);
 
 		progressBar = (ProgressBar)v.findViewById(R.id.login_progress_bar);
 	}
@@ -125,8 +131,8 @@ public class LoginFragment extends Fragment {
 
 						} else {
 
-							showErrorMessage(e);
 							// Invalid userName or Password were entered
+							MainActivity.showErrorMessage(LoginFragment.this, e);
 
 							progressBar.setVisibility(View.GONE);
 							logInButton.setText(getString(R.string.login));
@@ -176,37 +182,35 @@ public class LoginFragment extends Fragment {
 			}
 		});   
 	}
+	
+	private void setForgotPasswordOnClickListener() {
+		
+		forgotPasswordEditText.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
 
-	void showErrorMessage(ParseException e) {
+				MainActivity.fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
 
-		int error_code = e.getCode();
-		String msg; 
+				MainActivity.fragmentTransaction.replace(R.id.loaded_fragment, new ForgotPasswordFragment());
 
-		switch (error_code) {
+				MainActivity.fragmentTransaction.addToBackStack(null);
 
-		case ParseException.CONNECTION_FAILED:
-			msg = getResources().getString(R.string.connection_failed);
-			break;
+				MainActivity.fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 
-		case ParseException.USERNAME_MISSING:
-			msg = getResources().getString(R.string.username_missing);
-			break;
+				//MainActivity.fragmentTransaction.setCustomAnimations(arg0, arg1, arg2, arg3) TODO - add
 
-		case ParseException.PASSWORD_MISSING:
-			msg = getResources().getString(R.string.password_missing);
-			break;
-
-		case ParseException.VALIDATION_ERROR:
-			msg = getResources().getString(R.string.validation_failed);
-			break;
-
-		default:
-			msg = getResources().getString(R.string.unknown_error);
-		}
-
-		BaseActivity parentActivity = (BaseActivity)getActivity();
-		parentActivity.createAlertDialog(msg);
+				MainActivity.fragmentTransaction.commit();
+				
+				
+			}
+		});
+		
+		
+		
 	}
+
+	
 }
 
 

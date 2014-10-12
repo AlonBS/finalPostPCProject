@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 import android.view.Window;
@@ -23,6 +24,7 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.parse.Parse;
 import com.parse.ParseAnonymousUtils;
+import com.parse.ParseException;
 import com.parse.ParseUser;
 
 //This activity extends BaseActivity in order to inherit it's createDialog function
@@ -46,11 +48,11 @@ public class MainActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
-		Crashlytics.start(this);
-		setContentView(R.layout.start_activity);
+		//Crashlytics.start(this);
+		setContentView(R.layout.main_activity);
 		
 		Tracker tracker = ((MyApp) getApplication()).getTracker(MyApp.TrackerName.APP_TRACKER);
-//		tracker.enableExceptionReporting(true);
+		tracker.enableExceptionReporting(true);
 		tracker.setScreenName("Main Activity");
 		tracker.send(new HitBuilders.AppViewBuilder().build());
 		
@@ -145,6 +147,46 @@ public class MainActivity extends BaseActivity {
 		return true;
 	}
 	
+	
+	static void showErrorMessage(Fragment f, ParseException e) {
 
+		int error_code = e.getCode();
+		String msg; 
 
+		switch (error_code) {
+
+		case ParseException.CONNECTION_FAILED:
+			msg = f.getResources().getString(R.string.connection_failed);
+			break;
+
+		case ParseException.USERNAME_MISSING:
+			msg = f.getResources().getString(R.string.username_missing);
+			break;
+
+		case ParseException.PASSWORD_MISSING:
+			msg = f.getResources().getString(R.string.password_missing);
+			break;
+
+		case ParseException.VALIDATION_ERROR:
+			msg = f.getResources().getString(R.string.validation_failed);
+			break;
+
+		default:
+			msg = f.getResources().getString(R.string.unknown_error);
+		}
+		
+		BaseActivity parentActivity = (BaseActivity)f.getActivity();
+		parentActivity.createAlertDialog(msg);
+	}
+	
+//	enum ERROR_CODES {
+//		NO_SUCH_MAIL(1000);
+//		
+//		
+//		private ERROR_CODES(int ec) {
+//			this.ec = ec;
+//		}
+//		
+//		private int ec;
+//	}
 }
