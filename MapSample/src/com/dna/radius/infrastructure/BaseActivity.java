@@ -88,12 +88,12 @@ public abstract class BaseActivity extends FragmentActivity{
 		editor.putBoolean(MainActivity.KEEP_LOGGED, false);
 		editor.commit();
 
+		//resets the comments fragment
+		CommentsFragment.restartCommentsHistory();
+	
 		// back to 'log in' screen
 		Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 		startActivity(intent);
-
-		//resets the comments fragment
-		CommentsFragment.restartCommentsHistory();
 
 		finish();
 

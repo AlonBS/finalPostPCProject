@@ -36,7 +36,7 @@ public class SpinnerTypeAdapter extends ArrayAdapter<BusinessType>{
 	{
 		super(activitySpinner, textViewResourceId, data);
 		this.activity = activitySpinner;
-		this.data     = data;
+		this.data = data;
 
 		data.add(0,null);
 		this.inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -49,7 +49,7 @@ public class SpinnerTypeAdapter extends ArrayAdapter<BusinessType>{
 	{
 		super(activitySpinner, textViewResourceId, data);
 		this.activity = activitySpinner;
-		this.data     = data;
+		this.data = data;
 		data.add(0,null);
 		this.inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.textColor = textColor;
@@ -77,30 +77,28 @@ public class SpinnerTypeAdapter extends ArrayAdapter<BusinessType>{
 		/***** Get each Model object from Arraylist ********/
 		BusinessType currentType = (BusinessType) data.get(position);
 
-		TextView label        = (TextView)row.findViewById(R.id.spinner_item_text_view);
+		TextView label = (TextView)row.findViewById(R.id.spinner_item_text_view);
 
 		ImageView icon = (ImageView)row.findViewById(R.id.spinner_item_image_view);
 
-		if(position==0){
+		if (position == 0) {
 
 			// Default selected Spinner item 
 			label.setTextColor(new EditText(getContext()).getHintTextColors());
 			//label.setText(activity.getResources().getString(R.string.business_type));
-
-		}
-		else
-		{
+			
+		} else {
+			
 			//makes the current type to be colored like a hint
-			if(hintType == null || !currentType.equals(hintType)){
+			if (hintType == null || !currentType.equals(hintType)) {
 				label.setTextColor(textColor);
-			}else{
+			} else {
 				label.setTextColor(new EditText(getContext()).getHintTextColors());
 			}
 			
 			// Set values for spinner each row 
 			label.setText(currentType.getStringRep());
 			icon.setImageResource(currentType.getIconID());
-
 		}   
 
 		return row;

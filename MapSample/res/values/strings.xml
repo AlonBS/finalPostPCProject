@@ -80,7 +80,8 @@
     <string name="new_email">new email</string>
     <string name="data_changed_successfully">data changed successfully</string>
     <string name="general_settings">General Settings</string>
-     <string name="delete_acount">Delete acount</string>
+    <string name="delete_account">Delete account</string>
+    <string name="delete_account_instructions">Are you sure you want to delete your account? \n\n<i>*Note: All you data in both Business and Client mode will be lost.</i></string>
 
     <!-- signup_activity error strings -->
     <string name="illegal_user_name">User name is illegal. \n Please use only characters and numbers</string>

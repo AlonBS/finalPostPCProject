@@ -75,8 +75,8 @@ public class BusinessSettingsActivity extends BaseActivity{
 		mTabHost.addTab(mTabHost.newTabSpec(getResources().getString(R.string.Location_settings)).setIndicator(getResources().getString(R.string.Location_settings)),
 				LocationFinderFragment.class, locationBundle);
 
-		Button applyChagnesButton = (Button) findViewById(R.id.apply_changes_button);
-		applyChagnesButton.setOnClickListener(new OnClickListener() {
+		Button applyChangesButton = (Button) findViewById(R.id.apply_changes_button);
+		applyChangesButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -117,6 +117,7 @@ public class BusinessSettingsActivity extends BaseActivity{
 		if(!currentFragment.neededInfoGiven()){
 			return;
 		}
+		
 		LatLng newLatLng = currentFragment.getLocation();
 		if(!newLatLng.equals(BusinessData.getLocation())){
 			BusinessData.setLocation(newLatLng);
@@ -127,7 +128,10 @@ public class BusinessSettingsActivity extends BaseActivity{
 		}
 	}
 
+	
+	
 	private void handleApplyBusinessSettings() {
+		
 		BusinessFillDetailsFragment currentFragment = (BusinessFillDetailsFragment) getSupportFragmentManager().findFragmentByTag(mTabHost.getCurrentTabTag());
 
 
@@ -163,6 +167,7 @@ public class BusinessSettingsActivity extends BaseActivity{
 		}
 	}
 
+	
 	private void handleApplyGeneralSettings(){
 		boolean didDataChanged = false;
 		GeneralSettingsFragment currentFragment = (GeneralSettingsFragment) getSupportFragmentManager().findFragmentByTag(mTabHost.getCurrentTabTag());

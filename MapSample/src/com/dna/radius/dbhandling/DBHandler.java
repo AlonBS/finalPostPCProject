@@ -37,6 +37,7 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseImageView;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 
 /**
@@ -612,6 +613,21 @@ public class DBHandler {
 
 	
 
+	public static void deleteUserAccount() {
+		
+		ParseUser currentUser = ParseUser.getCurrentUser();
+		
+		ParseObject bo = currentUser.getParseObject(ParseClassesNames.BUSINESS_INFO);
+		ParseObject co = currentUser.getParseObject(ParseClassesNames.CLIENT_INFO);
+		
+		List<ParseObject> objects = new ArrayList<ParseObject>();
+		objects.add(currentUser);
+		if (bo != null) objects.add(bo);
+		if (co != null) objects.add(co);
+		
+		ParseObject.deleteAllInBackground(objects, null);
+		
+	}
 
 	
 }
