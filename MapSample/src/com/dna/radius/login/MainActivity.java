@@ -9,6 +9,8 @@ import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.Window;
 
@@ -179,7 +181,12 @@ public class MainActivity extends BaseActivity {
 		parentActivity.createAlertDialog(msg);
 	}
 	
-//	enum ERROR_CODES {
+	// This will disable menu in login/sign up etc.
+	public boolean onCreateOptionsMenu(Menu menu) { return true; }
+	
+	
+	
+//	enum ERROR_CODES { TODO RETURN
 //		NO_SUCH_MAIL(1000);
 //		
 //		
