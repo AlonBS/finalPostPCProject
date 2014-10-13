@@ -31,6 +31,10 @@ public class CommentsFragment extends Fragment{
 
 	private String dealID = "";
 
+	/**the amount of time (in milliseconds) which the user need to wait before writing another comment
+	 * to a deal. currently set to 5 minutes*/
+	private final static long  WAITING_TIME_BETWEEN_COMMENTS =  1000 * 60 * 5;
+	
 	/***
 	 * In order to prevent spamming, 
 	 * for each comment which the users add, the map holds the time it happened.
@@ -43,9 +47,6 @@ public class CommentsFragment extends Fragment{
 	}
 	
 	
-	/**the amount of time (in milliseconds) which the user need to wait before writing another comment
-	 * to a deal. currently set to 5 minutes*/
-	private final static long  WAITING_TIME_BETWEEN_COMMENTS =  1000 * 60 * 5;
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.comments_fragment,container, false);
@@ -108,9 +109,9 @@ public class CommentsFragment extends Fragment{
 							addComment = true;
 						}
 					}
-
+					
 					if(!addComment){
-						parentActivity.createAlertDialog("you already commented on this deal lately");
+						parentActivity.createAlertDialog(getResources().getString(R.string.already_commented));
 						return;
 					}
 					

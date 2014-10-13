@@ -44,8 +44,7 @@ public class LocationFinderFragment extends Fragment {
 	public static String ADDRESS_PARAMETER = "addressParam";
 	public static String DEFAULT_LOCATION_PARAMETER = "locationParam";
 
-	//this varible is set if the business owner filled the address field in the welcome screen
-	//this variably is set if the location is already exists 
+	//this variable is set if the location already exists 
 	//(whenever the owner wants to change his location through the settings activity)
 	private LatLng prevLocation = null;
 

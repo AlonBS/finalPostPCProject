@@ -24,6 +24,8 @@ import com.dna.radius.clientmode.ClientOpeningScreenActivity;
 import com.dna.radius.dbhandling.ParseClassesNames;
 import com.dna.radius.login.MainActivity;
 import com.dna.radius.map.CommentsFragment;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.parse.ParseUser;
 
 /***
@@ -74,6 +76,14 @@ public abstract class BaseActivity extends FragmentActivity{
 			break;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	protected void setTracker(String screenName) {
+		
+		Tracker tracker = ((MyApp) getApplication()).getTracker(MyApp.TrackerName.APP_TRACKER);
+		tracker.enableExceptionReporting(true);
+		tracker.setScreenName(screenName);
+		tracker.send(new HitBuilders.AppViewBuilder().build());
 	}
 
 

@@ -17,7 +17,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.dna.radius.R;
-import com.dna.radius.businessmode.BusinessSettingsActivity.EditTextOnTouchListenerWithinTabhost;
 import com.dna.radius.infrastructure.BaseActivity;
 import com.dna.radius.infrastructure.SupportedTypes;
 import com.dna.radius.infrastructure.SupportedTypes.BusinessType;
@@ -64,10 +63,10 @@ public class BusinessFillDetailsFragment extends Fragment{
 		businessAddressTextView = (TextView) view.findViewById(R.id.business_address_text_view);
 		businessTypeTextView = (TextView) view.findViewById(R.id.business_type_text_view);
 
-
-		businessAddressEditText.setOnTouchListener(new EditTextOnTouchListenerWithinTabhost());
-		businessNameEditText.setOnTouchListener(new EditTextOnTouchListenerWithinTabhost());
-		businessPhoneEditText.setOnTouchListener(new EditTextOnTouchListenerWithinTabhost());
+		//TODO check
+		//businessAddressEditText.setOnTouchListener(new EditTextOnTouchListenerWithinTabhost());
+		//businessNameEditText.setOnTouchListener(new EditTextOnTouchListenerWithinTabhost());
+		//businessPhoneEditText.setOnTouchListener(new EditTextOnTouchListenerWithinTabhost());
 
 
 		if(getArguments().containsKey(TEXT_COLOR_PARAM)){

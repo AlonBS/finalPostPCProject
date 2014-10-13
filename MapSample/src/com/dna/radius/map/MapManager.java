@@ -163,7 +163,7 @@ public class MapManager {
 			if(BaseActivity.isInBusinessMode){
 				return BusinessData.isInFavourites(extern.getExternBusinessId()); 
 			}else{
-				return ClientData.isInFavourites(extern.getExternBusinessId()); 
+				return ClientData.isInFavorites(extern.getExternBusinessId()); 
 			}
 			
 		}else if (p == Property.TOP_DEALS_PROP) {

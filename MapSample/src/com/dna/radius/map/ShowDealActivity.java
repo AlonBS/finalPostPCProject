@@ -93,7 +93,7 @@ public class ShowDealActivity extends BaseActivity{
 		if(BaseActivity.isInBusinessMode){
 			isFavourite = BusinessData.isInFavourites(externBusId);
 		}else{
-			isFavourite = ClientData.isInFavourites(externBusId);
+			isFavourite = ClientData.isInFavorites(externBusId);
 
 		}
 		if(isFavourite){
@@ -110,7 +110,7 @@ public class ShowDealActivity extends BaseActivity{
 					if(BaseActivity.isInBusinessMode){
 						BusinessData	.addToFavourites(externBusId);
 					}else{
-						ClientData.addToFavourites(externBusId);
+						ClientData.addToFavorites(externBusId);
 					}
 				}else{
 					favouriteBmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_not_important);

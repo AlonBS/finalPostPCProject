@@ -13,7 +13,6 @@ import com.dna.radius.infrastructure.BaseActivity;
 import com.dna.radius.infrastructure.MyApp;
 import com.dna.radius.infrastructure.WaitingFragment;
 import com.dna.radius.map.MapWindowFragment;
-import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.maps.model.LatLng;

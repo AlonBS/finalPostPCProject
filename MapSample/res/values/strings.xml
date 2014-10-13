@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    
+    <!-- General strings -->
     <string name="app_name">Radius</string>
     <string name="action_settings">Settings</string>
-
-    <!-- General strings -->
     <string name="welcome">Welcome!</string>
     <string name="next_button">Next</string>
     <string name="user_name">User Name</string>
     <string name="password">Password</string>
+    <string name="copyright">Copyright © 2014 </string>
+    <string name="waiting">loading data from server</string>
 
     <!-- Login-in activity strings -->
     <string name="login">Log In</string>
@@ -18,16 +20,9 @@
     <string name="keep_logged_in">Keep me logged in</string>
     <string name="forgot_password"><u>Forgot Password</u></string>
     
-    <!--  Forgot password fragment strings -->
-    <string name="forgot_password_instructions">Please type in the Email address used when first registered to Radius:</string>
-    <string name="email_sent">An Email was sent to the given address</string>
-    <string name="reset_password">Reset Password</string>
-    <string name="enter_email">Please enter an Email address.</string>
-
     <!-- intro_activity strings -->
     <string name="customer_mode">Customer Mode</string>
     <string name="business_mode">Business Mode</string>
-    <string name="copyright">Copyright © 2014 </string>
 
     <!-- signup_activity strings -->
     <string name="instructions">Please fill in the details</string>
@@ -36,14 +31,32 @@
     <string name="business_name">Business Name</string>
     <string name="business_type">Business type</string>
     
+    <string-array name="business_type_spinner">
+        <item>Business type</item>
+        <item>Restaurant</item>
+        <item>Pub</item>
+        <item>Accommodation</item>
+        <item>Coffee</item>
+        <item>Groceries</item>
+    </string-array>
+    
     <!--  login / signUp Errors -->
     <string name="connection_failed">Unable to connect.\nPlease check your internet connection.</string>
     <string name="username_missing">Username is missing or incorrect.</string>
     <string name="password_missing">Password is missing or incorrect.</string>
     <string name="validation_failed">Validation failed. Please retry.</string>
-    <string name="unknown_error">Unknown error has occurred.</string>
-				
+    <string name="unknown_error">An Unknown error has occurred.</string>
     
+    <!-- signup_activity error strings -->
+    <string name="illegal_user_name">User name is illegal. \n Please use only characters and numbers</string>
+    <string name="passwords_mismatch">Passwords don\'t match</string>
+    <string name="aaemail_address">Email Address</string>
+    
+    <!--  Forgot password fragment strings -->
+    <string name="forgot_password_instructions">Please type in the Email address used when first registered to Radius:</string>
+    <string name="email_sent">An Email was sent to the given address</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="enter_email">Please enter an Email address.</string>
     
     <!-- business strings -->
     <string name="Settings_title">Settings</string>
@@ -60,18 +73,8 @@
 
     <!-- add a new deal dialog -->
     <string name="add_a_new_deal_dialog_title">Create a new Deal</string>
-    <string name="add_a_new_deal_deal_is_empty">the new deal is empty</string>
-    <string name="add_a_new_deal_deal_identical_to_previous">the new deal is equal to the previous one</string>
-
-
-    <string-array name="business_type_spinner">
-        <item>Business type</item>
-        <item>Restaurant</item>
-        <item>Pub</item>
-        <item>Accommodation</item>
-        <item>Coffee</item>
-        <item>Groceries</item>
-    </string-array>
+    <string name="add_a_new_deal_deal_is_empty">A deal cannot be empty</string>
+    <string name="add_a_new_deal_deal_identical_to_previous">The new deal is the same as the old one</string>
 
     <!-- general settings strings -->
     <string name="apply_settings">APPLY SETTINGS</string>
@@ -81,33 +84,40 @@
     <string name="data_changed_successfully">data changed successfully</string>
     <string name="general_settings">General Settings</string>
     <string name="delete_account">Delete account</string>
-    <string name="delete_account_instructions">Are you sure you want to delete your account? \n\n<i>*Note: All you data in both Business and Client mode will be lost.</i></string>
-
-    <!-- signup_activity error strings -->
-    <string name="illegal_user_name">User name is illegal. \n Please use only characters and numbers</string>
-    <string name="passwords_mismatch">Passwords don\'t match</string>
-    <string name="aaemail_address">Email Address</string>
+    <string name="delete_account_instructions">Are you sure you want to delete your account? \n\n<i>*Note: All your data in both Business and Client mode will be lost.</i></string>
 
     <!-- welcome screen -->
     <string name="welcome_to_radius">Welcome to Radius!</string>
 
-    <!-- welcome dialogs -->
-    <string name="find_location_business_request">please set your business location by tapping on the screen or by searching for an address</string>
-    <string name="find_location_client_request">please set your default location by tapping on the screen or by searching for an address</string>
-    <string name="forgot_to_set_location">you forget to set a location</string>
-    <string name="couldnt_find_address">couldn\'t find the given address</string>
-	<string name="location_finder_service_unavailable">location finder service is unavailable</string>
+    <!-- business welcome dialogs strings -->
+    <string name="welcome_business">In order to complete registration, state your business name, business type, and locate your business on the map.</string>
+    <string name="find_location_business_request">Set your business location by tapping on the screen or by searching for an address</string>
+    <string name="forgot_to_set_location">No location was selected</string>
+    <string name="couldnt_find_address">Couldn\'t find the given address</string>
+    <string name="find_location_please_varify">Make sure the location matches the given address. Otherwise - manually locate your business.</string>
+    <string name="set_location_imageView">Please define your business location</string>
+    <string name="set_business_picture_desc">Select a picture for your business</string>
     
-    <!-- client welcome dialog strings -->
-    <string name="welcome_client">In order to complete the registration please select you preferable location</string>
+    <string name="likes">Likes</string>
+    <string name="dislikes">Dislikes</string>
+    <string name="business_name_hint">Business name </string>
+    <string name="business_name_forgot_to_fill">State your business name</string>
+    <string name="business_type_forgot_to_fill">Select business type</string>
+    <string name="business_phone_hint">Business phone number</string>
+    <string name="business_address_hint"> Business address</string>
+    <string name="button_next">NEXT</string>
+    <string name="button_done">DONE</string>
+    
+    <!-- client welcome dialogs strings -->
+    <string name="find_location_client_request">Set your default location by tapping on the screen or by searching for an address</string>
     <string name="set_location">Choose location</string>
     <string name="not_now_btn">Not now</string>
     <string name="finish_btn">Finish</string>
     <string name="welcome_business_fill_details">In order to complete the registration please fill the following details</string>
 
     <!-- deal history fragment -->
-    <string name="history_fragment_total_likes">Total likes: </string>
-    <string name="history_fragment_total_dislikes">  Total dislikes: </string>
+    <string name="history_fragment_total_likes">   Total likes: </string>
+    <string name="history_fragment_total_dislikes">Total dislikes: </string>
 
     <!-- deal history dialog -->
     <string name="deal_dialog_title">Set a deal from history </string>
@@ -115,24 +125,7 @@
     <string name="set_as_current">Post</string>
     <string name="delete_from_hist_dialog">Delete</string>
     
-    
-    <!-- business welcome dialog strings -->
-    <string name="welcome_business">In order to complete please state your business name, business type, and locate your business on the map.</string>
-    <string name="find_location_please_varify"> Please varify that your business location fits to the given address. if not, please locate your business on the map </string>
-    <string name="set_location_imageView">Please define your business location</string>
-    <string name="set_business_picture_desc">Select a picture for your business</string>
-    <string name="type_comment_here">type your comment here</string>
-    <string name="likes"> Likes</string>
-    <string name="dislikes"> Dislikes</string>
-    <string name="business_name_hint">  Business name </string>
-    <string name="business_name_forgot_to_fill">  Please fill your business name </string>
-    <string name="business_type_forgot_to_fill"> Please fill your business type </string>
-    <string name="business_phone_hint"> Business phone number</string>
-    <string name="business_phone_forgot_to_fill"> Please fill your business phone number </string>
-    <string name="business_address_hint"> Business address</string>
-    <string name="business_address_forgot_to_fill"> Please fill your business address </string>
-    <string name="button_next"> NEXT </string>
-    <string name="button_done"> DONE </string>
+   
 
     <!-- choose image fragment -->
     <string name="business_choose_image_message">Please choose an image for your business! </string>
@@ -153,13 +146,13 @@
     <string name="log_out"> Log out</string>
 
     <!-- ShowDeal Activity Strings -->
-    <string name="no_like_in_bus_mode">"It's impossible to like/dislike a deal on business mode"</string>
-    <string name="no_deal_currently">"This business currently has no deal on display"</string>
-	<string name="created_at">"Crated at: "</string>
+    <string name="no_like_in_bus_mode">It\'s impossible to rank a deal while on business mode</string>
+    <string name="no_deal_currently">This business currently has no deal on display</string>
+	<string name="type_comment_here">Leave a comment here</string>
 	
     <!-- map -->
-    <string name="type_address">type address here</string>
-    <string name="waiting">loading data from server</string>
+    <string name="type_address">Type address here</string>
+   
 
     <string-array name="spinner_options">
         <item>All</item>
@@ -167,5 +160,9 @@
         <item>Top businesses</item>
         <item>Top deals</item>
     </string-array>
+    
+    <!--  Client Comment Fragment -->
+    <string name="already_commented">"You've already commented on this deal lately"</string>
+    
 
 </resources>

@@ -22,7 +22,6 @@ import com.dna.radius.R;
 import com.dna.radius.businessmode.BusinessOpeningScreenActivity;
 import com.dna.radius.clientmode.ClientOpeningScreenActivity;
 import com.dna.radius.dbhandling.ParseClassesNames;
-import com.dna.radius.infrastructure.BaseActivity;
 import com.dna.radius.infrastructure.MyApp;
 import com.dna.radius.infrastructure.MyApp.TrackerName;
 import com.google.android.gms.analytics.HitBuilders;
@@ -75,7 +74,6 @@ public class LoginFragment extends Fragment {
 		logInButton = (Button) v.findViewById(R.id.login_button);
 		keepLoggedInCheckBox = (CheckBox) v.findViewById(R.id.keep_logged_in_checkbox);
 		forgotPasswordEditText = (TextView) v.findViewById(R.id.forgot_password_textView);
-
 		progressBar = (ProgressBar)v.findViewById(R.id.login_progress_bar);
 	}
 
@@ -159,8 +157,6 @@ public class LoginFragment extends Fragment {
 				MainActivity.fragmentTransaction.addToBackStack(null);
 
 				MainActivity.fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-
-				//MainActivity.fragmentTransaction.setCustomAnimations(arg0, arg1, arg2, arg3) TODO - add
 
 				MainActivity.fragmentTransaction.commit();
 			}

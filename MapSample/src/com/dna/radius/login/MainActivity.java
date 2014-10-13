@@ -10,18 +10,15 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.Window;
 
-import com.crashlytics.android.Crashlytics;
 import com.dna.radius.R;
 import com.dna.radius.businessmode.BusinessOpeningScreenActivity;
 import com.dna.radius.clientmode.ClientOpeningScreenActivity;
 import com.dna.radius.dbhandling.ParseClassesNames;
 import com.dna.radius.infrastructure.BaseActivity;
 import com.dna.radius.infrastructure.MyApp;
-import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.parse.Parse;
@@ -58,7 +55,7 @@ public class MainActivity extends BaseActivity {
 		tracker.setScreenName("Main Activity");
 		tracker.send(new HitBuilders.AppViewBuilder().build());
 		
-		// initializse Parse settings
+		// Initializes Parse settings
 		setParse();
 		
 
@@ -97,7 +94,7 @@ public class MainActivity extends BaseActivity {
 				// User is Verified - Start relevant screen
 				if (currentUser != null) { 
 
-					// we lode 'client screen' if last was logged on in this screen, and business otherwise
+					// we load 'client screen' if last was logged on in this screen, and business otherwise
 					int lastMode = currentUser.getInt(ParseClassesNames.LAST_MODE);
 					if (lastMode == IntroFragment.CUSTOMER_MODE) {
 

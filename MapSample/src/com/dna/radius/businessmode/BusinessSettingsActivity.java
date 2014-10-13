@@ -19,7 +19,6 @@ import com.dna.radius.infrastructure.GeneralSettingsFragment;
 import com.dna.radius.infrastructure.LocationFinderFragment;
 import com.dna.radius.infrastructure.MyApp;
 import com.dna.radius.infrastructure.SupportedTypes.BusinessType;
-import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.maps.model.LatLng;
@@ -35,45 +34,9 @@ public class BusinessSettingsActivity extends BaseActivity{
 		tracker.enableExceptionReporting(true);
 		tracker.setScreenName("Business Settings");
 		tracker.send(new HitBuilders.AppViewBuilder().build());
-		
-		// Locate android.R.id.tabhost in main_fragment.xml
-		mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
 
-		mTabHost.setOnTabChangedListener(new OnTabChangeListener(){    
-			public void onTabChanged(String tabID) {    
-				mTabHost.clearFocus(); 
-			}   
-		});
+		createTabHost();
 
-
-
-		// Create the tabs in main_fragment.xml
-		mTabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
-		Bundle generalSettingFragment = new Bundle();
-		generalSettingFragment.putString(GeneralSettingsFragment.USER_NAME_PARAM, BusinessData.getUserName());
-		generalSettingFragment.putString(GeneralSettingsFragment.EMAIL_PARAM, BusinessData.getEmail());
-		// Create Tab1 with a custom image in res folder
-		mTabHost.addTab(mTabHost.newTabSpec(getResources().getString(R.string.general_settings)).setIndicator(getResources().getString(R.string.general_settings)),
-				GeneralSettingsFragment.class, generalSettingFragment);
-
-		// Create Tab2
-		Bundle fillDataBundle = new Bundle();
-		fillDataBundle.putBoolean(BusinessFillDetailsFragment.IS_IN_SETTINGS_MODE_PARAM, true);
-		fillDataBundle.putString(BusinessFillDetailsFragment.BUSINESS_NAME_HINT_PARAM, BusinessData.getName());
-		fillDataBundle.putString(BusinessFillDetailsFragment.BUSINESS_ADDRESS_HINT_PARAM, BusinessData.getAddress());
-		fillDataBundle.putString(BusinessFillDetailsFragment.BUSINESS_PHONE_HINT_PARAM, BusinessData.getPhoneNumber());
-		fillDataBundle.putSerializable(BusinessFillDetailsFragment.BUSINESS_TYPE_HINT_PARAM, BusinessData.getType());
-		fillDataBundle.putInt(BusinessFillDetailsFragment.TEXT_COLOR_PARAM, Color.BLACK);
-
-		mTabHost.addTab(mTabHost.newTabSpec(getResources().getString(R.string.business_settings)).setIndicator(getResources().getString(R.string.business_settings)),
-				BusinessFillDetailsFragment.class, fillDataBundle);
-
-		Bundle locationBundle = new Bundle();
-		locationBundle.putString(LocationFinderFragment.ADDRESS_PARAMETER, "");
-		locationBundle.putParcelable(LocationFinderFragment.DEFAULT_LOCATION_PARAMETER, BusinessData.getLocation());
-		// Create Tab3
-		mTabHost.addTab(mTabHost.newTabSpec(getResources().getString(R.string.Location_settings)).setIndicator(getResources().getString(R.string.Location_settings)),
-				LocationFinderFragment.class, locationBundle);
 
 		Button applyChangesButton = (Button) findViewById(R.id.apply_changes_button);
 		applyChangesButton.setOnClickListener(new OnClickListener() {
@@ -104,10 +67,72 @@ public class BusinessSettingsActivity extends BaseActivity{
 
 		});
 
+	}
+
+
+	private void createTabHost() {
+
+		mTabHost = (FragmentTabHost)findViewById(android.R.id.tabhost);
+
+		//TODO - this is NOT NEEDED!!!!!
+		mTabHost.setOnTabChangedListener(new OnTabChangeListener(){    
+			public void onTabChanged(String tabID) {    
+				mTabHost.clearFocus(); 
+			}   
+		});
+
+		createGeneralSettingsTab();
+		createBusinessSettingsTab();
+		createLocationSettingsTab();
+
+
 		for (int i = 0; i < mTabHost.getTabWidget().getChildCount(); i++) {
+		
 			mTabHost.getTabWidget().getChildAt(i).setFocusable(false); 
 		}
+
 	}
+
+
+	private void createGeneralSettingsTab() {
+
+		// Create the tabs in main_fragment.xml
+		mTabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
+		Bundle generalSettingFragment = new Bundle();
+		generalSettingFragment.putString(GeneralSettingsFragment.USER_NAME_PARAM, BusinessData.getUserName());
+		generalSettingFragment.putString(GeneralSettingsFragment.EMAIL_PARAM, BusinessData.getEmail());
+		// Create Tab1 with a custom image in res folder
+		mTabHost.addTab(mTabHost.newTabSpec(getResources().getString(R.string.general_settings)).setIndicator(getResources().getString(R.string.general_settings)),
+				GeneralSettingsFragment.class, generalSettingFragment);
+	}
+
+
+	private void createBusinessSettingsTab() {
+
+		// Create Tab2
+		Bundle fillDataBundle = new Bundle();
+		fillDataBundle.putBoolean(BusinessFillDetailsFragment.IS_IN_SETTINGS_MODE_PARAM, true);
+		fillDataBundle.putString(BusinessFillDetailsFragment.BUSINESS_NAME_HINT_PARAM, BusinessData.getName());
+		fillDataBundle.putString(BusinessFillDetailsFragment.BUSINESS_ADDRESS_HINT_PARAM, BusinessData.getAddress());
+		fillDataBundle.putString(BusinessFillDetailsFragment.BUSINESS_PHONE_HINT_PARAM, BusinessData.getPhoneNumber());
+		fillDataBundle.putSerializable(BusinessFillDetailsFragment.BUSINESS_TYPE_HINT_PARAM, BusinessData.getType());
+		fillDataBundle.putInt(BusinessFillDetailsFragment.TEXT_COLOR_PARAM, Color.BLACK);
+
+		mTabHost.addTab(mTabHost.newTabSpec(getResources().getString(R.string.business_settings)).setIndicator(getResources().getString(R.string.business_settings)),
+				BusinessFillDetailsFragment.class, fillDataBundle);
+	}
+
+
+	private void createLocationSettingsTab() {
+
+		Bundle locationBundle = new Bundle();
+		locationBundle.putString(LocationFinderFragment.ADDRESS_PARAMETER, "");
+		locationBundle.putParcelable(LocationFinderFragment.DEFAULT_LOCATION_PARAMETER, BusinessData.getLocation());
+		// Create Tab3
+		mTabHost.addTab(mTabHost.newTabSpec(getResources().getString(R.string.Location_settings)).setIndicator(getResources().getString(R.string.Location_settings)),
+				LocationFinderFragment.class, locationBundle);
+	}
+
 
 
 	private void handleLocationSettings() {
@@ -117,7 +142,7 @@ public class BusinessSettingsActivity extends BaseActivity{
 		if(!currentFragment.neededInfoGiven()){
 			return;
 		}
-		
+
 		LatLng newLatLng = currentFragment.getLocation();
 		if(!newLatLng.equals(BusinessData.getLocation())){
 			BusinessData.setLocation(newLatLng);
@@ -128,10 +153,10 @@ public class BusinessSettingsActivity extends BaseActivity{
 		}
 	}
 
-	
-	
+
+
 	private void handleApplyBusinessSettings() {
-		
+
 		BusinessFillDetailsFragment currentFragment = (BusinessFillDetailsFragment) getSupportFragmentManager().findFragmentByTag(mTabHost.getCurrentTabTag());
 
 
@@ -167,7 +192,7 @@ public class BusinessSettingsActivity extends BaseActivity{
 		}
 	}
 
-	
+
 	private void handleApplyGeneralSettings(){
 		boolean didDataChanged = false;
 		GeneralSettingsFragment currentFragment = (GeneralSettingsFragment) getSupportFragmentManager().findFragmentByTag(mTabHost.getCurrentTabTag());
@@ -226,6 +251,6 @@ public class BusinessSettingsActivity extends BaseActivity{
 
 
 	}
-	
+
 
 }
