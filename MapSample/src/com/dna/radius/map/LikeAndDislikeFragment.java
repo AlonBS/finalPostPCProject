@@ -1,4 +1,4 @@
-package com.dna.radius.mapsample;
+package com.dna.radius.map;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,7 +19,7 @@ import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.datastructures.ExternalBusiness;
 import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.infrastructure.BaseActivity;
-import com.dna.radius.mapsample.ShowDealActivity.ShowDealFragmentType;
+import com.dna.radius.map.ShowDealActivity.ShowDealFragmentType;
 
 /***
  * this fragment allows the user to like or dislike a certain deal, if he is

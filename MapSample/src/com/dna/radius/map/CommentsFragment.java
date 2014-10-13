@@ -1,4 +1,4 @@
-package com.dna.radius.mapsample;
+package com.dna.radius.map;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +20,7 @@ import com.dna.radius.datastructures.Comment;
 import com.dna.radius.datastructures.ExternalBusiness;
 import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.infrastructure.BaseActivity;
-import com.dna.radius.mapsample.ShowDealActivity.ShowDealFragmentType;
+import com.dna.radius.map.ShowDealActivity.ShowDealFragmentType;
 
 /**
  * This fragment shows comments on a certein deal.

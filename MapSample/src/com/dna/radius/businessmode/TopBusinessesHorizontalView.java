@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.dna.radius.R;
 import com.dna.radius.datastructures.ExternalBusiness;
 import com.dna.radius.infrastructure.ColoredRatingBar;
-import com.dna.radius.mapsample.ShowDealActivity;
+import com.dna.radius.map.ShowDealActivity;
 
 /***
  * a costum view which extends an horizontal scroll view.

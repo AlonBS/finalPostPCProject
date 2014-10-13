@@ -28,7 +28,7 @@ import com.dna.radius.dbhandling.ParseClassesNames;
 import com.dna.radius.infrastructure.BaseActivity;
 import com.dna.radius.infrastructure.SupportedTypes;
 import com.dna.radius.infrastructure.SupportedTypes.BusinessType;
-import com.dna.radius.mapsample.MapWindowFragment;
+import com.dna.radius.map.MapWindowFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.parse.FunctionCallback;
 import com.parse.GetDataCallback;

@@ -23,7 +23,7 @@ import com.dna.radius.clientmode.ClientGeneralSettingsActivity;
 import com.dna.radius.clientmode.ClientOpeningScreenActivity;
 import com.dna.radius.dbhandling.ParseClassesNames;
 import com.dna.radius.login.MainActivity;
-import com.dna.radius.mapsample.CommentsFragment;
+import com.dna.radius.map.CommentsFragment;
 import com.parse.ParseUser;
 
 /***

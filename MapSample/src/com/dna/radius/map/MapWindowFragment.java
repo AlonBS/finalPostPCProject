@@ -1,4 +1,4 @@
-package com.dna.radius.mapsample;
+package com.dna.radius.map;
 
 
 import java.util.HashMap;
@@ -30,7 +30,7 @@ import com.dna.radius.infrastructure.BaseActivity;
 import com.dna.radius.infrastructure.MyApp;
 import com.dna.radius.infrastructure.SupportedTypes;
 import com.dna.radius.infrastructure.MyApp.TrackerName;
-import com.dna.radius.mapsample.MapManager.Property;
+import com.dna.radius.map.MapManager.Property;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.maps.CameraUpdateFactory;

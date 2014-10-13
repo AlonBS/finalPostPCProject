@@ -13,7 +13,7 @@ import com.dna.radius.datastructures.Comment;
 import com.dna.radius.dbhandling.DBHandler;
 import com.dna.radius.dbhandling.ParseClassesNames;
 import com.dna.radius.infrastructure.BaseActivity;
-import com.dna.radius.mapsample.LikeAndDislikeFragment;
+import com.dna.radius.map.LikeAndDislikeFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;

@@ -1,4 +1,4 @@
-package com.dna.radius.mapsample;
+package com.dna.radius.map;
 
 import android.content.Intent;
 import android.graphics.Bitmap;

@@ -22,8 +22,8 @@ import com.dna.radius.R;
 import com.dna.radius.businessmode.AddNewDealDialogFragment.AddDealDialogResult;
 import com.dna.radius.businessmode.AddNewDealDialogFragment.AddNewDealCommunicator;
 import com.dna.radius.datastructures.ExternalBusiness;
-import com.dna.radius.mapsample.CommentsArrayAdapter;
-import com.dna.radius.mapsample.ShowDealActivity;
+import com.dna.radius.map.CommentsArrayAdapter;
+import com.dna.radius.map.ShowDealActivity;
 
 /**
  * represents the first screen which the business owner sees when he is logging in.

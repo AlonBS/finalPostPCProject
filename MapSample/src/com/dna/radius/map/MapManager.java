@@ -1,4 +1,4 @@
-package com.dna.radius.mapsample;
+package com.dna.radius.map;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
