@@ -49,7 +49,7 @@
     
     <!-- signup_activity error strings -->
     <string name="illegal_user_name">User name is illegal. \n Please use only characters and numbers</string>
-    <string name="passwords_mismatch">Passwords don\'t match</string>
+    <string name="passwords_mismatch">Passwords don\'t match - no new password was set</string>
     <string name="aaemail_address">Email Address</string>
     
     <!--  Forgot password fragment strings -->
@@ -58,11 +58,7 @@
     <string name="reset_password">Reset Password</string>
     <string name="enter_email">Please enter an Email address.</string>
     
-    <!-- business strings -->
-    <string name="Settings_title">Settings</string>
-    <string name="user_settings">User Settings</string>
-    <string name="Location_settings">Location Settings</string>
-    <string name="business_settings">Business Settings</string>
+    
 
     <!-- business dashboard strings -->
     <string name="comments">Comments</string>
@@ -81,10 +77,15 @@
     <string name="new_password">new password</string>
     <string name="new_password_confirmation">new password confirmation</string>
     <string name="new_email">new email</string>
-    <string name="data_changed_successfully">data changed successfully</string>
+    <string name="data_changed_successfully">Data was successfully changed.</string>
+    <string name="new_password_wasnt_set">New passwords mismatched - no new password was set.</string>
     <string name="general_settings">General Settings</string>
     <string name="delete_account">Delete account</string>
     <string name="delete_account_instructions">Are you sure you want to delete your account? \n\n<i>*Note: All your data in both Business and Client mode will be lost.</i></string>
+    
+    <!-- business Settings strings -->
+    <string name="business_settings">Business Settings</string>
+    <string name="Location_settings">Location Settings</string>
 
     <!-- welcome screen -->
     <string name="welcome_to_radius">Welcome to Radius!</string>

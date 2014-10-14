@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.dna.radius.R;
 import com.dna.radius.infrastructure.BaseActivity;
 import com.dna.radius.infrastructure.GeneralSettingsFragment;
-import com.dna.radius.infrastructure.LocationFinderFragment;
+import com.dna.radius.infrastructure.LocationSettingsFragment;
 import com.dna.radius.infrastructure.MyApp;
 import com.dna.radius.infrastructure.SupportedTypes.BusinessType;
 import com.google.android.gms.analytics.HitBuilders;
@@ -24,7 +24,10 @@ import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.maps.model.LatLng;
 
 public class BusinessSettingsActivity extends BaseActivity{
+	
 	private FragmentTabHost mTabHost;
+	
+	private boolean passwordsMisMatch = false;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -36,45 +39,17 @@ public class BusinessSettingsActivity extends BaseActivity{
 		tracker.send(new HitBuilders.AppViewBuilder().build());
 
 		createTabHost();
-
-
-		Button applyChangesButton = (Button) findViewById(R.id.apply_changes_button);
-		applyChangesButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-
-				Fragment currentFragment = getSupportFragmentManager().findFragmentByTag(mTabHost.getCurrentTabTag());
-
-				if(currentFragment.getClass() == GeneralSettingsFragment.class){
-					Log.d("BusinessSettingsActivity", "apply button was pressesd, current fragment - general settings");
-					handleApplyGeneralSettings();
-				}
-				else if(currentFragment.getClass() == BusinessFillDetailsFragment.class){
-					Log.d("BusinessSettingsActivity", "apply button was pressesd, current fragment - business settings");
-					handleApplyBusinessSettings();
-				}
-				else if(currentFragment.getClass() == LocationFinderFragment.class){
-					Log.d("BusinessSettingsActivity", "apply button was pressesd, current fragment - location settings");
-					handleLocationSettings();
-				}
-				else{
-					Log.e("BusinessSettingsActivity", "apply button was pressesd, current fragment wasnt recognized");
-					return;
-				}
-			}
-
-
-		});
-
+		
+		setApplyChangesOnClickListener();
 	}
 
 
 	private void createTabHost() {
 
-		mTabHost = (FragmentTabHost)findViewById(android.R.id.tabhost);
+		mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
+		mTabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
 
-		//TODO - this is NOT NEEDED!!!!!
+		//TODO - NEEDED???
 		mTabHost.setOnTabChangedListener(new OnTabChangeListener(){    
 			public void onTabChanged(String tabID) {    
 				mTabHost.clearFocus(); 
@@ -85,150 +60,170 @@ public class BusinessSettingsActivity extends BaseActivity{
 		createBusinessSettingsTab();
 		createLocationSettingsTab();
 
-
 		for (int i = 0; i < mTabHost.getTabWidget().getChildCount(); i++) {
-		
-			mTabHost.getTabWidget().getChildAt(i).setFocusable(false); 
+			mTabHost.getTabWidget().getChildAt(i).setFocusable(false);
 		}
-
 	}
 
 
 	private void createGeneralSettingsTab() {
 
-		// Create the tabs in main_fragment.xml
-		mTabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
-		Bundle generalSettingFragment = new Bundle();
-		generalSettingFragment.putString(GeneralSettingsFragment.USER_NAME_PARAM, BusinessData.getUserName());
-		generalSettingFragment.putString(GeneralSettingsFragment.EMAIL_PARAM, BusinessData.getEmail());
-		// Create Tab1 with a custom image in res folder
-		mTabHost.addTab(mTabHost.newTabSpec(getResources().getString(R.string.general_settings)).setIndicator(getResources().getString(R.string.general_settings)),
-				GeneralSettingsFragment.class, generalSettingFragment);
+		Bundle gsb = new Bundle();
+		gsb.putString(GeneralSettingsFragment.USER_NAME_PARAM, BusinessData.getUserName());
+		gsb.putString(GeneralSettingsFragment.EMAIL_PARAM, BusinessData.getEmail());
+		
+		String s = getResources().getString(R.string.general_settings);
+		mTabHost.addTab(mTabHost.newTabSpec(s).setIndicator(s), GeneralSettingsFragment.class, gsb);
 	}
 
 
 	private void createBusinessSettingsTab() {
 
-		// Create Tab2
-		Bundle fillDataBundle = new Bundle();
-		fillDataBundle.putBoolean(BusinessFillDetailsFragment.IS_IN_SETTINGS_MODE_PARAM, true);
-		fillDataBundle.putString(BusinessFillDetailsFragment.BUSINESS_NAME_HINT_PARAM, BusinessData.getName());
-		fillDataBundle.putString(BusinessFillDetailsFragment.BUSINESS_ADDRESS_HINT_PARAM, BusinessData.getAddress());
-		fillDataBundle.putString(BusinessFillDetailsFragment.BUSINESS_PHONE_HINT_PARAM, BusinessData.getPhoneNumber());
-		fillDataBundle.putSerializable(BusinessFillDetailsFragment.BUSINESS_TYPE_HINT_PARAM, BusinessData.getType());
-		fillDataBundle.putInt(BusinessFillDetailsFragment.TEXT_COLOR_PARAM, Color.BLACK);
+		// Create 2nd tab
+		Bundle bib = new Bundle();
+		bib.putBoolean(BusinessInfoFragment.IS_IN_SETTINGS_MODE_PARAM, true);
+		bib.putString(BusinessInfoFragment.BUSINESS_NAME_HINT_PARAM, BusinessData.getName());
+		bib.putString(BusinessInfoFragment.BUSINESS_ADDRESS_HINT_PARAM, BusinessData.getAddress());
+		bib.putString(BusinessInfoFragment.BUSINESS_PHONE_HINT_PARAM, BusinessData.getPhoneNumber());
+		bib.putSerializable(BusinessInfoFragment.BUSINESS_TYPE_HINT_PARAM, BusinessData.getType());
+		bib.putInt(BusinessInfoFragment.TEXT_COLOR_PARAM, Color.BLACK);
 
-		mTabHost.addTab(mTabHost.newTabSpec(getResources().getString(R.string.business_settings)).setIndicator(getResources().getString(R.string.business_settings)),
-				BusinessFillDetailsFragment.class, fillDataBundle);
+		String s = getResources().getString(R.string.business_settings);
+		mTabHost.addTab(mTabHost.newTabSpec(s).setIndicator(s), BusinessInfoFragment.class, bib);
 	}
 
 
 	private void createLocationSettingsTab() {
 
-		Bundle locationBundle = new Bundle();
-		locationBundle.putString(LocationFinderFragment.ADDRESS_PARAMETER, "");
-		locationBundle.putParcelable(LocationFinderFragment.DEFAULT_LOCATION_PARAMETER, BusinessData.getLocation());
-		// Create Tab3
-		mTabHost.addTab(mTabHost.newTabSpec(getResources().getString(R.string.Location_settings)).setIndicator(getResources().getString(R.string.Location_settings)),
-				LocationFinderFragment.class, locationBundle);
+		Bundle lsb = new Bundle();
+		lsb.putString(LocationSettingsFragment.ADDRESS_PARAMETER, "");
+		lsb.putParcelable(LocationSettingsFragment.DEFAULT_LOCATION_PARAMETER, BusinessData.getLocation());
+		
+		String s = getResources().getString(R.string.Location_settings);
+		mTabHost.addTab(mTabHost.newTabSpec(s).setIndicator(s), LocationSettingsFragment.class, lsb);
 	}
+	
+	
+	private void setApplyChangesOnClickListener() {
 
+		Button applyChangesButton = (Button) findViewById(R.id.apply_changes_button);
+		
+		applyChangesButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				
+				boolean dataChanged = false;
+				
+				dataChanged = applyGeneralSettings();
+				dataChanged |= applyBusinessSettings();
+				dataChanged |= applyLocationSettings();
+				
+				if ( dataChanged ) {
+					
+					String msg =  getResources().getString(R.string.data_changed_successfully);
+					msg = passwordsMisMatch ? msg : msg + "\n" + getResources().getString(R.string.new_password_wasnt_set);;
+					
+					BusinessOpeningScreenActivity.refreshNeeded = true;
+					Toast.makeText(BusinessSettingsActivity.this, msg, Toast.LENGTH_LONG).show();
+					finish();
+				}
 
-
-	private void handleLocationSettings() {
-
-		LocationFinderFragment currentFragment = (LocationFinderFragment) getSupportFragmentManager().findFragmentByTag(mTabHost.getCurrentTabTag());
-
-		if(!currentFragment.neededInfoGiven()){
-			return;
-		}
-
-		LatLng newLatLng = currentFragment.getLocation();
-		if(!newLatLng.equals(BusinessData.getLocation())){
-			BusinessData.setLocation(newLatLng);
-
-			BusinessOpeningScreenActivity.refreshNeeded = true;
-			Toast.makeText(this, getResources().getString(R.string.data_changed_successfully), Toast.LENGTH_SHORT).show();
-			finish();
-		}
+			
+			}
+		});
 	}
+	
+	
+	private boolean applyGeneralSettings(){
+		
+		GeneralSettingsFragment gsf = (GeneralSettingsFragment) getSupportFragmentManager().findFragmentByTag(getResources().getString(R.string.general_settings));
+		
+		if (gsf == null) return false;
 
-
-
-	private void handleApplyBusinessSettings() {
-
-		BusinessFillDetailsFragment currentFragment = (BusinessFillDetailsFragment) getSupportFragmentManager().findFragmentByTag(mTabHost.getCurrentTabTag());
-
-
-		boolean didDataChanged = false;
-		String newBusinessName = currentFragment.getBusinessName();
-		if(!newBusinessName.equals("") && !newBusinessName.equals(BusinessData.getName())){
-			didDataChanged = true;
-			BusinessData.setName(newBusinessName);
-		}
-
-		BusinessType newBusinessType = currentFragment.getBusinessType();
-		if(newBusinessType != BusinessData.getType()){
-			didDataChanged = true;
-			BusinessData.setType(newBusinessType);
-		}
-
-		String newBusinessAddress = currentFragment.getBusinessAddress();
-		if(!newBusinessAddress.equals("") && !newBusinessAddress.equals(BusinessData.getAddress())){
-			didDataChanged = true;
-			BusinessData.setAddress(newBusinessAddress);
-		}
-
-		String newPhoneNumber = currentFragment.getBusinessPhoneNumber();
-		if(!newPhoneNumber.equals("") && !newPhoneNumber.equals(BusinessData.getPhoneNumber())){
-			didDataChanged = true;
-			BusinessData.setPhoneNumber(newPhoneNumber);
-		}
-
-		if(didDataChanged){
-			BusinessOpeningScreenActivity.refreshNeeded = true;
-			Toast.makeText(this, getResources().getString(R.string.data_changed_successfully), Toast.LENGTH_SHORT).show();
-			finish();
-		}
-	}
-
-
-	private void handleApplyGeneralSettings(){
-		boolean didDataChanged = false;
-		GeneralSettingsFragment currentFragment = (GeneralSettingsFragment) getSupportFragmentManager().findFragmentByTag(mTabHost.getCurrentTabTag());
-
+		boolean dataChanged = false;
 		//tests if the users changed the user name and changes it accordingly
-		String newUserName = currentFragment.getUserName();
+		String newUserName = gsf.getUserName();
 		if(!newUserName.equals("") && !newUserName.equals(BusinessData.getUserName())){
-			didDataChanged = true;
+			dataChanged = true;
 			BusinessData.setUserName(newUserName);
 		}
 
 		//tests if the users changed the email and changes it accordingly
-		String newEmail = currentFragment.getEmail();
+		String newEmail = gsf.getEmail();
 		if(!newEmail.equals("") && !newEmail.equals(BusinessData.getEmail())){
-			didDataChanged = true;
+			dataChanged = true;
 			BusinessData.setEmail(newEmail);
 		}
 
 		//tests if the users changed the password and changes it accordingly
-		String newPassword = currentFragment.getPassword();
-		String newPasswordConformation = currentFragment.getConformationPassword();
+		String newPassword = gsf.getPassword();
+		String newPasswordConformation = gsf.getConformationPassword();
 		if(!newPassword.equals("")){
 			if(!newPassword.equals(newPasswordConformation)){
-				createAlertDialog(getResources().getString(R.string.passwords_mismatch));
-			}else{
+				passwordsMisMatch = true;
+				
+			} else {
+				
 				BusinessData.setPassword(newPassword);
-				didDataChanged = true;
+				dataChanged = true;
 			}
 		}
-
-		if(didDataChanged){
-			BusinessOpeningScreenActivity.refreshNeeded = true;
-			createAlertDialog(getResources().getString(R.string.data_changed_successfully));
-			finish();
-		}
+		
+		return dataChanged;
 	}
+
+
+	private boolean applyBusinessSettings() {
+
+		BusinessInfoFragment bif = (BusinessInfoFragment) getSupportFragmentManager().findFragmentByTag(getResources().getString(R.string.business_settings));
+		
+		if (bif == null) return false;
+
+		boolean dataChanged = false;
+		
+		String newBusinessName = bif.getBusinessName();
+		if(!newBusinessName.equals("") && !newBusinessName.equals(BusinessData.getName())){
+			BusinessData.setName(newBusinessName);
+			dataChanged = true;
+		}
+
+		BusinessType newBusinessType = bif.getBusinessType();
+		if(newBusinessType != BusinessData.getType()){
+			BusinessData.setType(newBusinessType);
+			dataChanged = true;
+		}
+
+		String newBusinessAddress = bif.getBusinessAddress();
+		if(!newBusinessAddress.equals("") && !newBusinessAddress.equals(BusinessData.getAddress())){
+			BusinessData.setAddress(newBusinessAddress);
+			dataChanged = true;
+		}
+
+		String newPhoneNumber = bif.getBusinessPhoneNumber();
+		if(!newPhoneNumber.equals("") && !newPhoneNumber.equals(BusinessData.getPhoneNumber())){
+			BusinessData.setPhoneNumber(newPhoneNumber);
+			dataChanged = true;
+		}
+		
+		return dataChanged;
+	}
+
+
+	private boolean applyLocationSettings() {
+
+		LocationSettingsFragment lsf = (LocationSettingsFragment) getSupportFragmentManager().findFragmentByTag(getResources().getString(R.string.Location_settings));
+		
+		if (lsf == null) return false;
+
+		if (!lsf.neededInfoGiven()) return false;
+
+		LatLng newLatLng = lsf.getLocation();
+		if ( newLatLng.equals(BusinessData.getLocation()) ) return false;
+		
+		BusinessData.setLocation(newLatLng);		
+		return true;
+	}
+	
 
 
 
@@ -254,3 +249,24 @@ public class BusinessSettingsActivity extends BaseActivity{
 
 
 }
+
+/*
+Fragment currentFragment = getSupportFragmentManager().findFragmentByTag(mTabHost.getCurrentTabTag());
+
+if(currentFragment.getClass() == GeneralSettingsFragment.class){
+	Log.d("BusinessSettingsActivity", "apply button was pressesd, current fragment - general settings");
+	handleApplyGeneralSettings();
+}
+else if(currentFragment.getClass() == BusinessInfoFragment.class){
+	Log.d("BusinessSettingsActivity", "apply button was pressesd, current fragment - business settings");
+	handleApplyBusinessSettings();
+}
+else if(currentFragment.getClass() == LocationSettingsFragment.class){
+	Log.d("BusinessSettingsActivity", "apply button was pressesd, current fragment - location settings");
+	handleLocationSettings();
+}
+else{
+	Log.e("BusinessSettingsActivity", "apply button was pressesd, current fragment wasnt recognized");
+	return;
+}
+*/

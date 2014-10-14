@@ -21,7 +21,7 @@ import com.dna.radius.infrastructure.BaseActivity;
 import com.dna.radius.infrastructure.SupportedTypes;
 import com.dna.radius.infrastructure.SupportedTypes.BusinessType;
 
-public class BusinessFillDetailsFragment extends Fragment{
+public class BusinessInfoFragment extends Fragment{
 
 	private EditText businessNameEditText, businessAddressEditText, businessPhoneEditText;
 	private TextView businessNameTextView, businessPhoneTextView,  businessAddressTextView,  businessTypeTextView;
@@ -50,7 +50,7 @@ public class BusinessFillDetailsFragment extends Fragment{
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-		View view = inflater.inflate(R.layout.business_fill_details_fragment,container, false);	
+		View view = inflater.inflate(R.layout.business_info_fragment,container, false);	
 
 		//retrives the relevant views
 		businessNameEditText = (EditText) view.findViewById(R.id.business_name_edit_text);

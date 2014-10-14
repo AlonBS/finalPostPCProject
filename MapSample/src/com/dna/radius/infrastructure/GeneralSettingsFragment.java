@@ -37,7 +37,7 @@ public class GeneralSettingsFragment extends Fragment{
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 
-		v = inflater.inflate(R.layout.general_settings_fragment,container, false);
+		v = inflater.inflate(R.layout.general_settings_fragment, container, false);
 
 		initViews();
 

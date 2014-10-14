@@ -18,7 +18,7 @@ import android.widget.Button;
 import com.dna.radius.R;
 import com.dna.radius.dbhandling.ParseClassesNames;
 import com.dna.radius.infrastructure.BaseActivity;
-import com.dna.radius.infrastructure.LocationFinderFragment;
+import com.dna.radius.infrastructure.LocationSettingsFragment;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
@@ -48,9 +48,9 @@ public class ClientWelcomeActivity extends BaseActivity {
 		final FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		
-		LocationFinderFragment locationFragment = new LocationFinderFragment();
+		LocationSettingsFragment locationFragment = new LocationSettingsFragment();
 		Bundle bdl = new Bundle();
-		bdl.putString(LocationFinderFragment.ADDRESS_PARAMETER, "");
+		bdl.putString(LocationSettingsFragment.ADDRESS_PARAMETER, "");
 		locationFragment.setArguments(bdl);
 		
 		fragmentTransaction.add(R.id.client_welcome_main_fragment_layout, locationFragment);
@@ -112,7 +112,7 @@ public class ClientWelcomeActivity extends BaseActivity {
 
 				//receives the location from the activity
 				final FragmentManager fragmentManager = getSupportFragmentManager();
-				LocationFinderFragment currentFragment = (LocationFinderFragment)fragmentManager.findFragmentById(R.id.client_welcome_main_fragment_layout);
+				LocationSettingsFragment currentFragment = (LocationSettingsFragment)fragmentManager.findFragmentById(R.id.client_welcome_main_fragment_layout);
 				if( !currentFragment.neededInfoGiven() )
 					return;
 				

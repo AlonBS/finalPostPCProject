@@ -27,7 +27,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class LocationFinderFragment extends Fragment {
+public class LocationSettingsFragment extends Fragment {
 
 	private GoogleMap gMap;
 	private static final float DEFAULT_LATLNG_ZOOM = 22;

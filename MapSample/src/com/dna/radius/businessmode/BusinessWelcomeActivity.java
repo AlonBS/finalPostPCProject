@@ -24,7 +24,7 @@ import com.dna.radius.datastructures.Deal;
 import com.dna.radius.datastructures.DealHistoryManager;
 import com.dna.radius.dbhandling.ParseClassesNames;
 import com.dna.radius.infrastructure.BaseActivity;
-import com.dna.radius.infrastructure.LocationFinderFragment;
+import com.dna.radius.infrastructure.LocationSettingsFragment;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
@@ -58,10 +58,10 @@ public class BusinessWelcomeActivity extends BaseActivity {
 		//starts the fill details fragment
 		final FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-		BusinessFillDetailsFragment businessWelcomeFragment = new BusinessFillDetailsFragment();
+		BusinessInfoFragment businessWelcomeFragment = new BusinessInfoFragment();
 		
 		Bundle fillDataBundle = new Bundle();
-		fillDataBundle.putBoolean(BusinessFillDetailsFragment.IS_IN_SETTINGS_MODE_PARAM, false);
+		fillDataBundle.putBoolean(BusinessInfoFragment.IS_IN_SETTINGS_MODE_PARAM, false);
 		businessWelcomeFragment.setArguments(fillDataBundle);
 		fragmentTransaction.add(R.id.business_welcome_main_fragment_layout, businessWelcomeFragment);
 		fragmentTransaction.commit();
@@ -98,7 +98,7 @@ public class BusinessWelcomeActivity extends BaseActivity {
 				
 				if (fragmentCount == ON_FILL_DETAILS_FRAGMENT) {
 					
-					BusinessFillDetailsFragment currentFragment = (BusinessFillDetailsFragment)fragmentManager.findFragmentById(R.id.business_welcome_main_fragment_layout);
+					BusinessInfoFragment currentFragment = (BusinessInfoFragment)fragmentManager.findFragmentById(R.id.business_welcome_main_fragment_layout);
 					if( !currentFragment.neededInfoGiven()) return;
 
 					//Retrieves the business data from fragment
@@ -107,9 +107,9 @@ public class BusinessWelcomeActivity extends BaseActivity {
 					BusinessData.businessAddress = currentFragment.getBusinessAddress();
 					BusinessData.businessPhoneNumber = currentFragment.getBusinessPhoneNumber();
 
-					Fragment nextFragment = new LocationFinderFragment();
+					Fragment nextFragment = new LocationSettingsFragment();
 					Bundle bdl = new Bundle();
-					bdl.putString(LocationFinderFragment.ADDRESS_PARAMETER, BusinessData.businessAddress);
+					bdl.putString(LocationSettingsFragment.ADDRESS_PARAMETER, BusinessData.businessAddress);
 					nextFragment.setArguments(bdl);
 					
 					fragmentCount++;
@@ -126,7 +126,7 @@ public class BusinessWelcomeActivity extends BaseActivity {
 					progressButton.setText(getResources().getString(R.string.finish_btn).toUpperCase());
 
 				}else if (fragmentCount == ON_LOCATION_FRAGMENT) {
-					LocationFinderFragment currentFragment = (LocationFinderFragment)fragmentManager.findFragmentById(R.id.business_welcome_main_fragment_layout);
+					LocationSettingsFragment currentFragment = (LocationSettingsFragment)fragmentManager.findFragmentById(R.id.business_welcome_main_fragment_layout);
 					if (!currentFragment.neededInfoGiven()) return;
 
 					BusinessData.businessLocation = currentFragment.getLocation();
