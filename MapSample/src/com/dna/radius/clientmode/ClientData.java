@@ -111,7 +111,8 @@ public class ClientData{
 		homeLocation = latlng;
 		ParseGeoPoint location = new ParseGeoPoint(homeLocation.latitude, homeLocation.longitude);
 		clientInfo.put(ParseClassesNames.CLIENT_LOCATION, location);
-		clientInfo.saveInBackground(); //TODO SHOULD BE saveEvantually()
+		//clientInfo.saveInBackground(); //TODO SHOULD BE saveEvantually()
+		clientInfo.saveEventually(); //TODO SHOULD BE saveEvantually()
 	}
 	
 	/***************************************************************************************************/

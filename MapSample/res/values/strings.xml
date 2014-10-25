@@ -115,6 +115,7 @@
     <string name="not_now_btn">Not now</string>
     <string name="finish_btn">Finish</string>
     <string name="welcome_business_fill_details">In order to complete the registration please fill the following details</string>
+    <string name="new_location">New home location was set"</string>
 
     <!-- deal history fragment -->
     <string name="history_fragment_total_likes">   Total likes: </string>

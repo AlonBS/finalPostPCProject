@@ -168,7 +168,7 @@ public class MapWindowFragment extends Fragment {
 					LatLng latLng = gMap.getCameraPosition().target;
 					ClientData.setHome(latLng);
 					BaseActivity parentActivity = (BaseActivity)getActivity();
-					parentActivity.createAlertDialog("new home location was selected");
+					parentActivity.createAlertDialog(getResources().getString(R.string.new_location));
 					return false;
 				}
 			});
