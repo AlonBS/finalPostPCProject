@@ -194,8 +194,6 @@ public class LoginFragment extends Fragment {
 
 				MainActivity.fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 
-				//MainActivity.fragmentTransaction.setCustomAnimations(arg0, arg1, arg2, arg3) TODO - add
-
 				MainActivity.fragmentTransaction.commit();
 				
 				

@@ -91,7 +91,7 @@ public class SignUpFragment extends Fragment {
 				ParseUser user = new ParseUser();
 				user.setUsername(userNameText);
 				user.setPassword(passwordText);
-				user.setEmail(emailText); //TODO retrive
+				user.setEmail(emailText);
 				user.put(ParseClassesNames.LAST_MODE, app_mode);
 
 
@@ -106,7 +106,6 @@ public class SignUpFragment extends Fragment {
 							signUpButton.setText(getString(R.string.sign_up));
 							progressBar.setVisibility(View.GONE);
 
-							//TODO add informative message
 							BaseActivity parentActivity = (BaseActivity)getActivity();
 							parentActivity.createAlertDialog(e.getMessage());
 						}
@@ -138,7 +137,7 @@ public class SignUpFragment extends Fragment {
 	}
 
 
-	// TODO COMPLETE CHECKS 
+	// TODO extends checks - next version 
 	private boolean illegalValues(String u, String p1, String p2, String e) {
 		BaseActivity parentActivity = (BaseActivity)getActivity();
 		if (u.matches("[^a-zA-Z0-9 ]") || u.equals("")){
@@ -152,16 +151,8 @@ public class SignUpFragment extends Fragment {
 
 		}
 
-		else if (e.contains("!!!")) {
-
-			// TODO check if email exists and valid
-			return true;
-		}
-
 		return false;
 	}
-
-
 }
 
 

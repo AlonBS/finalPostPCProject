@@ -16,9 +16,8 @@ import com.dna.radius.infrastructure.ColoredRatingBar;
 import com.dna.radius.map.ShowDealActivity;
 
 /***
- * a costum view which extends an horizontal scroll view.
+ * a custom view which extends an horizontal scroll view.
  * is used for showing the top deals list.
- *
  */
 public class TopBusinessesHorizontalView extends HorizontalScrollView{
 	
@@ -65,7 +64,7 @@ public class TopBusinessesHorizontalView extends HorizontalScrollView{
 		TextView businessNameTextView = (TextView) newLayout.findViewById(R.id.top_business_name);
 		TextView businessTotalLikesTextView = (TextView) newLayout.findViewById(R.id.top_business_num_of_likes);
 		TextView businessTotalDislikesTextView = (TextView) newLayout.findViewById(R.id.top_business_num_of_dislikes);
-		//TextView businessTotalDealsTextView = (TextView) newLayout.findViewById(R.id.blabla); TODO support if needed
+		//TextView businessTotalDealsTextView = (TextView) newLayout.findViewById(R.id.blabla); TODO support if needed - next version
 		ColoredRatingBar businessRatingBar = (ColoredRatingBar) newLayout.findViewById(R.id.top_business_rating_bar);
 		
 		if (businessNameTextView != null) {
@@ -80,11 +79,13 @@ public class TopBusinessesHorizontalView extends HorizontalScrollView{
 		if (businessTotalDislikesTextView != null) {
 			businessTotalDislikesTextView.setText(Integer.toString(eb.getExternBusinessTotalDislikes()));
 		}
-//TODO support if needed
-//		if (businessTotalDeals != null {
-//			businessTotalDealsTextView.setText(Integer.toString(eb.getTotalNumberOfDeal()));
-//			
-//		}
+
+		//TODO support if needed - next version
+		//		if (businessTotalDeals != null {
+		//					businessTotalDealsTextView.setText(Integer.toString(eb.getTotalNumberOfDeal()));
+		//			
+		//		}
+		
 		if (businessRatingBar != null) {
 			businessRatingBar.setRating((float)eb.getExternBusinessRating());
 		}

@@ -72,11 +72,7 @@ public class MainActivity extends BaseActivity {
 	 */
 	private void setParse() {
 
-		//TODO read about ACL and security
-
 		Parse.initialize(getApplicationContext(), APP_ID, CLIENT_KEY);
-		//ParseUser.enableAutomaticUser(); TODO should remove?
-
 	}
 
 
@@ -181,16 +177,4 @@ public class MainActivity extends BaseActivity {
 	// This will disable menu in login/sign up etc.
 	public boolean onCreateOptionsMenu(Menu menu) { return true; }
 	
-	
-	
-//	enum ERROR_CODES { TODO RETURN
-//		NO_SUCH_MAIL(1000);
-//		
-//		
-//		private ERROR_CODES(int ec) {
-//			this.ec = ec;
-//		}
-//		
-//		private int ec;
-//	}
 }

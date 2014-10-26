@@ -17,7 +17,6 @@ import com.dna.radius.infrastructure.BaseActivity;
 
 /***
  * represents an array adapter view for the comments list.
- * @author dror
  *
  */
 public class CommentsArrayAdapter extends ArrayAdapter<Comment>{

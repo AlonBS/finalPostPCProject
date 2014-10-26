@@ -32,9 +32,6 @@ import com.parse.ParseUser;
 
 public class BusinessWelcomeActivity extends BaseActivity {
 
-	//private Bitmap businessBitmap;
-
-
 
 	/**
 	 * This integer and constants were meant to tell which fragment should be 

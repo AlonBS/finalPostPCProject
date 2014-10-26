@@ -208,23 +208,11 @@ public class DBHandler {
 
 
 
-	//TODO check radius - and check radius vs. google's radius 
-	//	
-	//
-	//		query.whereLessThanOrEqualTo(ParseClassesNames.BUSINESS_LOCATION + "." +
-	//				ParseClassesNames.BUSINESS_LOCATION_LAT, top);
-	//		query.whereGreaterThanOrEqualTo(ParseClassesNames.BUSINESS_LOCATION + "." +
-	//				ParseClassesNames.BUSINESS_LOCATION_LAT, buttom);
-	//		query.whereLessThanOrEqualTo(ParseClassesNames.BUSINESS_LOCATION + "." +
-	//				ParseClassesNames.BUSINESS_LOCATION_LONG, right);
-	//		query.whereGreaterThanOrEqualTo(ParseClassesNames.BUSINESS_LOCATION + "." +
-	//				ParseClassesNames.BUSINESS_LOCATION_LONG, left);
 	public static void getExternalBusinessAtRadius(LatLng location, double radius) {
 
 		ParseQuery<ParseObject> query = ParseQuery.getQuery(ParseClassesNames.BUSINESS_CLASS);
 		
-		//query.
-		query.whereWithinRadians(ParseClassesNames.BUSINESS_LOCATION, //TODO check radians indeed work
+		query.whereWithinRadians(ParseClassesNames.BUSINESS_LOCATION,
 				new ParseGeoPoint(location.latitude, location.longitude), radius);
 
 		query.findInBackground(new FindCallback<ParseObject>() {
@@ -247,8 +235,8 @@ public class DBHandler {
 									j.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_CONTENT),
 									j.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_LIKES),
 									j.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_DISLIKES),
-									new SimpleDateFormat(BaseActivity.DATE_FORMAT).parse(j.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE)), // TODO add get date
-									null); //TODO getDAte() // TODO - think about comment in external business
+									new SimpleDateFormat(BaseActivity.DATE_FORMAT).parse(j.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE)), // TODO version - add get date
+									null);
 
 							ExternalBusiness newExtern = new ExternalBusiness(
 									o.getObjectId(),
@@ -297,7 +285,7 @@ public class DBHandler {
 	 * otherwise - does nothing at all :(
 	 * 
 	 */
-	//TODO 
+	
 	public static void loadBusinessImageViewAsync(String businessId ,final ImageView imageView) {
 
 
@@ -355,7 +343,6 @@ public class DBHandler {
 
 	private static final int NUM_OF_COMMENTS = 50;
 
-	// TODO - this is not used.
 	/**
 	 * receives a commentArrayAdapter and comments list. updates both of the
 	 * parameter asynchronously, using parse.
@@ -415,7 +402,6 @@ public class DBHandler {
 		});
 	}
 
-	//TODO add comment to deal in business mode
 	/**
 	 * This is called from ClientMode only
 	 * @param dealId
@@ -443,7 +429,7 @@ public class DBHandler {
 						currentDealJO.getJSONArray(ParseClassesNames.BUSINESS_CURRENT_DEAL_COMMENTS).put(newCommentJO);
 						o.put(ParseClassesNames.BUSINESS_CURRENT_DEAL, currentDealJO);
 
-						o.saveInBackground();	// TODO should be eventually 
+						o.saveEventually(); 
 
 
 					} catch (JSONException e1) {
@@ -465,7 +451,6 @@ public class DBHandler {
 
 	public static List<ExternalBusiness> LoadTopBusinessesSync(ParseGeoPoint gp, double radius) {
 
-		//TODO simulate asynchronous way
 
 		final List<ExternalBusiness> result = new ArrayList<ExternalBusiness>();
 
@@ -476,7 +461,7 @@ public class DBHandler {
 
 			if (query.count() < TopBusinessesHorizontalView.MAX_TOP_BUSINESSES) {
 
-				radius += 0.01; //TODO change ammount
+				radius += 0.01; // 0.01 in GEOPOINT is 1KM
 				if (query.count() < TopBusinessesHorizontalView.MAX_TOP_BUSINESSES) {
 					radius += 0.02;
 				}
@@ -505,8 +490,8 @@ public class DBHandler {
 								j.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_CONTENT),
 								j.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_LIKES),
 								j.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_DISLIKES),
-								new SimpleDateFormat(BaseActivity.DATE_FORMAT).parse(j.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE)), // TODO add get date
-								null); //TODO getDAte() // TODO - think about comment in external business
+								new SimpleDateFormat(BaseActivity.DATE_FORMAT).parse(j.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE)), // TODO version - add get date
+								null);
 					}
 
 					int totalLikes = 0, totalDislikes = 0, totalDeals = 0; //TODO totalDeals is currently not used
@@ -516,8 +501,7 @@ public class DBHandler {
 
 						totalLikes = j.getInt(ParseClassesNames.BUSINESS_HISTORY_TOTAL_LIKES);						
 						totalDislikes = j.getInt(ParseClassesNames.BUSINESS_HISTORY_TOTAL_DISLIKES);
-						//TODO (dror - we want this?
-						//totalDeals = j.getInt(ParseClassesNames.BUSINESS_HISTORY_TOTAL_NUM_OF_DEALS);
+						//TODO - currently total Deals is not used (Next Version)
 					}
 
 
@@ -546,61 +530,6 @@ public class DBHandler {
 		} catch (ParseException e) {
 			Log.e("DBHandler - LoadTopBusinessesSync", e.getMessage());
 		}
-
-		//THIS is the correct version
-		//		query.findInBackground(new FindCallback<ParseObject>() {
-		//			public void done(List<ParseObject> objects, ParseException e) {
-		//
-		//				if (e == null) {
-		//
-		//					for (ParseObject o : objects) {
-		//
-		//						try {
-		//							JSONObject j = o.getJSONObject(ParseClassesNames.BUSINESS_CURRENT_DEAL);
-		//							Deal externBusinessDeal = new Deal(
-		//									j.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_ID),
-		//									j.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_CONTENT),
-		//									j.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_LIKES),
-		//									j.getInt(ParseClassesNames.BUSINESS_CURRENT_DEAL_DISLIKES),
-		//									new SimpleDateFormat(BaseActivity.DATE_FORMAT).parse(j.getString(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE))); //TODO getDAte()
-		//
-		//
-		//							ExternalBusiness newExtern = new ExternalBusiness(
-		//									o.getObjectId(),
-		//									o.getString(ParseClassesNames.BUSINESS_NAME),
-		//									SupportedTypes.BusinessType.stringToType(o.getString(ParseClassesNames.BUSINESS_TYPE)),
-		//									o.getDouble(ParseClassesNames.BUSINESS_RATING),
-		//									o.getParseGeoPoint(ParseClassesNames.BUSINESS_RATING),
-		//									o.getString(ParseClassesNames.BUSINESS_ADDRESS),
-		//									o.getString(ParseClassesNames.BUSINESS_PHONE),
-		//									externBusinessDeal); 
-		//							
-		//							
-		//							result.add(newExtern);
-		//							if (result.size() >= TopBusinessesHorizontalView.MAX_TOP_BUSINESSES) break;
-		//							
-		//
-		//						} catch (JSONException | java.text.ParseException e1) {
-		//							
-		//							Log.e("DBHandler - LoadTopBusinessesSync", e1.getMessage());
-		//						} 
-		//
-		//
-		//						//TODO not needed - but add simulation mechanism
-		//						boolean isRelevant = MapBusinessManager.addExternalBusiness(null);
-		//						if(!isRelevant){
-		//							break;
-		//						}
-		//
-		//						Log.d("test", o.getObjectId());
-		//					}
-		//
-		//				} else {
-		//					
-		//					Log.e("DBHandler - LoadTopBusinessesSync", e.getMessage());
-		//				}
-		//			}
-		//		});
 
 		return result;
 	}

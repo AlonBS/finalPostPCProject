@@ -51,11 +51,6 @@ public class Deal implements Serializable {
 	
 	public void addComment(Comment newComment) { dealComments.add(newComment); }
 	
-	// TODO - needed?
 	public ArrayList<Comment> getComments() { return dealComments; }
-	
-	//TODO - needed?
-	public void setComments(ArrayList<Comment> comments) { this.dealComments = comments; }
-	
 	
 }

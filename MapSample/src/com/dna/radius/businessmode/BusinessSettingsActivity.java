@@ -49,7 +49,6 @@ public class BusinessSettingsActivity extends BaseActivity{
 		mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
 		mTabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
 
-		//TODO - NEEDED???
 		mTabHost.setOnTabChangedListener(new OnTabChangeListener(){    
 			public void onTabChanged(String tabID) {    
 				mTabHost.clearFocus(); 
@@ -121,7 +120,9 @@ public class BusinessSettingsActivity extends BaseActivity{
 				if ( dataChanged ) {
 					
 					String msg =  getResources().getString(R.string.data_changed_successfully);
-					msg = passwordsMisMatch ? msg : msg + "\n" + getResources().getString(R.string.new_password_wasnt_set);;
+					msg = passwordsMisMatch ? msg + "\n" + getResources().getString(R.string.new_password_wasnt_set) : msg;
+					
+					BusinessData.syncChanges();
 					
 					BusinessOpeningScreenActivity.refreshNeeded = true;
 					Toast.makeText(BusinessSettingsActivity.this, msg, Toast.LENGTH_LONG).show();
@@ -228,7 +229,7 @@ public class BusinessSettingsActivity extends BaseActivity{
 
 
 	/*
-	 * apparantly, there is an android bug whenever one of the fragments
+	 * Apparently, there is an android bug whenever one of the fragments
 	 * within a tab host contains several edit text.
 	 * the problem is that the edit text can't receive focus in this case.
 	 * after a research, I found out that the most suitable solution is that each
@@ -250,23 +251,3 @@ public class BusinessSettingsActivity extends BaseActivity{
 
 }
 
-/*
-Fragment currentFragment = getSupportFragmentManager().findFragmentByTag(mTabHost.getCurrentTabTag());
-
-if(currentFragment.getClass() == GeneralSettingsFragment.class){
-	Log.d("BusinessSettingsActivity", "apply button was pressesd, current fragment - general settings");
-	handleApplyGeneralSettings();
-}
-else if(currentFragment.getClass() == BusinessInfoFragment.class){
-	Log.d("BusinessSettingsActivity", "apply button was pressesd, current fragment - business settings");
-	handleApplyBusinessSettings();
-}
-else if(currentFragment.getClass() == LocationSettingsFragment.class){
-	Log.d("BusinessSettingsActivity", "apply button was pressesd, current fragment - location settings");
-	handleLocationSettings();
-}
-else{
-	Log.e("BusinessSettingsActivity", "apply button was pressesd, current fragment wasnt recognized");
-	return;
-}
-*/

@@ -21,7 +21,6 @@ import com.dna.radius.datastructures.Deal;
  * represents the history fragment for the business owner.
  * should contain a list of deal with number of likes and dislikes for each.
  * also, it should allow to choose a deal from the history list and set it instead of the current one.
- * @author dror
  *
  */
 public class BusinessHistoryFragment extends Fragment  implements DealHistoryDialogCommunicator{

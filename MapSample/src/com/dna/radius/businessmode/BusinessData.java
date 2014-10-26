@@ -43,7 +43,6 @@ import com.parse.SaveCallback;
 /***
  * an owner data object represents all the data which the business owner needs for
  * his business.
- * @author dror
  *
  */
 public class BusinessData {
@@ -80,96 +79,95 @@ public class BusinessData {
 		return businessInfo.getObjectId();
 	}
 
-	public static void setUserName(String newUserName){
-		//TODO alon - is this enough? + saveEventually() get stuck.
+	public static void setUserName(String newUserName) {
+		
 		currentUser.setUsername(newUserName);
-		//currentUser.saveInBackground(); 
-		currentUser.saveInBackground();
 	}
 
+	
 	public static String getEmail(){ return currentUser.getEmail(); }
 
-	public static void setEmail(String newEmail){
-		//TODO alon - is this enough? + saveEventually() get stuck.
+	
+	public static void setEmail(String newEmail) {
+		
 		currentUser.setEmail(newEmail);
-		currentUser.saveInBackground();
 	}
 
-	public static void setPassword(String newPassword){
-		//TODO alon - is this enough? + saveEventually() get stuck.
+	
+	public static void setPassword(String newPassword) {
+		
 		currentUser.setPassword(newPassword); 
-		currentUser.saveInBackground();
 	}
 
 
 	public static boolean hasADealOnDisplay() { return currentDeal != null; }
 
 
-
 	public static boolean imageFullyLoaded() { return businessImage != null; }
 
 
-
-	//	public static Bitmap getImage(){
-	//		return businessImage;
-	//	}
-	//	
-	//	public static void setImage (Bitmap newImage) {
-	//		businessImage = newImage;
-	//		//TODO save image on parse
-	//	}
-
 	public static String getName() { return businessName; }
 
+	
 	public static void setName(String newName) {
 
 		businessName = newName;
 		businessInfo.put(ParseClassesNames.BUSINESS_NAME, businessName);
-		businessInfo.saveInBackground(); //TODO should be saveEvantually()
 	}
 
+	
 	public static SupportedTypes.BusinessType getType() { return businessType; }
 
+	
 	public static void setType (BusinessType newType) {
 
 		businessType = newType;
 		businessInfo.put(ParseClassesNames.BUSINESS_TYPE, businessType.getStringRep());
-		businessInfo.saveInBackground(); //TODO should be saveEvantually()
 	}
 
 
 	public static String getAddress(){ return businessAddress; }
 
+	
 	public static void setAddress(String newAddress) {
 
 		businessAddress = newAddress;
 		businessInfo.put(ParseClassesNames.BUSINESS_ADDRESS, businessAddress);
-		businessInfo.saveInBackground(); //TODO should be saveEvantually()
 	}
 
 
 	public static String getPhoneNumber() { return businessPhoneNumber; }
 
+	
 	public static void setPhoneNumber(String newPhoneNumber) {
 
 		businessPhoneNumber = newPhoneNumber;
 		businessInfo.put(ParseClassesNames.BUSINESS_PHONE, businessPhoneNumber);
-		businessInfo.saveInBackground(); //TODO should be saveEvantually()
 	}
 
 
 	public static LatLng getLocation() { return businessLocation; }
 
+	
 	public static void setLocation (LatLng newLocation) {
 
 		businessLocation = newLocation;
 
 		ParseGeoPoint gp = new ParseGeoPoint(newLocation.latitude, newLocation.longitude);
 		businessInfo.put(ParseClassesNames.BUSINESS_LOCATION, gp);
-		businessInfo.saveInBackground();
 	}
-
-
+	
+	
+	static void syncChanges() {
+		
+		businessInfo.saveEventually(new SaveCallback() {
+			
+			@Override
+			public void done(ParseException arg0) {
+				currentUser.saveInBackground();
+			}
+		});
+	}
 
 
 	/** loads the Client data from the parse DB*/
@@ -241,6 +239,7 @@ public class BusinessData {
 		loadRating();
 	}
 
+	
 	private static void loadRating() {
 
 		businessRating = businessInfo.getDouble(ParseClassesNames.BUSINESS_RATING); // range should be: [0, 5]
@@ -359,6 +358,7 @@ public class BusinessData {
 		}
 	}
 
+	
 	// This should be called after(!) registration and load
 	private static void loadTopBusiness() {
 
@@ -370,7 +370,7 @@ public class BusinessData {
 
 		}
 		else {
-			//TODO - show message to user
+			
 			Log.e("Business - loadTopBusiness", "Business Location was not defined when trying to extract top business");
 		}
 	}
@@ -435,16 +435,11 @@ public class BusinessData {
 
 	static void setImage(Bitmap bMap, byte[] imageData) {
 
-		//TODO Remove old picture reference
 
 		if (imageData == null) return;
 
 		businessImage = bMap;
 		hasImage = true;
-		//
-		//		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		//		businessImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-		//		byte[] data = stream.toByteArray();
 
 
 		final ParseFile file = new ParseFile(imageData);
@@ -456,7 +451,7 @@ public class BusinessData {
 				if (e==null) {
 
 					businessInfo.put(ParseClassesNames.BUSINESS_IMAGE, file);
-					businessInfo.saveInBackground(); //TODO SHOULD BE SAVE EVENTUALLY
+					businessInfo.saveEventually();
 				}
 			}
 		});
@@ -530,14 +525,13 @@ public class BusinessData {
 
 		dealsHistory.incTotalNumOfDeals();
 		currentDeal = newDeal;
-
-		//TODO should be saveEventually()
-		currentUser.saveInBackground(null);
-		businessInfo.saveInBackground(new SaveCallback() {
+		
+		businessInfo.saveEventually(new SaveCallback() {
 
 			@Override
 			public void done(ParseException arg0) {
 				updateRating();
+				currentUser.saveInBackground();
 			}
 		});
 	}
@@ -589,8 +583,7 @@ public class BusinessData {
 		dealsHistory.incTotalNumOfDeals();
 		currentDeal = null;
 
-		//TODO should be saveEventually()
-		businessInfo.saveInBackground(null);
+		businessInfo.saveEventually();
 	}
 
 
@@ -622,6 +615,7 @@ public class BusinessData {
 				jo.put(ParseClassesNames.BUSINESS_CURRENT_DEAL_LIKES, d.getNumOfLikes());
 				jo.put(ParseClassesNames.BUSINESS_CURRENT_DEAL_DISLIKES, d.getNumOfDislikes());
 				jo.put(ParseClassesNames.BUSINESS_CURRENT_DEAL_DATE, new SimpleDateFormat(BusinessOpeningScreenActivity.DATE_FORMAT).format(d.getDealDate()));
+				
 				//TODO currently - we don't support old deals comments.
 
 				ja.put(jo);
@@ -631,7 +625,7 @@ public class BusinessData {
 			JSONObject historyJo = businessInfo.getJSONObject(ParseClassesNames.BUSINESS_HISTORY);
 			historyJo.put(ParseClassesNames.BUSINESS_HISTORY_DEALS, ja);
 			businessInfo.put(ParseClassesNames.BUSINESS_HISTORY, historyJo);
-			businessInfo.saveInBackground();
+			businessInfo.saveEventually();
 
 		}
 		catch (JSONException e1) {
@@ -702,7 +696,7 @@ public class BusinessData {
 				Log.e(errMsg, e.getMessage());
 			}
 
-			businessInfo.saveEventually(); //TODO should be saveEventaully?
+			businessInfo.saveEventually();
 		}
 		else {
 
@@ -767,8 +761,6 @@ public class BusinessData {
 			Log.e(errMsg,"Item wasn't in db to remove");
 		}
 	}
-
-
 
 
 	static void refreshDB() {

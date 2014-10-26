@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 
 /**
  * this is a waiting fragment - does nothing except for showing a progress bar on the screen.
- * @author dror
  *
  */
 public class WaitingFragment extends Fragment{

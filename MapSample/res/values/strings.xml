@@ -165,6 +165,8 @@
     
     <!--  Client Comment Fragment -->
     <string name="already_commented">"You've already commented on this deal lately"</string>
+    <string name="empty_comment">A comment cannot be empty.</string>
+    <string name="comment_submitted">Your comment was submitted, and will soon be published.</string>
     
 
 </resources>

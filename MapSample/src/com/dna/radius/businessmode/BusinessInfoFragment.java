@@ -63,7 +63,7 @@ public class BusinessInfoFragment extends Fragment{
 		businessAddressTextView = (TextView) view.findViewById(R.id.business_address_text_view);
 		businessTypeTextView = (TextView) view.findViewById(R.id.business_type_text_view);
 
-		//TODO check
+		//TODO check - next Version
 		//businessAddressEditText.setOnTouchListener(new EditTextOnTouchListenerWithinTabhost());
 		//businessNameEditText.setOnTouchListener(new EditTextOnTouchListenerWithinTabhost());
 		//businessPhoneEditText.setOnTouchListener(new EditTextOnTouchListenerWithinTabhost());
@@ -179,14 +179,10 @@ public class BusinessInfoFragment extends Fragment{
 	}
 
 	private boolean illegalBusinessName(String bn) {
-
-		//TODO business name filter? alpha-numeric only ? 
-		//ALON: if you add such a filter use the following two lines to present the error message (instead of a toast):
-		//BaseActivity parentActivity = (BaseActivity)getActivity();
-		//parentActivity.createAlertDialog(getResources().getString(R.string.business_type_forgot_to_fill));
+		
+		if (!bn.matches("^[a-zA-Z0-9./_',]*$")) return true;
 		
 		return false;
-
 	}
 
 	public String getBusinessName(){

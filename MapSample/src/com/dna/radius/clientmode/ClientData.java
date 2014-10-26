@@ -27,7 +27,6 @@ import com.parse.ParseUser;
  * The ClientData should be loaded only once for each log in, with a proper client id (currently it is loaded
  * through the business owner opening screen and the client opening screen).
  * afterwards, it can be used anywhere in the application using the getInstance() function.
- *
  */
 public class ClientData{
 
@@ -45,7 +44,6 @@ public class ClientData{
 	private static ArrayList<String> likes = new ArrayList<String>();
 	private static ArrayList<String> dislikes = new ArrayList<String>();
 
-	//TODO ? add private class?
 	private static final LatLng JAFFA_STREET = new LatLng(31.78507,35.214328);
 
 
@@ -62,10 +60,9 @@ public class ClientData{
 	/**
 	 * Sets this client's name.
 	 */
-	static void setUserName(String newUserName){
-		//TODO ALON - is it enough? + saveEventually() get stuck
+	static void setUserName(String newUserName) {
+		
 		currentUser.setUsername(newUserName);
-		currentUser.saveInBackground(); 
 	}
 	
 	
@@ -80,20 +77,24 @@ public class ClientData{
 	/**
 	 * Sets this client's email address
 	 */
-	static void setEmail(String newEmail){
-		//TODO ALON - is it enough? + saveEventually() get stuck
+	static void setEmail(String newEmail) {
+		
 		currentUser.setEmail(newEmail); 
-		currentUser.saveInBackground(); 
 	}
 
 	
 	/**
 	 * Sets this client's password
 	 */
-	static void setPassword(String newPassword){
-		//TODO ALON - is it enough? + saveEventually() get stuck
+	static void setPassword(String newPassword) {
+		
 		currentUser.setPassword(newPassword); 
-		currentUser.saveInBackground(); 
+	}
+	
+	
+	static void syncChanges() {
+		
+		currentUser.saveInBackground();
 	}
 	
 	
@@ -111,8 +112,7 @@ public class ClientData{
 		homeLocation = latlng;
 		ParseGeoPoint location = new ParseGeoPoint(homeLocation.latitude, homeLocation.longitude);
 		clientInfo.put(ParseClassesNames.CLIENT_LOCATION, location);
-		//clientInfo.saveInBackground(); //TODO SHOULD BE saveEvantually()
-		clientInfo.saveEventually(); //TODO SHOULD BE saveEvantually()
+		clientInfo.saveEventually();
 	}
 	
 	/***************************************************************************************************/

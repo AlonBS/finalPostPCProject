@@ -23,7 +23,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 /***
  * this objects holds all the relevant information which the map needs about the loaded businesses.
  * it is used instead of holding this information in separate data structures.
- * @author dror
  *
  */
 public class MapManager {

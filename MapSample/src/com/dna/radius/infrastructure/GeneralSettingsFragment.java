@@ -62,15 +62,14 @@ public class GeneralSettingsFragment extends Fragment{
 	}
 
 	
-	//TODO DELETE METHOD
-	private void setOnTouchListeners() {
-
-		//TODO DELETE
-		userNameEditText.setOnTouchListener(new BusinessSettingsActivity.EditTextOnTouchListenerWithinTabhost());
-		newPasswordEditText.setOnTouchListener(new BusinessSettingsActivity.EditTextOnTouchListenerWithinTabhost());
-		newPasswordConformationEditText.setOnTouchListener(new BusinessSettingsActivity.EditTextOnTouchListenerWithinTabhost());
-		emailEditText.setOnTouchListener(new BusinessSettingsActivity.EditTextOnTouchListenerWithinTabhost());
-	}
+	//TODO DELETE METHOD - needed? 
+//	private void setOnTouchListeners() {
+//
+//		userNameEditText.setOnTouchListener(new BusinessSettingsActivity.EditTextOnTouchListenerWithinTabhost());
+//		newPasswordEditText.setOnTouchListener(new BusinessSettingsActivity.EditTextOnTouchListenerWithinTabhost());
+//		newPasswordConformationEditText.setOnTouchListener(new BusinessSettingsActivity.EditTextOnTouchListenerWithinTabhost());
+//		emailEditText.setOnTouchListener(new BusinessSettingsActivity.EditTextOnTouchListenerWithinTabhost());
+//	}
 
 
 	private void setDeleteAccountOnClickListener() {

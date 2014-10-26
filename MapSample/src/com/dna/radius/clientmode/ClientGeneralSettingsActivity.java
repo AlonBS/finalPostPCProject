@@ -84,6 +84,9 @@ public class ClientGeneralSettingsActivity extends BaseActivity{
 				}
 
 				if (dataChanged) {
+					
+					ClientData.syncChanges();
+					
 					Toast.makeText(ClientGeneralSettingsActivity.this, getResources().getString(R.string.data_changed_successfully), Toast.LENGTH_SHORT).show();
 					finish();
 				}

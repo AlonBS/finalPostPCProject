@@ -90,7 +90,7 @@ public class ClientWelcomeActivity extends BaseActivity {
 				// user chose to set his location later - we close dialog
 				finishRegistration();
 
-				Bundle data = new Bundle(); //TODO bundle is needed?
+				Bundle data = new Bundle();
 				data.putBoolean(DID_USER_CHOSE_LAT_PARAM, false);
 				Intent intent = new Intent();
 				intent.putExtras(data);

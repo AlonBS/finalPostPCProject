@@ -121,14 +121,12 @@ public class CommentsFragment extends Fragment{
 					String commentContent = newCommentEditText.getText().toString();
 					
 					if(commentContent.equals("")){
-						parentActivity.createAlertDialog("your comment is empty");
+						parentActivity.createAlertDialog(getResources().getString(R.string.empty_comment));
 						return;
 					}
 					
-					// TODO (alon) - change alert string, maybe remove
-					parentActivity.createAlertDialog("Thank you for your comment!");
+					parentActivity.createAlertDialog(getResources().getString(R.string.comment_submitted));
 					
-					//TODO put in ClientData ALON 
 					previousComments.put(dealID,System.currentTimeMillis());
 					ClientData.commentOnADeal(dealID, commentContent);
 					newCommentEditText.setText(getResources().getString(R.string.type_comment_here));

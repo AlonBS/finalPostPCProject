@@ -28,7 +28,6 @@ import com.dna.radius.map.ShowDealActivity;
 /**
  * represents the first screen which the business owner sees when he is logging in.
  * contains data about his deal, an image, comments and top deals segment.
- *
  */
 public class BusinessDashboardFragment extends Fragment implements AddNewDealCommunicator{
 
@@ -112,7 +111,7 @@ public class BusinessDashboardFragment extends Fragment implements AddNewDealCom
 	private void displayImageIfNeeded() {
 
 
-		if (BusinessData.hasImage()) { //TODO
+		if (BusinessData.hasImage()) {
 
 			if (BusinessData.imageFullyLoaded()) {
 				imageOnDisplayImageView.setImageBitmap(BusinessData.businessImage);
