@@ -48,7 +48,6 @@
     <string name="unknown_error">An Unknown error has occurred.</string>
     
     <!-- signup_activity error strings -->
-    <string name="illegal_user_name">User name is illegal. \n Please use only characters and numbers</string>
     <string name="passwords_mismatch">Passwords don\'t match - no new password was set</string>
     <string name="aaemail_address">Email Address</string>
     
@@ -86,6 +85,10 @@
     <!-- business Settings strings -->
     <string name="business_settings">Business Settings</string>
     <string name="Location_settings">Location Settings</string>
+    <string name="illegal_user_name">Illegal user name was entered.</string>
+    <string name="illegal_email">Illegal Email address was entered.</string>
+    <string name="illegal_business_name">Illegal business name was entered.</string>
+        
 
     <!-- welcome screen -->
     <string name="welcome_to_radius">Welcome to Radius!</string>

@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.dna.radius.R;
 import com.dna.radius.infrastructure.BaseActivity;
+import com.dna.radius.infrastructure.DataRegexs;
 import com.dna.radius.infrastructure.GeneralSettingsFragment;
 import com.dna.radius.infrastructure.LocationSettingsFragment;
 import com.dna.radius.infrastructure.MyApp;
@@ -28,6 +29,11 @@ public class BusinessSettingsActivity extends BaseActivity{
 	private FragmentTabHost mTabHost;
 	
 	private boolean passwordsMisMatch = false;
+	
+	private boolean hasError;
+	private String msg;
+
+	
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -117,6 +123,13 @@ public class BusinessSettingsActivity extends BaseActivity{
 				dataChanged |= applyBusinessSettings();
 				dataChanged |= applyLocationSettings();
 				
+				if ( hasError ) { //One or more errors in data filling
+					
+					createAlertDialog(msg);
+					return;
+				}
+				
+								
 				if ( dataChanged ) {
 					
 					String msg =  getResources().getString(R.string.data_changed_successfully);
@@ -145,13 +158,30 @@ public class BusinessSettingsActivity extends BaseActivity{
 		//tests if the users changed the user name and changes it accordingly
 		String newUserName = gsf.getUserName();
 		if(!newUserName.equals("") && !newUserName.equals(BusinessData.getUserName())){
+			
+			if (!newUserName.matches(DataRegexs.NAME)) { 
+				
+				hasError = true;
+				msg = getResources().getString(R.string.illegal_user_name);
+				return false;
+			}
+			
 			dataChanged = true;
 			BusinessData.setUserName(newUserName);
 		}
 
 		//tests if the users changed the email and changes it accordingly
 		String newEmail = gsf.getEmail();
-		if(!newEmail.equals("") && !newEmail.equals(BusinessData.getEmail())){
+		if(!newEmail.equals("") && !newEmail.equals(BusinessData.getEmail()) ) {
+			
+			if (!newEmail.matches(DataRegexs.USER_MAIL)) {
+				
+				hasError = true;
+				msg = getResources().getString(R.string.illegal_email);
+				return false;
+				
+			}
+			
 			dataChanged = true;
 			BusinessData.setEmail(newEmail);
 		}
@@ -160,7 +190,7 @@ public class BusinessSettingsActivity extends BaseActivity{
 		String newPassword = gsf.getPassword();
 		String newPasswordConformation = gsf.getConformationPassword();
 		if(!newPassword.equals("")){
-			if(!newPassword.equals(newPasswordConformation)){
+			if(!newPassword.equals(newPasswordConformation)) {
 				passwordsMisMatch = true;
 				
 			} else {
@@ -184,6 +214,14 @@ public class BusinessSettingsActivity extends BaseActivity{
 		
 		String newBusinessName = bif.getBusinessName();
 		if(!newBusinessName.equals("") && !newBusinessName.equals(BusinessData.getName())){
+			
+			if (!newBusinessName.matches(DataRegexs.NAME)) {
+				
+				hasError = true;
+				msg = getResources().getString(R.string.illegal_business_name);
+				return false;
+				
+			}
 			BusinessData.setName(newBusinessName);
 			dataChanged = true;
 		}

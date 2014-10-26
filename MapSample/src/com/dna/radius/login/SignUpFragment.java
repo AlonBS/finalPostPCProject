@@ -17,6 +17,7 @@ import com.dna.radius.businessmode.BusinessOpeningScreenActivity;
 import com.dna.radius.clientmode.ClientOpeningScreenActivity;
 import com.dna.radius.dbhandling.ParseClassesNames;
 import com.dna.radius.infrastructure.BaseActivity;
+import com.dna.radius.infrastructure.DataRegexs;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
@@ -140,7 +141,7 @@ public class SignUpFragment extends Fragment {
 	// TODO extends checks - next version 
 	private boolean illegalValues(String u, String p1, String p2, String e) {
 		BaseActivity parentActivity = (BaseActivity)getActivity();
-		if (u.matches("[^a-zA-Z0-9 ]") || u.equals("")){
+		if (!u.matches(DataRegexs.NAME) || u.equals("")){
 			parentActivity.createAlertDialog(getResources().getString(R.string.illegal_user_name));
 			return true;
 		}

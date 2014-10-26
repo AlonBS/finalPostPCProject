@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.dna.radius.R;
 import com.dna.radius.infrastructure.BaseActivity;
+import com.dna.radius.infrastructure.DataRegexs;
 import com.dna.radius.infrastructure.SupportedTypes;
 import com.dna.radius.infrastructure.SupportedTypes.BusinessType;
 
@@ -165,7 +166,7 @@ public class BusinessInfoFragment extends Fragment{
 
 		if (businessName.isEmpty() || illegalBusinessName(businessName)) {
 			BaseActivity parentActivity = (BaseActivity)getActivity();
-			parentActivity.createAlertDialog(getResources().getString(R.string.business_name_forgot_to_fill));
+			parentActivity.createAlertDialog(getResources().getString(R.string.illegal_business_name));
 			return false;
 		}
 		if (businessType == null) {
@@ -180,7 +181,7 @@ public class BusinessInfoFragment extends Fragment{
 
 	private boolean illegalBusinessName(String bn) {
 		
-		if (!bn.matches("^[a-zA-Z0-9./_',]*$")) return true;
+		if (!bn.matches(DataRegexs.NAME)) return true;
 		
 		return false;
 	}
