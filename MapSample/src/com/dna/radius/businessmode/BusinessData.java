@@ -159,12 +159,13 @@ public class BusinessData {
 	
 	
 	static void syncChanges() {
-		
-		businessInfo.saveEventually(new SaveCallback() {
-			
+		Log.d("BusinessData", "enter syncChanges");
+		businessInfo.saveInBackground(new SaveCallback() {
 			@Override
 			public void done(ParseException arg0) {
+				Log.d("BusinessData", "enter done");
 				currentUser.saveInBackground();
+				Log.d("BusinessData", "a done");
 			}
 		});
 	}
