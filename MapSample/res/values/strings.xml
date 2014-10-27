@@ -45,7 +45,7 @@
     <string name="username_missing">Username is missing or incorrect.</string>
     <string name="password_missing">Password is missing or incorrect.</string>
     <string name="validation_failed">Validation failed. Please retry.</string>
-    <string name="unknown_error">An Unknown error has occurred.</string>
+    <string name="general_error">Wrong user name of password were entered.</string>
     
     <!-- signup_activity error strings -->
     <string name="passwords_mismatch">Passwords don\'t match - no new password was set</string>

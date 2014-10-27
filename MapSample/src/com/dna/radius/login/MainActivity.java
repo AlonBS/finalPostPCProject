@@ -167,7 +167,7 @@ public class MainActivity extends BaseActivity {
 			break;
 
 		default:
-			msg = f.getResources().getString(R.string.unknown_error);
+			msg = f.getResources().getString(R.string.general_error);
 		}
 		
 		BaseActivity parentActivity = (BaseActivity)f.getActivity();
