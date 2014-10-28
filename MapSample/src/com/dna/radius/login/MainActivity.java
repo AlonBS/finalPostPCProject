@@ -47,7 +47,7 @@ public class MainActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
-		//Crashlytics.start(this);
+		Crashlytics.start(this);
 		setContentView(R.layout.main_activity);
 		
 		Tracker tracker = ((MyApp) getApplication()).getTracker(MyApp.TrackerName.APP_TRACKER);
