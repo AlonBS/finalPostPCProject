@@ -87,6 +87,7 @@ public class LoginFragment extends Fragment {
 
 				progressBar.setVisibility(View.VISIBLE);
 				logInButton.setText("");
+				logInButton.setEnabled(false);
 				String userName = userNameEditText.getText().toString();
 				String userPassword = userPasswordEditText.getText().toString();
 
@@ -124,6 +125,7 @@ public class LoginFragment extends Fragment {
 
 							progressBar.setVisibility(View.GONE);
 							logInButton.setText(getString(R.string.login));
+							logInButton.setEnabled(true);
 						}
 					}
 				});

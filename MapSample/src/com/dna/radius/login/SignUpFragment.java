@@ -74,6 +74,7 @@ public class SignUpFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				signUpButton.setText("");
+				signUpButton.setEnabled(false);
 				progressBar.setVisibility(View.VISIBLE);
 				String userNameText, passwordText, passwordConfirmText, emailText;
 
@@ -84,6 +85,7 @@ public class SignUpFragment extends Fragment {
 
 				if (illegalValues(userNameText, passwordText, passwordConfirmText, emailText) ){
 					signUpButton.setText(getString(R.string.sign_up));
+					signUpButton.setEnabled(true);
 					progressBar.setVisibility(View.GONE);
 					return;
 				}
@@ -106,7 +108,8 @@ public class SignUpFragment extends Fragment {
 						} else {
 							signUpButton.setText(getString(R.string.sign_up));
 							progressBar.setVisibility(View.GONE);
-
+							signUpButton.setEnabled(true);
+							
 							BaseActivity parentActivity = (BaseActivity)getActivity();
 							parentActivity.createAlertDialog(e.getMessage());
 						}

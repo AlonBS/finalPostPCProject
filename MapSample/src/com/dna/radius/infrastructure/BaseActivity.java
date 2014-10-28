@@ -20,7 +20,6 @@ import com.dna.radius.R;
 import com.dna.radius.businessmode.BusinessData;
 import com.dna.radius.businessmode.BusinessOpeningScreenActivity;
 import com.dna.radius.businessmode.BusinessSettingsActivity;
-import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.clientmode.ClientGeneralSettingsActivity;
 import com.dna.radius.clientmode.ClientOpeningScreenActivity;
 import com.dna.radius.dbhandling.ParseClassesNames;
@@ -101,8 +100,11 @@ public abstract class BaseActivity extends FragmentActivity{
 
 		//resets the comments fragment
 		CommentsFragment.restartCommentsHistory();
-		BusinessData.destroy();
-	
+		
+		if(isInBusinessMode){
+			BusinessData.destroy();
+		}
+		
 		// back to 'log in' screen
 		Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 		startActivity(intent);
@@ -152,11 +154,12 @@ public abstract class BaseActivity extends FragmentActivity{
 				}
 
 
-				if(isInBusinessMode)
+				if(isInBusinessMode){
 					myIntent = new Intent(getApplicationContext(), BusinessOpeningScreenActivity.class);
-				else
+				}else{
+					BusinessData.destroy();
 					myIntent = new Intent(getApplicationContext(), ClientOpeningScreenActivity.class);
-
+				}
 				startActivity(myIntent);
 				finish();
 			}

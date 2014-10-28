@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 
+import com.crashlytics.android.Crashlytics;
 import com.dna.radius.R;
 import com.dna.radius.businessmode.BusinessOpeningScreenActivity;
 import com.dna.radius.clientmode.ClientOpeningScreenActivity;
