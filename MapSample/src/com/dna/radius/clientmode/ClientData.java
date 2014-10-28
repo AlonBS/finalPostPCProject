@@ -130,7 +130,7 @@ public class ClientData{
 			if (currentUser != null) {
 
 				currentUser.fetchIfNeeded();
-
+				
 				if (currentUser.isDataAvailable()) {
 
 					clientInfo = currentUser.getParseObject(ParseClassesNames.CLIENT_INFO);
@@ -179,7 +179,7 @@ public class ClientData{
 
 
 	private static void loadPreferrings() {
-
+		
 		JSONObject jo = clientInfo.getJSONObject(ParseClassesNames.CLIENT_PREFERRING);
 
 		try {
@@ -209,7 +209,7 @@ public class ClientData{
 
 
 	private static void loadLikes(JSONArray ar) {
-
+		likes = new ArrayList<String>();
 		int length = ar.length();
 		for (int i = 0 ; i < length ; ++i) {
 			try {
@@ -222,7 +222,7 @@ public class ClientData{
 
 
 	private static void loadDislikes(JSONArray ar) {
-
+		dislikes = new ArrayList<String>();
 		int length = ar.length();
 		for (int i = 0 ; i < length ; ++i) {
 			try {
