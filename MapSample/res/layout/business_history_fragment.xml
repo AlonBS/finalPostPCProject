@@ -21,12 +21,13 @@
         android:layout_weight="0.08"
         android:background="@drawable/history_fragment_bottom_background"
         android:gravity="center"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
         android:orientation="horizontal" >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
             android:text="@string/history_fragment_total_dislikes"
             android:textSize="17sp" />
 
@@ -34,12 +35,14 @@
             android:id="@+id/history_fragment_total_dislikes_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
             android:textColor="@color/red_dislikes"
-            android:textSize="17sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
             android:text="@string/history_fragment_total_likes"
             android:textSize="17sp" />
 

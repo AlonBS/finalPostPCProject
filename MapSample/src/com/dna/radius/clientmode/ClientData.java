@@ -194,7 +194,7 @@ public class ClientData{
 
 
 	private static void loadFavorites(JSONArray ar) {
-
+		favorites = new ArrayList<String>();
 		int length = ar.length();
 		
 		for (int i = 0 ; i < length ; ++i) {
