@@ -777,4 +777,10 @@ public class BusinessData {
 
 	}
 
+
+
+	public static void destroy() {
+		businessImage = null;
+	}
+	
 }

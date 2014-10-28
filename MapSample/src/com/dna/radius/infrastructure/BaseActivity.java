@@ -17,8 +17,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.dna.radius.R;
+import com.dna.radius.businessmode.BusinessData;
 import com.dna.radius.businessmode.BusinessOpeningScreenActivity;
 import com.dna.radius.businessmode.BusinessSettingsActivity;
+import com.dna.radius.clientmode.ClientData;
 import com.dna.radius.clientmode.ClientGeneralSettingsActivity;
 import com.dna.radius.clientmode.ClientOpeningScreenActivity;
 import com.dna.radius.dbhandling.ParseClassesNames;
@@ -99,6 +101,7 @@ public abstract class BaseActivity extends FragmentActivity{
 
 		//resets the comments fragment
 		CommentsFragment.restartCommentsHistory();
+		BusinessData.destroy();
 	
 		// back to 'log in' screen
 		Intent intent = new Intent(getApplicationContext(), MainActivity.class);
